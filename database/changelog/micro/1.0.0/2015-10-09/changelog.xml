@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="264" author="brinat">
+        <sql>
+            insert into product_messages (products_id, configtype_id, name, subject, body, description, txversion)
+            values (1, (select id from reference where ref_header_id = 71 and codeinteger = 6), 'sms.invite.friend',
+            'Приглашение в систему микрозаймов Растороп', 'Вас пригласили в систему микрозаймов Растороп. Добро пожаловать. Ваш Растороп 8 (800) 775-22-05',
+            'Смс с приглашением друга', 0)
+        </sql>
+    </changeSet>
+</databaseChangeLog>

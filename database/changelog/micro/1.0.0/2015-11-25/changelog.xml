@@ -1,0 +1,19 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="299" author="brinat">
+        <sql>
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype,
+            datavalue, description, txversion) values
+            (1, (select id from reference where ref_header_id = 71 and codeinteger = 3), 1, '2010-01-01', '2020-01-01',
+            'credit.pay.min.sum', 'F', '1', 'минимальная сумма оплаты кредита', 0);
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype,
+            datavalue, description, txversion) values
+            (1, (select id from reference where ref_header_id = 71 and codeinteger = 3), 1, '2010-01-01', '2020-01-01',
+            'credit.use.percent.min.sum', 'N', '0', 'использовать в качестве минимальной суммы сумму процентов', 0);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

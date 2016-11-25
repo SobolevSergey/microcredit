@@ -1,0 +1,224 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+<!--
+    <changeSet id="277" author="irk333">
+        <sql>
+	  alter table aimodelparams drop column valuetext;
+	  alter table aimodelparams drop column valuenumber;
+	  alter table aimodelparams drop column valuedate;
+	  alter table aimodelparams drop column valuefloat;
+
+	  alter table aimodelparams add column datatype character varying(1) NOT NULL;
+	  alter table aimodelparams add column datavalue character varying(250);
+	  alter table aimodelparams add column description character varying(200);
+	  alter table aimodelparams add column datavaluetext text;
+
+	    CREATE TABLE bizactionparam (
+  bizaction_id integer NOT NULL,
+  code varchar(30) NOT NULL,
+  name varchar(100) NULL,
+  txversion integer DEFAULT 0,
+  CONSTRAINT pk_bizactionparam PRIMARY KEY (bizaction_id, code),
+  CONSTRAINT fk_bizactio_relparam_bizactio FOREIGN KEY (bizaction_id)
+      REFERENCES bizaction (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE);
+      </sql>
+    </changeSet>
+    -->
+    <changeSet id="277" logicalFilePath="1445343750" author="efrolov">
+        <sql>
+            ALTER TABLE antifraud_occasions DROP CONSTRAINT antifraud_entities_creditreq_fk;
+            ALTER TABLE antifraud_occasions DROP CONSTRAINT antifraud_entities_people_fk;
+
+            ALTER TABLE antifraud_occasions
+                ADD CONSTRAINT antifraud_occasions_creditreq_fk FOREIGN KEY (creditRequestId) REFERENCES creditrequest (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE antifraud_occasions
+                ADD CONSTRAINT antifraud_occasions_people_fk FOREIGN KEY (peopleMainId) REFERENCES peoplemain (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+        </sql>
+    </changeSet>
+    
+    <changeSet id="278" logicalFilePath="1445343751" author="efrolov">
+        <sql>
+            ALTER TABLE antifraud_suspicions DROP CONSTRAINT antifraud_suspect_creditreq_fk;
+            ALTER TABLE antifraud_suspicions DROP CONSTRAINT antifraud_suspect_people_fk;
+            ALTER TABLE antifraud_suspicions DROP CONSTRAINT antifraud_suspect_secondPeople_fk;
+            ALTER TABLE antifraud_suspicions DROP CONSTRAINT antifraud_suspect_partner_fk;
+
+            ALTER TABLE antifraud_suspicions
+                ADD CONSTRAINT antifraud_suspicions_creditreq_fk FOREIGN KEY (creditRequestId) REFERENCES creditrequest (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE antifraud_suspicions
+                ADD CONSTRAINT antifraud_suspicions_people_fk FOREIGN KEY (peopleMainId) REFERENCES peoplemain (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE antifraud_suspicions
+                ADD CONSTRAINT antifraud_suspicions_peopleSecond_fk FOREIGN KEY (secondPeopleId) REFERENCES peoplemain (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE antifraud_suspicions
+                ADD CONSTRAINT antifraud_suspicions_partner_fk FOREIGN KEY (partnersId) REFERENCES partners (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        </sql>
+    </changeSet>
+
+    <changeSet id="279" logicalFilePath="1445343752" author="efrolov">
+        <sql>
+            ALTER TABLE identity_questions DROP CONSTRAINT identity_credit_fk;
+            ALTER TABLE identity_questions DROP CONSTRAINT identity_creditreq_fk;
+            ALTER TABLE identity_questions DROP CONSTRAINT identity_peoplemain_fk;
+
+            ALTER TABLE identity_questions
+                ADD CONSTRAINT identity_questions_creditreq_fk FOREIGN KEY (creditRequestId) REFERENCES creditrequest (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE identity_questions
+                ADD CONSTRAINT identity_questions_people_fk FOREIGN KEY (peopleMainId) REFERENCES peoplemain (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE identity_questions
+                ADD CONSTRAINT identity_questions_credit_fk FOREIGN KEY (creditId) REFERENCES credit (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+        </sql>
+    </changeSet>
+
+    <changeSet id="279" author="brinat">
+        <sql>
+            <!-- Тот же основной заявитель, что и в заявлении со статусом Auto Suspect -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person, entity_alias)
+            values ('Тот же основной заявитель, что и в заявлении со статусом Auto Suspect', 'ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity','MA_AS', 1, 1, 1, 0, 'pm');
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_AS'), 'isactive', ' and pm.isActive=:isactive ', 'активная запись', 'N', 1, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_AS'), 'status', ' and pm.status.codeinteger=:status ', 'статус мощенничества Auto Suspect', 'N', 2, 1);
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_AS'), 'isactive', ' and pm.isActive=:isactive ', 'активная запись', 'N', 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_AS'), 'status', ' and pm.status.codeinteger=:status ', 'статус мощенничества Auto Suspect', 'N', 2, 0);
+
+
+            <!-- Тот же текущий телефон заемщика, что и в заявлении с внутренним статусом «Мошенничество» -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person, entity_alias, result_type, result_type_alias, result_join)
+            values ('Тот же текущий телефон заемщика, что и в заявлении с внутренним статусом «Мошенничество»', 'ru.simplgroupp.persistence.PeopleContactEntity','MA_CTEL_AS', 1, 1, 0, 0, 'pm', 'ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity', 'aoe', 'aoe.peopleMainId.peoplecontact');
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'contactId', ' and pm.contactId.codeinteger=:contactId ', 'домашний телефон', 'N', 5, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'partnersId', ' and pm.partnersId.id=:partnersId ', 'запись сделана клиентом', 'N', 6, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'isactive', ' and pm.isactive=:isactive ', 'активная запись', 'N', 1, 1);
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'partnersId', ' and pm.partnersId.id=:partnersId ', 'запись сделана клиентом', 'N', 6, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'isactive', ' and aoe.isActive=:isactive ', 'активная запись', 'N', 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'value', ' and pm.value=:value ', 'номер телефона', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'status', ' and aoe.status.codeinteger=:status ', 'статус мощенничества Auto Suspect', 'N', 2, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CTEL_AS'), 'contactId', ' and pm.contactId.codeinteger=:contactId ', 'домашний телефон', 'N', 5, 0);
+
+            <!-- Тот же мобильный телефон заемщика, что и в заявлении с внутренним статусом «Мошенничество» за последние 30 дней -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person, entity_alias, result_type, result_type_alias, result_join)
+            values ('Тот же мобильный телефон заемщика, что и в заявлении с внутренним статусом «Мошенничество» за последние 30 дней', 'ru.simplgroupp.persistence.PeopleContactEntity','MA_MTEL_AS', 1, 1, 0, 0, 'pm', 'ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity', 'aoe', 'aoe.peopleMainId.peoplecontact');
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'contactId', ' and pm.contactId.codeinteger=:contactId ', 'мобильный телефон', 'N', 2, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'partnersId', ' and pm.partnersId.id=:partnersId ', 'запись сделана клиентом', 'N', 6, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'isactive', ' and pm.isactive=:isactive ', 'активная запись', 'N', 1, 1);
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'partnersId', ' and pm.partnersId.id=:partnersId ', 'запись сделана клиентом', 'N', 6, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'isactive', ' and aoe.isActive=:isactive ', 'активная запись', 'N', 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'value', ' and pm.value=:value ', 'номер телефона', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'status', ' and aoe.status.codeinteger=:status ', 'статус мощенничества Auto Suspect', 'N', 2, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'contactId', ' and pm.contactId.codeinteger=:contactId ', 'мобильный телефон', 'N', 2, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_MTEL_AS'), 'createdAt', ' and aoe.createdAt>=:createdAt ', 'за какое время ищем', 'D', 30, 0);
+
+            <!-- Тот же текущий адрес заемщика, что и в заявлении с внутренним статусом «Мошенничество» -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person, entity_alias, result_type, result_type_alias, result_join)
+            values ('Тот же текущий адрес заемщика, что и в заявлении с внутренним статусом «Мошенничество»', 'ru.simplgroupp.persistence.AddressEntity','MA_CADD_AS', 1, 1, 0, 0, 'pm', 'ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity', 'aoe', 'aoe.peopleMainId.addresses');
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'isactive', ' and pm.isactive=:isactive ', 'активная запись', 'N', 1, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'addrtype', ' and pm.addrtype.codeinteger=:addrtype ', 'адрес регистрации', 'N', 0, 1);
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'region', ' and pm.region=:region ', 'регион', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'area', ' and pm.area=:area ', 'сельский район', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'place', ' and pm.place=:place ', 'село, деревня', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'city', ' and pm.city=:city ', 'город', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'street', ' and pm.street=:street ', 'улица', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'house', ' and pm.house=:house ', 'дом', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'building', ' and pm.building=:building ', 'строение', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'corpus', ' and pm.corpus=:corpus ', 'корпус', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'flat', ' and pm.flat=:flat ', 'квартира', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'addrtype', ' and pm.addrtype.codeinteger=:addrtype ', 'адрес регистрации', 'N', 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'isactive', ' and aoe.isActive=:isactive ', 'активная запись', 'N', 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_CADD_AS'), 'status', ' and aoe.status.codeinteger=:status ', 'статус мощенничества Auto Suspect', 'N', 2, 0);
+
+            <!-- Тот же работодатель заемщика, что и в заявлении с внутренним статусом «Мошенничество» -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person, entity_alias, result_type, result_type_alias, result_join)
+            values ('Тот же работодатель заемщика, что и в заявлении с внутренним статусом «Мошенничество»', 'ru.simplgroupp.persistence.AddressEntity','MA_EMP_AS', 0, 1, 0, 0, 'pm', 'ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity', 'aoe', 'aoe.peopleMainId.addresses');
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'isactive', ' and pm.isactive=:isactive ', 'активная запись', 'N', 1, 1);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'addrtype', ' and pm.addrtype.codeinteger=:addrtype ', 'адрес работодателя', 'N', 2, 1);
+
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'region', ' and pm.region=:region ', 'регион', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'area', ' and pm.area=:area ', 'сельский район', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'place', ' and pm.place=:place ', 'село, деревня', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'city', ' and pm.city=:city ', 'город', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'street', ' and pm.street=:street ', 'улица', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'house', ' and pm.house=:house ', 'дом', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'building', ' and pm.building=:building ', 'строение', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'corpus', ' and pm.corpus=:corpus ', 'корпус', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'flat', ' and pm.flat=:flat ', 'квартира', 'S', 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'addrtype', ' and pm.addrtype.codeinteger=:addrtype ', 'адрес работодателя', 'N', 2, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'isactive', ' and aoe.isActive=:isactive ', 'активная запись', 'N', 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request)
+            values ((select id from ref_antifraud_rules where code = 'MA_EMP_AS'), 'status', ' and aoe.status.codeinteger=:status ', 'статус мощенничества Auto Suspect', 'N', 2, 0);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

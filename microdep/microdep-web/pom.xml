@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>micro-deployer</artifactId>
+        <groupId>ru.simplgroupp</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>microdep-web</artifactId>
+    <name>microdep-web</name>
+    <packaging>war</packaging>
+
+    <url>http://jboss.org/richfaces</url>
+
+    <repositories>
+        <!-- You should seriously consider using a repository manager or declare repositories in your settings.xml.
+           See http://www.sonatype.com/people/2009/02/why-putting-repositories-in-your-poms-is-a-bad-idea/   -->
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <layout>default</layout>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <layout>default</layout>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <!-- Setting this property using archetype-metadata.xml requiredPorperty
+             so that generated project uses correct version of richfaces.
+         -->
+    </properties>
+
+    <build>
+        <finalName>microdep</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+            </plugin> 
+			  <plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>properties-maven-plugin</artifactId>
+			    <version>1.0-alpha-2</version>
+			    <executions>
+			      <execution>
+			        <phase>initialize</phase>
+			        <goals>
+			          <goal>read-project-properties</goal>
+			        </goals>
+			      </execution>
+			    </executions>
+			    <configuration>
+			      <files>
+			        <file>../../${profile}.properties</file>
+			      </files>
+			    </configuration>
+			  </plugin>  
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-antrun-plugin</artifactId>
+			  <executions>
+			      <execution>
+				<id>treplace</id>
+				<phase>prepare-package</phase>
+				<configuration>
+				  <tasks>
+				    <replace token= "@url.wf.properties@" value="${url.wf.properties.local}" dir="target/classes">                                 
+				      <include name="**/spring-beans.xml" />
+				    </replace>
+				    <replace token= "@url.db.properties@" value="${url.db.properties.local}" dir="target/classes">                                 
+				      <include name="**/spring-beans.xml" />
+				    </replace>						            
+				  </tasks>
+				</configuration>
+				<goals>
+				  <goal>run</goal>
+				</goals>
+			      </execution>
+			  </executions>
+		  </plugin> 		  
+			                               
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+<!--         
+            <dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-bom</artifactId>
+                <version>${org.richfaces.bom.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+-->            
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+			    <dependency>
+				<groupId>org.apache.openejb</groupId>
+				<artifactId>javaee-api</artifactId>
+			    </dependency>
+	
+			    <dependency>
+				<groupId>org.apache.openejb</groupId>
+				<artifactId>openejb-core</artifactId>
+			    </dependency>    
+    
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>provided</scope>
+        </dependency>
+<!-- 	
+        <dependency>
+            <groupId>org.richfaces.ui</groupId>
+            <artifactId>richfaces-components-ui</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.richfaces.core</groupId>
+            <artifactId>richfaces-core-impl</artifactId>
+            <scope>provided</scope>
+        </dependency>
+-->        
+        <dependency>
+            <groupId>org.richfaces</groupId>
+            <artifactId>richfaces</artifactId>
+            <scope>provided</scope>
+        </dependency>        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <version>1.0.2.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-core</artifactId>
+                    </dependency>        
+
+	<dependency>
+	    <groupId>org.hibernate.javax.persistence</groupId>
+	    <artifactId>hibernate-jpa-2.1-api</artifactId>
+	</dependency>	
+        
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>jsftoolkit</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>toolkit</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+	
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>microdep-service</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>	
+	
+	<dependency>
+	    <groupId>dom4j</groupId>
+	    <artifactId>dom4j</artifactId>
+	</dependency>
+
+	<dependency>
+	    <groupId>junit</groupId>
+	    <artifactId>junit</artifactId>
+	</dependency>	
+        
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+        </dependency>    
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	</dependency>	
+	
+	<!-- liquibase dependencies -->
+	<dependency>
+		<groupId>org.liquibase</groupId>
+		<artifactId>liquibase-core</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.yaml</groupId>
+		<artifactId>snakeyaml</artifactId>
+	</dependency>	
+	
+
+    </dependencies>
+
+    <profiles>
+	<profile>
+	    <id>dev</id>
+	    <activation>
+			<activeByDefault>true</activeByDefault>
+	    </activation>
+	    <build>
+		<plugins> 
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-antrun-plugin</artifactId>
+			  <executions>
+			      <execution>
+				  <id>tcopy</id>
+				  <phase>install</phase>
+				  <configuration>
+				      <tasks>
+					  <delete>
+					      <fileset dir="${jboss.server.dir}/standalone/deployments/" includes="**/microdep.*"/>
+					  </delete>
+					  <copy file="${project.build.directory}/microdep.war" todir="${jboss.server.dir}/standalone/deployments/" />
+				      </tasks>
+				  </configuration>
+				  <goals>
+				      <goal>run</goal>
+				  </goals>
+			      </execution>				
+			  </executions>
+		  </plugin> 		  
+  
+    		</plugins>
+	    </build>
+    	</profile>
+    	<profile>
+    		<id>ci</id>
+    		<activation>
+    			<property>
+    				<name>profile</name>
+    				<value>ci</value>
+    			</property>
+    		</activation>    		
+    		<build>
+    			<plugins>
+  
+    			</plugins>
+    		</build>
+    	</profile>    			  
+    	<profile>
+    		<id>work</id>
+    		<activation>
+    			<property>
+    				<name>profile</name>
+    				<value>work</value>
+    			</property>
+    		</activation>
+    		<build>
+				<plugins> 
+				  <plugin>
+					  <groupId>org.apache.maven.plugins</groupId>
+					  <artifactId>maven-antrun-plugin</artifactId>
+					  <executions>
+						  <execution>
+						  <id>tcopy</id>
+						  <phase>install</phase>
+						  <configuration>
+							  <tasks>
+							  <delete>
+								  <fileset dir="${jboss.server.dir}/standalone/deployments/" includes="**/microdep.*"/>
+							  </delete>
+							  <copy file="${project.build.directory}/microdep.war" todir="${jboss.server.dir}/standalone/deployments/" />
+							  </tasks>
+						  </configuration>
+						  <goals>
+							  <goal>run</goal>
+						  </goals>
+						  </execution>				
+					  </executions>
+				  </plugin> 		  
+		  
+					</plugins>
+	    </build>
+    	</profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>jee6</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>war</goal>
+                                </goals>
+                                <configuration>
+                                    <webappDirectory>${project.build.directory}/${project.build.finalName}-jee6
+                                    </webappDirectory>
+                                    <classifier>jee6</classifier>
+                                    <packagingExcludes>WEB-INF/lib/javax.faces*</packagingExcludes>
+                                    <warSourceExcludes>WEB-INF/lib/javax.faces*</warSourceExcludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

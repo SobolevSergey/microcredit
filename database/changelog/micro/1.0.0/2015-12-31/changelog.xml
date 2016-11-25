@@ -1,0 +1,98 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="322"  author="helen">
+        <sql>
+            ALTER TABLE regions ADD codeiso varchar(12);
+            update regions set codeiso='RU-AMU' where code='10';
+            update regions set codeiso='RU-ARK' where code='11';
+            update regions set codeiso='RU-AST' where code='12';
+            update regions set codeiso='RU-BEL' where code='14';
+            update regions set codeiso='RU-BRY' where code='15';
+            update regions set codeiso='RU-VLA' where code='17';
+            update regions set codeiso='RU-VGG' where code='18';
+            update regions set codeiso='RU-VLG' where code='19';
+            update regions set codeiso='RU-VOR' where code='20';
+            update regions set codeiso='RU-IVA' where code='24';
+            update regions set codeiso='RU-IRK' where code='25';
+            update regions set codeiso='RU-KGD' where code='27';
+            update regions set codeiso='RU-KLU' where code='29';
+            update regions set codeiso='RU-KEM' where code='32';
+            update regions set codeiso='RU-KIR' where code='33';
+            update regions set codeiso='RU-KOS' where code='34';
+            update regions set codeiso='RU-KGN' where code='37';
+            update regions set codeiso='RU-KRS' where code='38';
+            update regions set codeiso='RU-LEN' where code='41';
+            update regions set codeiso='RU-LIP' where code='42';
+            update regions set codeiso='RU-MAG' where code='44';
+            update regions set codeiso='RU-MOS' where code='46';
+            update regions set codeiso='RU-MUR' where code='47';
+            update regions set codeiso='RU-NIZ' where code='22';
+            update regions set codeiso='RU-NOV' where code='49';
+            update regions set codeiso='RU-NVS' where code='50';
+            update regions set codeiso='RU-OMS' where code='52';
+            update regions set codeiso='RU-ORE' where code='53';
+            update regions set codeiso='RU-ORL' where code='54';
+            update regions set codeiso='RU-PNZ' where code='56';
+            update regions set codeiso='RU-PSK' where code='58';
+            update regions set codeiso='RU-ROS' where code='60';
+            update regions set codeiso='RU-RYA' where code='61';
+            update regions set codeiso='RU-SAM' where code='36';
+            update regions set codeiso='RU-SAR' where code='63';
+            update regions set codeiso='RU-SAK' where code='64';
+            update regions set codeiso='RU-SVE' where code='65';
+            update regions set codeiso='RU-SMO' where code='66';
+            update regions set codeiso='RU-TAM' where code='68';
+            update regions set codeiso='RU-TVE' where code='28';
+            update regions set codeiso='RU-TOM' where code='69';
+            update regions set codeiso='RU-TUL' where code='70';
+            update regions set codeiso='RU-TYU' where code='71';
+            update regions set codeiso='RU-ULY' where code='73';
+            update regions set codeiso='RU-CHE' where code='75';
+            update regions set codeiso='RU-YAR' where code='78';
+            update regions set codeiso='RU-AD' where code='79';
+            update regions set codeiso='RU-BA' where code='80';
+            update regions set codeiso='RU-BU' where code='81';
+            update regions set codeiso='RU-DA' where code='82';
+            update regions set codeiso='RU-IN' where code='26';
+            update regions set codeiso='RU-KB' where code='83';
+            update regions set codeiso='RU-KL' where code='85';
+            update regions set codeiso='RU-KC' where code='91';
+            update regions set codeiso='RU-KR' where code='86';
+            update regions set codeiso='RU-ME' where code='88';
+            update regions set codeiso='RU-MO' where code='89';
+            update regions set codeiso='RU-AL' where code='84';
+            update regions set codeiso='RU-KO' where code='87';
+            update regions set codeiso='RU-SA' where code='98';
+            update regions set codeiso='RU-SE' where code='90';
+            update regions set codeiso='RU-TA' where code='92';
+            update regions set codeiso='RU-TY' where code='93';
+            update regions set codeiso='RU-UD' where code='94';
+            update regions set codeiso='RU-KK' where code='95';
+            update regions set codeiso='RU-CE' where code='96';
+            update regions set codeiso='RU-CU' where code='97';
+            update regions set codeiso='RU-ALT' where code='01';
+            update regions set codeiso='RU-ZAB' where code='76';
+            update regions set codeiso='RU-KAM' where code='30';
+            update regions set codeiso='RU-KDA' where code='03';
+            update regions set codeiso='RU-KYA' where code='04';
+            update regions set codeiso='RU-PER' where code='57';
+            update regions set codeiso='RU-PRI' where code='05';
+            update regions set codeiso='RU-STA' where code='07';
+            update regions set codeiso='RU-KHA' where code='08';
+            update regions set codeiso='RU-NEN' where code='11-8';
+            update regions set codeiso='RU-KHM' where code='71-8';
+            update regions set codeiso='RU-CHU' where code='77';
+            update regions set codeiso='RU-YAN' where code='71-9';
+            update regions set codeiso='RU-YEV' where code='99';
+            update regions set codeiso='RU-SPE' where code='40';
+            update regions set codeiso='RU-MOW' where code='45';
+
+
+        </sql>
+    </changeSet>
+
+   </databaseChangeLog>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 14.05.2012 15:05:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping default-access="property">
+    <sql-query name="selectRule">
+        <![CDATA[select id from airule where (packagename = :packagename)]]>
+    </sql-query>
+    <sql-query name="insertRule">
+        <![CDATA[insert into airule (packagename, body, ruletype, description, kbase) values (:packagename, :body, :ruletype, :description, :kbase)]]>
+    </sql-query>
+    <sql-query name="selectConstant">
+        <![CDATA[select id, datatype, datavalue, datavaluetext, description from aiconstant where (airule_id = :ruleid) and (name = :name)]]>
+    </sql-query>
+    <sql-query name="updateConstant">
+        <![CDATA[update aiconstant set datatype = :datatype, datavalue = :datavalue, datavaluetext = :datavaluetext, description = :description where id = :id]]>
+    </sql-query>
+    <sql-query name="insertConstant">
+        <![CDATA[
+        INSERT INTO aiconstant(airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (:ruleid, :name, :datatype, :datavalue, :description, :datavaluetext)
+        ]]>
+    </sql-query>   
+    <sql-query name="selectBizProcAction">
+        <![CDATA[select id from bizaction where (signalref = :signalref) and (processdefkey = :processdefkey)]]>
+    </sql-query>  
+    <sql-query name="selectBizProcActions">
+        <![CDATA[select id, signalref from bizaction where (processdefkey = :processdefkey)]]>
+    </sql-query> 
+    <sql-query name="deleteBizProcAction">
+        <![CDATA[delete from bizaction where (id = :id)]]>
+    </sql-query>         
+    <sql-query name="insertBizProcAction">
+        <![CDATA[
+INSERT INTO bizaction(
+            bizactiontype_id, signalref, businessobjectclass, description, 
+            assignee, candidategroups, candidateusers, forone, formany, sqlfilter, 
+            datafilter, schedule, runprocessdefkey, issystem, retryinterval, 
+            errorcode, errormessage, laststart, lastend, processdefkey, ruleenabled, 
+            ruleaction, isactive, isrequired, isatomic)
+    VALUES (4, :signalref, :businessobjectclass, :description, 
+            :assignee, :candidategroups, :candidateusers, 1, 0, null,
+            null, null, null, :issystem, null, 
+            null, null, null, null, :processdefkey, :ruleenabled, 
+            :ruleaction, :isactive, :isrequired, 0);        
+        ]]>
+    </sql-query>
+    <sql-query name="updateBizProcAction">
+        <![CDATA[
+UPDATE bizaction
+   SET businessobjectclass=:businessobjectclass, 
+       description=:description, assignee=:assignee, candidategroups=:candidategroups, candidateusers=:candidateusers, 
+       forone=1, formany=0, issystem=:issystem, 
+       ruleenabled=:ruleenabled, ruleaction=:ruleaction, isactive= :isactive, 
+       isrequired=:isrequired, isatomic=0
+ WHERE signalref = :signalref and processdefkey = :processdefkey        
+        ]]>
+    </sql-query>              
+    <sql-query name="selectDbVersion">
+    	<![CDATA[select max(id) from databasechangelog]]>    
+    </sql-query>              
+</hibernate-mapping>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	   
+
+<changeSet id="257" author="julia">
+ 
+    <sql>
+    
+ INSERT INTO reference(
+            ref_header_id, name, codeinteger, isactive)
+    VALUES (71, 'Платежные системы для первой заявки', 11, 1);
+	
+ INSERT INTO product_config(
+            products_id, configtype_id, isactive, databeg, dataend, name, 
+            datatype, datavalue, description)
+    select 1, id, 1, '2010-01-01', '2020-01-01', 'firstRequestPaySys', 'C', 
+            '1,2,3', 'Какие платежные системы используются при первой заявке' from reference where ref_header_id='71' and codeinteger='11';
+
+     </sql>
+  </changeSet>
+
+
+
+</databaseChangeLog> 

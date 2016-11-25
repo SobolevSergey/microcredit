@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="259" author="efrolov" logicalFilePath="1443795354">
+      <sql>
+        ALTER TABLE peoplemisc ADD COLUMN regDate_id INTEGER;
+        ALTER TABLE peoplemisc ADD CONSTRAINT peoplemisc_regDateId FOREIGN KEY (regDate_id) REFERENCES reference (id);
+
+        ALTER TABLE employment ADD COLUMN dateStartWork_id INTEGER;
+        ALTER TABLE employment ADD CONSTRAINT employment_startWorkId FOREIGN KEY (dateStartWork_id) REFERENCES reference (id);
+
+        INSERT INTO ref_header (id, partners_id, name, txVersion) VALUES (88, 1, 'Временные диапазоны', 0);
+
+        INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txVersion) VALUES (88, 'менее 6 месяцев', 1, 1, 0);
+        INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txVersion) VALUES (88, 'от 6 месяцев до 1 года', 2, 1, 0);
+        INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txVersion) VALUES (88, 'от 1 года до 3 лет', 3, 1, 0);
+        INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txVersion) VALUES (88, 'свыше 3 лет', 4, 1, 0);
+      </sql>
+    </changeSet>
+</databaseChangeLog>

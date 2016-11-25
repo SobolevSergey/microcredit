@@ -1,0 +1,61 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+ 
+<changeSet id="227" author="helen">
+ 
+    <sql>
+    
+     insert into ref_header (id, partners_id, name) values (63, 1, 'Виды подписываемых документов'); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 63, 'Согласие на обработку ПД', 1, 1); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 63, 'Оферта на получение займа', 2, 1); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 63, 'Оферта на продление', 3, 1); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 63, 'Оферта на рефинансирование', 4, 1); 
+
+CREATE TABLE officialdocuments
+(
+  id serial NOT NULL,
+  documenttype_id integer,
+  peoplemain_id integer NOT NULL,
+  docnumber character varying(50),
+  docdate date,
+  smscode character varying(10),
+  doctext text,
+  isactive integer,
+  another_id integer,
+  txversion integer,
+  datechange timestamp with time zone,
+  CONSTRAINT pk_ofdoc PRIMARY KEY (id ),
+  CONSTRAINT fk_ofdoc_documentt_referenc FOREIGN KEY (documenttype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_ofdoc_relations_peoplema FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+ 
+);
+
+CREATE UNIQUE INDEX ofdoc_pk
+  ON officialdocuments
+  USING btree
+  (id );
+
+CREATE INDEX ofdoc_peoplemain
+  ON officialdocuments
+  USING btree
+  (peoplemain_id );
+
+CREATE INDEX ofdoc_type
+  ON officialdocuments
+  USING btree
+  (documenttype_id );
+
+
+
+   </sql>
+    </changeSet>
+</databaseChangeLog> 
+

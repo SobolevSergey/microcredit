@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>SimpleGroupProducts</artifactId>
+        <groupId>ru.simplgroupp</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>Engine-EJB</artifactId>
+    <packaging>ejb</packaging>
+
+    <properties>
+        <slf4j.version>1.6.1</slf4j.version>
+    </properties>
+    
+    <dependencies>
+			<dependency>
+				<groupId>ru.simplgroupp</groupId>
+				<artifactId>microdep-service</artifactId>
+			</dependency>
+			    
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>toolkit</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>contact-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>	
+
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>Engine-Persistence</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>Engine-Service</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>        
+
+     
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>Fias</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>cryptoservice</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+	
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+       <dependency>  
+          <groupId>commons-net</groupId>  
+          <artifactId>commons-net</artifactId>  
+          <version>3.1</version>  
+        </dependency>
+ 
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+	
+	<dependency>
+	    <groupId>javax.el</groupId>
+	    <artifactId>el-api</artifactId>
+	    <scope>provided</scope>
+	</dependency>	
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                    <version>${slf4j.version}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-nop</artifactId>
+                    <version>${slf4j.version}</version>
+                </dependency>
+        -->
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>6.0-5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+	
+	    <dependency>
+		    <groupId>de.odysseus.juel</groupId>
+		    <artifactId>juel-impl</artifactId>
+		    <scope>provided</scope>
+	    </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>4.6.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>4.7.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.1.2.GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.common</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        			
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>        
+
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>${xalan.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${xerces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-bpmn-converter</artifactId>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-bpmn-layout</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-bpmn-model</artifactId>
+	    </dependency>	 
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-camel</artifactId>
+	    </dependency>
+<!-- 	    	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-cdi</artifactId>
+		    <version>${activiti.version}</version>
+		    <scope>provided</scope>
+	    </dependency>
+-->	    	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-common-rest</artifactId>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-crystalball</artifactId>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-cxf</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-diagram-rest</artifactId>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-engine</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-explorer</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-image-generator</artifactId>
+	    </dependency>	   
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-json-converter</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-ldap</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-modeler</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-mule</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-osgi</artifactId>
+	    </dependency>	
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-process-validation</artifactId>
+	    </dependency>	
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-rest</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-simple-workflow</artifactId>
+	    </dependency>	    
+	    <dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-spring</artifactId>
+	    </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+    
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901.jdbc4</version>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+		    <groupId>rhino</groupId>
+		    <artifactId>js</artifactId>
+		    <scope>provided</scope>
+	    </dependency>   
+      <dependency>
+	      <groupId>commons-pool</groupId>
+	      <artifactId>commons-pool</artifactId>
+      </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+			<groupId>org.jamel.dbf</groupId>
+			<artifactId>dbf-reader</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>hunter-hash-module</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${version.ejb.plugin}</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <files>
+                        <file>../${profile}.properties</file>
+                    </files>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>treplace</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <tasks>
+                                <replace token="@path.experian@" value="${path.experian.local}" dir="target/classes">
+                                    <include name="**/ejb-jar.xml" />
+                                </replace>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
+
+</project>

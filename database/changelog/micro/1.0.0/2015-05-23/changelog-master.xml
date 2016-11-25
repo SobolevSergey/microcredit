@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="146" author="helen">
+
+<sql>
+   INSERT INTO score_model( partners_id, name, code)
+    VALUES (5,'Нишевая карта для потребительских кредитов','12');
+</sql>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_longdays.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.longdays'</where>
+    </update>
+
+  </changeSet>
+
+
+</databaseChangeLog> 

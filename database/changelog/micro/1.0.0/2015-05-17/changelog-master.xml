@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="139" author="helen">
+ 
+    <sql>
+    
+
+delete from product_config p using reference r where p.configtype_id=r.id and r.ref_header_id=71 and r.codeinteger=6;
+update reference set name='Отправка сообщений' where ref_header_id=71 and codeinteger=6;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.between.creditrequests','N','10','Дней между кредитными заявками',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.min.lgot','N','1','Минимально дней льготного периода',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.max.lgot','N','14','Максимально дней льготного периода',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.lgot','F','0','Ставка для льготного периода',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.min.common','N','15','Минимально дней просрочки для штрафа',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.max.common','N','99','Максимально дней просрочки для штрафа',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.common','F','0.00054794521','Ставка для штрафа',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.min.overdue','N','100','Минимально дней глубокой просрочки для штрафа',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.max.overdue','N','365','Максимально дней глубокой просрочки для штрафа',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.overdue','F','0.001','Ставка для штрафа при глубокой просрочке',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.has.lgot.period','N','1','Есть ли льготный период у кредита',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.has.overdue.period','N','1','Есть ли период глубокой просрочки у кредита',0
+from reference where ref_header_id=71 and codeinteger=5;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.sum.percent','Сумма процентов займа',1,0
+from reference where ref_header_id=71 and codeinteger=7;
+
+alter table products add isdefault integer default 0;
+update products set isdefault=1;
+
+     </sql>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="sum_percent.js" />
+      <where>name = 'credit.sum.percent'</where>
+    </update>
+
+  </changeSet>
+
+
+</databaseChangeLog> 

@@ -1,0 +1,122 @@
+package ru.simplgroupp.rules.credit.calculator.stake1;
+dialect "java"
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import ru.simplgroupp.toolkit.common.IntegerRange
+import ru.simplgroupp.toolkit.common.DateRange
+
+function double calcStakeInitial(double creditSum, int creditDays, double stakeMin, double stakeMax) {
+    Double c = 0.0435275977526034 * Math.pow(1.00000396879854, creditSum) * Math.pow(0.972552886121762, creditDays);
+    double d = CalcUtils.roundHalfUp( c, 3);
+    if (d < stakeMin) {
+       d = stakeMin;
+    }
+    if (d > stakeMax) {
+       d = stakeMax;
+    }
+    Double s = d * 1000 % 10;
+    if (s != 0) {
+     if (s == 1 || s == 6) {
+      d = CalcUtils.roundHalfUp( d - 0.001, 3);
+        }
+        if (s == 2 || s == 7) {
+         d = CalcUtils.roundHalfUp( d - 0.002, 3);
+     }
+        if (s == 3 || s == 8) {
+         d = CalcUtils.roundHalfUp( d + 0.002, 3);
+        }
+        if (s == 4 || s == 9) {
+         d = CalcUtils.roundHalfUp( d + 0.001, 3);
+        }
+    }    
+ return d;
+}
+
+rule "ru.simplgroupp.rules.credit.calculator.stake1.1"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+    $creditSum : Double();
+    $creditDays : Integer();
+then
+    double stakeMin = ((Double) $cparams.get(CreditCalculatorBeanLocal.STAKE_LIMIT_MIN)).doubleValue();
+    double stakeMax = ((Double) $cparams.get(CreditCalculatorBeanLocal.STAKE_LIMIT_MAX)).doubleValue();
+    
+    double d = calcStakeInitial($creditSum, $creditDays, stakeMin, stakeMax); 
+    
+    $bResult.setValue(CreditCalculatorBeanLocal.STAKE_INITIAL, new Double(d));
+end
+
+rule "ru.simplgroupp.rules.credit.calculator.stake1.2"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+    $credit : Credit();
+    $dateCalc : Date();    
+then 
+ CreditRequest ccRequest = $credit.getCreditRequest();
+ 
+   
+ Object[] scaleDays = CalcUtils.intRangeScale(
+  0, $credit.getCreditDays(),
+  ccRequest.getCreditDays()+1, ((Integer) $cparams.get("credit.days.max.lgot")).intValue()+ccRequest.getCreditDays() ,
+  ((Integer) $cparams.get("credit.days.min.common")).intValue() +ccRequest.getCreditDays(), 
+                ((Integer) $cparams.get("credit.days.max.common")).intValue()+ccRequest.getCreditDays(),
+  ((Integer) $cparams.get("credit.days.min.overdue")).intValue() +ccRequest.getCreditDays(), 
+                ((Integer) $cparams.get("credit.days.max.overdue")).intValue()+ccRequest.getCreditDays()
+ );
+
+ 
+ Double initialStake = new Double(0.0);
+ if ($cparams.get(CreditCalculatorBeanLocal.STAKE_INITIAL) == null) {
+     double stakeMin = ((Double) $cparams.get(CreditCalculatorBeanLocal.STAKE_LIMIT_MIN)).doubleValue();
+     double stakeMax = ((Double) $cparams.get(CreditCalculatorBeanLocal.STAKE_LIMIT_MAX)).doubleValue();    
+     double d = calcStakeInitial(ccRequest.getCreditSum(), ccRequest.getCreditDays(), stakeMin, stakeMax);   
+     initialStake = new Double(d);
+ } else {
+  initialStake = (Double) $cparams.get(CreditCalculatorBeanLocal.STAKE_INITIAL);
+ }
+ 
+ Double[] stakeValues = new Double[] {
+  initialStake,
+  (Double) $cparams.get("credit.stake.lgot"),
+  (Double) $cparams.get("credit.stake.common"),
+  (Double) $cparams.get("credit.stake.overdue") 
+ };
+ Object[] scaleDates = CalcUtils.daysToDatesScale($credit.getCreditDataBeg(), scaleDays);
+ 
+ double sumMain = 0.0;
+        double sumAdd = 0.0;
+ Date dateStart = $credit.getDateMainRemain();
+ sumMain = $credit.getSumMainRemain();
+ 
+ if (! $credit.getPartialPayment() ) {
+  // не было частичной оплаты займа
+    sumAdd=sumMain*initialStake;
+ }
+ 
+ // рассчитываем, в каком интервале мы находимся
+ int startInterval = CalcUtils.getScalePos(scaleDates, dateStart);
+ int calcInterval = CalcUtils.getScalePos(scaleDates, $dateCalc);
+ // рассчитываем сумму процентов
+ double sumPercent = CalcUtils.calcSumPercent(sumMain, dateStart, stakeValues, scaleDates, $dateCalc)+sumAdd;
+ 
+ $bResult.setValue(CreditCalculatorBeanLocal.INVERVAL_CURRENT, calcInterval);
+ $bResult.setValue(CreditCalculatorBeanLocal.INVERVAL_START, startInterval); 
+ $bResult.setValue(CreditCalculatorBeanLocal.DAYS_CURRENT_START, ((IntegerRange) scaleDays[calcInterval]).getFrom()); 
+ $bResult.setValue(CreditCalculatorBeanLocal.DAYS_CURRENT_END, ((IntegerRange) scaleDays[calcInterval]).getTo());
+ $bResult.setValue(CreditCalculatorBeanLocal.DATE_CURRENT_START, ((DateRange) scaleDates[calcInterval]).getFrom()); 
+ $bResult.setValue(CreditCalculatorBeanLocal.DATE_CURRENT_END, ((DateRange) scaleDates[calcInterval]).getTo()); 
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_MAIN, sumMain);
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_PERCENT, new Double(sumPercent));
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_ABOVE, new Double(sumPercent));
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_BACK, new Double( sumMain + sumPercent));
+ $bResult.setValue(CreditCalculatorBeanLocal.STAKE_CURRENT, new Double(stakeValues[calcInterval]));
+end

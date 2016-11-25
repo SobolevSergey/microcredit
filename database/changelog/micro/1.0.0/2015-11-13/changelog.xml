@@ -1,0 +1,48 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="292" author="brinat">
+        <sql>
+            <!-- Бонусная система -->
+            insert into ref_bonus(name, codeinteger, amount, isactive, txversion)
+            values ('добавление социальной сети', 4, 50, 1, 0);
+            insert into ref_bonus(name, codeinteger, amount, isactive, txversion)
+            values ('добавление ИНН', 5, 50, 1, 0);
+            insert into ref_bonus(name, codeinteger, amount, isactive, txversion)
+            values ('добавление СНИЛС', 6, 50, 1, 0);
+            insert into ref_bonus(name, codeinteger, amount, isactive, txversion)
+            values ('добавление копии документа', 7, 100, 1, 0);
+            insert into ref_bonus(name, codeinteger, amount, isactive, txversion)
+            values ('получение займа через контакт', 8, 100, 1, 0);
+
+            <!-- Обрaтный звонок -->
+            ALTER TABLE callback ADD COLUMN header character varying(200);
+            ALTER TABLE callback ADD COLUMN file bytea;
+            ALTER TABLE callback ADD COLUMN peoplemain_id integer;
+            ALTER TABLE callback
+            ADD CONSTRAINT fk_callback_people FOREIGN KEY (peoplemain_id)
+            REFERENCES peoplemain (id) MATCH SIMPLE
+            ON UPDATE RESTRICT ON DELETE CASCADE;
+        </sql>
+    </changeSet>
+   <changeSet id="292"  author="helen">
+        <sql>
+            ALTER TABLE summary ADD COLUMN summarydate timestamp with time zone;
+            INSERT INTO ref_summary(
+              id, name, description, datatype, isactive, txversion)
+            select 61, 'BUREAU_TOTAL_INQUIRIES_1_WEEK', 'Общее число запросов кредитной истории за последнюю неделю', id, 1, 0  from reference where ref_header_id=39 and code='Integer';
+            INSERT INTO ref_summary(
+              id, name, description, datatype, isactive, txversion)
+            select 62, 'BUREAU_TOTAL_INQUIRIES_2_WEEKS', 'Общее число запросов кредитной истории за последние 2 недели', id, 1, 0  from reference where ref_header_id=39 and code='Integer';
+            INSERT INTO ref_summary(
+              id, name, description, datatype, isactive, txversion)
+            select 63, 'BUREAU_TOTAL_INQUIRIES_1_MONTH', 'Общее число запросов кредитной истории за последний месяц', id, 1, 0  from reference where ref_header_id=39 and code='Integer';
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+

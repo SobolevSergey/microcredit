@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="158" author="helen">
+
+<sql>
+
+CREATE TABLE holidays
+(
+  id serial NOT NULL,
+  databeg date,
+  dataend date,
+  kind integer,
+  name character varying(30),
+  txversion integer,
+  CONSTRAINT holidays_id PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE holidays
+  OWNER TO sa;
+
+GRANT ALL ON TABLE holidays TO sa;
+
+CREATE INDEX holidays_databeg
+  ON holidays
+  USING btree
+  (databeg );
+
+
+CREATE INDEX holidays_dataend
+  ON holidays
+  USING btree
+  (dataend );
+
+</sql>
+
+
+</changeSet>
+
+
+
+</databaseChangeLog> 

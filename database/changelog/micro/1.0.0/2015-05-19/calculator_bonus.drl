@@ -1,0 +1,36 @@
+package ru.simplgroupp.rules.credit.calculator.bonus;
+dialect "java"
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.toolkit.common.Convertor;
+
+rule "ru.simplgroupp.rules.credit.calculator.bonus.1"
+when 
+    $bResult  : NameValueRuleResult();
+    $cparams  : Map();
+    $sumBack  : Double();
+    $bonusSum : Double();
+then
+    double sumMoney=((Double) $cparams.get(CreditCalculatorBeanLocal.BONUS_RATE)).doubleValue()*$bonusSum;
+
+    //max sum from sumBack
+    double sumMax=((Double) $cparams.get(CreditCalculatorBeanLocal.BONUS_PAY_PERCENT)).doubleValue()*$sumBack;
+
+    if (sumMax>sumMoney){
+        sumMax=sumMoney;
+    }
+    double payMaxSum = ((Double) $cparams.get(CreditCalculatorBeanLocal.BONUS_PAY_MAX_SUM)).doubleValue();
+ 
+    if (sumMax>payMaxSum){
+       sumMax=payMaxSum;
+    }    
+  
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_BONUS_MONEY_FOR_PAYMENT, CalcUtils.roundFloor(sumMax,0));
+    double sumBonus=sumMax/((Double) $cparams.get(CreditCalculatorBeanLocal.BONUS_RATE)).doubleValue();
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_BONUS_FOR_PAYMENT, CalcUtils.roundFloor(sumBonus,0));
+    
+end

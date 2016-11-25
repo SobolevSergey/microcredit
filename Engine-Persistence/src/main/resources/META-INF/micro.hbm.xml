@@ -1,0 +1,3041 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14.05.2012 15:05:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="ru.simplgroupp.persistence.AccountEntity" table="account">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="accountnumber"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="isWork"/>
+        <property generated="never" lazy="false" name="swift"/>
+        <property generated="never" lazy="false" name="bankname"/>
+        <property generated="never" lazy="false" name="bik"/>
+        <property generated="never" lazy="false" name="kpp"/>
+        <property generated="never" lazy="false" name="contest"/>
+        <property generated="never" lazy="false" name="corraccountnumber"/>
+        <property generated="never" lazy="false" name="dateAdd" type="timestamp"/>
+        <property generated="never" lazy="false" name="cardname"/>
+        <property generated="never" lazy="false" name="cardSynonim" column="card_synonim"/>
+        <property generated="never" lazy="false" name="cardHolder"/>
+        <property generated="never" lazy="false" name="cardnumber"/>
+        <property generated="never" lazy="false" name="cardmonthend"/>
+        <property generated="never" lazy="false" name="cardyearend"/>
+        <property column="payonline_card_hash" generated="never"
+                  lazy="false" name="payonlineCardHash"/>
+        <property column="card_number_masked" generated="never" lazy="false"
+                  name="cardNumberMasked"/>
+        <property column="rebill_anchor" generated="never" lazy="false"
+                  name="rebillAnchor"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="accounttype_id"
+                     lazy="false" name="accountTypeId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ContactPointsEntity" column="point_id"
+                     lazy="false" name="pointId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.OrganizationEntity" column="organization_id"
+                     lazy="false" name="organizationId"/>
+    </class>
+    <class lazy="false" name="ru.simplgroupp.persistence.AddressEntity"
+           table="address">
+        <id column="ID" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="region"/>
+        <property column="region_name" generated="never" lazy="false"
+                  name="regionName"/>
+        <property generated="never" lazy="false" name="auto"/>
+        <property column="auto_name" generated="never" lazy="false"
+                  name="autoName"/>
+        <property column="area_name" generated="never" lazy="false"
+                  name="areaName"/>
+        <property column="area_ext" generated="never" lazy="false"
+                  name="areaExt"/>
+        <property generated="never" lazy="false" name="area"/>
+        <property generated="never" lazy="false" name="place"/>
+        <property column="place_name" generated="never" lazy="false"
+                  name="placeName"/>
+        <property column="place_ext" generated="never" lazy="false"
+                  name="placeExt"/>
+        <property generated="never" lazy="false" name="city"/>
+        <property column="city_name" generated="never" lazy="false"
+                  name="cityName"/>
+        <property column="city_ext" generated="never" lazy="false"
+                  name="cityExt"/>
+        <property column="district_name" generated="never" lazy="false"
+                  name="districtName"/>
+        <property generated="never" lazy="false" name="district"/>
+        <property column="street_name" generated="never" lazy="false"
+                  name="streetName"/>
+        <property column="street_ext" generated="never" lazy="false"
+                  name="streetExt"/>
+        <property generated="never" lazy="false" name="extr"/>
+        <property column="extr_name" generated="never" lazy="false"
+                  name="extrName"/>
+        <property generated="never" lazy="false" name="sext"/>
+        <property column="sext_name" generated="never" lazy="false"
+                  name="sextName"/>
+        <property generated="never" lazy="false" name="street"/>
+        <property generated="never" lazy="false" name="house"/>
+        <property generated="never" lazy="false" name="liter"/>
+        <property generated="never" lazy="false" name="corpus"/>
+        <property generated="never" lazy="false" name="building"/>
+        <property generated="never" lazy="false" name="flat"/>
+        <property column="address_text" generated="never" lazy="false"
+                  name="addressText"/>
+        <property generated="never" lazy="false" name="index"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <property column="issame" generated="never" lazy="false"
+                  name="isSame"/>
+        <property column="kzegovdata_cato" generated="never" lazy="false" name="kzegovdataCato"/>
+        <property column="kzegovdata_ats" generated="never" lazy="false" name="kzegovdataAts" type="java.lang.Long"/>
+        <property column="kzegovdata_geonims" generated="never" lazy="false" name="kzegovdataGeonims" type="java.lang.Long"/>
+        <property column="address_text_to_street" generated="never" lazy="false" name="addressTextToStreet"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="addrtype"
+                     lazy="false" name="addrtype"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CountryEntity" column="country"
+                     lazy="false" name="country"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.RegionsEntity" column="region_short"
+                     lazy="false" name="regionShort"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.BalanceEntity" table="balance">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PaymentEntity"
+                     column="payment_id" lazy="false" name="paymentId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="accounttype_id" lazy="false" name="accountTypeId"/>
+        <property generated="never" lazy="false" name="amount"/>
+        <property generated="never" lazy="false" name="eventDate"
+                  type="timestamp"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.PaymentMessageEntity" table="payments_messages">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="payment_id" lazy="false" name="paymentId"/>
+        <property generated="never" lazy="false" name="date"
+                  type="timestamp"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.BlacklistEntity" table="blacklist">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false" name="peopleMainId"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="reason_id"
+                     lazy="false" name="reasonId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CallResultEntity" table="call_result">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="dateCall" type="timestamp"/>
+        <property generated="never" lazy="false" name="datePromise" type="date"/>
+        <property generated="never" lazy="false" name="dateNextContact" type="date"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="resulttype_id" lazy="false" name="resultTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.UsersEntity"
+                     column="users_id" lazy="false" name="userId"/>
+       
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.CallsEntity" table="calls">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+
+
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="phone"/>
+        <property generated="never" lazy="false" name="incoming"/>
+        <property generated="never" lazy="false" name="calldata" type="binary"/>
+        <property generated="never" lazy="false" name="calldatabeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="calldataend" type="timestamp"/>
+
+        <many-to-one name="peopleMainId" cascade="all" class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false"/>
+        <many-to-one name="userId"  class="ru.simplgroupp.persistence.UsersEntity"
+                     column="users_id" cascade="all"/>
+        <many-to-one name="statusId" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="status_id" lazy="false"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CallBackEntity" table="callback">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.UsersEntity" column="users_id"
+                     lazy="false" name="userId"/>
+        <property generated="never" lazy="false" name="surname"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="phone"/>
+        <property generated="never" lazy="false" name="message"/>
+        <property generated="never" lazy="false" name="email"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="dateRequest"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateCall"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="type_id"
+                     lazy="false" name="typeId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ChangeRequestsEntity"
+           table="changerequests">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="isEdited"/>
+        <property generated="never" lazy="false" name="requestDate"
+                  type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.UsersEntity" column="users_id"
+                     lazy="false" name="userId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CollectorEntity" table="collector">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="databeg" type="date"/>
+        <property generated="never" lazy="false" name="dataend" type="date"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="collectiontype_id" lazy="false" name="collectionTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.UsersEntity"
+                     column="users_id" lazy="false" name="userId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity"
+                     column="credit_id" lazy="false" name="creditId"/>
+
+    </class>
+
+    <class name="ru.simplgroupp.persistence.TaskEntity" table="tasks">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+        <property name="eventDate" generated="never" lazy="false" type="date" column="event_date"/>
+        <property name="endDate" generated="never" lazy="false" type="date" column="date_end"/>
+        <property name="status" generated="never" lazy="false"/>
+        <many-to-one name="taskType" class="ru.simplgroupp.persistence.ReferenceEntity" column="task_type_id"
+                     lazy="false"/>
+        <many-to-one name="userId" class="ru.simplgroupp.persistence.UsersEntity" column="user_id"/>
+        <many-to-one name="peopleMainId" class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"/>
+        <many-to-one name="collectorId" class="ru.simplgroupp.persistence.CollectorEntity" column="collector_id"
+                     lazy="false"/>
+        <many-to-one name="creditRequestId" class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"/>
+        <many-to-one name="creditId" class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ContactPointsEntity"
+           table="contact_points">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property column="parent_id" generated="never" lazy="false"
+                  name="parentId"/>
+        <property generated="never" lazy="false" name="version"/>
+        <property generated="never" lazy="false" name="erased"/>
+        <property column="pp_code" generated="never" lazy="false"
+                  name="ppCode"/>
+        <property generated="never" lazy="false" name="bic"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property column="city_head" generated="never" lazy="false"
+                  name="cityHead"/>
+        <property generated="never" lazy="false" name="address1"/>
+        <property generated="never" lazy="false" name="address2"/>
+        <property generated="never" lazy="false" name="address3"/>
+        <property generated="never" lazy="false" name="address4"/>
+        <property generated="never" lazy="false" name="phone"/>
+        <property column="name_rus" generated="never" lazy="false"
+                  name="nameRus"/>
+        <property generated="never" lazy="false" name="country"/>
+        <property generated="never" lazy="false" name="deleted"/>
+        <property column="city_lat" generated="never" lazy="false"
+                  name="cityLat"/>
+        <property column="addr_lat" generated="never" lazy="false"
+                  name="addrLat"/>
+        <property generated="never" lazy="false" name="contact"/>
+        <property generated="never" lazy="false" name="region"/>
+        <property column="can_change" generated="never" lazy="false"
+                  name="canChange"/>
+        <property column="can_revoke" generated="never" lazy="false"
+                  name="canRevoke"/>
+        <property column="get_money" generated="never" lazy="false"
+                  name="getMoney"/>
+        <property column="send_curr" generated="never" lazy="false"
+                  name="sendCurr"/>
+        <property column="rec_curr" generated="never" lazy="false"
+                  name="recCurr"/>
+        <property column="attr_grps" generated="never" lazy="false"
+                  name="attrGrps"/>
+        <property column="city_id" generated="never" lazy="false"
+                  name="cityId"/>
+        <property column="logo_id" generated="never" lazy="false"
+                  name="logoId"/>
+        <property column="scen_id" generated="never" lazy="false"
+                  name="scenId"/>
+        <property column="unique_trn" generated="never" lazy="false"
+                  name="uniqueTrn"/>
+        <property generated="never" lazy="false" name="metro"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.ContactServiceEntity"
+           table="contact_service">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property column="parent_id" generated="never" lazy="false"
+                  name="parentId"/>
+        <property generated="never" lazy="false" name="version"/>
+        <property generated="never" lazy="false" name="erased"/>
+        <property generated="never" lazy="false" name="caption"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property column="caption_la" generated="never" lazy="false"
+                  name="captionLa"/>
+        <property column="comment_la" generated="never" lazy="false"
+                  name="commentLa"/>
+        <property column="can_in" generated="never" lazy="false"
+                  name="canIn"/>
+        <property column="can_pay" generated="never" lazy="false"
+                  name="canPay"/>
+        <property column="cs_in" generated="never" lazy="false" name="csIn"/>
+        <property column="cs_in_fee" generated="never" lazy="false"
+                  name="csInFee"/>
+        <property column="cs_pay" generated="never" lazy="false"
+                  name="csPay"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.ContactPointsServiceEntity"
+           table="contact_point_service">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="version"/>
+        <property generated="never" lazy="false" name="erased"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ContactPointsEntity" column="point_id"
+                     lazy="false" name="pointId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ContactServiceEntity" column="service_id"
+                     lazy="false" name="serviceId"/>
+    </class>
+   
+    <class name="ru.simplgroupp.persistence.CreditDetailsEntity"
+           table="creditdetails">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <property column="another_id" generated="never" lazy="false"
+                  name="anotherId"/>
+        <property column="amount_main" generated="never" lazy="false"
+                  name="amountMain"/>
+        <property column="amount_percent" generated="never" lazy="false"
+                  name="amountPercent"/>
+        <property column="amount_penalty" generated="never" lazy="false"
+                  name="amountPenalty"/>          
+        <property column="amount_all" generated="never" lazy="false"
+                  name="amountAll"/>
+        <property column="amount_operation" generated="never" lazy="false"
+                  name="amountOperation"/>
+        <property column="amount_overpay" generated="never" lazy="false"
+                  name="amountOverpay"/>          
+        <property generated="never" lazy="false" name="eventDate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="eventEndDate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="delay"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="operation_id"
+                     lazy="false" name="operationId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CreditSumsEntity"
+           table="creditsums">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity" cascade="all"
+                     column="credit_id" lazy="false" name="creditId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditDetailsEntity" cascade="all"
+                     column="creditdetails_id" lazy="false" name="creditDetailsId"/>
+        <property name="amount" generated="never" lazy="false"/>
+        <property generated="never" lazy="false" name="amountDate"
+                  type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="operation_id"
+                     lazy="false" name="operationId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="sum_id"
+                     lazy="false" name="sumId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CreditOfferEntity" table="creditoffer">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="creditSum"/>
+        <property generated="never" lazy="false" name="creditDays"/>
+        <property generated="never" lazy="false" name="creditStake"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="accepted"/>
+        <property generated="never" lazy="false" name="offerTime"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="offerway_id" lazy="false" name="offerWayId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.UsersEntity"
+                     column="users_id" lazy="false" name="userId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditrequest_id" lazy="false" name="creditRequestId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CreditEntity" table="credit">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="bankname"/>
+        <property generated="never" lazy="false" name="creditdatabeg"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="creditdataend"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="creditDateDebt"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="creditsum"/>
+        <property generated="never" lazy="false" name="creditSumPaid"/>
+        <property generated="never" lazy="false" name="creditMonthlyPayment"/>
+        <property generated="never" lazy="false" name="creditAccount"/>
+        <property generated="never" lazy="false" name="creditmoneyback"/>
+        <property generated="never" lazy="false" name="creditlimitunused"/>
+        <property generated="never" lazy="false" name="creditlong"/>
+        <property generated="never" lazy="false" name="creditsumback"/>
+        <property generated="never" lazy="false" name="creditFullCost"/>
+        <property generated="never" lazy="false" name="isover"/>
+        <property generated="never" lazy="false" name="maxDelay"/>
+        <property column="id_credit" generated="never" lazy="false"
+                  name="idCredit"/>
+        <property generated="never" lazy="false" name="creditcardlimit"/>
+        <property generated="never" lazy="false" name="issameorg"/>
+        <property generated="never" lazy="false" name="creditsumdebt"/>
+        <property generated="never" lazy="false" name="creditpercent"/>
+        <property generated="never" lazy="false" name="delay5"/>
+        <property generated="never" lazy="false" name="delay30"/>
+        <property generated="never" lazy="false" name="delay60"/>
+        <property generated="never" lazy="false" name="delay90"/>
+        <property generated="never" lazy="false" name="delay120"/>
+        <property generated="never" lazy="false" name="delaymore"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="currentDebt"/>
+        <property generated="never" lazy="false" name="maxOverdueDebt"/>
+        <property generated="never" lazy="false" name="currentOverdueDebt"/>
+        <property generated="never" lazy="false" name="delayindays"/>
+        <property generated="never" lazy="false" name="payDiscipline"/>
+        <property generated="never" lazy="false" name="isUploaded"/>
+        <property generated="never" lazy="false" name="changedSum"/>
+        <property generated="never" lazy="false" name="datelastupdate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="creditdataendfact"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateStatus"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity" column="owner"
+                     lazy="false" name="owner"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="accounttype_id" lazy="false" name="accountTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.OrganizationEntity"
+                     column="creditorganization_id" lazy="false" name="creditOrganizationId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="credittype_id" lazy="false" name="credittypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="creditrelation_id" lazy="false" name="creditrelationId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="creditfreqpayment_id" lazy="false" name="creditfreqpaymentId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="creditstatus_id" lazy="false" name="creditStatusId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="creditpurpose_id" lazy="false" name="creditPurposeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="overduestate_id" lazy="false" name="overduestateId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="worstoverduestate_id" lazy="false" name="worstOverdueStateId"/>             
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="id_currency" lazy="false" name="idCurrency"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditrequest_id" lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+        <bag cascade="all" lazy="true" name="creditDetailsId" order-by="eventDate desc">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditDetailsEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="pays">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PaymentEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="longs">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ProlongEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="refinances">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.RefinanceEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="schedules">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.RepaymentScheduleEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="historypays">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditHistoryPayEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="logs">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.EventLogEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="debts">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DebtEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="officialDocuments">
+            <key column="credit_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.OfficialDocumentsEntity"/>
+        </bag>
+    </class>
+   
+    <class name="ru.simplgroupp.persistence.CreditHistoryPayEntity"
+           table="credithistorypay">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="accountSum"/>
+        <property generated="never" lazy="false" name="paidSum"/>
+        <property generated="never" lazy="false" name="overdueSum"/>
+        <property generated="never" lazy="false" name="creditlimitSum"/>
+        <property generated="never" lazy="false" name="historyDate"
+                  type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="paymenthistory_id"
+                     lazy="false" name="paymentHistoryId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CreditRequestEntity"
+           table="creditrequest">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="contest"/>
+        <property generated="never" lazy="false" name="confirmed"/>
+        <property column="contest_asp" generated="never" lazy="false"
+                  name="contestAsp"/>
+        <property column="contest_pd" generated="never" lazy="false"
+                  name="contestPd"/>
+        <property column="contest_cb" generated="never" lazy="false"
+                  name="contestCb"/>
+        <property generated="never" lazy="false" name="datecontest"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateStatus"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateSign"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateFill"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateDecision"
+                  type="timestamp"/>          
+        <property generated="never" lazy="false" name="creditdays"/>
+        <property generated="never" lazy="false" name="creditdaysInitial" column="creditdays_initial"/>
+        <property generated="never" lazy="false" name="creditsum"/>
+         <property generated="never" lazy="false" name="creditsumInitial" column="creditsum_initial"/>
+        <property generated="never" lazy="false" name="stake"/>
+        <property generated="never" lazy="false" name="initialStake" column="initial_stake"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="uniquenomer"/>
+        <property generated="never" lazy="false" name="agreement"/>
+        <property generated="never" lazy="false" name="accepted"/>
+        <property generated="never" lazy="false" name="nomer"/>
+        <property generated="never" lazy="false" name="city"/>
+        <property generated="never" lazy="false" name="smsCode"/>
+        <property generated="never" lazy="false" name="isUploaded"/>
+        <property column="clienttimezone" generated="never" lazy="false"
+                  name="clientTimezone"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.AccountEntity" column="account_id"
+                     lazy="false" name="accountId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity" column="acceptedcredit_id"
+                     lazy="false" name="acceptedcreditId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.RefuseReasonEntity" column="rejectreason_id"
+                     lazy="false" name="rejectreasonId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.RegionsEntity" column="region"
+                     lazy="false" name="region"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditStatusEntity" column="status_id"
+                     lazy="false" name="statusId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="none"
+                     class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="creditpurpose_id" lazy="false" name="creditPurposeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="way_id" lazy="false" name="wayId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="decisionway_id" lazy="false" name="decisionWayId"/>             
+        <bag cascade="all" lazy="true" name="addresses">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AddressEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="credits" order-by="creditdatabeg asc">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="documents">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DocumentEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="employs">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.EmploymentEntity"/>
+        </bag>
+        <bag lazy="true" name="logs" order-by="eventtime desc">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.EventLogEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplepersonal">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeoplePersonalEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplemisc">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleMiscEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="requests">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.RequestsEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="scorings">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ScoringEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="debts">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DebtEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="verif">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.VerificationEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="summary">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.SummaryEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="phonesummary">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PhonePaySummaryEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="negatives">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.NegativeEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplebehavior">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleBehaviorEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="answers">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.QuestionAnswerEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="deviceInfos">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DeviceInfoEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peopleIncapacity">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleIncapacityEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="antifraudFields">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudFieldEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="antifraudPages">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudPageEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="antifraudSuspicions">
+            <key column="creditRequestId"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudSuspicionEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="antifraudOccasions">
+            <key column="creditRequestId"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="creditOffers">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditOfferEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="identityQuestions">
+            <key column="creditRequestId"/>
+            <one-to-many class="ru.simplgroupp.persistence.IdentityQuestionEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="officialDocuments">
+            <key column="creditrequest_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.OfficialDocumentsEntity"/>
+        </bag>
+        <many-to-one class="ru.simplgroupp.persistence.WorkplaceEntity" column="workplace_id"
+                     lazy="false" name="workplace"/>
+        <many-to-one class="ru.simplgroupp.persistence.UsersEntity" column="user_id"
+                     lazy="false" name="user"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CreditStatusEntity"
+           table="creditstatus">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <property generated="never" lazy="false" name="name"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.DebtEntity" table="debt">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="amount"/>
+         <property column="amount_penalty" generated="never" lazy="false"
+                  name="amountPenalty"/>       
+        <property generated="never" lazy="false" name="typeDebt"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property column="debt_number" generated="never" lazy="false"
+                  name="debtNumber"/>
+        <property generated="never" lazy="false" name="nameDebt"/>
+        <property generated="never" lazy="false" name="dateDebt"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="dateDecision"
+                  type="date"/>
+        <property generated="never" lazy="false" name="authorityCode"/>
+        <property generated="never" lazy="false" name="authorityName"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="authority_id" lazy="false" name="authorityId"/>
+        <many-to-one cascade="none"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="none"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+         <many-to-one class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>             
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.OrganizationEntity"
+                     column="organization_id" lazy="false" name="organizationId"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.PeopleBehaviorEntity"
+           table="peoplebehavior">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="paramvalue"/>
+        <property generated="never" lazy="false" name="paramvaluelong"/>
+        <property generated="never" lazy="false" name="paramvaluedate"/>
+        <property generated="never" lazy="false" name="weboject"/>
+        <property generated="never" lazy="false" name="dateactual"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="parameter_id" lazy="false" name="parameterId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditrequest_id" lazy="false" name="creditRequestId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleFriendEntity"
+           table="peoplefriends">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="surname"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="email"/>
+        <property generated="never" lazy="false" name="dateactual"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="available"/>
+        <property generated="never" lazy="false" name="phone"/>
+        <property generated="never" lazy="false" name="forBonus"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" name="peopleMainId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.DocumentEntity" table="document">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="series"/>
+        <property generated="never" lazy="false" name="number"/>
+        <property generated="never" lazy="false" name="docdate" type="date"/>
+        <property generated="never" lazy="false" name="docenddate"
+                  type="date"/>
+        <property generated="never" lazy="false" name="docorg"/>
+        <property generated="never" lazy="false" name="docorgcode"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="isUploaded"/>
+        <property generated="never" lazy="false" name="dateChange"
+                  type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="documenttype_id"
+                     lazy="false" name="documenttypeId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="reasonend_id"
+                     lazy="false" name="reasonendId"/>
+        <bag cascade="all" inverse="true" lazy="true" name="docpages">
+            <key column="document_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DocumentMediaEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.DocumentOtherEntity" table="documentother">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="series"/>
+        <property generated="never" lazy="false" name="number"/>
+        <property generated="never" lazy="false" name="docdate" type="date"/>
+        <property generated="never" lazy="false" name="docenddate"
+                  type="date"/>
+        <property generated="never" lazy="false" name="docorg"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="documenttype_id"
+                     lazy="false" name="documenttypeId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.DocumentMediaEntity"
+           table="documentmedia">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.DocumentEntity" column="document_id"
+                     lazy="false" name="documentId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="scantype_id"
+                     lazy="false" name="scanTypeId"/>
+        <property generated="never" lazy="false" name="pagenumber"/>
+        <property generated="never" lazy="false" name="mimetype"/>
+        <property generated="never" lazy="false" name="mediapath"/>
+        <property generated="never" lazy="false" name="mediadata"
+                  type="binary"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.EmploymentEntity" table="employment">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <property column="profession_text" generated="never" lazy="false"
+                  name="professionText"/>
+        <property column="companyarea_text" generated="never" lazy="false"
+                  name="companyareaText"/>
+        <property column="placework" generated="never" lazy="false"
+                  name="placeWork"/>
+        <property generated="never" lazy="false" name="occupation"/>
+        <property generated="never" lazy="false" name="salary"/>
+        <property generated="never" lazy="false" name="extsalary"/>
+        <property generated="never" lazy="false" name="extCreditSum"/>
+        <property generated="never" lazy="false" name="experience"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="current"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <property generated="never" lazy="false" name="datestartwork"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="nextSalaryDate" type="date"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="duration_id"
+                     lazy="false" name="durationId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="typework_id"
+                     lazy="false" name="typeworkId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="extsalary_id"
+                     lazy="false" name="extsalaryId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="profession_id"
+                     lazy="false" name="professionId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="occupation_id"
+                     lazy="false" name="occupationId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="companystate_id"
+                     lazy="false" name="companystateId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="companysize_id"
+                     lazy="false" name="companysizeId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="companyarea_id"
+                     lazy="false" name="companyareaId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="education_id"
+                     lazy="false" name="educationId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="dateStartWork_id"
+                     lazy="false" name="dateStartWorkId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.MessagesEntity" table="messages">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.UsersEntity" column="users_id"
+                     name="userId"/>
+        <property generated="never" lazy="false" name="messageHeader"/>
+        <property generated="never" lazy="false" name="messageBody"/>
+        <property generated="never" lazy="false" name="messageDate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="status"/>
+        <property generated="never" lazy="false" name="inOut" column="in_out"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="messagetype_id"
+                     lazy="false" name="messageTypeId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="messageway_id"
+                     lazy="false" name="messageWayId"/>
+        <many-to-one name="peopleContactId" column="peoplecontact_id" cascade="all" lazy="false"
+                     class="ru.simplgroupp.persistence.PeopleContactEntity" not-null="false"/>
+    </class>
+
+     
+    <class name="ru.simplgroupp.persistence.NegativeEntity" table="negative">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="module"/>
+        <property generated="never" lazy="false" name="yearArticle"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.RefNegativeEntity" column="article_id"
+                     lazy="false" name="articleId"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.OfficialDocumentsEntity" table="officialdocuments">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="docNumber"/>
+        <property generated="never" lazy="false" name="docDate" type="date"/>
+        <property generated="never" lazy="false" name="smsCode"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="docText"/>
+        <property generated="never" lazy="false" column="another_id" name="anotherId"/>
+        <property generated="never" lazy="false" name="dateChange"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>    
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false"  name="creditId"/>                      
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="documenttype_id"
+                     lazy="false" name="documentTypeId"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.PartnersEntity" table="partners">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="uploadVersion"/>
+        <property generated="never" lazy="false" name="dateVersion" type="date"/>
+        <property generated="never" lazy="false" name="requestVersion"/>
+        <property generated="never" lazy="false" name="realname"/>
+        <property generated="never" lazy="false" name="urltest"/>
+        <property generated="never" lazy="false" name="urlwork"/>
+        <property generated="never" lazy="false" name="codetest"/>
+        <property generated="never" lazy="false" name="codework"/>
+        <property generated="never" lazy="false" name="logintest"/>
+        <property generated="never" lazy="false" name="loginwork"/>
+        <property generated="never" lazy="false" name="passwordtest"/>
+        <property generated="never" lazy="false" name="passwordwork"/>
+        <property generated="never" lazy="false" name="applicationId"/>
+        <property generated="never" lazy="false" name="groupTest"/>
+        <property generated="never" lazy="false" name="groupWork"/>
+        <property generated="never" lazy="false" name="accountnumber"/>
+        <property generated="never" lazy="false" name="urluploadtest"/>
+        <property generated="never" lazy="false" name="urluploadwork"/>
+        <property generated="never" lazy="false" name="uploadinbox"/>
+        <property generated="never" lazy="false" name="uploadoutbox"/>
+        <property generated="never" lazy="false" name="canMakePayment"/>
+        <property generated="never" lazy="false" name="canMakeCreditHistory"/>
+        <property generated="never" lazy="false" name="canMakeScoring"/>
+        <property generated="never" lazy="false" name="passwordUploadTest"/>
+        <property generated="never" lazy="false" name="passwordUploadWork"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.BankEntity" column="bik" lazy="false"
+                     name="bik"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.PartnerLinksEntity"
+           table="partnerlinks">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="reference_id"
+                     lazy="false" name="referenceId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PaymentEntity" table="payment">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity"
+                     column="credit_id" lazy="false" name="creditId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="paymenttype_id" lazy="false" name="paymenttypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="paysum_id" lazy="false" name="paysumId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false"  name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.AccountEntity"
+                     column="account_id" lazy="false" name="accountId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="accounttype_id" lazy="false" name="accountTypeId"/>
+        <property generated="never" lazy="false" name="amount"/>
+        <property generated="never" lazy="false" name="isPaid"/>
+        <property generated="never" lazy="false" name="createDate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="processDate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="status">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">ru.simplgroupp.persistence.PaymentStatus</param>
+            </type>
+        </property>
+        <property generated="never" lazy="false" name="externalId"/>
+        <property generated="never" lazy="false" name="externalId2"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PhonePaySummaryEntity"
+           table="phonepaysummary">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="periodCount"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditrequest_id" lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="paymenttype" lazy="false" name="paymentType"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="paymentperiodtype" lazy="false" name="paymentPeriodType"/>
+        <bag cascade="all" lazy="true" name="phonepays">
+            <key column="summary_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PhonePayEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.PhonePayEntity" table="phonepay">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="paymentCount"/>
+        <property generated="never" lazy="false" name="paymentSum"/>
+        <property generated="never" lazy="false" name="periodNumber"/>
+        <property generated="never" lazy="false" name="periodFirstDate"
+                  type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="paymenttype"
+                     lazy="false" name="paymentType"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PhonePaySummaryEntity" column="summary_id"
+                     lazy="false" name="summaryId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleContactEntity"
+           table="peoplecontact">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <property generated="never" lazy="false" name="value"/>
+        <property generated="never" lazy="false" name="region"/>
+        <property generated="never" lazy="false" name="operator"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="available"/>
+        <property generated="never" lazy="false" name="dateactual"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="contact_id"
+                     lazy="false" name="contactId"/>
+        <many-to-one class="ru.simplgroupp.persistence.RegionsEntity" column="region_short"
+                     lazy="false" name="regionShort"/>
+        <bag cascade="all" lazy="true" name="messages">
+            <key column="peoplecontact_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.MessagesEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleIncapacityEntity"
+           table="peopleincapacity">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <property generated="never" lazy="false" name="incapacityDate" type="date"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="incapacity_id"
+                     lazy="false" name="incapacityId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleMainEntity" table="peoplemain">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="snils"/>
+        <property generated="never" lazy="false" name="inn"/>
+        <property generated="never" lazy="false" name="iin"/>
+        <one-to-one name="userproperties" class="ru.simplgroupp.persistence.UserPropertiesEntity"
+                    cascade="all"></one-to-one>
+        <bag cascade="all" lazy="true" name="accounts">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AccountEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplepersonal">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeoplePersonalEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplemisc">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleMiscEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peopleother">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleOtherEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplecontact">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleContactEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="addresses">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AddressEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="blacklists">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.BlacklistEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="credits" order-by="datelastupdate desc">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="systemCredits" fetch="select" where="partners_id = 1" order-by="creditdatabeg desc">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="collectors">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CollectorEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="creditreq">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.CreditRequestEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="documents">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DocumentEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="documentsother">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DocumentOtherEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="documentMedia">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DocumentMediaEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="officialDocuments">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.OfficialDocumentsEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="employs">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.EmploymentEntity"/>
+        </bag>
+        <bag lazy="true" name="logs">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.EventLogEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="scorings">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ScoringEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="spouses">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.SpouseEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="debts">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.DebtEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="messages">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.MessagesEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peopleBonus">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleBonusEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peopleSums">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleSumsEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peopleIncapacity">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleIncapacityEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="verif">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.VerificationEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="summary">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.SummaryEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="phonesummary">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PhonePaySummaryEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="negatives">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.NegativeEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplebehavior">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleBehaviorEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="peoplefriends">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.PeopleFriendEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="requests">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.RequestsEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="antifraudFields">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudFieldEntity"/>
+        </bag>
+         <bag cascade="all" lazy="true" name="antifraudPages">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudPageEntity"/>
+        </bag>
+        <bag cascade="none" lazy="true" name="answers">
+            <key column="peoplemain_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.QuestionAnswerEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleMiscEntity" table="peoplemisc">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <property generated="never" lazy="false" name="children"/>
+        <property generated="never" lazy="false" name="underage"/>
+        <property generated="never" lazy="false" name="dependants"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="car"/>
+        <property generated="never" lazy="false" name="driverLicense"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <property column="realtydate" generated="never" lazy="false"
+                  name="realtyDate" type="timestamp"/>
+        <property column="regdate" generated="never" lazy="false"
+                  name="regDate" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="marriage_id"
+                     lazy="false" name="marriageId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="realty_id"
+                     lazy="false" name="realtyId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="regDate_id"
+                     lazy="false" name="regDateId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="realtyDate_id"
+                     lazy="false" name="realtyDateId"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.PeopleOtherEntity" table="peopleother">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <property generated="never" lazy="false" name="public_role"/>
+        <property generated="never" lazy="false" name="public_relative_role"/>
+        <property generated="never" lazy="false" name="public_relative_fio"/>
+        <property generated="never" lazy="false" name="benific_fio"/>
+        <property generated="never" lazy="false" name="reclam_accept"/>
+        <property generated="never" lazy="false" name="other"/>
+        <property generated="never" lazy="false" name="isactive"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.PeoplePersonalEntity"
+           table="peoplepersonal">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <property generated="never" lazy="false" name="surname"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="midname"/>
+        <property generated="never" lazy="false" name="maidenname"/>
+        <property generated="never" lazy="false" name="birthplace"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="isUploaded"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <property generated="never" lazy="false" name="birthdate"
+                  type="date"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CountryEntity" column="citizen"
+                     lazy="false" name="citizen"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="gender"
+                     lazy="false" name="gender"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleSumsEntity" table="peoplesums">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <property generated="never" lazy="false" name="amount"/>
+        <property generated="never" lazy="false" name="eventDate"
+                  type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="operation_id"
+                     lazy="false" name="operationId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="operationtype_id"
+                     lazy="false" name="operationTypeId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.PeopleBonusEntity" table="peoplebonus">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemainbonus_id"
+                     lazy="false" name="peopleMainBonusId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <property generated="never" lazy="false" name="amount"/>
+        <property generated="never" lazy="false" name="amountrub"/>
+        <property generated="never" lazy="false" name="eventDate"
+                  type="timestamp"/>
+        <many-to-one
+                class="ru.simplgroupp.persistence.RefBonusEntity" column="bonus_id"
+                lazy="false" name="bonusId"/>
+        <many-to-one
+                class="ru.simplgroupp.persistence.ReferenceEntity" column="operation_id"
+                lazy="false" name="operationId"/>
+
+    </class>
+    <class name="ru.simplgroupp.persistence.RefBonusEntity" table="ref_bonus">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="amount"/>
+        <property generated="never" lazy="false" name="rate"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="codeinteger"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.UserPropertiesEntity" table="userproperties">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <property generated="never" lazy="false" name="payByBonus" column="pay_by_bonus"/>
+        <property generated="never" lazy="false" name="actionDate" column="actiondate"
+                  type="timestamp"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.OrganizationEntity"
+           table="organization">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="inn"/>
+        <property generated="never" lazy="false" name="ogrn"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="phone"/>
+        <property generated="never" lazy="false" name="freePhone"/>
+        <property generated="never" lazy="false" name="notificationPhone"/>
+        <property generated="never" lazy="false" name="email"/>
+        <property generated="never" lazy="false" name="kpp"/>
+        <property generated="never" lazy="false" name="isCreditOrg"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="orgtype_id"
+                     lazy="false" name="orgTypeId"/>
+        <bag cascade="all" lazy="true" name="accounts">
+            <key column="organization_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AccountEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ProlongEntity" table="prolong">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <property generated="never" lazy="false" name="longdays"/>
+        <property generated="never" lazy="false" name="longdate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="longstake"/>
+        <property generated="never" lazy="false" name="longamount"/>
+        <property column="smscode" generated="never" lazy="false"
+                  name="smsCode"/>
+        <property generated="never" lazy="false" name="agreement"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="uniquenomer"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.RefinanceEntity" table="refinance">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                lazy="false" name="creditId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity" column="creditnew_id"
+                lazy="false" name="creditNewId"/>
+        <property generated="never" lazy="false" name="refinanceDays"/>
+        <property generated="never" lazy="false" name="refinanceDate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="refinanceStake"/>
+        <property generated="never" lazy="false" name="refinanceAmount"/>
+        <property column="smscode" generated="never" lazy="false"
+                  name="smsCode"/>
+        <property generated="never" lazy="false" name="agreement"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="uniquenomer"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.RepaymentScheduleEntity"
+           table="repaymentschedule">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <property generated="never" lazy="false" name="creditstake"/>
+        <property generated="never" lazy="false" name="creditsumback"/>
+        <property generated="never" lazy="false" name="creditsum"/>
+        <property column="reasonend_id" generated="never" lazy="false"
+                  name="reasonEndId"/>
+        <property generated="never" lazy="false" name="isactive"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.RequestsEntity" table="requests">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="requestquid"/>
+        <property generated="never" lazy="false" name="requestNumber"/>
+        <property generated="never" lazy="false" name="requestdate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="requesttype"/>
+        <property generated="never" lazy="false" name="responsedate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="requestbody"
+                  type="binary"/>
+        <property generated="never" lazy="false" name="responsebody"
+                  type="binary"/>
+        <property generated="never" lazy="false" name="responseguid"/>
+        <property generated="never" lazy="false" name="responsebodystring"/>
+        <property generated="never" lazy="false" name="responsecode"/>
+        <property generated="never" lazy="false" name="responsemessage"/>
+        <property generated="never" lazy="false" name="sessionguid"/>
+        <property generated="never" lazy="false" name="packageId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.RequestStatusEntity" column="requeststatus"
+                     lazy="false" name="requeststatus"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all" class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ScoreCronosEntity" table="score_cronos">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ScoringEntity" column="scoring_id"
+                     lazy="false" name="scoringId"/>
+        <property column="vector_code" generated="never" lazy="false"
+                  name="vectorCode"/>
+        <property column="vector_text" generated="never" lazy="false"
+                  name="vectorText"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="vector_id"
+                     lazy="false" name="vectorId"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.ScoringEntity" table="scoring">
+        <id column="id" name="Id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property column="score_error" generated="never" lazy="false"
+                  name="scoreError"/>
+        <property column="score_risk" generated="never" lazy="false"
+                  name="scoreRisk"/>
+        <property column="text_error" generated="never" lazy="false"
+                  name="textError"/>
+        <property column="reason_error" generated="never" lazy="false"
+                  name="reasonError"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="score"/>
+        <property generated="never" lazy="false" name="scoringDate" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ScoreModelEntity" column="score_model_id"
+                     lazy="false" name="scoreModelId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <joined-subclass lazy="false"
+                         name="ru.simplgroupp.persistence.ScoreCronosMainEntity" table="score_cronos_main">
+            <key column="scoring_id"/>
+            <property generated="never" lazy="false" name="answerRtf"/>
+            <property generated="never" lazy="false" name="answerHtml"/>
+            <property generated="never" lazy="false" name="answerPpfms"/>
+            <property generated="never" lazy="false" name="vectorFl"/>
+        </joined-subclass>
+    </class>
+    <class name="ru.simplgroupp.persistence.SpouseEntity" table="spouse">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemainspouse_id"
+                     lazy="false" name="peopleMainSpouseId"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="spouse_id"
+                     lazy="false" name="spouseId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="typework_id"
+                     lazy="false" name="typeworkId"/>
+    </class>
+
+
+    <!-- аутентификация -->
+    <class name="ru.simplgroupp.persistence.RolesEntity" table="roles">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="realName"/>
+        <property generated="never" lazy="false" name="righttoedit"/>
+        <property generated="never" lazy="false" name="righttowrite"/>
+        <property generated="never" lazy="false" name="righttoview"/>
+        <property generated="never" lazy="false" name="righttoall"/>
+        <property generated="never" lazy="false" name="righttocall"/>
+        <property generated="never" lazy="false" name="righttoaddrules"/>
+        <bag cascade="all" lazy="true" name="users" table="users_roles">
+            <key column="roles_id"/>
+            <many-to-many class="ru.simplgroupp.persistence.UsersEntity"
+                          column="users_id" unique="false"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.UsersEntity" table="users">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="username"/>
+        <property generated="never" lazy="false" name="password"/>
+        <property generated="never" lazy="false" name="privateToken" column="private_token"/>
+        <property generated="never" lazy="false" name="tempLink"/>
+        <property generated="never" lazy="false" name="oktellUuid"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.UsertypeEntity" column="usertype"
+                     lazy="false" name="usertype"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <bag lazy="true" name="logs">
+            <key column="users_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.EventLogEntity"/>
+        </bag>
+        <bag lazy="true" name="messages">
+            <key column="users_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.MessagesEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="roles" table="users_roles">
+            <key column="users_id"/>
+            <many-to-many class="ru.simplgroupp.persistence.RolesEntity"
+                          column="roles_id" lazy="false" unique="false"/>
+        </bag>
+        <many-to-one cascade="evict"
+                     class="ru.simplgroupp.persistence.WorkplaceEntity" column="workplace_id"
+                     lazy="false" name="workplace"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.UsertypeEntity" table="usertype">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <property generated="never" lazy="false" name="name"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.SummaryEntity" table="summary">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="value"/>
+        <property generated="never" lazy="false" name="refid"/>
+        <property generated="never" lazy="false" name="summaryDate" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one class="ru.simplgroupp.persistence.RefSummaryEntity"
+                     column="fieldref" lazy="false" name="fieldRef"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.VerificationEntity"
+           table="verification">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property column="verification_score" generated="never" lazy="false"
+                  name="verificationScore"/>
+        <property column="validation_score" generated="never" lazy="false"
+                  name="validationScore"/>
+        <property column="verification_text" generated="never" lazy="false"
+                  name="verificationText"/>
+        <property column="validation_text" generated="never" lazy="false"
+                  name="validationText"/>
+        <property column="verify_personal" generated="never" lazy="false"
+                  name="verifyPersonal"/>
+        <property column="verify_document" generated="never" lazy="false"
+                  name="verifyDocument"/>
+        <property column="verify_address" generated="never" lazy="false"
+                  name="verifyAddress"/>
+        <property column="verify_phone" generated="never" lazy="false"
+                  name="verifyPhone"/>
+        <property column="verify_inn" generated="never" lazy="false"
+                  name="verifyInn"/>
+        <property generated="never" lazy="false" name="verificationDate" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.VerificationMarkEntity" column="verification_mark"
+                     lazy="false" name="verificationMark"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.VerificationMarkEntity" column="validation_mark"
+                     lazy="false" name="validationMark"/>
+    </class>
+
+
+    <!-- логи -->
+    <class name="ru.simplgroupp.persistence.EventTypeEntity" table="eventtype">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="shortname"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.EventCodeEntity" table="eventcode">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <property generated="never" lazy="false" name="name"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.EventLogEntity" table="eventlog">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="ipaddress"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="browser"/>
+        <property generated="never" lazy="false" name="os"/>
+        <property generated="never" lazy="false" name="userAgent"/>
+        <property generated="never" lazy="false" name="provider"/>
+        <property generated="never" lazy="false" name="geoPlace"/>
+        <property generated="never" lazy="false" name="eventtime"
+                  type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.EventTypeEntity"
+                     column="eventtype_id" lazy="false" name="eventtypeid"/>
+        <many-to-one class="ru.simplgroupp.persistence.EventCodeEntity"
+                     column="eventcode_id" lazy="false" name="eventcodeid"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>             
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peoplemain_id" lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.UsersEntity"
+                     column="users_id" lazy="false" name="userId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditrequest_id" lazy="false" name="creditRequestId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditEntity"
+                     column="credit_id" lazy="false" name="creditId"/>
+
+    </class>
+
+
+    <!--выгрузка -->
+    <class name="ru.simplgroupp.persistence.UploadingEntity" table="uploading">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="status"/>
+        <property generated="never" lazy="false" name="uploadId"/>
+        <property generated="never" lazy="false" name="uploadType"/>
+        <property generated="never" lazy="false" name="responseId"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="info"/>
+        <property generated="never" lazy="false" name="report"/>
+        <property generated="never" lazy="false" name="recordsAll"/>
+        <property generated="never" lazy="false" name="recordsCorrect"/>
+        <property generated="never" lazy="false" name="recordsError"/>
+        <property generated="never" lazy="false" name="dateUploading"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="responseDate"
+                  type="timestamp"/>
+        <many-to-one cascade="all" class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <bag cascade="all" lazy="true" name="errors">
+            <key column="uploading_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.UploadingErrorEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="details">
+            <key column="uploading_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.UploadingDetailEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.UploadingDetailEntity"
+           table="uploading_detail">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="status"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.UploadingEntity" column="uploading_id"
+                     lazy="false" name="uploadingId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.UploadingErrorEntity"
+           table="uploading_error">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="description"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditEntity" column="credit_id"
+                     lazy="false" name="creditId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.UploadingEntity" column="uploading_id"
+                     lazy="false" name="uploadingId"/>
+    </class>
+
+
+    <!--продукты и их настройки -->
+    <class name="ru.simplgroupp.persistence.ProductsEntity" table="products">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="isDefault"/>
+        <property generated="never" lazy="false" name="description"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="paymenttype_id" lazy="false" name="paymentTypeId"/>
+        <bag cascade="all" lazy="true" name="productConfig">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ProductConfigEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="productRules">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ProductRulesEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="productMessages">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ProductMessagesEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="reports">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ReportEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="models">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AIModelEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="questions">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.QuestionEntity"/>
+        </bag>
+        <bag cascade="all" lazy="true" name="actions">
+            <key column="products_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.BizActionEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ProductConfigEntity" table="product_config">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="databeg" type="date"/>
+        <property generated="never" lazy="false" name="dataend" type="date"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="dataType"/>
+        <property generated="never" lazy="false" name="dataValue"/>
+        <many-to-one cascade="all" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="configtype_id" lazy="false" name="configTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ProductMessagesEntity" table="product_messages">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="subject"/>
+        <property generated="never" lazy="false" name="body"/>
+        <property generated="never" lazy="false" name="signalRef"/>
+        <many-to-one cascade="all" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="configtype_id" lazy="false" name="configTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ProductRulesEntity" table="product_rules">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="databeg" type="date"/>
+        <property generated="never" lazy="false" name="dataend" type="date"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="kbase"/>
+        <property generated="never" lazy="false" name="ruleBody"/>
+        <property column="scripttype_id" generated="never" lazy="false"
+                  name="scriptTypeId"/>
+        <many-to-one cascade="all" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="configtype_id" lazy="false" name="configTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+    </class>
+
+    <!--отчеты -->
+    <class name="ru.simplgroupp.persistence.ReportTypeEntity" table="reporttype">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property column="name" generated="never" lazy="false" name="name"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.ReportEntity" table="report">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReportTypeEntity"
+                     column="reporttype_id" lazy="false" name="reportTypeId"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="body"/>
+        <property generated="never" lazy="false" name="reportExecutor"/>
+        <property generated="never" lazy="false" name="mimeType"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.ProductsEntity" 
+           column="products_id" lazy="false" name="productId"/>
+    </class>
+
+
+    <!--общие настройки -->
+    <class name="ru.simplgroupp.persistence.AIRuleEntity" table="airule">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="packageName"/>
+        <property generated="never" lazy="false" name="body"/>
+        <property generated="never" lazy="false" name="ruleType"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="kbase"/>
+        <bag cascade="all" lazy="true" name="constants">
+            <key column="airule_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AIConstantEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.AIConstantEntity" table="aiconstant">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="sequence">
+                <param name="sequenceName">aiconstant_id_seq</param>
+            </generator>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <many-to-one class="ru.simplgroupp.persistence.AIRuleEntity"
+                     column="airule_id" lazy="false" name="aiRule"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="dataType"/>
+        <property generated="never" lazy="false" name="dataValue"/>
+        <property generated="never" lazy="false" name="dataValueText" type="text"/>
+        <property generated="never" lazy="false" name="description"/>
+    </class>
+
+
+    <!--стратегия -->
+    <class name="ru.simplgroupp.persistence.AIModelEntity" table="aimodel">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="dateCreate"/>
+        <property generated="never" lazy="false" name="version"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="target"/>
+        <property generated="never" lazy="false" name="body"/>
+        <property generated="never" lazy="false" name="mimeType"/>
+        <property generated="never" lazy="false" name="dateChange"/>
+        <set lazy="false" name="params" order-by="name asc">
+            <key column="aimodel_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.AIModelParamEntity"/>
+        </set>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="way_id" lazy="false" name="wayId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.AIModelParamEntity" table="aimodelparams">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>             
+        <property column="name" name="name"/>
+        <property column="customkey" name="customKey"/>               
+        <property generated="never" lazy="false" name="dataType"/>
+        <property generated="never" lazy="false" name="dataValue"/>
+        <property generated="never" lazy="false" name="dataValueText" type="text"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="isIn"/>
+        <property generated="never" lazy="false" name="isOut"/>
+        <many-to-one class="ru.simplgroupp.persistence.AIModelEntity" column="aimodel_id" name="AiModel" lazy="false" />
+    </class>
+
+
+    <!--бизнес-действия -->
+    <class name="ru.simplgroupp.persistence.BizActionTypeEntity" table="bizactiontype">
+        <id column="id" name="id" type="java.lang.Integer"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.BizActionEntity" table="bizaction">
+        <id column="id" name="Id" type="java.lang.Integer" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+        <many-to-one
+                class="ru.simplgroupp.persistence.BizActionTypeEntity"
+                column="bizactiontype_id" lazy="false" name="bizActionType"/>
+        <property generated="never" lazy="false" name="signalRef"/>
+        <property generated="never" lazy="false" name="businessObjectClass"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="assignee"/>
+        <property generated="never" lazy="false" name="candidateGroups"/>
+        <property generated="never" lazy="false" name="candidateUsers"/>
+        <property generated="never" lazy="false" name="forOne"/>
+        <property generated="never" lazy="false" name="forMany"/>
+        <property generated="never" lazy="false" name="SQLFilter"/>
+        <property generated="never" lazy="false" name="dataFilter"/>
+        <property generated="never" lazy="false" name="schedule"/>
+        <property generated="never" lazy="false" name="runProcessDefKey"/>
+        <property generated="never" lazy="false" name="isSystem"/>
+        <property generated="never" lazy="false" name="retryInterval"/>
+        <property generated="never" lazy="false" name="errorCode"/>
+        <property generated="never" lazy="false" name="errorMessage"/>
+        <property generated="never" lazy="false" name="lastStart"/>
+        <property generated="never" lazy="false" name="lastEnd"/>
+        <property generated="never" lazy="false" name="processDefKey"/>
+        <property generated="never" lazy="false" name="ruleEnabled"/>
+        <property generated="never" lazy="false" name="ruleAction"/>
+        <property generated="never" lazy="false" name="ruleStart"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="isRequired"/>
+        <property generated="never" lazy="false" name="isAtomic"/>
+        <property generated="never" lazy="false" name="plugin"/>
+        <property generated="never" lazy="false" name="listId"/>
+        <property generated="never" lazy="false" name="isSingleton" column="iscsingleton"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="configtype_id" lazy="false" name="configTypeId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" cascade="all" name="productId"/>
+        <bag name="events" lazy="true">
+            <key column="bizaction_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.BizActionEventEntity"/>
+        </bag>
+        <bag name="params" lazy="false">
+            <key column="bizaction_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.BizActionParamEntity"/>        
+        </bag>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.BizActionParamEntity" table="bizactionparam">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="bizAction" class="ru.simplgroupp.persistence.BizActionEntity" column="bizaction_id"
+                     lazy="false"></many-to-one>
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="dataType"/>
+        <property generated="never" lazy="false" name="dataValue"/>
+        <property generated="never" lazy="false" name="dataValueText"/>
+    </class>    
+
+    <class name="ru.simplgroupp.persistence.BizActionEventEntity" table="bizactionevent">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="bizAction" class="ru.simplgroupp.persistence.BizActionEntity" column="bizaction_id"
+                     lazy="false"></many-to-one>
+        <property generated="never" lazy="false" name="eventCode"/>
+    </class>
+
+
+    <!--справочники -->
+    <class name="ru.simplgroupp.persistence.BankEntity" table="bank">
+        <id column="bik" name="bik" type="java.lang.String"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="corAccount"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="isBank"/>
+        <property generated="never" lazy="false" name="address"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.CountryEntity" table="country">
+        <id column="code" name="code" type="java.lang.String"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="codeinteger"/>
+        <property generated="never" lazy="false" name="codeextend"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.HolidaysEntity" table="holidays">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="kind"/>
+        <property generated="never" lazy="false" name="databeg" type="date"/>
+        <property generated="never" lazy="false" name="dataend" type="date"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.RegionsEntity" table="regions">
+        <id column="code" name="code" type="java.lang.String"/>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="codereg"/>
+        <property generated="never" lazy="false" name="codeIso"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.RefBlacklistEntity"
+           table="ref_blacklist">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="surname"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="midname"/>
+        <property generated="never" lazy="false" name="maidenname"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="databeg" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataend" type="timestamp"/>
+        <property generated="never" lazy="false" name="birthdate"
+                  type="timestamp"/>
+        <property generated="never" lazy="false" name="series"/>
+        <property generated="never" lazy="false" name="number"/>
+        <property generated="never" lazy="false" name="mobilePhone"/>
+        <property generated="never" lazy="false" name="email"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="employerFullName" column="employer_full_name"/>
+        <property generated="never" lazy="false" name="employerShortName" column="employer_short_name"/>
+        <property generated="never" lazy="false" name="regionName" column="region_name"/>
+        <property generated="never" lazy="false" name="areaName" column="area_name"/>
+        <property generated="never" lazy="false" name="cityName" column="city_name"/>
+        <property generated="never" lazy="false" name="placeName" column="place_name"/>
+        <property generated="never" lazy="false" name="streetName" column="street_name"/>
+        <property generated="never" lazy="false" name="house"/>
+        <property generated="never" lazy="false" name="corpus"/>
+        <property generated="never" lazy="false" name="building"/>
+        <property generated="never" lazy="false" name="flat"/>
+        <property generated="never" lazy="false" name="fileName" column="filename"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="reason_id"
+                     lazy="false" name="reasonId"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity" column="source_id"
+                     lazy="false" name="sourceId"/>             
+    </class>
+
+    <class name="ru.simplgroupp.persistence.RefSummaryEntity" table="ref_summary">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <many-to-one class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="datatype" lazy="false" name="datatype"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.RefHeaderEntity" table="ref_header">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+        <bag cascade="all" lazy="true" name="references">
+            <key column="ref_header_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.ReferenceEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.ReferenceEntity" table="reference">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="codemain"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="codeinteger"/>
+        <property generated="never" lazy="false" name="codeintegermain"/>
+        <property generated="never" lazy="false" name="isactive"/>
+        <property generated="never" lazy="false" name="parentId" column="parent_id"/>
+        <many-to-one class="ru.simplgroupp.persistence.RefHeaderEntity"
+                     column="ref_header_id" lazy="proxy" name="refHeaderId"/>
+        <many-to-one class="ru.simplgroupp.persistence.RefHeaderEntity"
+                     column="ref_header_idmain" lazy="proxy" name="refHeaderIdMain"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.RefNegativeEntity" table="ref_negative">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="groupId"/>
+        <property generated="never" lazy="false" name="subgroupId"/>
+        <property generated="never" lazy="false" name="article"/>
+        <property generated="never" lazy="false" name="lasts"/>
+        <property generated="never" lazy="false" name="country"/>
+    </class>
+    
+    <class name="ru.simplgroupp.persistence.RefuseReasonEntity"
+           table="refusereason">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="nameFull"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="constantName"/>
+        <property generated="never" lazy="false" name="forDecision"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.ReferenceEntity" column="reason_id"
+                     lazy="false" name="reasonId"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.RequestStatusEntity"
+           table="requeststatus">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <property generated="never" lazy="false" name="name"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.ScoreModelEntity" table="score_model">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="code"/>
+        <many-to-one cascade="all" class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.VerificationMarkEntity"
+           table="verification_mark">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="kind"/>
+        <property column="mark_min" generated="never" lazy="false"
+                  name="markMin"/>
+        <property column="mark_max" generated="never" lazy="false"
+                  name="markMax"/>
+        <many-to-one class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partners_id" lazy="false" name="partnersId"/>
+    </class>
+
+
+    <!--сравнение кредитов -->
+    <class name="ru.simplgroupp.persistence.VerificationReferenceEntity"
+           table="verification_reference">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer" />
+        <property name="name" />
+        <property name="entityName" />
+        <property name="fieldName" />
+        <property name="useForRate" column="use_for_rate" not-null="true"/>
+        <property name="necessary" column="necessary" not-null="true"/>
+
+        <bag name="configurations" lazy="true" cascade="all-delete-orphan">
+            <key column="field_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.VerificationConfigEntity"/>
+        </bag>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.VerificationConfigEntity"
+           table="verification_config">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+        <property name="rating"/>
+        <property name="diff" column="diff"/>
+        <property name="useForMatching" column="use_for_matching" not-null="true"/>
+        <many-to-one class="ru.simplgroupp.persistence.VerificationReferenceEntity"
+                    column="field_id" lazy="false" name="fieldId"/>
+    </class>
+    <!--настройки -->
+
+
+    <!-- вопросы верификатора -->
+    <class name="ru.simplgroupp.persistence.QuestionEntity" table="question">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+
+        <property generated="never" lazy="false" name="questionCode"/>
+        <property generated="never" lazy="false" name="questionText"/>
+        <property generated="never" lazy="false" name="answerType"/>
+
+        <many-to-one name="type" class="ru.simplgroupp.persistence.ReferenceEntity" column="typeId"
+                     lazy="false" cascade="none"/>
+        <many-to-one cascade="none" class="ru.simplgroupp.persistence.ProductsEntity" column="products_id"
+                     lazy="false" name="productId"/>
+        <bag cascade="all-delete-orphan" inverse="true" lazy="true" name="variants">
+            <key column="question_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.QuestionVariantEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.QuestionVariantEntity" table="questionvariant">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+
+        <property generated="never" lazy="false" name="answerValue"/>
+        <property generated="never" lazy="false" name="answerText"/>
+        <property generated="never" lazy="false" name="score"/>
+        <property generated="never" lazy="false" name="defaultAnswer"/>
+
+        <many-to-one class="ru.simplgroupp.persistence.QuestionEntity" column="question_id"
+                     lazy="false" name="questionId"/>
+        <bag name="statuses" cascade="all-delete-orphan" inverse="true" lazy="true">
+            <key column="optionId"/>
+            <one-to-many class="ru.simplgroupp.persistence.verificatorquestion.QuestionVariantStatusEntity"/>
+        </bag>
+        <bag name="occasions" cascade="all-delete-orphan" inverse="true" lazy="true">
+            <key column="questionOptionId"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.verificatorquestion.QuestionVariantStatusEntity"
+           table="questionvariant_antifraudentity">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+
+        <many-to-one name="option" class="ru.simplgroupp.persistence.QuestionVariantEntity" column="optionId"
+                     lazy="false"/>
+        <many-to-one name="antifraudEntity" class="ru.simplgroupp.persistence.ReferenceEntity" column="entityId"
+                     lazy="false" cascade="none"/>
+        <many-to-one name="antifraudStatus" class="ru.simplgroupp.persistence.ReferenceEntity" column="statusId"
+                     lazy="false" cascade="none"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.QuestionAnswerEntity" table="qarequest">
+        <composite-id mapped="false" unsaved-value="undefined">
+            <key-many-to-one class="ru.simplgroupp.persistence.QuestionEntity"
+                             column="question_id" lazy="false" name="questionId"/>
+            <key-many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity"
+                             column="creditrequest_id" lazy="false" name="creditRequestId"/>
+        </composite-id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+
+        <property generated="never" lazy="false" name="answerStatus"/>
+        <property generated="never" lazy="false" name="answerValueNumber"/>
+        <property generated="never" lazy="false" name="answerValueRef"/>
+        <property generated="never" lazy="false" name="answerValueString"/>
+        <property generated="never" lazy="false" name="answerValueDate"/>
+        <property generated="never" lazy="false" name="answerValueMoney"/>
+        <property generated="never" lazy="false" name="createdAt"/>
+        <property generated="never" lazy="false" name="updatedAt"/>
+        <property generated="never" lazy="false" name="comment"/>
+
+        <many-to-one name="user" class="ru.simplgroupp.persistence.UsersEntity" column="userId"
+                     lazy="false" cascade="none"/>
+        <many-to-one name="peopleMainId" class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" cascade="none"/>
+    </class>
+
+
+    <class name="ru.simplgroupp.persistence.Misc" table="misc">
+        <composite-id mapped="false" unsaved-value="undefined">
+            <key-property name="ClassName"/>
+            <key-property name="ClassId"/>
+            <key-property name="Name"/>
+        </composite-id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="Format"/>
+        <property generated="never" lazy="false" name="Value"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.DeviceInfoEntity" table="device_info">
+        <id column="ID" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property column="info_date" generated="never" lazy="false"
+                  name="infoDate" type="timestamp"/>
+        <property column="resolution_w" generated="never" lazy="false"
+                  name="resolutionWidth" type="integer"/>
+        <property column="resolution_h" generated="never" lazy="false"
+                  name="resolutionHeight" type="integer"/>
+        <property column="device_platform" generated="never" lazy="false"
+                  name="devicePlatform" type="string"/>
+        <property column="user_agent" generated="never" lazy="false"
+                  name="userAgent" type="string"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditrequest_id" lazy="false" name="creditRequestId"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.BusinessListEntity" table="bolist">
+        <id column="ID" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+        <property name="Name" column="name"/>        
+        <property name="BusinessObjectClass"/>
+        <property name="SubType" column="subtype"/>
+        <property name="IsExplicit" column="isexplicit"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.BusinessListItemEntity" table="bolistitems">
+        <composite-id>
+            <key-many-to-one name="list" class="ru.simplgroupp.persistence.BusinessListEntity" column="bolist_id"/>
+            <key-property name="BusinessObjectId" column="businessobjectid"/>
+        </composite-id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+    </class>
+
+    <class name="ru.simplgroupp.persistence.BusinessListCondEntity" table="bolistcond">
+        <id column="ID" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+        <property name="Name" column="name"/>
+        <property name="OrderNo"/>
+        <property name="JoinCode"/>
+        <property name="Body"/>
+        <many-to-one name="list" class="ru.simplgroupp.persistence.BusinessListEntity" column="bolist_id" lazy="false"/>
+        <many-to-one name="LinkedList" class="ru.simplgroupp.persistence.BusinessListEntity" column="linkedlist_id"
+                     lazy="false"/>
+        <many-to-one name="LinkedCond" class="ru.simplgroupp.persistence.BusinessListCondEntity" column="linkedcond_id"
+                     lazy="false"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.cms.CmsPageEntity" table="cms_page">
+        <id column="ID" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <property name="type" column="type"/>
+        <property name="description" column="description"/>
+        <property name="title" column="title"/>
+        <property name="keywords" column="keywords"/>
+        <property name="body" column="body"/>
+        <property name="projectName" column="project_name"/>
+        <bag cascade="all" lazy="true" name="images">
+            <key column="cms_page_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.cms.CmsImagesEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.cms.CmsImagesEntity" table="cms_images">
+        <id column="ID" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <property name="fileName" column="file_name"/>
+        <property name="fileData" column="file_data"/>
+        <many-to-one name="cmsPage" class="ru.simplgroupp.persistence.cms.CmsPageEntity" column="cms_page_id"
+                     lazy="false"/>
+    </class>
+	<class name="ru.simplgroupp.persistence.cms.CmsDocumentsEntity" table="cms_documents">
+		<id column="ID" name="id" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<property name="name" column="name"/>
+		<property name="body" column="body"/>
+		<property name="createDate" column="createdate"/>
+		<property name="dateChange" column="datechange"/>
+		<property name="pdfUrl" column="pdf_url"/>
+		<property name="orderInd" column="order_ind"/>
+		<property name="projectName" column="project_name"/>
+        <property generated="never" lazy="false" name="isArchive"/>
+	</class>
+	<class name="ru.simplgroupp.persistence.cms.CmsNewsEntity" table="cms_news">
+		<id column="ID" name="id" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<property name="description" column="description"/>
+		<property name="body" column="body"/>
+		<property name="title" column="title"/>
+		<property name="keywords" column="keywords"/>
+		<property name="name" column="name"/>
+		<property name="createDate" column="createdate"/>
+		<property name="dateChange" column="datechange"/>
+		<property name="previewImgId" column="preview_img_id"/>
+		<property name="imgId" column="img_id"/>
+		<property name="projectName" column="project_name"/>
+	</class>
+	<class name="ru.simplgroupp.persistence.cms.CmsQuestionGroupEntity" table="cms_question_group">
+		<id column="ID" name="id" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<property name="orderInd" column="order_ind"/>
+		<property name="name" column="name"/>
+		<property name="onMainShow" column="on_main_show"/>
+		<property name="onFooterShow" column="on_footer_show"/>
+		<property name="createDate" column="createdate"/>
+		<property name="dateChange" column="datechange"/>
+		<property name="projectName" column="project_name"/>
+	</class>	
+	<class name="ru.simplgroupp.persistence.cms.CmsQuestionsEntity" table="cms_questions">
+		<id column="ID" name="id" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="group" class="ru.simplgroupp.persistence.cms.CmsQuestionGroupEntity" column="group_id" lazy="false" />
+		<property name="question" column="question"/>
+		<property name="answer" column="answer"/>
+		<property name="createDate" column="createdate"/>
+		<property name="dateChange" column="datechange"/>
+		<property name="onMainShow" column="on_main_show"/>
+		<property name="onFooterShow" column="on_footer_show"/>
+		<property name="orderInd" column="order_ind"/>
+	</class>	
+	<class name="ru.simplgroupp.persistence.cms.CmsTextBlocksEntity" table="cms_text_blocks">
+		<id column="ID" name="id" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<property name="orderInd" column="order_ind"/>
+		<property name="name" column="name"/>
+		<property name="body" column="body"/>
+		<property name="imgId" column="img_id"/>
+		<property name="createDate" column="createdate"/>
+		<property name="dateChange" column="datechange"/>
+	</class>		    
+    <class name="ru.simplgroupp.persistence.WorkplaceEntity" table="workplaces">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <version access="field" name="txVersion" column="tx_version"/>
+        <property name="name" column="name" not-null="true"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.UserWorkplaceHistoryEntity" table="user_workplace_history">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <version access="field" name="txVersion" column="tx_version"/>
+        <many-to-one name="user" class="ru.simplgroupp.persistence.UsersEntity" column="user_id" lazy="false"/>
+        <many-to-one name="workplace" class="ru.simplgroupp.persistence.WorkplaceEntity" column="workplace_id"
+                     lazy="false"/>
+        <property name="modifiedDate" type="timestamp" column="modified_date"/>
+        <many-to-one name="modifiedBy" class="ru.simplgroupp.persistence.UsersEntity" column="modified_by"
+                     lazy="false"/>
+    </class>
+
+
+    <!-- Антифрод -->
+    <class name="ru.simplgroupp.persistence.antifraud.AntifraudPageTypesEntity" table="antifrod_page_types">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="type" column="type"/>
+        <property name="description" column="description"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.AntifraudFieldTypesEntity" table="antifrod_field_types">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <property name="type" column="type"/>
+        <property name="description" column="description"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.AntifraudPageEntity" table="antifrod_page">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <version access="field" name="txVersion"/>
+        <property name="dateStart" column="date_start" type="timestamp"/>
+        <property name="dateEnd" column="date_end" type="timestamp"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one cascade="all"
+                     class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one name="type" class="ru.simplgroupp.persistence.antifraud.AntifraudPageTypesEntity" column="type_id"
+                     lazy="false"/>
+        <property name="sessionId" column="session_id" type="string"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.AntifraudFieldEntity" table="antifrod_field">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <version access="field" name="txVersion" />
+        <property name="valueBefore" column="value_before"/>
+        <property name="valueAfter" column="value_after"/>
+        <property name="createAt" column="createat" type="timestamp"/>
+        <many-to-one class="ru.simplgroupp.persistence.PeopleMainEntity" column="peoplemain_id"
+                     lazy="false" name="peopleMainId"/>
+        <many-to-one class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditrequest_id"
+                     lazy="false" name="creditRequestId"/>
+        <many-to-one name="type" class="ru.simplgroupp.persistence.antifraud.AntifraudFieldTypesEntity" column="type_id"
+                     lazy="false"/>
+        <property name="sessionId" column="session_id" type="string"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity" table="ref_antifraud_rules">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="entityName"/>
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="times"/>
+        <property generated="never" lazy="false" name="entityAlias" column="entity_alias"/>
+        <property generated="never" lazy="false" name="resultType" column="result_type"/>
+        <property generated="never" lazy="false" name="resultJoin" column="result_join"/>
+        <property generated="never" lazy="false" name="resultTypeAlias" column="result_type_alias"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property name="checkSamePerson" lazy="false" column="check_same_person"/>
+        <property name="includeSamePerson" lazy="false" column="include_same_person"/>
+        <bag name="childRulesList" lazy="false" cascade="all">
+            <key column="parent_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity"/>
+        </bag>
+        <many-to-one name="parrentRule" lazy="false" column="parent_id"
+                     entity-name="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity"/>
+        <bag name="paramList" cascade="all">
+            <key column="rules_id"/>
+            <one-to-many class="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesParamsEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesParamsEntity" table="ref_antifraud_rules_params">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="condition"/>
+        <property generated="never" lazy="false" name="description"/>
+        <property generated="never" lazy="false" name="dataType"/>
+        <property generated="never" lazy="false" name="groupIndex" column="group_index"/>
+        <property generated="never" lazy="false" name="groupCondition" column="group_condition"/>
+        <property name="valueInteger" lazy="false" column="value_integer"/>
+        <property name="valueString" lazy="false" column="value_string"/>
+        <property name="valueFloat" lazy="false" column="value_float"/>
+        <property name="valueDate" lazy="false" column="value_date" type="date"/>
+        <property name="forRequest" lazy="false" column="for_request"/>
+        <many-to-one name="rulesId" class="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity"
+            column="rules_id" lazy="false" cascade="none"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.AntifraudSuspicionEntity" table="antifraud_suspicions">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+
+        <property generated="never" lazy="false" name="fraud"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <property generated="never" lazy="false" name="createdAt" type="timestamp"/>
+        <property generated="never" lazy="false" name="score"/>
+        <many-to-one name="creditRequestId" class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditRequestId" lazy="false"/>
+        <many-to-one name="peopleMainId" class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peopleMainId" lazy="false"/>
+        <many-to-one name="partnersId" class="ru.simplgroupp.persistence.PartnersEntity"
+                     column="partnersId" lazy="false"/>
+        <many-to-one name="rule" class="ru.simplgroupp.persistence.antifraud.RefHunterRuleEntity"
+                     column="ruleId" lazy="false"/>
+        <many-to-one name="internalRule" class="ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity"
+                     column="internalRuleId" lazy="false"/>
+        <many-to-one name="secondPeople" class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="secondPeopleId" lazy="false"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.RefHunterRuleEntity" table="ref_antifraud_rules_hunter">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion"
+                 type="integer"/>
+
+        <property generated="never" lazy="false" name="code"/>
+        <property generated="never" lazy="false" name="name"/>
+        <property generated="never" lazy="false" name="isActive"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity" table="antifraud_occasions">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer"/>
+
+        <property generated="never" lazy="false" name="createdAt" type="timestamp"/>
+        <property generated="never" lazy="false" name="updatedAt" type="timestamp"/>
+        <property generated="never" lazy="false" name="dataEnd" type="timestamp"/>
+        <property generated="never" lazy="false" name="isActive"/>
+        <property generated="never" lazy="false" name="comment"/>
+        <many-to-one name="creditRequestId" class="ru.simplgroupp.persistence.CreditRequestEntity"
+                     column="creditRequestId" lazy="false"/>
+        <many-to-one name="peopleMainId" class="ru.simplgroupp.persistence.PeopleMainEntity"
+                     column="peopleMainId" lazy="false"/>
+        <many-to-one name="hunterObject" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="hunterObjectId" lazy="false"/>
+        <many-to-one name="status" class="ru.simplgroupp.persistence.ReferenceEntity"
+                     column="statusId" lazy="false"/>
+        <many-to-one name="user" class="ru.simplgroupp.persistence.UsersEntity"
+                     column="userId" lazy="false"/>
+        <many-to-one name="questionOption" class="ru.simplgroupp.persistence.QuestionVariantEntity"
+                     column="questionOptionId" lazy="false"/>
+    </class>
+
+
+    <class name="ru.simplgroupp.persistence.TmpStorageEntity" table="tmp_storage">
+		<id column="id" name="id" type="java.lang.Integer">
+			<generator class="native" />
+		</id>
+		<version access="field" generated="never" name="txVersion" type="integer" />
+		<property name="externalKey" column="external_key" generated="never" />
+		<property name="type" generated="never" />
+		<property name="cdate" generated="never" />
+		<property name="maxAge" column="max_age_sec" generated="never" />
+		<property name="data" lazy="true" generated="never" />
+	</class>
+
+
+    <!--Identity questions-->
+    <class name="ru.simplgroupp.persistence.IdentityTemplateEntity" table="identity_templates">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer" />
+
+        <property generated="never" lazy="false" name="value" />
+        <property generated="never" lazy="false" name="answerType" />
+        <property generated="never" lazy="false" name="answerField" />
+        <property generated="never" lazy="false" name="points" />
+        <property generated="never" lazy="false" name="fake" />
+        <property generated="never" lazy="false" name="active" />
+        <many-to-one name="optionType" class="ru.simplgroupp.persistence.RefHeaderEntity" column="optionId"
+                     lazy="false" cascade="none"/>
+        <many-to-one name="forCreditType" class="ru.simplgroupp.persistence.ReferenceEntity" column="forCreditTypeId"
+                     lazy="false" cascade="none"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.IdentityQuestionEntity" table="identity_questions">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer" />
+
+        <property generated="never" lazy="false" name="value" />
+        <many-to-one name="credit" class="ru.simplgroupp.persistence.CreditEntity" column="creditId"
+                     lazy="false" cascade="none"/>
+        <many-to-one name="creditRequest" class="ru.simplgroupp.persistence.CreditRequestEntity" column="creditRequestId"
+                     lazy="false" cascade="none"/>
+        <many-to-one name="peopleMain" class="ru.simplgroupp.persistence.PeopleMainEntity" column="peopleMainId"
+                     lazy="false" cascade="none"/>
+
+        <many-to-one name="template" class="ru.simplgroupp.persistence.IdentityTemplateEntity" column="templateId"
+                     lazy="false" cascade="none"/>
+
+        <bag name="options" lazy="true" cascade="all">
+            <key column="questionId"/>
+            <one-to-many class="ru.simplgroupp.persistence.IdentityOptionEntity"/>
+        </bag>
+    </class>
+    <class name="ru.simplgroupp.persistence.IdentityOptionEntity" table="identity_options">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer" />
+
+        <property generated="never" lazy="false" name="value" />
+        <property generated="never" lazy="false" name="correct" />
+        <many-to-one name="question" class="ru.simplgroupp.persistence.IdentityQuestionEntity" column="questionId"
+                     lazy="false" cascade="none"/>
+        <one-to-one name="answer" class="ru.simplgroupp.persistence.IdentityAnswerEntity"
+                     lazy="false" cascade="all"/>
+    </class>
+    <class name="ru.simplgroupp.persistence.IdentityAnswerEntity" table="identity_answers">
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="foreign">
+                <param name="property">option</param>
+            </generator>
+        </id>
+        <version access="field" generated="never" name="txVersion" type="integer" />
+
+        <property generated="never" lazy="false" name="createdAt" type="timestamp"/>
+        <one-to-one name="option" class="ru.simplgroupp.persistence.IdentityOptionEntity"
+                    lazy="false" constrained="true"/>
+    </class>
+
+    <class lazy="false" name="ru.simplgroupp.persistence.KzEgovDataAtsTypeEntity" table="kzegovdata_atstype">
+        <id column="id" name="id" type="java.lang.Long"/>
+        <property column="short_value_ru" generated="never" lazy="false" name="shortValueRu"/>
+        <property column="value_ru" generated="never" lazy="false" name="valueRu"/>
+        <property column="short_value_kz" generated="never" lazy="false" name="shortValueKz"/>
+        <property column="actual" generated="never" lazy="false" name="actual"/>
+        <property column="value_kz" generated="never" lazy="false" name="valueKz"/>
+        <property column="code" generated="never" lazy="false" name="code"/>
+    </class>
+
+    <class lazy="false" name="ru.simplgroupp.persistence.KzEgovDataGeonimsTypeEntity" table="kzegovdata_geonimstype">
+        <id column="id" name="id" type="java.lang.Long"/>
+        <property column="this_is" generated="never" lazy="false" name="thisIs"/>
+        <property column="short_value_ru" generated="never" lazy="false" name="shortValueRu"/>
+        <property column="value_ru" generated="never" lazy="false" name="valueRu"/>
+        <property column="short_value_kz" generated="never" lazy="false" name="shortValueKz"/>
+        <property column="actual" generated="never" lazy="false" name="actual"/>
+        <property column="value_kz" generated="never" lazy="false" name="valueKz"/>
+        <property column="code" generated="never" lazy="false" name="code"/>
+    </class>
+
+</hibernate-mapping>

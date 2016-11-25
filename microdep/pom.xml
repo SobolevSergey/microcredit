@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>  
+    <parent>
+	<artifactId>SimpleGroupProducts</artifactId>
+	<groupId>ru.simplgroupp</groupId>
+	<version>1.0.0-SNAPSHOT</version>
+    </parent>
+  
+    <organization>
+        <name>Simple Group</name>
+    </organization>
+    <name>micro-deployer</name>
+    <artifactId>micro-deployer</artifactId>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+
+    <modules>
+	
+        <module>microdep-service</module>
+        <module>microdep-web</module>
+	<module>microdep-modules</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>production</id>
+            <properties>
+                <settings.filename>production.prop</settings.filename>
+            </properties>
+        </profile>
+        <profile>
+        	<id>mylocal</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+            	<plugins>
+            		<!-- 
+					<plugin>
+					   <groupId>org.liquibase</groupId>
+					   <artifactId>liquibase-maven-plugin</artifactId>
+					   <version>${version.org.liquibase}</version>
+					   <goals>
+					   	<goal>update</goal>
+					   </goals>
+					   <executions>
+					   	<execution>
+					   		<id>exmicro</id>
+					   		<phase>process-resources</phase>
+					   		<goals>
+					   			<goal>update</goal>
+					   		</goals>
+						   <configuration>                  
+						                     <propertyFile>database/changelog/micro/liquibase.properties</propertyFile>
+						                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						                     <driver>org.postgresql.Driver</driver>
+						                     <changeLogFile>database/changelog/micro/1.0.0/changelog-master.xml</changeLogFile>
+						   </configuration>
+					   		
+					   	</execution>
+					   	<execution>
+					   		<id>exdesign</id>
+					   		<phase>process-resources</phase>
+					   		<goals>
+					   			<goal>update</goal>
+					   		</goals>					   		
+						   <configuration>                  
+						                     <propertyFile>database/changelog/design/liquibase.properties</propertyFile>
+						                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						                     <driver>org.postgresql.Driver</driver>
+						                     <changeLogFile>database/changelog/design/1.0.0/changelog-master.xml</changeLogFile>
+						   </configuration>
+					   		
+					   	</execution>
+
+					   </executions>
+					   <dependencies>
+				            <dependency>
+				                <groupId>postgresql</groupId>
+				                <artifactId>postgresql</artifactId>
+				                <version>9.1-901</version>
+				            </dependency>					   
+					   </dependencies>                
+					</plugin>   
+					-->  		                	
+            	</plugins>
+            </build>        	
+        </profile>
+    </profiles>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-annotations-ejb3</artifactId>
+                <version>4.2.3.GA</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec.javax.ejb</groupId>
+                <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+                <version>1.0.2.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>1.0-SP4</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Test scope dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>9.1-901</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-engine</artifactId>
+                <version>${activiti.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+			
+			<!-- liquibase dependencies -->
+			<dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>${version.org.liquibase}</version>		
+			</dependency>
+			<dependency>
+				<groupId>org.yaml</groupId>
+				<artifactId>snakeyaml</artifactId>
+				<version>1.13</version>	
+			</dependency>
+			
+                    <dependency>
+                        <groupId>org.jboss.as</groupId>
+                        <artifactId>jboss-as-client-all</artifactId>
+                        <version>7.3.0.Final-redhat-14</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss.logging</groupId>
+                        <artifactId>jboss-logging</artifactId>
+                        <version>3.1.2.GA</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.hibernate.javax.persistence</groupId>
+                        <artifactId>hibernate-jpa-2.1-api</artifactId>
+                        <version>${hibernate.jpa.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-core</artifactId>
+                        <version>${hibernate.core.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-entitymanager</artifactId>
+                        <version>${hibernate.core.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.hibernate.common</groupId>
+                        <artifactId>hibernate-commons-annotations</artifactId>
+                        <version>${hibernate.annot.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-validator</artifactId>
+                        <version>4.3.1.Final</version>
+                        <scope>provided</scope>
+                    </dependency>
+		    
+		    <dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0-5</version>
+			<scope>test</scope>
+		    </dependency>
+
+		    <dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-core</artifactId>
+			<version>4.6.0</version>
+			<scope>provided</scope>
+		    </dependency>			
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- The JBoss AS plugin deploys your ear to a local JBoss 
+                    AS container -->
+                <!-- Due to Maven's lack of intelligence with EARs we need 
+                    to configure the jboss-as maven plugin to skip deployment for all modules. 
+                    We then enable it specifically in the ear module. -->
+                <plugin>
+                    <groupId>org.jboss.as.plugins</groupId>
+                    <artifactId>jboss-as-maven-plugin</artifactId>
+                    <version>${version.jboss.maven.plugin}</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.4.2</version>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

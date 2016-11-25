@@ -1,0 +1,3762 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+  <xs:annotation>
+    <xs:documentation>Enumerations XSD for 108 with locale en-GB</xs:documentation>
+  </xs:annotation>
+  <xs:simpleType name="PRODUCT_CODES">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GP" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ENUM_YES">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Y" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ENUM_YES_NO">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Y" />
+      <xs:enumeration value="N" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DOT">
+    <xs:annotation>
+      <xs:documentation>DOT</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>Military Service ID</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Military Service ID">
+        <xs:annotation>
+          <xs:documentation>Military Service ID</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:documentation>Foreign Passport</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Foreign Passport">
+        <xs:annotation>
+          <xs:documentation>Foreign Passport</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="3">
+        <xs:annotation>
+          <xs:documentation>Pension Insurance</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Pension Insurance">
+        <xs:annotation>
+          <xs:documentation>Pension Insurance</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="4">
+        <xs:annotation>
+          <xs:documentation>Driving Licence</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Driving Licence">
+        <xs:annotation>
+          <xs:documentation>Driving Licence</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="5">
+        <xs:annotation>
+          <xs:documentation>Former Passport RF</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Former Passport RF">
+        <xs:annotation>
+          <xs:documentation>Former Passport RF</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="6">
+        <xs:annotation>
+          <xs:documentation>Not citizen Document</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Not citizen Document">
+        <xs:annotation>
+          <xs:documentation>Not citizen Document</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="99">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Other">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SCL">
+    <xs:annotation>
+      <xs:documentation>SCL Enum</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ACCPT">
+        <xs:annotation>
+          <xs:documentation>Accepted</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Accepted">
+        <xs:annotation>
+          <xs:documentation>Accepted</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DECL">
+        <xs:annotation>
+          <xs:documentation>Declined</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Declined">
+        <xs:annotation>
+          <xs:documentation>Declined</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LM">
+        <xs:annotation>
+          <xs:documentation>Load and Match</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Load and Match">
+        <xs:annotation>
+          <xs:documentation>Load and Match</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LO">
+        <xs:annotation>
+          <xs:documentation>Load only</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Load only">
+        <xs:annotation>
+          <xs:documentation>Load only</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="REFER">
+        <xs:annotation>
+          <xs:documentation>Refer</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Refer">
+        <xs:annotation>
+          <xs:documentation>Refer</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UNKWN">
+        <xs:annotation>
+          <xs:documentation>Unknown</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Unknown">
+        <xs:annotation>
+          <xs:documentation>Unknown</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="WTHDR">
+        <xs:annotation>
+          <xs:documentation>Withdrawn</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Withdrawn">
+        <xs:annotation>
+          <xs:documentation>Withdrawn</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="YN">
+    <xs:annotation>
+      <xs:documentation>Yes_Cus</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="N">
+        <xs:annotation>
+          <xs:documentation>No</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="No">
+        <xs:annotation>
+          <xs:documentation>No</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Y">
+        <xs:annotation>
+          <xs:documentation>Yes</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Yes">
+        <xs:annotation>
+          <xs:documentation>Yes</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="JOT">
+    <xs:annotation>
+      <xs:documentation>JOT</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>Owner</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Owner">
+        <xs:annotation>
+          <xs:documentation>Owner</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:documentation>Top Manager</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Top Manager">
+        <xs:annotation>
+          <xs:documentation>Top Manager</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="3">
+        <xs:annotation>
+          <xs:documentation>Middle Level Manager</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Middle Level Manager">
+        <xs:annotation>
+          <xs:documentation>Middle Level Manager</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="4">
+        <xs:annotation>
+          <xs:documentation>Low Level Manager</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Low Level Manager">
+        <xs:annotation>
+          <xs:documentation>Low Level Manager</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="5">
+        <xs:annotation>
+          <xs:documentation>Self Employed</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Self Employed">
+        <xs:annotation>
+          <xs:documentation>Self Employed</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="6">
+        <xs:annotation>
+          <xs:documentation>Expert</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Expert">
+        <xs:annotation>
+          <xs:documentation>Expert</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="7">
+        <xs:annotation>
+          <xs:documentation>Specialist</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Specialist">
+        <xs:annotation>
+          <xs:documentation>Specialist</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="8">
+        <xs:annotation>
+          <xs:documentation>Employee</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Employee">
+        <xs:annotation>
+          <xs:documentation>Employee</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="9">
+        <xs:annotation>
+          <xs:documentation>Military</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Military">
+        <xs:annotation>
+          <xs:documentation>Military</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="99">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Other">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="YES">
+    <xs:annotation>
+      <xs:documentation>YES_NO</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="N">
+        <xs:annotation>
+          <xs:documentation>No</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="No">
+        <xs:annotation>
+          <xs:documentation>No</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Y">
+        <xs:annotation>
+          <xs:documentation>Yes</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Yes">
+        <xs:annotation>
+          <xs:documentation>Yes</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RGC">
+    <xs:annotation>
+      <xs:documentation>RGC</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>Respublika Adygeja</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Adygeja">
+        <xs:annotation>
+          <xs:documentation>Respublika Adygeja</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="10">
+        <xs:annotation>
+          <xs:documentation>Respublika Karelija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Karelija">
+        <xs:annotation>
+          <xs:documentation>Respublika Karelija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="11">
+        <xs:annotation>
+          <xs:documentation>Respublika Komi</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Komi">
+        <xs:annotation>
+          <xs:documentation>Respublika Komi</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="12">
+        <xs:annotation>
+          <xs:documentation>Respublika Marij Jel</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Marij Jel">
+        <xs:annotation>
+          <xs:documentation>Respublika Marij Jel</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="13">
+        <xs:annotation>
+          <xs:documentation>Respublika Mordovija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Mordovija">
+        <xs:annotation>
+          <xs:documentation>Respublika Mordovija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="14">
+        <xs:annotation>
+          <xs:documentation>Respublika Saha Jakutija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Saha Jakutija">
+        <xs:annotation>
+          <xs:documentation>Respublika Saha Jakutija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="15">
+        <xs:annotation>
+          <xs:documentation>Respublika Severnaja Osetija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Severnaja Osetija">
+        <xs:annotation>
+          <xs:documentation>Respublika Severnaja Osetija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="16">
+        <xs:annotation>
+          <xs:documentation>Respublika Tatarstan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Tatarstan">
+        <xs:annotation>
+          <xs:documentation>Respublika Tatarstan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="17">
+        <xs:annotation>
+          <xs:documentation>Respublika Tuva</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Tuva">
+        <xs:annotation>
+          <xs:documentation>Respublika Tuva</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="18">
+        <xs:annotation>
+          <xs:documentation>Udmurtskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Udmurtskaja Respublika">
+        <xs:annotation>
+          <xs:documentation>Udmurtskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="19">
+        <xs:annotation>
+          <xs:documentation>Respublika Hakasija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Hakasija">
+        <xs:annotation>
+          <xs:documentation>Respublika Hakasija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:documentation>Respublika Bashkortostan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Bashkortostan">
+        <xs:annotation>
+          <xs:documentation>Respublika Bashkortostan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="20">
+        <xs:annotation>
+          <xs:documentation>Chechenskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Chechenskaja Respublika">
+        <xs:annotation>
+          <xs:documentation>Chechenskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="21">
+        <xs:annotation>
+          <xs:documentation>Chuvashskaja  Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Chuvashskaja  Respublika">
+        <xs:annotation>
+          <xs:documentation>Chuvashskaja  Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="22">
+        <xs:annotation>
+          <xs:documentation>Altajskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Altajskij kraj">
+        <xs:annotation>
+          <xs:documentation>Altajskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="23">
+        <xs:annotation>
+          <xs:documentation>Krasnodarskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Krasnodarskij kraj">
+        <xs:annotation>
+          <xs:documentation>Krasnodarskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="24">
+        <xs:annotation>
+          <xs:documentation>Krasnojarskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Krasnojarskij kraj">
+        <xs:annotation>
+          <xs:documentation>Krasnojarskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="25">
+        <xs:annotation>
+          <xs:documentation>Primorskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Primorskij kraj">
+        <xs:annotation>
+          <xs:documentation>Primorskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="26">
+        <xs:annotation>
+          <xs:documentation>Stavropolskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Stavropolskij kraj">
+        <xs:annotation>
+          <xs:documentation>Stavropolskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="27">
+        <xs:annotation>
+          <xs:documentation>Habarovskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Habarovskij kraj">
+        <xs:annotation>
+          <xs:documentation>Habarovskij kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="28">
+        <xs:annotation>
+          <xs:documentation>Amurskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Amurskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Amurskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="29">
+        <xs:annotation>
+          <xs:documentation>Arhangelskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Arhangelskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Arhangelskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="3">
+        <xs:annotation>
+          <xs:documentation>Respublika Burjatija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Burjatija">
+        <xs:annotation>
+          <xs:documentation>Respublika Burjatija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="30">
+        <xs:annotation>
+          <xs:documentation>Astrahanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Astrahanskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Astrahanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="31">
+        <xs:annotation>
+          <xs:documentation>Belgorodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Belgorodskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Belgorodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="32">
+        <xs:annotation>
+          <xs:documentation>Brjanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Brjanskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Brjanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="33">
+        <xs:annotation>
+          <xs:documentation>Vladimirskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Vladimirskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Vladimirskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="34">
+        <xs:annotation>
+          <xs:documentation>Volgogradskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Volgogradskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Volgogradskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="35">
+        <xs:annotation>
+          <xs:documentation>Vologodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Vologodskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Vologodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="36">
+        <xs:annotation>
+          <xs:documentation>Voronezhskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Voronezhskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Voronezhskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="37">
+        <xs:annotation>
+          <xs:documentation>Ivanovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ivanovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Ivanovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="38">
+        <xs:annotation>
+          <xs:documentation>Irkutskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Irkutskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Irkutskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="39">
+        <xs:annotation>
+          <xs:documentation>Kaliningradskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kaliningradskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kaliningradskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="4">
+        <xs:annotation>
+          <xs:documentation>Respublika Altaj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Altaj">
+        <xs:annotation>
+          <xs:documentation>Respublika Altaj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="40">
+        <xs:annotation>
+          <xs:documentation>Kaluzhskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kaluzhskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kaluzhskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="41">
+        <xs:annotation>
+          <xs:documentation>Kamchatskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kamchatskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kamchatskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="42">
+        <xs:annotation>
+          <xs:documentation>Kemerovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kemerovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kemerovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="43">
+        <xs:annotation>
+          <xs:documentation>Kirovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kirovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kirovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="44">
+        <xs:annotation>
+          <xs:documentation>Kostromskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kostromskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kostromskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="45">
+        <xs:annotation>
+          <xs:documentation>Kurganskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kurganskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kurganskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="46">
+        <xs:annotation>
+          <xs:documentation>Kurskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kurskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Kurskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="47">
+        <xs:annotation>
+          <xs:documentation>Leningradskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Leningradskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Leningradskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="48">
+        <xs:annotation>
+          <xs:documentation>Lipeckaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Lipeckaja oblast">
+        <xs:annotation>
+          <xs:documentation>Lipeckaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="49">
+        <xs:annotation>
+          <xs:documentation>Magadanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Magadanskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Magadanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="5">
+        <xs:annotation>
+          <xs:documentation>Respublika Dagestan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Dagestan">
+        <xs:annotation>
+          <xs:documentation>Respublika Dagestan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="50">
+        <xs:annotation>
+          <xs:documentation>Moskovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Moskovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Moskovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="51">
+        <xs:annotation>
+          <xs:documentation>Murmanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Murmanskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Murmanskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="52">
+        <xs:annotation>
+          <xs:documentation>Nizhegorodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Nizhegorodskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Nizhegorodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="53">
+        <xs:annotation>
+          <xs:documentation>Novgorodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Novgorodskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Novgorodskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="54">
+        <xs:annotation>
+          <xs:documentation>Novosibirskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Novosibirskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Novosibirskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="55">
+        <xs:annotation>
+          <xs:documentation>Omskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Omskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Omskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="56">
+        <xs:annotation>
+          <xs:documentation>Orenburgskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Orenburgskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Orenburgskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="57">
+        <xs:annotation>
+          <xs:documentation>Orlovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Orlovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Orlovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="58">
+        <xs:annotation>
+          <xs:documentation>Penzenskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Penzenskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Penzenskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="59">
+        <xs:annotation>
+          <xs:documentation>Permskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Permskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Permskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="6">
+        <xs:annotation>
+          <xs:documentation>Ingushskaja  Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ingushskaja  Respublika">
+        <xs:annotation>
+          <xs:documentation>Ingushskaja  Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="60">
+        <xs:annotation>
+          <xs:documentation>Pskovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Pskovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Pskovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="61">
+        <xs:annotation>
+          <xs:documentation>Rostovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Rostovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Rostovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="62">
+        <xs:annotation>
+          <xs:documentation>Rjazanskaja  oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Rjazanskaja  oblast">
+        <xs:annotation>
+          <xs:documentation>Rjazanskaja  oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="63">
+        <xs:annotation>
+          <xs:documentation>Samarskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Samarskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Samarskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="64">
+        <xs:annotation>
+          <xs:documentation>Saratovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Saratovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Saratovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="65">
+        <xs:annotation>
+          <xs:documentation>Sahalinskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sahalinskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Sahalinskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="66">
+        <xs:annotation>
+          <xs:documentation>Sverdlovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sverdlovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Sverdlovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="67">
+        <xs:annotation>
+          <xs:documentation>Smolenskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Smolenskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Smolenskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="68">
+        <xs:annotation>
+          <xs:documentation>Tambovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tambovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Tambovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="69">
+        <xs:annotation>
+          <xs:documentation>Tverskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tverskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Tverskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="7">
+        <xs:annotation>
+          <xs:documentation>Kabardino Balkarskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kabardino Balkarskaja Respublika">
+        <xs:annotation>
+          <xs:documentation>Kabardino Balkarskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="70">
+        <xs:annotation>
+          <xs:documentation>Tomskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tomskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Tomskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="71">
+        <xs:annotation>
+          <xs:documentation>Tulskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tulskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Tulskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="72">
+        <xs:annotation>
+          <xs:documentation>Tjumenskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tjumenskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Tjumenskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="73">
+        <xs:annotation>
+          <xs:documentation>Uljanovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Uljanovskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Uljanovskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="74">
+        <xs:annotation>
+          <xs:documentation>Cheljabinskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cheljabinskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Cheljabinskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="75">
+        <xs:annotation>
+          <xs:documentation>Zabajkalskij Kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Zabajkalskij Kraj">
+        <xs:annotation>
+          <xs:documentation>Zabajkalskij Kraj</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="76">
+        <xs:annotation>
+          <xs:documentation>Jaroslavskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Jaroslavskaja oblast">
+        <xs:annotation>
+          <xs:documentation>Jaroslavskaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="77">
+        <xs:annotation>
+          <xs:documentation>Moskva</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Moskva">
+        <xs:annotation>
+          <xs:documentation>Moskva</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="78">
+        <xs:annotation>
+          <xs:documentation>Sankt-Peterburg</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sankt-Peterburg">
+        <xs:annotation>
+          <xs:documentation>Sankt-Peterburg</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="79">
+        <xs:annotation>
+          <xs:documentation>Evrejskaja avtonomnaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Evrejskaja avtonomnaja oblast">
+        <xs:annotation>
+          <xs:documentation>Evrejskaja avtonomnaja oblast</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="8">
+        <xs:annotation>
+          <xs:documentation>Respublika Kalmykija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Kalmykija">
+        <xs:annotation>
+          <xs:documentation>Respublika Kalmykija</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="80">
+        <xs:annotation>
+          <xs:documentation>Aginskij Burjatskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Aginskij Burjatskij avtonomnyj okrug">
+        <xs:annotation>
+          <xs:documentation>Aginskij Burjatskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="82">
+        <xs:annotation>
+          <xs:documentation>Korjakskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Korjakskij avtonomnyj okrug">
+        <xs:annotation>
+          <xs:documentation>Korjakskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="83">
+        <xs:annotation>
+          <xs:documentation>Neneckij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Neneckij avtonomnyj okrug">
+        <xs:annotation>
+          <xs:documentation>Neneckij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="84">
+        <xs:annotation>
+          <xs:documentation>Tajmyrskij Dolgano-Neneckij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tajmyrskij Dolgano-Neneckij avtonomny okrug">
+        <xs:annotation>
+          <xs:documentation>Tajmyrskij Dolgano-Neneckij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="85">
+        <xs:annotation>
+          <xs:documentation>Ust Ordynskij Burjatskij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ust Ordynskij Burjatskij avtonomny okrug">
+        <xs:annotation>
+          <xs:documentation>Ust Ordynskij Burjatskij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="86">
+        <xs:annotation>
+          <xs:documentation>Hanty Mansijskij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Hanty Mansijskij avtonomny okrug">
+        <xs:annotation>
+          <xs:documentation>Hanty Mansijskij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="87">
+        <xs:annotation>
+          <xs:documentation>Chukotskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Chukotskij avtonomnyj okrug">
+        <xs:annotation>
+          <xs:documentation>Chukotskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="88">
+        <xs:annotation>
+          <xs:documentation>Jevenkijskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Jevenkijskij avtonomnyj okrug">
+        <xs:annotation>
+          <xs:documentation>Jevenkijskij avtonomnyj okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="89">
+        <xs:annotation>
+          <xs:documentation>Jamalo Neneckij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Jamalo Neneckij avtonomny okrug">
+        <xs:annotation>
+          <xs:documentation>Jamalo Neneckij avtonomny okrug</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="9">
+        <xs:annotation>
+          <xs:documentation>Karachaevo Cherkesskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Karachaevo Cherkesskaja Respublika">
+        <xs:annotation>
+          <xs:documentation>Karachaevo Cherkesskaja Respublika</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="91">
+        <xs:annotation>
+          <xs:documentation>Respublika Krym</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Respublika Krym">
+        <xs:annotation>
+          <xs:documentation>Respublika Krym</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="92">
+        <xs:annotation>
+          <xs:documentation>Sevastopol</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sevastopol">
+        <xs:annotation>
+          <xs:documentation>Sevastopol</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="94">
+        <xs:annotation>
+          <xs:documentation>gorod i kosmodrom Bajkonur</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="gorod i kosmodrom Bajkonur">
+        <xs:annotation>
+          <xs:documentation>gorod i kosmodrom Bajkonur</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="99">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Other">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ATY">
+    <xs:annotation>
+      <xs:documentation>ATY</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>CoApplicant</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CoApplicant">
+        <xs:annotation>
+          <xs:documentation>CoApplicant</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:documentation>Guarantor</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guarantor">
+        <xs:annotation>
+          <xs:documentation>Guarantor</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="3">
+        <xs:annotation>
+          <xs:documentation>Collateral Provider</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Collateral Provider">
+        <xs:annotation>
+          <xs:documentation>Collateral Provider</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CTR">
+    <xs:annotation>
+      <xs:documentation>CTR</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AD">
+        <xs:annotation>
+          <xs:documentation>Andorra</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Andorra">
+        <xs:annotation>
+          <xs:documentation>Andorra</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AE">
+        <xs:annotation>
+          <xs:documentation>United Arab Emirates</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="United Arab Emirates">
+        <xs:annotation>
+          <xs:documentation>United Arab Emirates</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AF">
+        <xs:annotation>
+          <xs:documentation>Afghanistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Afghanistan">
+        <xs:annotation>
+          <xs:documentation>Afghanistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AG">
+        <xs:annotation>
+          <xs:documentation>Antigua and Barbuda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Antigua and Barbuda">
+        <xs:annotation>
+          <xs:documentation>Antigua and Barbuda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AI">
+        <xs:annotation>
+          <xs:documentation>Anguilla</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Anguilla">
+        <xs:annotation>
+          <xs:documentation>Anguilla</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AL">
+        <xs:annotation>
+          <xs:documentation>Albania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Albania">
+        <xs:annotation>
+          <xs:documentation>Albania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AM">
+        <xs:annotation>
+          <xs:documentation>Armenia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Armenia">
+        <xs:annotation>
+          <xs:documentation>Armenia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AN">
+        <xs:annotation>
+          <xs:documentation>Netherlands Antilles</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Netherlands Antilles">
+        <xs:annotation>
+          <xs:documentation>Netherlands Antilles</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AO">
+        <xs:annotation>
+          <xs:documentation>Angola</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Angola">
+        <xs:annotation>
+          <xs:documentation>Angola</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AR">
+        <xs:annotation>
+          <xs:documentation>Argentina</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Argentina">
+        <xs:annotation>
+          <xs:documentation>Argentina</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AS">
+        <xs:annotation>
+          <xs:documentation>American Samoa</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="American Samoa">
+        <xs:annotation>
+          <xs:documentation>American Samoa</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AT">
+        <xs:annotation>
+          <xs:documentation>Austria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Austria">
+        <xs:annotation>
+          <xs:documentation>Austria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AU">
+        <xs:annotation>
+          <xs:documentation>Australia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Australia">
+        <xs:annotation>
+          <xs:documentation>Australia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AW">
+        <xs:annotation>
+          <xs:documentation>Aruba</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Aruba">
+        <xs:annotation>
+          <xs:documentation>Aruba</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AZ">
+        <xs:annotation>
+          <xs:documentation>Azerbaijan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Azerbaijan">
+        <xs:annotation>
+          <xs:documentation>Azerbaijan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BA">
+        <xs:annotation>
+          <xs:documentation>Bosnia and Herzegovina</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bosnia and Herzegovina">
+        <xs:annotation>
+          <xs:documentation>Bosnia and Herzegovina</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BB">
+        <xs:annotation>
+          <xs:documentation>Barbados</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Barbados">
+        <xs:annotation>
+          <xs:documentation>Barbados</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BD">
+        <xs:annotation>
+          <xs:documentation>Bangladesh</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bangladesh">
+        <xs:annotation>
+          <xs:documentation>Bangladesh</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BE">
+        <xs:annotation>
+          <xs:documentation>Belgium</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Belgium">
+        <xs:annotation>
+          <xs:documentation>Belgium</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BF">
+        <xs:annotation>
+          <xs:documentation>Burkina Faso</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Burkina Faso">
+        <xs:annotation>
+          <xs:documentation>Burkina Faso</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BG">
+        <xs:annotation>
+          <xs:documentation>Bulgaria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bulgaria">
+        <xs:annotation>
+          <xs:documentation>Bulgaria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BH">
+        <xs:annotation>
+          <xs:documentation>Bahrain</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bahrain">
+        <xs:annotation>
+          <xs:documentation>Bahrain</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BI">
+        <xs:annotation>
+          <xs:documentation>Burundi</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Burundi">
+        <xs:annotation>
+          <xs:documentation>Burundi</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BJ">
+        <xs:annotation>
+          <xs:documentation>Benin</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Benin">
+        <xs:annotation>
+          <xs:documentation>Benin</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BM">
+        <xs:annotation>
+          <xs:documentation>Bermuda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bermuda">
+        <xs:annotation>
+          <xs:documentation>Bermuda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BN">
+        <xs:annotation>
+          <xs:documentation>Brunei Darussalam</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Brunei Darussalam">
+        <xs:annotation>
+          <xs:documentation>Brunei Darussalam</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BO">
+        <xs:annotation>
+          <xs:documentation>Bolivia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bolivia">
+        <xs:annotation>
+          <xs:documentation>Bolivia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BR">
+        <xs:annotation>
+          <xs:documentation>Brazil</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Brazil">
+        <xs:annotation>
+          <xs:documentation>Brazil</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BS">
+        <xs:annotation>
+          <xs:documentation>Bahamas</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bahamas">
+        <xs:annotation>
+          <xs:documentation>Bahamas</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BT">
+        <xs:annotation>
+          <xs:documentation>Bhutan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bhutan">
+        <xs:annotation>
+          <xs:documentation>Bhutan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BV">
+        <xs:annotation>
+          <xs:documentation>Bouvet Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Bouvet Island">
+        <xs:annotation>
+          <xs:documentation>Bouvet Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BW">
+        <xs:annotation>
+          <xs:documentation>Botswana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Botswana">
+        <xs:annotation>
+          <xs:documentation>Botswana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BY">
+        <xs:annotation>
+          <xs:documentation>Belarus</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Belarus">
+        <xs:annotation>
+          <xs:documentation>Belarus</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BZ">
+        <xs:annotation>
+          <xs:documentation>Belize</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Belize">
+        <xs:annotation>
+          <xs:documentation>Belize</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CA">
+        <xs:annotation>
+          <xs:documentation>Canada</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Canada">
+        <xs:annotation>
+          <xs:documentation>Canada</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC">
+        <xs:annotation>
+          <xs:documentation>Cocos Keeling Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cocos Keeling Island">
+        <xs:annotation>
+          <xs:documentation>Cocos Keeling Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CF">
+        <xs:annotation>
+          <xs:documentation>Central African Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Central African Republic">
+        <xs:annotation>
+          <xs:documentation>Central African Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CG">
+        <xs:annotation>
+          <xs:documentation>Congo</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Congo">
+        <xs:annotation>
+          <xs:documentation>Congo</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CH">
+        <xs:annotation>
+          <xs:documentation>Switzerland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Switzerland">
+        <xs:annotation>
+          <xs:documentation>Switzerland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CI">
+        <xs:annotation>
+          <xs:documentation>Ivory Coast </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ivory Coast">
+        <xs:annotation>
+          <xs:documentation>Ivory Coast </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CK">
+        <xs:annotation>
+          <xs:documentation>Cook Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cook Island">
+        <xs:annotation>
+          <xs:documentation>Cook Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CL">
+        <xs:annotation>
+          <xs:documentation>Chile</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Chile">
+        <xs:annotation>
+          <xs:documentation>Chile</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CM">
+        <xs:annotation>
+          <xs:documentation>Cameroon United Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cameroon United Republic of">
+        <xs:annotation>
+          <xs:documentation>Cameroon United Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CN">
+        <xs:annotation>
+          <xs:documentation>China</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="China">
+        <xs:annotation>
+          <xs:documentation>China</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CO">
+        <xs:annotation>
+          <xs:documentation>Colombia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Colombia">
+        <xs:annotation>
+          <xs:documentation>Colombia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CR">
+        <xs:annotation>
+          <xs:documentation>Costa Rica</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Costa Rica">
+        <xs:annotation>
+          <xs:documentation>Costa Rica</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CS">
+        <xs:annotation>
+          <xs:documentation>Serbia and Montenegro</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Serbia and Montenegro">
+        <xs:annotation>
+          <xs:documentation>Serbia and Montenegro</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CU">
+        <xs:annotation>
+          <xs:documentation>Cuba</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cuba">
+        <xs:annotation>
+          <xs:documentation>Cuba</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CV">
+        <xs:annotation>
+          <xs:documentation>Cape Verde Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cape Verde Island">
+        <xs:annotation>
+          <xs:documentation>Cape Verde Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CX">
+        <xs:annotation>
+          <xs:documentation>Christmas Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Christmas Island">
+        <xs:annotation>
+          <xs:documentation>Christmas Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CY">
+        <xs:annotation>
+          <xs:documentation>Cyprus</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cyprus">
+        <xs:annotation>
+          <xs:documentation>Cyprus</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CZ">
+        <xs:annotation>
+          <xs:documentation>Czech Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Czech Republic">
+        <xs:annotation>
+          <xs:documentation>Czech Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DE">
+        <xs:annotation>
+          <xs:documentation>Germany</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Germany">
+        <xs:annotation>
+          <xs:documentation>Germany</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DJ">
+        <xs:annotation>
+          <xs:documentation>Djibouti</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Djibouti">
+        <xs:annotation>
+          <xs:documentation>Djibouti</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DK">
+        <xs:annotation>
+          <xs:documentation>Denmark</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Denmark">
+        <xs:annotation>
+          <xs:documentation>Denmark</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DM">
+        <xs:annotation>
+          <xs:documentation>Dominica</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Dominica">
+        <xs:annotation>
+          <xs:documentation>Dominica</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DO">
+        <xs:annotation>
+          <xs:documentation>Dominican Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Dominican Republic">
+        <xs:annotation>
+          <xs:documentation>Dominican Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DZ">
+        <xs:annotation>
+          <xs:documentation>Algeria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Algeria">
+        <xs:annotation>
+          <xs:documentation>Algeria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EC">
+        <xs:annotation>
+          <xs:documentation>Ecuador</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ecuador">
+        <xs:annotation>
+          <xs:documentation>Ecuador</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EE">
+        <xs:annotation>
+          <xs:documentation>Estonia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Estonia">
+        <xs:annotation>
+          <xs:documentation>Estonia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EG">
+        <xs:annotation>
+          <xs:documentation>Egypt</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Egypt">
+        <xs:annotation>
+          <xs:documentation>Egypt</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EH">
+        <xs:annotation>
+          <xs:documentation>Western Sahara</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Western Sahara">
+        <xs:annotation>
+          <xs:documentation>Western Sahara</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ER">
+        <xs:annotation>
+          <xs:documentation>Eritrea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Eritrea">
+        <xs:annotation>
+          <xs:documentation>Eritrea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ES">
+        <xs:annotation>
+          <xs:documentation>Spain</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Spain">
+        <xs:annotation>
+          <xs:documentation>Spain</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ET">
+        <xs:annotation>
+          <xs:documentation>Ethiopia </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ethiopia">
+        <xs:annotation>
+          <xs:documentation>Ethiopia </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FI">
+        <xs:annotation>
+          <xs:documentation>Finland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Finland">
+        <xs:annotation>
+          <xs:documentation>Finland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FJ">
+        <xs:annotation>
+          <xs:documentation>Fiji</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Fiji">
+        <xs:annotation>
+          <xs:documentation>Fiji</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FK">
+        <xs:annotation>
+          <xs:documentation>Falkland Island Malvinas</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Falkland Island Malvinas">
+        <xs:annotation>
+          <xs:documentation>Falkland Island Malvinas</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FM">
+        <xs:annotation>
+          <xs:documentation>Micronesia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Micronesia">
+        <xs:annotation>
+          <xs:documentation>Micronesia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FO">
+        <xs:annotation>
+          <xs:documentation>Faroe Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Faroe Island">
+        <xs:annotation>
+          <xs:documentation>Faroe Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FR">
+        <xs:annotation>
+          <xs:documentation>France </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="France">
+        <xs:annotation>
+          <xs:documentation>France </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GA">
+        <xs:annotation>
+          <xs:documentation>Gabon</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Gabon">
+        <xs:annotation>
+          <xs:documentation>Gabon</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GB">
+        <xs:annotation>
+          <xs:documentation>United Kingdom</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="United Kingdom">
+        <xs:annotation>
+          <xs:documentation>United Kingdom</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GD">
+        <xs:annotation>
+          <xs:documentation>Grenada</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Grenada">
+        <xs:annotation>
+          <xs:documentation>Grenada</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GE">
+        <xs:annotation>
+          <xs:documentation>Georgia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Georgia">
+        <xs:annotation>
+          <xs:documentation>Georgia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GF">
+        <xs:annotation>
+          <xs:documentation>French Guiana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="French Guiana">
+        <xs:annotation>
+          <xs:documentation>French Guiana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GH">
+        <xs:annotation>
+          <xs:documentation>Ghana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ghana">
+        <xs:annotation>
+          <xs:documentation>Ghana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GI">
+        <xs:annotation>
+          <xs:documentation>Gibraltar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Gibraltar">
+        <xs:annotation>
+          <xs:documentation>Gibraltar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GL">
+        <xs:annotation>
+          <xs:documentation>Greenland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Greenland">
+        <xs:annotation>
+          <xs:documentation>Greenland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GM">
+        <xs:annotation>
+          <xs:documentation>Gambia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Gambia">
+        <xs:annotation>
+          <xs:documentation>Gambia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GN">
+        <xs:annotation>
+          <xs:documentation>Guinea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guinea">
+        <xs:annotation>
+          <xs:documentation>Guinea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GP">
+        <xs:annotation>
+          <xs:documentation>Guadeloupe</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guadeloupe">
+        <xs:annotation>
+          <xs:documentation>Guadeloupe</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GQ">
+        <xs:annotation>
+          <xs:documentation>Equatorial Guinea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Equatorial Guinea">
+        <xs:annotation>
+          <xs:documentation>Equatorial Guinea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GR">
+        <xs:annotation>
+          <xs:documentation>Greece</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Greece">
+        <xs:annotation>
+          <xs:documentation>Greece</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GT">
+        <xs:annotation>
+          <xs:documentation>Guatemala</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guatemala">
+        <xs:annotation>
+          <xs:documentation>Guatemala</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GU">
+        <xs:annotation>
+          <xs:documentation>Guam</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guam">
+        <xs:annotation>
+          <xs:documentation>Guam</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GW">
+        <xs:annotation>
+          <xs:documentation>Guinea-Bissau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guinea-Bissau">
+        <xs:annotation>
+          <xs:documentation>Guinea-Bissau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GY">
+        <xs:annotation>
+          <xs:documentation>Guyana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Guyana">
+        <xs:annotation>
+          <xs:documentation>Guyana</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HK">
+        <xs:annotation>
+          <xs:documentation>Hong Kong</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Hong Kong">
+        <xs:annotation>
+          <xs:documentation>Hong Kong</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HM">
+        <xs:annotation>
+          <xs:documentation>Heard and McDonald Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Heard and McDonald Islands">
+        <xs:annotation>
+          <xs:documentation>Heard and McDonald Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HN">
+        <xs:annotation>
+          <xs:documentation>Honduras</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Honduras">
+        <xs:annotation>
+          <xs:documentation>Honduras</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HR">
+        <xs:annotation>
+          <xs:documentation>Croatia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Croatia">
+        <xs:annotation>
+          <xs:documentation>Croatia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HT">
+        <xs:annotation>
+          <xs:documentation>Haiti</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Haiti">
+        <xs:annotation>
+          <xs:documentation>Haiti</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="HU">
+        <xs:annotation>
+          <xs:documentation>Hungary</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Hungary">
+        <xs:annotation>
+          <xs:documentation>Hungary</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ID">
+        <xs:annotation>
+          <xs:documentation>Indonesia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Indonesia">
+        <xs:annotation>
+          <xs:documentation>Indonesia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IE">
+        <xs:annotation>
+          <xs:documentation>Ireland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ireland">
+        <xs:annotation>
+          <xs:documentation>Ireland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IL">
+        <xs:annotation>
+          <xs:documentation>Israel</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Israel">
+        <xs:annotation>
+          <xs:documentation>Israel</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IN">
+        <xs:annotation>
+          <xs:documentation>India</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="India">
+        <xs:annotation>
+          <xs:documentation>India</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IO">
+        <xs:annotation>
+          <xs:documentation>British Indian Ocean Territory</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="British Indian Ocean Territory">
+        <xs:annotation>
+          <xs:documentation>British Indian Ocean Territory</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IQ">
+        <xs:annotation>
+          <xs:documentation>Iraq</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Iraq">
+        <xs:annotation>
+          <xs:documentation>Iraq</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IR">
+        <xs:annotation>
+          <xs:documentation>Iran</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Iran">
+        <xs:annotation>
+          <xs:documentation>Iran</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IS">
+        <xs:annotation>
+          <xs:documentation>Iceland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Iceland">
+        <xs:annotation>
+          <xs:documentation>Iceland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IT">
+        <xs:annotation>
+          <xs:documentation>Italy</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Italy">
+        <xs:annotation>
+          <xs:documentation>Italy</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JM">
+        <xs:annotation>
+          <xs:documentation>Jamaica</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Jamaica">
+        <xs:annotation>
+          <xs:documentation>Jamaica</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JO">
+        <xs:annotation>
+          <xs:documentation>Jordan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Jordan">
+        <xs:annotation>
+          <xs:documentation>Jordan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JP">
+        <xs:annotation>
+          <xs:documentation>Japan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Japan">
+        <xs:annotation>
+          <xs:documentation>Japan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KE">
+        <xs:annotation>
+          <xs:documentation>Kenya</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kenya">
+        <xs:annotation>
+          <xs:documentation>Kenya</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KG">
+        <xs:annotation>
+          <xs:documentation>Kyrgyzstan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kyrgyzstan">
+        <xs:annotation>
+          <xs:documentation>Kyrgyzstan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KH">
+        <xs:annotation>
+          <xs:documentation>Cambodia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cambodia">
+        <xs:annotation>
+          <xs:documentation>Cambodia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KI">
+        <xs:annotation>
+          <xs:documentation>Kiribati</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kiribati">
+        <xs:annotation>
+          <xs:documentation>Kiribati</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KM">
+        <xs:annotation>
+          <xs:documentation>Comoros</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Comoros">
+        <xs:annotation>
+          <xs:documentation>Comoros</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KN">
+        <xs:annotation>
+          <xs:documentation>St Kitts-Nevis</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="St Kitts-Nevis">
+        <xs:annotation>
+          <xs:documentation>St Kitts-Nevis</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KP">
+        <xs:annotation>
+          <xs:documentation>Korea Democratic Peoples Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Korea Democratic Peoples Republic of">
+        <xs:annotation>
+          <xs:documentation>Korea Democratic Peoples Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KR">
+        <xs:annotation>
+          <xs:documentation>Korea Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Korea Republic of">
+        <xs:annotation>
+          <xs:documentation>Korea Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KW">
+        <xs:annotation>
+          <xs:documentation>Kuwait</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kuwait">
+        <xs:annotation>
+          <xs:documentation>Kuwait</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KY">
+        <xs:annotation>
+          <xs:documentation>Cayman Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Cayman Island">
+        <xs:annotation>
+          <xs:documentation>Cayman Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="KZ">
+        <xs:annotation>
+          <xs:documentation>Kazakhstan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Kazakhstan">
+        <xs:annotation>
+          <xs:documentation>Kazakhstan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LA">
+        <xs:annotation>
+          <xs:documentation>Lao Peoples Democratic Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Lao Peoples Democratic Republic">
+        <xs:annotation>
+          <xs:documentation>Lao Peoples Democratic Republic</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LB">
+        <xs:annotation>
+          <xs:documentation>Lebanon</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Lebanon">
+        <xs:annotation>
+          <xs:documentation>Lebanon</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LC">
+        <xs:annotation>
+          <xs:documentation>St Lucia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="St Lucia">
+        <xs:annotation>
+          <xs:documentation>St Lucia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LI">
+        <xs:annotation>
+          <xs:documentation>Liechtenstein</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Liechtenstein">
+        <xs:annotation>
+          <xs:documentation>Liechtenstein</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LK">
+        <xs:annotation>
+          <xs:documentation>Sri Lanka</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sri Lanka">
+        <xs:annotation>
+          <xs:documentation>Sri Lanka</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LR">
+        <xs:annotation>
+          <xs:documentation>Liberia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Liberia">
+        <xs:annotation>
+          <xs:documentation>Liberia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LS">
+        <xs:annotation>
+          <xs:documentation>Lesotho</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Lesotho">
+        <xs:annotation>
+          <xs:documentation>Lesotho</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LT">
+        <xs:annotation>
+          <xs:documentation>Lithuania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Lithuania">
+        <xs:annotation>
+          <xs:documentation>Lithuania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LU">
+        <xs:annotation>
+          <xs:documentation>Luxembourg</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Luxembourg">
+        <xs:annotation>
+          <xs:documentation>Luxembourg</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LV">
+        <xs:annotation>
+          <xs:documentation>Latvia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Latvia">
+        <xs:annotation>
+          <xs:documentation>Latvia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LY">
+        <xs:annotation>
+          <xs:documentation>Libyan Arab Jamahiriya</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Libyan Arab Jamahiriya">
+        <xs:annotation>
+          <xs:documentation>Libyan Arab Jamahiriya</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MA">
+        <xs:annotation>
+          <xs:documentation>Morocco</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Morocco">
+        <xs:annotation>
+          <xs:documentation>Morocco</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MC">
+        <xs:annotation>
+          <xs:documentation>Monaco</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Monaco">
+        <xs:annotation>
+          <xs:documentation>Monaco</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MD">
+        <xs:annotation>
+          <xs:documentation>Moldova Republic of </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Moldova Republic of">
+        <xs:annotation>
+          <xs:documentation>Moldova Republic of </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MG">
+        <xs:annotation>
+          <xs:documentation>Madagascar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Madagascar">
+        <xs:annotation>
+          <xs:documentation>Madagascar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MH">
+        <xs:annotation>
+          <xs:documentation>Marshall Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Marshall Islands">
+        <xs:annotation>
+          <xs:documentation>Marshall Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MK">
+        <xs:annotation>
+          <xs:documentation>Macedonia the Former Yugoslav Republic of </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Macedonia the Former Yugoslav Republic of">
+        <xs:annotation>
+          <xs:documentation>Macedonia the Former Yugoslav Republic of </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ML">
+        <xs:annotation>
+          <xs:documentation>Mali</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mali">
+        <xs:annotation>
+          <xs:documentation>Mali</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MM">
+        <xs:annotation>
+          <xs:documentation>Myanmar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Myanmar">
+        <xs:annotation>
+          <xs:documentation>Myanmar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MN">
+        <xs:annotation>
+          <xs:documentation>Mongolia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mongolia">
+        <xs:annotation>
+          <xs:documentation>Mongolia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MO">
+        <xs:annotation>
+          <xs:documentation>Macau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Macau">
+        <xs:annotation>
+          <xs:documentation>Macau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MP">
+        <xs:annotation>
+          <xs:documentation>Northern Mariana Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Northern Mariana Islands">
+        <xs:annotation>
+          <xs:documentation>Northern Mariana Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MQ">
+        <xs:annotation>
+          <xs:documentation>Martinique</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Martinique">
+        <xs:annotation>
+          <xs:documentation>Martinique</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MR">
+        <xs:annotation>
+          <xs:documentation>Mauritania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mauritania">
+        <xs:annotation>
+          <xs:documentation>Mauritania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MS">
+        <xs:annotation>
+          <xs:documentation>Montserrat</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Montserrat">
+        <xs:annotation>
+          <xs:documentation>Montserrat</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MT">
+        <xs:annotation>
+          <xs:documentation>Malta</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Malta">
+        <xs:annotation>
+          <xs:documentation>Malta</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MU">
+        <xs:annotation>
+          <xs:documentation>Mauritius</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mauritius">
+        <xs:annotation>
+          <xs:documentation>Mauritius</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MV">
+        <xs:annotation>
+          <xs:documentation>Maldives</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Maldives">
+        <xs:annotation>
+          <xs:documentation>Maldives</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MW">
+        <xs:annotation>
+          <xs:documentation>Malawi</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Malawi">
+        <xs:annotation>
+          <xs:documentation>Malawi</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MX">
+        <xs:annotation>
+          <xs:documentation>Mexico</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mexico">
+        <xs:annotation>
+          <xs:documentation>Mexico</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MY">
+        <xs:annotation>
+          <xs:documentation>Malaysia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Malaysia">
+        <xs:annotation>
+          <xs:documentation>Malaysia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MZ">
+        <xs:annotation>
+          <xs:documentation>Mozambique</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mozambique">
+        <xs:annotation>
+          <xs:documentation>Mozambique</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NA">
+        <xs:annotation>
+          <xs:documentation>Namibia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Namibia">
+        <xs:annotation>
+          <xs:documentation>Namibia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NC">
+        <xs:annotation>
+          <xs:documentation>New Caledonia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="New Caledonia">
+        <xs:annotation>
+          <xs:documentation>New Caledonia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NE">
+        <xs:annotation>
+          <xs:documentation>Niger</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Niger">
+        <xs:annotation>
+          <xs:documentation>Niger</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NF">
+        <xs:annotation>
+          <xs:documentation>Norfolk Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Norfolk Island">
+        <xs:annotation>
+          <xs:documentation>Norfolk Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NG">
+        <xs:annotation>
+          <xs:documentation>Nigeria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Nigeria">
+        <xs:annotation>
+          <xs:documentation>Nigeria</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NI">
+        <xs:annotation>
+          <xs:documentation>Nicaragua</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Nicaragua">
+        <xs:annotation>
+          <xs:documentation>Nicaragua</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NL">
+        <xs:annotation>
+          <xs:documentation>Netherlands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Netherlands">
+        <xs:annotation>
+          <xs:documentation>Netherlands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NO">
+        <xs:annotation>
+          <xs:documentation>Norway</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Norway">
+        <xs:annotation>
+          <xs:documentation>Norway</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NP">
+        <xs:annotation>
+          <xs:documentation>Nepal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Nepal">
+        <xs:annotation>
+          <xs:documentation>Nepal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NR">
+        <xs:annotation>
+          <xs:documentation>Nauru</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Nauru">
+        <xs:annotation>
+          <xs:documentation>Nauru</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NU">
+        <xs:annotation>
+          <xs:documentation>Niue</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Niue">
+        <xs:annotation>
+          <xs:documentation>Niue</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="NZ">
+        <xs:annotation>
+          <xs:documentation>New Zealand</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="New Zealand">
+        <xs:annotation>
+          <xs:documentation>New Zealand</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="OM">
+        <xs:annotation>
+          <xs:documentation>Oman</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Oman">
+        <xs:annotation>
+          <xs:documentation>Oman</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PA">
+        <xs:annotation>
+          <xs:documentation>Panama</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Panama">
+        <xs:annotation>
+          <xs:documentation>Panama</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PE">
+        <xs:annotation>
+          <xs:documentation>Peru</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Peru">
+        <xs:annotation>
+          <xs:documentation>Peru</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PF">
+        <xs:annotation>
+          <xs:documentation>French Polynesia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="French Polynesia">
+        <xs:annotation>
+          <xs:documentation>French Polynesia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PG">
+        <xs:annotation>
+          <xs:documentation>Papua New Guinea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Papua New Guinea">
+        <xs:annotation>
+          <xs:documentation>Papua New Guinea</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PH">
+        <xs:annotation>
+          <xs:documentation>Philippines</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Philippines">
+        <xs:annotation>
+          <xs:documentation>Philippines</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PK">
+        <xs:annotation>
+          <xs:documentation>Pakistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Pakistan">
+        <xs:annotation>
+          <xs:documentation>Pakistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PL">
+        <xs:annotation>
+          <xs:documentation>Poland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Poland">
+        <xs:annotation>
+          <xs:documentation>Poland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PM">
+        <xs:annotation>
+          <xs:documentation>St Pierre and Miquelon</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="St Pierre and Miquelon">
+        <xs:annotation>
+          <xs:documentation>St Pierre and Miquelon</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PN">
+        <xs:annotation>
+          <xs:documentation>Pitcairn</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Pitcairn">
+        <xs:annotation>
+          <xs:documentation>Pitcairn</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PR">
+        <xs:annotation>
+          <xs:documentation>Puerto Rico</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Puerto Rico">
+        <xs:annotation>
+          <xs:documentation>Puerto Rico</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PS">
+        <xs:annotation>
+          <xs:documentation>Palestinian Territory Occupied</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Palestinian Territory Occupied">
+        <xs:annotation>
+          <xs:documentation>Palestinian Territory Occupied</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PT">
+        <xs:annotation>
+          <xs:documentation>Portugal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Portugal">
+        <xs:annotation>
+          <xs:documentation>Portugal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PW">
+        <xs:annotation>
+          <xs:documentation>Palau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Palau">
+        <xs:annotation>
+          <xs:documentation>Palau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PY">
+        <xs:annotation>
+          <xs:documentation>Paraguay</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Paraguay">
+        <xs:annotation>
+          <xs:documentation>Paraguay</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="QA">
+        <xs:annotation>
+          <xs:documentation>Qatar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Qatar">
+        <xs:annotation>
+          <xs:documentation>Qatar</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RE">
+        <xs:annotation>
+          <xs:documentation>Reunion</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Reunion">
+        <xs:annotation>
+          <xs:documentation>Reunion</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RO">
+        <xs:annotation>
+          <xs:documentation>Romania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Romania">
+        <xs:annotation>
+          <xs:documentation>Romania</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RU">
+        <xs:annotation>
+          <xs:documentation>Russian Federation</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Russian Federation">
+        <xs:annotation>
+          <xs:documentation>Russian Federation</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RW">
+        <xs:annotation>
+          <xs:documentation>Rwanda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Rwanda">
+        <xs:annotation>
+          <xs:documentation>Rwanda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SA">
+        <xs:annotation>
+          <xs:documentation>Saudi Arabia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Saudi Arabia">
+        <xs:annotation>
+          <xs:documentation>Saudi Arabia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SB">
+        <xs:annotation>
+          <xs:documentation>Soloman Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Soloman Island">
+        <xs:annotation>
+          <xs:documentation>Soloman Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SC">
+        <xs:annotation>
+          <xs:documentation>Seychelles</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Seychelles">
+        <xs:annotation>
+          <xs:documentation>Seychelles</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SD">
+        <xs:annotation>
+          <xs:documentation>Sudan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sudan">
+        <xs:annotation>
+          <xs:documentation>Sudan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SE">
+        <xs:annotation>
+          <xs:documentation>Sweden</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sweden">
+        <xs:annotation>
+          <xs:documentation>Sweden</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SG">
+        <xs:annotation>
+          <xs:documentation>Singapore</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Singapore">
+        <xs:annotation>
+          <xs:documentation>Singapore</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SH">
+        <xs:annotation>
+          <xs:documentation>St Helena</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="St Helena">
+        <xs:annotation>
+          <xs:documentation>St Helena</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SI">
+        <xs:annotation>
+          <xs:documentation>Slovenia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Slovenia">
+        <xs:annotation>
+          <xs:documentation>Slovenia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SJ">
+        <xs:annotation>
+          <xs:documentation>Svalbard and Jan Mayen Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Svalbard and Jan Mayen Is">
+        <xs:annotation>
+          <xs:documentation>Svalbard and Jan Mayen Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SK">
+        <xs:annotation>
+          <xs:documentation>Slovakia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Slovakia">
+        <xs:annotation>
+          <xs:documentation>Slovakia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SL">
+        <xs:annotation>
+          <xs:documentation>Sierra Leone</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sierra Leone">
+        <xs:annotation>
+          <xs:documentation>Sierra Leone</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SM">
+        <xs:annotation>
+          <xs:documentation>San Marino</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="San Marino">
+        <xs:annotation>
+          <xs:documentation>San Marino</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SN">
+        <xs:annotation>
+          <xs:documentation>Senegal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Senegal">
+        <xs:annotation>
+          <xs:documentation>Senegal</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SO">
+        <xs:annotation>
+          <xs:documentation>Somalia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Somalia">
+        <xs:annotation>
+          <xs:documentation>Somalia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SR">
+        <xs:annotation>
+          <xs:documentation>Suriname</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Suriname">
+        <xs:annotation>
+          <xs:documentation>Suriname</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ST">
+        <xs:annotation>
+          <xs:documentation>Sao Tome and Principe</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Sao Tome and Principe">
+        <xs:annotation>
+          <xs:documentation>Sao Tome and Principe</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SV">
+        <xs:annotation>
+          <xs:documentation>El Salvador</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="El Salvador">
+        <xs:annotation>
+          <xs:documentation>El Salvador</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SY">
+        <xs:annotation>
+          <xs:documentation>Syrian Arab Rep</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Syrian Arab Rep">
+        <xs:annotation>
+          <xs:documentation>Syrian Arab Rep</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SZ">
+        <xs:annotation>
+          <xs:documentation>Swaziland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Swaziland">
+        <xs:annotation>
+          <xs:documentation>Swaziland</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TC">
+        <xs:annotation>
+          <xs:documentation>Turks and Caicos Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Turks and Caicos Is">
+        <xs:annotation>
+          <xs:documentation>Turks and Caicos Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TD">
+        <xs:annotation>
+          <xs:documentation>Chad</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Chad">
+        <xs:annotation>
+          <xs:documentation>Chad</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TF">
+        <xs:annotation>
+          <xs:documentation>French Southern Territory</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="French Southern Territory">
+        <xs:annotation>
+          <xs:documentation>French Southern Territory</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TG">
+        <xs:annotation>
+          <xs:documentation>Togo</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Togo">
+        <xs:annotation>
+          <xs:documentation>Togo</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TH">
+        <xs:annotation>
+          <xs:documentation>Thailand</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Thailand">
+        <xs:annotation>
+          <xs:documentation>Thailand</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TJ">
+        <xs:annotation>
+          <xs:documentation>Tajikistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tajikistan">
+        <xs:annotation>
+          <xs:documentation>Tajikistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TK">
+        <xs:annotation>
+          <xs:documentation>Tokelau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tokelau">
+        <xs:annotation>
+          <xs:documentation>Tokelau</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TM">
+        <xs:annotation>
+          <xs:documentation>Turkmenistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Turkmenistan">
+        <xs:annotation>
+          <xs:documentation>Turkmenistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TN">
+        <xs:annotation>
+          <xs:documentation>Tunisia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tunisia">
+        <xs:annotation>
+          <xs:documentation>Tunisia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TO">
+        <xs:annotation>
+          <xs:documentation>Tonga</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tonga">
+        <xs:annotation>
+          <xs:documentation>Tonga</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TP">
+        <xs:annotation>
+          <xs:documentation>East Timor</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="East Timor">
+        <xs:annotation>
+          <xs:documentation>East Timor</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TR">
+        <xs:annotation>
+          <xs:documentation>Turkey</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Turkey">
+        <xs:annotation>
+          <xs:documentation>Turkey</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TT">
+        <xs:annotation>
+          <xs:documentation>Trinidad and Tobago</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Trinidad and Tobago">
+        <xs:annotation>
+          <xs:documentation>Trinidad and Tobago</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TV">
+        <xs:annotation>
+          <xs:documentation>Tuvalu</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tuvalu">
+        <xs:annotation>
+          <xs:documentation>Tuvalu</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TW">
+        <xs:annotation>
+          <xs:documentation>Taiwan Prov of China</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Taiwan Prov of China">
+        <xs:annotation>
+          <xs:documentation>Taiwan Prov of China</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TZ">
+        <xs:annotation>
+          <xs:documentation>Tanzania United Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Tanzania United Republic of">
+        <xs:annotation>
+          <xs:documentation>Tanzania United Republic of</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UA">
+        <xs:annotation>
+          <xs:documentation>Ukraine</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Ukraine">
+        <xs:annotation>
+          <xs:documentation>Ukraine</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UG">
+        <xs:annotation>
+          <xs:documentation>Uganda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Uganda">
+        <xs:annotation>
+          <xs:documentation>Uganda</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UM">
+        <xs:annotation>
+          <xs:documentation>US Minor Outlying Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="US Minor Outlying Islands">
+        <xs:annotation>
+          <xs:documentation>US Minor Outlying Islands</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="US">
+        <xs:annotation>
+          <xs:documentation>United States</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="United States">
+        <xs:annotation>
+          <xs:documentation>United States</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UY">
+        <xs:annotation>
+          <xs:documentation>Uruguay</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Uruguay">
+        <xs:annotation>
+          <xs:documentation>Uruguay</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UZ">
+        <xs:annotation>
+          <xs:documentation>Uzbekistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Uzbekistan">
+        <xs:annotation>
+          <xs:documentation>Uzbekistan</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VA">
+        <xs:annotation>
+          <xs:documentation>Vatican City State</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Vatican City State">
+        <xs:annotation>
+          <xs:documentation>Vatican City State</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VC">
+        <xs:annotation>
+          <xs:documentation>St Vincent and The Grenadines</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="St Vincent and The Grenadines">
+        <xs:annotation>
+          <xs:documentation>St Vincent and The Grenadines</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VE">
+        <xs:annotation>
+          <xs:documentation>Venezuela</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Venezuela">
+        <xs:annotation>
+          <xs:documentation>Venezuela</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VG">
+        <xs:annotation>
+          <xs:documentation>British Virgin Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="British Virgin Island">
+        <xs:annotation>
+          <xs:documentation>British Virgin Island</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VI">
+        <xs:annotation>
+          <xs:documentation>US Virgin Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="US Virgin Is">
+        <xs:annotation>
+          <xs:documentation>US Virgin Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VN">
+        <xs:annotation>
+          <xs:documentation>Viet Nam</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Viet Nam">
+        <xs:annotation>
+          <xs:documentation>Viet Nam</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="VU">
+        <xs:annotation>
+          <xs:documentation>Vanuatu</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Vanuatu">
+        <xs:annotation>
+          <xs:documentation>Vanuatu</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="WF">
+        <xs:annotation>
+          <xs:documentation>Wallis and Futuna Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Wallis and Futuna Is">
+        <xs:annotation>
+          <xs:documentation>Wallis and Futuna Is</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="WS">
+        <xs:annotation>
+          <xs:documentation>Samoa</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Samoa">
+        <xs:annotation>
+          <xs:documentation>Samoa</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="YE">
+        <xs:annotation>
+          <xs:documentation>Yemen</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Yemen">
+        <xs:annotation>
+          <xs:documentation>Yemen</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="YT">
+        <xs:annotation>
+          <xs:documentation>Mayotte</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mayotte">
+        <xs:annotation>
+          <xs:documentation>Mayotte</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="YU">
+        <xs:annotation>
+          <xs:documentation>Yugoslavia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Yugoslavia">
+        <xs:annotation>
+          <xs:documentation>Yugoslavia</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ZA">
+        <xs:annotation>
+          <xs:documentation>South Africa</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="South Africa">
+        <xs:annotation>
+          <xs:documentation>South Africa</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ZR">
+        <xs:annotation>
+          <xs:documentation>Congo The Democratic Republic of the</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Congo The Democratic Republic of the">
+        <xs:annotation>
+          <xs:documentation>Congo The Democratic Republic of the</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MWS">
+    <xs:annotation>
+      <xs:documentation>MWS Enum</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="0">
+        <xs:annotation>
+          <xs:documentation>Unworked</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Unworked">
+        <xs:annotation>
+          <xs:documentation>Unworked</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>Discard</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Discard">
+        <xs:annotation>
+          <xs:documentation>Discard</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:documentation>In-Progress</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="In-Progress">
+        <xs:annotation>
+          <xs:documentation>In-Progress</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="3">
+        <xs:annotation>
+          <xs:documentation>Worked</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Worked">
+        <xs:annotation>
+          <xs:documentation>Worked</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ENS">
+    <xs:annotation>
+      <xs:documentation>ENS Enum</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>Clear</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Clear">
+        <xs:annotation>
+          <xs:documentation>Clear</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:documentation>Suspect Auto</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Auto Suspect">
+        <xs:annotation>
+          <xs:documentation>Suspect Auto</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="5">
+        <xs:annotation>
+          <xs:documentation>Suspect Manual</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Manual Suspect">
+        <xs:annotation>
+          <xs:documentation>Suspect Manual</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="7">
+        <xs:annotation>
+          <xs:documentation>Refer</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Refer">
+        <xs:annotation>
+          <xs:documentation>Refer</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

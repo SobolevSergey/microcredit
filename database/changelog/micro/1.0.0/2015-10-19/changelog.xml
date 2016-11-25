@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="275" logicalFilePath="1445246615" author="efrolov">
+        <sql>
+            ALTER TABLE antifraud_occasions ADD COLUMN isActive INTEGER DEFAULT 1;
+            ALTER TABLE antifraud_occasions ADD COLUMN dataend TIMESTAMP;
+            ALTER TABLE antifraud_occasions ADD COLUMN comment TEXT;
+            ALTER TABLE antifraud_occasions ADD COLUMN userId INTEGER;
+            ALTER TABLE antifraud_occasions ADD CONSTRAINT antifraud_occasions_user_fk FOREIGN KEY (userId) REFERENCES users (id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="276" logicalFilePath="1445246616" author="efrolov">
+        <sql>
+            INSERT INTO eventcode (id, name) VALUES (75, 'Проверка заявки по внутренним АМ правилам');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

@@ -1,0 +1,54 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="271" logicalFilePath="1444743822" author="efrolov">
+        <sql>
+            CREATE TABLE antifraud_suspicions (
+                id              SERIAL PRIMARY KEY,
+                txVersion       INTEGER DEFAULT 0,
+                creditRequestId INTEGER,
+                peopleMainId    INTEGER,
+                partnersId      INTEGER,
+                ruleId          INTEGER,
+                secondPeopleId  INTEGER,
+                fraud           BOOLEAN,
+                comment         TEXT,
+                createdAt       TIMESTAMP,
+                score           DOUBLE PRECISION,
+                CONSTRAINT antifraud_suspect_creditreq_fk FOREIGN KEY (creditRequestId) REFERENCES creditrequest (id),
+                CONSTRAINT antifraud_suspect_people_fk FOREIGN KEY (peopleMainId) REFERENCES peoplemain (id),
+                CONSTRAINT antifraud_suspect_secondPeople_fk FOREIGN KEY (secondPeopleId) REFERENCES peoplemain (id),
+                CONSTRAINT antifraud_suspect_partner_fk FOREIGN KEY (partnersId) REFERENCES partners (id),
+                CONSTRAINT antifraud_suspect_rule_fk FOREIGN KEY (ruleId) REFERENCES ref_antifraud_rules_hunter (id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="272" logicalFilePath="1444743823" author="efrolov">
+        <sql>
+            CREATE TABLE antifraud_occasions (
+                id              SERIAL PRIMARY KEY,
+                txVersion       INTEGER DEFAULT 0,
+                creditRequestId INTEGER,
+                peopleMainId    INTEGER,
+                hunterObjectId  INTEGER,
+                createdAt       TIMESTAMP,
+                updatedAt       TIMESTAMP,
+                CONSTRAINT antifraud_entities_creditreq_fk FOREIGN KEY (creditRequestId) REFERENCES creditrequest (id),
+                CONSTRAINT antifraud_entities_people_fk FOREIGN KEY (peopleMainId) REFERENCES peoplemain (id),
+                CONSTRAINT antifraud_entities_hu_rule_fk FOREIGN KEY (hunterObjectId) REFERENCES reference (id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="273" author="cobalt">
+        <sql>
+            insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isrequired, iscsingleton, txversion) values
+            (4, 'msgEdit', 'ru.simplgroupp.transfer.Payment', 'Редактировать', 'creditmanager,admin', 1, 0, 1, 1, 1, 0, 0)
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

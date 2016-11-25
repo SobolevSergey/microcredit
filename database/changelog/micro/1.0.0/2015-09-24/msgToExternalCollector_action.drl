@@ -1,0 +1,22 @@
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import ru.simplgroupp.transfer.ActiveStatus
+import ru.simplgroupp.transfer.Collector
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : NameValueRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Collector" && signalRef == "msgToExternalCollector");
+    $context : AbstractContext();
+    $actionProcessor : ActionProcessorBeanLocal();
+then
+	Integer peopleMainID = $context.getClient().getId();
+	Integer collectorID = $context.getCollector().getId();
+
+    $actionProcessor.changeCollectorType(collectorID, Collector.AGENCY);
+	$actionProcessor.closeCollector(collectorID);
+	$actionProcessor.peopleToBlackList(peopleMainID);
+end

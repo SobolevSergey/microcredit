@@ -1,0 +1,52 @@
+﻿<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+  <changeSet id="290" author="irk333">
+
+    <sql>
+      update bizaction set description = 'Отправить СМС' where signalref = 'bizaction';
+      update bizactionparam set datatype = 'T' where datatype = 'C' and code = 'body';
+      
+      insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isatomic, txversion) 
+        values (2, 'msgSendAnyEMailCR', 'ru.simplgroupp.transfer.CreditRequest', 'Отправить письмо', 'callcenter,verificator,creditmanager,admin',1, 1, 0, 1, 0, 0);
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'subject', 'Тема', 0, 'C' from bizaction where bizactiontype_id = 2 and signalref = 'msgSendAnyEMailCR';
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'body', 'Сообщение', 0, 'T' from bizaction where bizactiontype_id = 2 and signalref = 'msgSendAnyEMailCR';	
+	
+      insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isatomic, txversion) 
+        values (3, 'msgSendAnySMSCR', 'ru.simplgroupp.transfer.CreditRequest', 'Отправить СМС', 'callcenter,verificator,creditmanager,admin',1, 1, 0, 1, 0, 0);
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'body', 'Сообщение', 0, 'T' from bizaction where bizactiontype_id = 3 and signalref = 'msgSendAnySMSCR';	
+
+      insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isatomic, txversion) 
+        values (2, 'msgSendAnyEMailP', 'ru.simplgroupp.transfer.PeopleMain', 'Отправить письмо', 'callcenter,verificator,creditmanager,admin',1, 1, 0, 1, 0, 0);
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'subject', 'Тема', 0, 'C' from bizaction where bizactiontype_id = 2 and signalref = 'msgSendAnyEMailP';
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'body', 'Сообщение', 0, 'T' from bizaction where bizactiontype_id = 2 and signalref = 'msgSendAnyEMailP';	
+	
+      insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isatomic, txversion) 
+        values (3, 'msgSendAnySMSP', 'ru.simplgroupp.transfer.PeopleMain', 'Отправить СМС', 'callcenter,verificator,creditmanager,admin',1, 1, 0, 1, 0, 0);
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'body', 'Сообщение', 0, 'T' from bizaction where bizactiontype_id = 3 and signalref = 'msgSendAnySMSP';	
+    </sql>
+ </changeSet>
+
+  <changeSet id="291" logicalFilePath="1447249687" author="efrolov">
+    <sql>
+      INSERT INTO public.airule (id, packagename, body, ruletype, description, kbase, txversion)
+        VALUES (46, 'ru.simplgroupp.antifraud', null, 2, 'Настройки Антифрод системы', null, 0);
+
+      INSERT INTO public.aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext, txversion)
+        VALUES (46, 'antifraud.transferToExternalSystems', 'N', '1', 'Передаем мошеннические сущности во внешние системы', null, 0);
+
+      INSERT INTO public.aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext, txversion)
+        VALUES (46, 'antifraud.checkInternalRules', 'N', '1', 'Проверять на внутренние АМ правила', null, 0);
+    </sql>
+  </changeSet>
+</databaseChangeLog>
+

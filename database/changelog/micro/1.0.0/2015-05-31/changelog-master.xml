@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="153" author="helen">
+
+<sql>
+  
+INSERT INTO ref_header(
+            id, partners_id, name, txversion)
+    VALUES (73, 1, 'Цель займа', 0);
+
+ 
+alter table credit add creditfullcost double precision;
+alter table credit add creditpurpose_id integer;
+
+alter table credit drop CONSTRAINT fk_credit_status ;
+alter table credit add CONSTRAINT fk_credit_status FOREIGN KEY (creditstatus_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+alter table credit drop CONSTRAINT fk_credit_type ;
+alter table credit add CONSTRAINT fk_credit_type FOREIGN KEY (credittype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+alter table credit add CONSTRAINT fk_credit_purpose FOREIGN KEY (creditpurpose_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+</sql>
+
+
+  </changeSet>
+
+
+
+</databaseChangeLog> 

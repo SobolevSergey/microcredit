@@ -1,0 +1,25 @@
+import ru.simplgroupp.rules.BooleanRuleResult;
+import java.util.Map;
+import ru.simplgroupp.rules.AbstractContext;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+import java.util.List;
+import java.util.Arrays;
+import ru.simplgroupp.transfer.Reference;
+import ru.simplgroupp.transfer.Account;
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Reference" && signalRef == "msgCheckPaymentSystemsBalance");
+    $cparams: Map();
+then
+	List<Integer> reqIDs = Arrays.asList(Account.YANDEX_TYPE, Account.CONTACT_TYPE, Account.CARD_TYPE); // ID "счет Яндекс деньги", "платежная система Контакт", "кредитная карта"
+
+	Reference paySystem = $context.getPaymentSystem();
+	if (reqIDs.contains(paySystem.getCodeInteger())) {
+		$bResult.setResultValue(true);
+	} else {
+		$bResult.setResultValue(false);
+	}
+end

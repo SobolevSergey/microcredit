@@ -1,0 +1,232 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+	    <artifactId>SimpleGroupProducts</artifactId>
+	    <groupId>ru.simplgroupp</groupId>
+	    <version>1.0.0-SNAPSHOT</version>
+	</parent>	
+	
+	<artifactId>update-distrib</artifactId>
+	<packaging>pom</packaging>
+	<name>update-distrib</name>
+	<description>update-distrib</description>
+	
+	<properties>
+	    
+	</properties>
+
+	<dependencies>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-actstandart</artifactId>
+    		<version>${process.actstandart.version}</version>   		             		
+    	</dependency>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    	    <artifactId>process-CreditRequest-msgChangeRequest</artifactId>
+    		<version>${process-CreditRequest-msgChangeRequest.version}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-CreditRequest-msgClientReject</artifactId>
+    		<version>${process-CreditRequest-msgClientReject.version}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-collectorcredit</artifactId>
+    		<version>${process-collectorcredit.version}</version>
+    	</dependency>  
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-considercredit</artifactId>
+    		<version>${process-considercredit.version}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-considercredit-offline</artifactId>
+    		<version>${process-considercredit-offline.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-credit</artifactId>
+    		<version>${process-credit.version}</version>
+    	</dependency> 
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-credit-offline</artifactId>
+    		<version>${process-credit-offline.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-debugmodel</artifactId>
+    		<version>${process-debugmodel.version}</version>
+    	</dependency>  	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-newcredit</artifactId>
+    		<version>${process-newcredit.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-payment</artifactId>
+    		<version>${process-payment.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-prolongcredit</artifactId>
+    		<version>${process-prolongcredit.version}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-subpacket-aa</artifactId>
+    		<version>${process-subpacket-aa.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-subpacket-as</artifactId>
+    		<version>${process-subpacket-as.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-subpacket-ma</artifactId>
+    		<version>${process-subpacket-ma.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-subpacket-ms</artifactId>
+    		<version>${process-subpacket-ms.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-substandart</artifactId>
+    		<version>${process-substandart.version}</version>
+    	</dependency>	
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-workmodel</artifactId>
+    		<version>${process-workmodel.version}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>ru.simplgroupp</groupId>
+    		<artifactId>process-refinance</artifactId>
+    		<version>${process-refinance.version}</version>
+    	</dependency>	
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+				    <execution>
+					<phase>process-resources</phase>
+					<configuration>
+					    <tasks>
+					    	<propertyfile file="${project.build.directory}/wf.properties">
+					    		<entry  key="1.source" value="process/process-actstandart-${process.actstandart.version}.jar"/>
+					    		<entry  key="1.condition" value="actStandart;${process.actstandart.version};${process.actstandart.version};required"/>
+					    		
+					    		<entry  key="2.source" value="process/process-CreditRequest-msgChangeRequest-${process-CreditRequest-msgChangeRequest.version}.jar"/>
+					    		<entry  key="2.condition" value="procCreditRequestmsgChangeRequest;${process-CreditRequest-msgChangeRequest.version};${process-CreditRequest-msgChangeRequest.version};required"/>
+
+					    		<entry  key="3.source" value="process/process-CreditRequest-msgClientReject-${process-CreditRequest-msgClientReject.version}.jar"/>
+					    		<entry  key="3.condition" value="procCreditRequestmsgClientReject;${process-CreditRequest-msgClientReject.version};${process-CreditRequest-msgClientReject.version};required"/>
+
+					    		<entry  key="4.source" value="process/process-collectorcredit-${process-collectorcredit.version}.jar"/>
+					    		<entry  key="4.condition" value="procCollectorCR;${process-collectorcredit.version};${process-collectorcredit.version};required"/>
+
+					    		<entry  key="5.source" value="process/process-considercredit-${process-considercredit.version}.jar"/>
+					    		<entry  key="5.condition" value="procConsiderCR;${process-considercredit.version};${process-considercredit.version};required"/>
+
+					    		<entry  key="6.source" value="process/process-credit-${process-credit.version}.jar"/>
+					    		<entry  key="6.condition" value="procCR;${process-credit.version};${process-credit.version};required"/>
+					    		
+					    		<entry  key="7.source" value="process/process-debugmodel-${process-debugmodel.version}.jar"/>
+					    		<entry  key="7.condition" value="procDebugModel;${process-debugmodel.version};${process-debugmodel.version};required"/>	
+							
+					    		<entry  key="8.source" value="process/process-newcredit-${process-newcredit.version}.jar"/>
+					    		<entry  key="8.condition" value="procNewCR;${process-newcredit.version};${process-newcredit.version};required"/>	
+
+					    		<entry  key="9.source" value="process/process-payment-${process-payment.version}.jar"/>
+					    		<entry  key="9.condition" value="procPayment;${process-payment.version};${process-payment.version};required"/>							
+							
+					    		<entry  key="10.source" value="process/process-prolongcredit-${process-prolongcredit.version}.jar"/>
+					    		<entry  key="10.condition" value="procProlongCR;${process-prolongcredit.version};${process-prolongcredit.version};required"/>								
+							
+					    		<entry  key="11.source" value="process/process-subpacket-aa-${process-subpacket-aa.version}.jar"/>
+					    		<entry  key="11.condition" value="subPacketAA;${process-subpacket-aa.version};${process-subpacket-aa.version};required"/>								
+							
+					    		<entry  key="12.source" value="process/process-subpacket-as-${process-subpacket-as.version}.jar"/>
+					    		<entry  key="12.condition" value="subPacketAS;${process-subpacket-as.version};${process-subpacket-as.version};required"/>	
+							
+					    		<entry  key="13.source" value="process/process-subpacket-ma-${process-subpacket-ma.version}.jar"/>
+					    		<entry  key="13.condition" value="subPacketMA;${process-subpacket-ma.version};${process-subpacket-ma.version};required"/>
+
+					    		<entry  key="14.source" value="process/process-subpacket-ms-${process-subpacket-ms.version}.jar"/>
+					    		<entry  key="14.condition" value="subPacketMS;${process-subpacket-ms.version};${process-subpacket-ms.version};required"/>
+
+					    		<entry  key="15.source" value="process/process-substandart-${process-substandart.version}.jar"/>
+					    		<entry  key="15.condition" value="subStandart;${process-substandart.version};${process-substandart.version};required"/>							
+							
+					    		<entry  key="16.source" value="process/process-workmodel-${process-workmodel.version}.jar"/>
+					    		<entry  key="16.condition" value="procWorkModel;${process-workmodel.version};${process-workmodel.version};required"/>								
+							
+					    		<entry  key="17.source" value="process/process-refinance-${process-refinance.version}.jar"/>
+					    		<entry  key="17.condition" value="procRefinance;${process-refinance.version};${process-refinance.version};required"/>
+							
+					    		<entry  key="18.source" value="process/process-credit-offline-${process-credit-offline.version}.jar"/>
+					    		<entry  key="18.condition" value="procCROffline;${process-credit-offline.version};${process-credit-offline.version};required"/>								
+							
+					    		<entry  key="19.source" value="process/process-considercredit-offline-${process-considercredit-offline.version}.jar"/>
+					    		<entry  key="19.condition" value="procConsiderCROffline;${process-considercredit-offline.version};${process-considercredit-offline.version};required"/>							
+					    	</propertyfile>
+					    </tasks>
+					</configuration>
+					<goals>
+					    <goal>run</goal>
+					</goals>
+				    </execution>
+				</executions>				
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<files>
+						<file>../${profile}.properties</file>
+					</files>
+				</configuration>				
+			</plugin>
+			<plugin>
+			  <artifactId>maven-assembly-plugin</artifactId>
+			  <version>2.5.3</version>
+			  <configuration>
+			    <descriptors>
+			      <descriptor>src/assembly/src.xml</descriptor>
+			    </descriptors>
+			  </configuration>
+		        <executions>
+		          <execution>
+		            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+		            <phase>package</phase> <!-- bind to the packaging phase -->
+		            <goals>
+		              <goal>single</goal>
+		            </goals>
+		          </execution>
+		        </executions>			  
+			</plugin> 			
+		</plugins>
+	</build>
+	
+</project>

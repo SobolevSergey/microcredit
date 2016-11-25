@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2016-01-27T02:52:54 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="itog" pageWidth="2170" pageHeight="623" columnWidth="2098" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36" uuid="621c18bf-bc31-4aa9-a21a-eb121d9fe169">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.graphics" value="false"/>
+	<property name="net.sf.jasperreports.page.break.no.pagination" value="apply"/>
+	<property name="net.sf.jasperreports.export.xls.freeze.row" value="3"/>
+	<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+	<property name="net.sf.jasperreports.exports.xls.font.size.fix.enabled" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.collapse.row.span" value="true"/>
+	<style name="TitleBig" mode="Opaque" backcolor="#4A90D9" fontSize="14" isBold="true"/>
+	<style name="TitleSmall" mode="Opaque" fontSize="9"/>
+	<style name="HeadTable" mode="Opaque" backcolor="#99CCFF" fontSize="11" isBold="true"/>
+	<style name="CellTable" mode="Opaque" backcolor="#CCFFCC" fontSize="9" isBold="true"/>
+	<style name="CellTableSmall" mode="Opaque" backcolor="#CCFFCC" fontSize="7" isBold="true"/>
+	<style name="HeadTableUnder" mode="Opaque" fontSize="10" isBold="true"/>
+	<parameter name="period" class="java.lang.String"/>
+	<field name="day" class="java.lang.String"/>
+	<field name="portfelNumBegPeriod" class="java.lang.Long"/>
+	<field name="portfelSumBegPeriod" class="java.lang.Double"/>
+	<field name="portfelNumGrow" class="java.lang.Long"/>
+	<field name="portfelSumGrow" class="java.lang.Double"/>
+	<field name="totalRequestsNum" class="java.lang.Long"/>
+	<field name="totalRequestsSum" class="java.lang.Double"/>
+	<field name="percentsToGiveFirst" class="java.lang.Double"/>
+	<field name="firstRequestsNum" class="java.lang.Long"/>
+	<field name="firstRequestsSum" class="java.lang.Double"/>
+	<field name="secondRequestsNum" class="java.lang.Long"/>
+	<field name="secondRequestsSum" class="java.lang.Double"/>
+	<field name="avgSumFirstRequests" class="java.lang.Double"/>
+	<field name="avgSumSecondRequests" class="java.lang.Double"/>
+	<field name="avgRequestTerm" class="java.lang.Double"/>
+	<field name="approvedRequests" class="java.lang.Long"/>
+	<field name="approvedRequestsSum" class="java.lang.Double"/>
+	<field name="approvedRequestsFirst" class="java.lang.Long"/>
+	<field name="approvedRequestsSumFirst" class="java.lang.Double"/>
+	<field name="approvedRequestsOther" class="java.lang.Long"/>
+	<field name="approvedRequestsSumOther" class="java.lang.Double"/>
+	<field name="clientRejectsNum" class="java.lang.Long"/>
+	<field name="clientRejectsSum" class="java.lang.Double"/>
+	<field name="overdueFirst" class="java.lang.Double"/>
+	<field name="overdueOthers" class="java.lang.Double"/>
+	<field name="percentsToGive" class="java.lang.Double"/>
+	<field name="percentsToGiveOthers" class="java.lang.Double"/>
+	<field name="closedPrevOverdue" class="java.lang.Double"/>
+	<field name="returnedCommonDebt" class="java.lang.Double"/>
+	<field name="returnedPercents" class="java.lang.Double"/>
+	<field name="returnedPenalties" class="java.lang.Double"/>
+	<field name="plannedToPaySum" class="java.lang.Double"/>
+	<field name="newCreditsCount" class="java.lang.Long"/>
+	<field name="newCreditsSum" class="java.lang.Double"/>
+	<field name="clientRejectsNumAutomatic" class="java.lang.Long"/>
+	<field name="clientRejectsSumAutomatic" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement style="TitleBig" x="0" y="0" width="203" height="22" uuid="3f3db2e4-bd3a-4b8a-88d3-9f43863719fd"/>
+				<text><![CDATA[Итоги]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="TitleSmall" x="0" y="28" width="203" height="18" uuid="c71744a5-fd01-4053-a35f-aae7aa943b88"/>
+				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement style="HeadTable" x="0" y="0" width="110" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Портфель займов на начало периода]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="0" y="80" width="110" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="110" y="0" width="110" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Прирост портфеля]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="110" y="80" width="110" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="220" y="0" width="110" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Заявки]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="220" y="80" width="110" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="330" y="0" width="110" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Заявки первые]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="330" y="80" width="110" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6.1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="440" y="0" width="110" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Заявки остальные]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="440" y="80" width="110" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6.2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="550" y="0" width="55" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Ср. сумма заявки первые]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="550" y="80" width="55" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6.3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="605" y="0" width="75" height="80" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Ср. сумма заявки вторые]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="605" y="80" width="75" height="14" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="680" y="0" width="40" height="80" uuid="503e0eda-f297-4309-a720-4c827e9f5a94"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Средний срок заявки]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="680" y="80" width="40" height="14" uuid="503e0eda-f297-4309-a720-4c827e9f5a94"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="720" y="0" width="95" height="80" uuid="0d29ee4e-3618-4f40-9449-a54b1b151926"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Одобрено заявок]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="720" y="80" width="95" height="14" uuid="0d29ee4e-3618-4f40-9449-a54b1b151926"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="815" y="0" width="110" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Одобрено заявок первые]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="815" y="80" width="110" height="15" uuid="0d29ee4e-3618-4f40-9449-a54b1b151926"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6.1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="925" y="0" width="110" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Одобрено заявок остальные]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="925" y="80" width="110" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6.2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1035" y="0" width="95" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Отказы клиентов]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1475" y="0" width="70" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Просрочка первые]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1545" y="0" width="70" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Просрочка (остальные)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="1545" y="80" width="70" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[14.2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1615" y="0" width="60" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[% к выдаче(13)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="1615" y="80" width="60" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[15]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1735" y="0" width="60" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[% к выдаче(13.1)(первые)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="1735" y="80" width="60" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[15.1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1675" y="0" width="60" height="80" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[% к выдаче(13.1)(остальные)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="1675" y="80" width="60" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[15.2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1795" y="0" width="90" height="80" uuid="4b5b66a2-b7fe-4aa6-8aaf-ec9a111e38b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Закрытая просрочка прошлых периодов]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="1795" y="80" width="90" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[16]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1885" y="0" width="70" height="80" uuid="dee6e0f4-deda-46c7-9677-122c432b3c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Возврат основного долга]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1955" y="0" width="70" height="80" uuid="dee6e0f4-deda-46c7-9677-122c432b3c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Возврат проценты]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="1955" y="80" width="70" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[17]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="2025" y="0" width="70" height="80" uuid="dee6e0f4-deda-46c7-9677-122c432b3c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Возврат штрафы]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTableUnder" x="2025" y="80" width="70" height="15" uuid="b6fd3d28-9be5-4b3a-86a5-7d183d4b5c93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[18]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1365" y="0" width="110" height="80" uuid="fce5c86f-17b7-4fe9-8faa-a5a3f442f916"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Выдача с датой возврата в текущем периоде]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1225" y="0" width="140" height="80" uuid="d324ac5d-5834-4ea3-87d9-e818e11c36f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[полученные займы]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="HeadTable" x="1130" y="0" width="95" height="80" uuid="a6e7260d-9b88-4be0-8d37-3a215e5f9752"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Отказы клиентов: не ручной]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="0" y="0" width="28" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{portfelNumBegPeriod}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="28" y="0" width="82" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{portfelSumBegPeriod})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="110" y="0" width="28" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{portfelNumGrow}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="138" y="0" width="82" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{portfelSumGrow})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="220" y="0" width="28" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalRequestsNum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="248" y="0" width="82" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{totalRequestsSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="330" y="0" width="28" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{firstRequestsNum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="358" y="0" width="82" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{firstRequestsSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="440" y="0" width="28" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{secondRequestsNum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="468" y="0" width="82" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{secondRequestsSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="550" y="0" width="55" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgSumFirstRequests})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="605" y="0" width="75" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgSumSecondRequests})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="680" y="0" width="40" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgRequestTerm})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="720" y="0" width="30" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{approvedRequests}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="750" y="0" width="65" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{approvedRequestsSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="815" y="0" width="25" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{approvedRequestsFirst}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="840" y="0" width="85" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{approvedRequestsSumFirst})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="925" y="0" width="25" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{approvedRequestsOther}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="950" y="0" width="85" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{approvedRequestsSumOther})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="1035" y="0" width="25" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{clientRejectsNum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1060" y="0" width="70" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{clientRejectsSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1475" y="0" width="70" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{overdueFirst})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1545" y="0" width="70" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{overdueOthers})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1615" y="0" width="60" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{percentsToGive})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1675" y="0" width="60" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{percentsToGiveOthers})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1735" y="0" width="60" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{percentsToGiveFirst})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1795" y="0" width="90" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{closedPrevOverdue})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1885" y="0" width="70" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{returnedCommonDebt})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1955" y="0" width="70" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{returnedPercents})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="2025" y="0" width="70" height="10" uuid="78e1ed19-3ae6-4ef6-90ee-1110ef21a9ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{returnedPenalties})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1365" y="0" width="110" height="10" uuid="41196c1f-eb9d-4290-baeb-86692646c002"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{plannedToPaySum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1265" y="0" width="100" height="10" uuid="b1d0fff2-65dc-45de-beaf-1dd91dba6f43"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{newCreditsSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="1225" y="0" width="40" height="10" uuid="039e09de-2677-4317-8033-3ee3a0a8c820"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{newCreditsCount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTableSmall" x="1130" y="0" width="25" height="10" uuid="0bb73b57-d5d0-499a-be22-69b434be499c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{clientRejectsNumAutomatic}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="CellTable" x="1155" y="0" width="70" height="10" uuid="ad23bca8-0559-4d3d-a434-9cd3fc9bf9c9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{clientRejectsSumAutomatic})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

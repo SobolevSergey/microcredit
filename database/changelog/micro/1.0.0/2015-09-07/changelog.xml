@@ -1,0 +1,15 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="236" author="brinat">
+        <sql>
+            ALTER TABLE messages ADD COLUMN peoplecontact_id integer;
+            ALTER TABLE messages ADD CONSTRAINT fk_messages_people_contact_id FOREIGN KEY (peoplecontact_id) REFERENCES
+            peoplecontact (id) on delete set null;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

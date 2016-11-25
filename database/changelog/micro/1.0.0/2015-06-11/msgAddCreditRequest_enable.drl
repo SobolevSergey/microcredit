@@ -1,0 +1,49 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.util.ProductKeys
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.toolkit.common.Convertor;
+
+
+// если текущего кредита нет, или он закрыт, и открытой заявки нет
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgAddCreditRequest");
+    $context : AbstractContext( (getCredit() == null || getCredit().getIsOver()) && getCreditRequest() == null);
+then
+   	$bResult.setResultValue(! ($context.getLastRefusedCreditRequest()!=null&&DatesUtils.daysDiff($context.getCurrentDate(),$context.getLastRefusedCreditRequest().getDateContest())<Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_BETWEEN_CREDITREQUESTS))) );
+        $bResult.addInfo(1, "Прошло недостаточно времени после отказа для подачи новой заявки");
+end
+
+// если текущего кредита нет, или он закрыт, а открытая заявка есть
+rule "[$RULE_NAME_PREFIX$].2"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgAddCreditRequest");
+    $context : AbstractContext((getCredit() == null || getCredit().getIsOver()) && getCreditRequest() != null);
+then
+   	$bResult.setResultValue(false);
+   	$bResult.addInfo(2, "У Вас уже есть открытая заявка");
+end
+
+// если текущий кредит
+rule "[$RULE_NAME_PREFIX$].3"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgAddCreditRequest");
+    $context : AbstractContext( getCredit() != null && (!getCredit().getIsOver()) );
+then
+   	$bResult.setResultValue(false);
+   	$bResult.addInfo(3, "У Вас уже открыт заём");
+end

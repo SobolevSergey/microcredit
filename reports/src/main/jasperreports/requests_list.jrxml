@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-11-26T19:09:38 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="requests_list" pageWidth="1040" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1000" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="de7fb539-77cb-4b0d-94c9-ce6afd50fc6e">
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<field name="number" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="datecontest" class="java.util.Date"/>
+	<field name="client" class="java.lang.String"/>
+	<field name="stake" class="java.lang.Double"/>
+	<field name="sum" class="java.lang.Double"/>
+	<field name="term" class="java.lang.Integer"/>
+	<field name="rejectreason" class="java.lang.String"/>
+	<field name="comment" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="460" y="30" width="81" height="30" uuid="47a16baa-c71d-4ec6-bb80-82a3c23381e1"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Заявки]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="3" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="140" height="18" forecolor="#000000" uuid="45c8f0e2-de37-4fe6-9017-ec4372d929ca"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Номер]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="140" y="0" width="100" height="18" forecolor="#000000" uuid="eca3b4b6-1813-4b64-bb09-22c0f28787b5"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Состояние]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="240" y="0" width="110" height="18" forecolor="#000000" uuid="0f92916c-aee1-4fb6-bc08-a43723fa4a89"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Дата подачи]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="350" y="0" width="140" height="18" forecolor="#000000" uuid="63416f9b-f1ac-4ae9-95f8-aecce07eb4fe"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Клиент]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="490" y="0" width="70" height="18" forecolor="#000000" uuid="886c10fa-6625-4a54-b07c-f04e8ffc4aa8"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ставка%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="560" y="0" width="67" height="18" forecolor="#000000" uuid="64e331ef-1906-4d20-9b82-233479571902"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Сумма]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="627" y="0" width="110" height="18" forecolor="#000000" uuid="e7faaf81-0665-4c44-b98c-4145581e5c4d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Срок кредита]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="737" y="0" width="150" height="18" forecolor="#000000" uuid="49d9cd94-4f34-4fe8-a135-fb7f3b404acb"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Причина отказа]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="887" y="0" width="120" height="18" forecolor="#000000" uuid="5508d489-1a86-4a20-b8f5-55e7727232be"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[примечание]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="0" width="140" height="18" uuid="2484db13-2dfe-452b-b415-7eeadb6bc89a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="140" y="0" width="100" height="18" uuid="04b3f57f-ebe3-4639-91f1-ea35abc96f9c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="240" y="0" width="110" height="18" uuid="a02a1efd-99e4-4767-870d-4e21e3b6efdd"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{datecontest})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="350" y="0" width="140" height="18" uuid="a66ef872-bf87-4259-b7f9-bced19ad1a16"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{client}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="490" y="0" width="70" height="18" uuid="3dffc6f9-b988-4863-bcc4-d51b71b76648"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{stake})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="560" y="0" width="67" height="18" uuid="0d2a9add-0ccb-4e65-b3f1-bacfd2114edd"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{sum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="627" y="0" width="110" height="18" uuid="6035f710-be26-4aeb-a27c-773db6de5555"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{term}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="737" y="0" width="150" height="18" uuid="9019bf74-d868-485a-bbfb-ab00daa11b6c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rejectreason}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="887" y="0" width="120" height="18" uuid="ae9502ee-02c4-4f48-bdc4-05a7345a3d54"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comment}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

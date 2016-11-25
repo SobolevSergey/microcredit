@@ -1,0 +1,22 @@
+import ru.simplgroupp.rules.BooleanRuleResult;
+import java.util.Map;
+import ru.simplgroupp.rules.AbstractContext;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal;
+import ru.simplgroupp.transfer.Reference;
+import ru.simplgroupp.transfer.RefHeader;
+import ru.simplgroupp.transfer.ActiveStatus;
+import ru.simplgroupp.toolkit.common.Convertor;
+
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Reference" && signalRef == "msgCheckPaymentSystemsBalance");
+    $cparams: Map();
+	$actionProcessor : ActionProcessorBeanLocal();
+then
+    Map<String, Double> balances = $actionProcessor.checkBalancePaymentSystem();
+    $actionProcessor.checkPaymentSystems(balances, $cparams);
+end

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="233" logicalFilePath="1441286106" author="efrolov">
+        <update tableName="identity_templates">
+            <column name="value"
+                    value="Какого примерно числа Вы получали {credittypeId.name#T}, который был погашен {creditdataendfact#D}?"/>
+            <where>points = 4 and fake = false and answerfield = 'creditdatabeg'</where>
+        </update>
+        <update tableName="aimodel">
+            <column name="body" valueClobFile="model.js" />
+            <where>id = 4 and version = '0.8'</where>
+        </update>
+    </changeSet>
+<changeSet id="233" author="helen">
+
+<sql>
+
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (1, 'ru.simplgroupp.login', NULL, 2, 'Настройки логина', NULL);
+
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 1, 'login.way', 'C', 'email', 'Как заходим в систему', NULL);
+
+</sql>
+ </changeSet>
+
+</databaseChangeLog> 

@@ -1,0 +1,57 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="312"  author="irk333">
+        <sql>
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Редактировать пользователей', 18, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Редактировать роли', 19, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Настройки', 20, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Сообщения', 1009, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Статистика', 21, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Отчёты', 22, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Коллектору', 23, 1, 0 from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Шаблоны', 24, 1, 0 from ref_header where name = 'Функция в системе';
+        </sql>
+    </changeSet>
+    <changeSet id="313"  author="irk333">
+        <sql>    
+insert into rpermission (role_id, feature_id)
+select 6, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (18, 19, 20, 1009, 21, 22, 23, 24);
+        </sql>
+    </changeSet>
+    
+    <changeSet id="314"  author="irk333">
+        <sql>    
+update reference 
+set parent_id= (select r.id from reference r inner join ref_header h on (r.ref_header_id = h.id) where h.name = 'Функция в системе' and r.codeinteger=1004 ) 
+where ref_header_id = (select id from ref_header where name = 'Функция в системе') and codeinteger in (18,19,20);
+
+update reference 
+set parent_id= (select r.id from reference r inner join ref_header h on (r.ref_header_id = h.id) where h.name = 'Функция в системе' and r.codeinteger=1005 ) 
+where ref_header_id = (select id from ref_header where name = 'Функция в системе') and codeinteger in (21, 22, 23, 24);
+
+        </sql>
+    </changeSet>    
+	  
+</databaseChangeLog>
+

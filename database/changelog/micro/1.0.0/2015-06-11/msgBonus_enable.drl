@@ -1,0 +1,14 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import java.util.Map
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+
+rule "[$RULE_NAME_PREFIX$].1" 
+when 
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext( getClient() != null );
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgBonus");
+    $cparams: Map(); 
+then   
+	$bResult.setResultValue(true);
+end

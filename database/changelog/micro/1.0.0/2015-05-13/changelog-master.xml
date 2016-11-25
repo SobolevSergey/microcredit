@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="136" author="helen">
+ 
+    <sql>
+    
+
+insert into ref_header (id, partners_id,name) values (71, 1,'Виды настроек для продукта');
+
+INSERT INTO reference(
+             ref_header_id, name, codeinteger, code,isactive,  txversion)
+       VALUES (71, 'Получение нового кредита', 1,'procNewCR',1, 0);
+      INSERT INTO reference(
+             ref_header_id, name, codeinteger, code,isactive,  txversion)
+       VALUES (71, 'Продление кредита', 2,'procProlongCR', 1, 0);
+
+INSERT INTO reference(
+             ref_header_id, name, codeinteger, code, isactive,  txversion)
+       VALUES (71, 'Погашение кредита', 3,'procReturnCR',1, 0);
+      INSERT INTO reference(
+             ref_header_id, name, codeinteger, code,isactive, txversion)
+       VALUES (71, 'Рефинансирование кредита', 4,'procRefinance', 1,0);
+
+     INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive, txversion)
+       VALUES (71, 'Просрочка кредита', 5, 1,0);
+
+    INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive, txversion)
+       VALUES (71, 'Бонусы для кредита', 6, 1,0);
+
+   INSERT INTO reference(
+             ref_header_id, name, codeinteger,code, isactive, txversion)
+       VALUES (71, 'Кредит', 7,'procCR', 1,0);
+
+   INSERT INTO reference(
+             ref_header_id, name, codeinteger,code, isactive, txversion)
+       VALUES (71, 'Принятие решения по кредиту', 8,'procConsiderCR', 1,0);
+
+CREATE TABLE product_config
+(
+  id serial NOT NULL,
+  products_id integer not null,
+  configtype_id integer,
+  isactive integer,
+  databeg date,
+  dataend date,
+  name varchar(100),
+  datatype varchar(1),
+  datavalue varchar(100),
+  description varchar(250),
+  txversion integer,
+  CONSTRAINT pk_product_config PRIMARY KEY (id ),
+  CONSTRAINT fk_config_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_product_config_ref_type FOREIGN KEY (configtype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE product_config
+  OWNER TO sa;
+GRANT ALL ON TABLE product_config TO sa;
+
+CREATE UNIQUE INDEX product_config_pk
+  ON product_config
+  USING btree
+  (id );
+
+
+CREATE INDEX relationship_products_config
+  ON product_config
+  USING btree
+  (products_id );
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.sum.addition','F','1000.00','Добавление к максимальной сумме',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.sum.max.unknown','F','10000.00','Максимальная сумма для незарегистрированного пользователя',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'prolong.days.min','N','2','Минимально дней пролонгации',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'prolong.days.max','N','31','Максимально дней пролонгации',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.prolongs.max','N','10','Максимально количество пролонгаций',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.sum.max','N','38','Максимально количество дней кредита вместе с пролонгациями',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'refinance.stake','F','0.001','Ставка для рефинансированного кредита',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'refinance.payment.sum.min','F','1000.00','Минимальная сумма оплаты для запуска рефинансирования',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'refinance.days.max','N','30','Максимально дней рефинансирования',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'refinance.days.overdue.available','N','14','Через сколько дней доступно рефинансирование',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+CREATE TABLE product_messages
+(
+  id serial NOT NULL,
+  products_id integer not null,
+  configtype_id integer,
+  name varchar(100),
+  subject varchar(100),
+  body text,
+  description varchar(250),
+  txversion integer,
+  CONSTRAINT pk_product_messages PRIMARY KEY (id ),
+  CONSTRAINT fk_messages_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_product_messages_ref_type FOREIGN KEY (configtype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE product_messages
+  OWNER TO sa;
+GRANT ALL ON TABLE product_messages TO sa;
+
+CREATE UNIQUE INDEX product_messages_pk
+  ON product_messages
+  USING btree
+  (id );
+
+
+CREATE INDEX relationship_products_messages
+  ON product_messages
+  USING btree
+  (products_id );
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.accepted','Смс об одобрении займа',
+'Поздравляю, Ваш заём на сумму %5.0f рублей одобрен. Теперь Вам необходимо подписать договор в личном кабинете. Сразу после этого я отправлю Вам деньги. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=8;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.rejected','Смс об отказе от займа',
+'К сожалению, мы не можем выдать Вам заём на сумму %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=8;
+
+
+
+CREATE TABLE product_rules
+(
+  id serial NOT NULL,
+  products_id integer not null,
+  configtype_id integer,
+  isactive integer,
+  databeg date,
+  dataend date,
+  name varchar(100),
+  description varchar(250),
+  rulebody text,
+  kbase varchar(20),
+  scripttype_id integer, 
+  txversion integer,
+  CONSTRAINT pk_product_rules PRIMARY KEY (id ),
+  CONSTRAINT fk_rules_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_product_rules_ref_type FOREIGN KEY (configtype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE product_rules
+  OWNER TO sa;
+GRANT ALL ON TABLE product_rules TO sa;
+
+CREATE UNIQUE INDEX product_rules_pk
+  ON product_rules
+  USING btree
+  (id );
+
+
+CREATE INDEX relationship_products_rules
+  ON product_rules
+  USING btree
+  (products_id );
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.initial.unknown','Ставка для незарегистрированного пользователя',1,0
+from reference where ref_header_id=71 and codeinteger=1;
+
+     </sql>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="stake_initial.js" />
+      <where>name = 'credit.stake.initial.unknown'</where>
+    </update>
+
+  </changeSet>
+
+</databaseChangeLog> 

@@ -1,0 +1,57 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="246" author="helen">
+        <sql>
+
+       CREATE TABLE creditoffer
+      (
+       id serial NOT NULL,
+       creditrequest_id integer not null,
+       users_id integer,
+       peoplemain_id integer not null,
+       offerway_id integer NOT NULL,
+       creditdays integer,
+       creditsum double precision,
+       creditstake double precision,
+       offertime timestamp with time zone,
+       comment character varying(500),
+       accepted integer default 0,
+       txversion integer default 0,
+       CONSTRAINT pk_creditoffer PRIMARY KEY (id ), 
+       CONSTRAINT fk_creditoffer_ref_way FOREIGN KEY (offerway_id)
+          REFERENCES reference (id) MATCH SIMPLE
+          ON UPDATE RESTRICT ON DELETE RESTRICT,
+       CONSTRAINT fk_creditoffer_creditrequest FOREIGN KEY (creditrequest_id)
+          REFERENCES creditrequest (id) MATCH SIMPLE
+          ON UPDATE RESTRICT ON DELETE CASCADE,
+       CONSTRAINT fk_creditoffer_people FOREIGN KEY (peoplemain_id)
+          REFERENCES peoplemain (id) MATCH SIMPLE
+          ON UPDATE RESTRICT ON DELETE CASCADE,
+       CONSTRAINT fk_creditoffer_users FOREIGN KEY (users_id)
+          REFERENCES users (id) MATCH SIMPLE
+          ON UPDATE RESTRICT ON DELETE CASCADE
+       )
+       WITH ( OIDS=FALSE);
+       ALTER TABLE creditoffer OWNER TO sa;
+       GRANT ALL ON TABLE creditoffer TO sa;
+    
+       CREATE UNIQUE INDEX creditoffer_pk
+        ON creditoffer USING btree (id );
+
+       CREATE INDEX relationship_creditoffer_people
+        ON creditoffer USING btree (peoplemain_id );
+
+       CREATE INDEX relationship_creditoffer_users
+        ON creditoffer USING btree (users_id );
+
+       CREATE INDEX relationship_creditoffer_creditrequest
+        ON creditoffer USING btree (creditrequest_id );
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

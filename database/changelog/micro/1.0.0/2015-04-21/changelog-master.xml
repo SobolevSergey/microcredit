@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="122" author="helen">
+ 
+  <sql>
+
+   CREATE TABLE peopleincapacity
+   (
+  id serial NOT NULL,
+  peoplemain_id integer not null,
+  partners_id integer NOT NULL,
+  incapacity_id integer,
+  incapacitydate date,
+  creditrequest_id integer,
+  txversion integer,
+    CONSTRAINT pk_peopleincapacity PRIMARY KEY (id ),
+    CONSTRAINT fk_incapacity_creditreq FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_incapacity_partner FOREIGN KEY (partners_id)
+      REFERENCES partners (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_incapacity_reference FOREIGN KEY (incapacity_id)
+      REFERENCES reference (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_incapacity_peoplemain FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE peopleincapacity
+  OWNER TO sa;
+GRANT ALL ON TABLE peopleincapacity TO sa;
+
+
+CREATE UNIQUE INDEX peopleincapacity_pk
+  ON peopleincapacity
+  USING btree
+  (id );
+
+CREATE INDEX relationship_incapacity_peoplemain
+  ON peopleincapacity
+  USING btree
+  (peoplemain_id );
+
+CREATE INDEX relationship_incapacity_partner
+  ON peopleincapacity
+  USING btree
+  (partners_id );
+
+ insert into ref_header (id, partners_id,name) values (65,1, 'Виды недееспособности' );
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (65, 'ограниченно дееспособен', 1, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (65, 'недеесособен', 2, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (65, 'дееспособен', 3, 1, 0);
+   
+alter table peoplecontact add creditrequest_id integer;
+
+alter table peoplecontact add CONSTRAINT fk_peoplecontact_crequest FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+alter table creditrequest add partners_id integer;
+
+update creditrequest set partners_id=1;
+
+alter table creditrequest add CONSTRAINT fk_creditrequest_partners FOREIGN KEY (partners_id)
+      REFERENCES partners (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

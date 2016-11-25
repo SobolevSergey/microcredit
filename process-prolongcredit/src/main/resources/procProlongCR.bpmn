@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="msgProlongCancel" name="msgProlongCancel"></message>
+  <message id="msgPaymentReceived" name="msgPaymentReceived"></message>
+  <process id="procProlongCR" name="procProlongCR" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="ru.simplgroupp.workflow.InitOptionsProductListener"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <serviceTask id="taskStartProlong" name="Рассчитать параметры продления" activiti:expression="#{actionProcessor.calcProlongData(businessObjectId, creditId)}" activiti:resultVariableName="prolongParams"></serviceTask>
+    <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
+      <timerEventDefinition>
+        <timeDate>${actionProcessor.calcISODateProlong(businessObjectId, options.waitPayment)}</timeDate>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow2" sourceRef="taskStartProlong" targetRef="exclusivegateway1"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <endEvent id="endCancelled" name="Продление отменено"></endEvent>
+    <sequenceFlow id="flow6" sourceRef="timerintermediatecatchevent1" targetRef="taskProlongCancel"></sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="startevent1" targetRef="servicetask6"></sequenceFlow>
+    <eventBasedGateway id="eventgateway1" name="Event Gateway">
+      <extensionElements>
+        <activiti:executionListener event="start" class="ru.simplgroupp.workflow.SetWfActionsListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[signalRef=msgProlongCancel;name=Отменить продление;candidateGroups=customer]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="wfAction1">
+            <activiti:string><![CDATA[signalRef=msgProlongPay;name=Оплатить комиссию;candidateGroups=customer]]></activiti:string>
+          </activiti:field>
+        </activiti:executionListener>
+        <activiti:executionListener event="end" class="ru.simplgroupp.workflow.ClearWfActionsListener"></activiti:executionListener>
+        <activiti:executionListener event="end" class="ru.simplgroupp.workflow.ClearNeedPaymentListener"></activiti:executionListener>
+        <activiti:executionListener event="start" class="ru.simplgroupp.workflow.NeedPaymentListener">
+          <activiti:field name="type">
+            <activiti:expression>#{2}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="sumFrom">
+            <activiti:expression>#{prolongParams.get('sum.percent.remain')}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="sumTo">
+            <activiti:expression>#{prolongParams.get('sum.percent.remain')}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="sumId">
+            <activiti:expression>#{2}</activiti:expression>
+          </activiti:field>
+        </activiti:executionListener>
+      </extensionElements>
+    </eventBasedGateway>
+    <sequenceFlow id="flow8" sourceRef="eventgateway1" targetRef="timerintermediatecatchevent1"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent1" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="msgPaymentReceived"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow9" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent1"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent2" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="msgProlongCancel"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow10" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent2"></sequenceFlow>
+    <serviceTask id="taskProlongCancel" name="Отменить продление" activiti:expression="#{actionProcessor.prolongCRCancel(creditId)}"></serviceTask>
+    <sequenceFlow id="flow11" sourceRef="messageintermediatecatchevent2" targetRef="taskProlongCancel"></sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="taskProlongCancel" targetRef="servicetask5"></sequenceFlow>
+    <serviceTask id="servicetask1" name="Выбираем подходящую систему для приёма денег" activiti:expression="#{actionProcessor.findAcquiringSystem(creditId, data.accountType, data.paymentId, actionContext)}" activiti:resultVariableName="acquiringSystemName"></serviceTask>
+    <sequenceFlow id="flow13" sourceRef="messageintermediatecatchevent1" targetRef="servicetask1"></sequenceFlow>
+    <callActivity id="callactivity1" name="Call activity" calledElement="subStandart">
+      <extensionElements>
+        <activiti:in sourceExpression="#{actionContext.getPlugins().getPluginConfig(acquiringSystemName)}" target="plugin"></activiti:in>
+        <activiti:in sourceExpression="#{'ru.simplgroupp.transfer.Credit'}" target="businessObjectClass"></activiti:in>
+        <activiti:in source="creditId" target="businessObjectId"></activiti:in>
+        <activiti:in source="data" target="data"></activiti:in>
+        <activiti:in source="actionContext" target="actionContext"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow14" sourceRef="servicetask1" targetRef="callactivity1"></sequenceFlow>
+    <serviceTask id="servicetask2" name="Подтвердить продление" activiti:expression="#{actionProcessor.prolongCRSave(creditId)}"></serviceTask>
+    <sequenceFlow id="flow15" sourceRef="callactivity1" targetRef="taskStartProlong"></sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="servicetask2" targetRef="servicetask4"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow17" sourceRef="exclusivegateway1" targetRef="eventgateway1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{prolongParams.get('sum.percent.remain') > 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="exclusivegateway1" targetRef="servicetask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{prolongParams.get('sum.percent.remain') <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="servicetask4" name="Послать СМС об одобрении" activiti:async="true" activiti:class="ru.simplgroupp.workflow.SendSMSAction">
+      <extensionElements>
+        <activiti:field name="smsCode">
+          <activiti:string><![CDATA[sms.prolong.accepted]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.credit.creditDataEnd}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow22" sourceRef="servicetask4" targetRef="endevent1"></sequenceFlow>
+    <serviceTask id="servicetask5" name="Послать СМС об отмене" activiti:async="true" activiti:class="ru.simplgroupp.workflow.SendSMSAction">
+      <extensionElements>
+        <activiti:field name="smsCode">
+          <activiti:string><![CDATA[sms.prolong.declined]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow23" sourceRef="servicetask5" targetRef="endCancelled"></sequenceFlow>
+    <serviceTask id="servicetask6" name="Отправить письмо с офертой" activiti:async="true" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.prolong.oferta]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.prolong.uniqueNomer}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="param1">
+          <activiti:expression>#{runtime.prolong.agreement}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="servicetask7" name="Отправить письмо о начале продления" activiti:async="true" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.prolong.started]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow24" sourceRef="servicetask6" targetRef="servicetask7"></sequenceFlow>
+    <sequenceFlow id="flow25" sourceRef="servicetask7" targetRef="taskStartProlong"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_procProlongCR">
+    <bpmndi:BPMNPlane bpmnElement="procProlongCR" id="BPMNPlane_procProlongCR">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="-130.0" y="283.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskStartProlong" id="BPMNShape_taskStartProlong">
+        <omgdc:Bounds height="81.0" width="105.0" x="70.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timerintermediatecatchevent1" id="BPMNShape_timerintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="320.0" y="430.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1010.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endCancelled" id="BPMNShape_endCancelled">
+        <omgdc:Bounds height="35.0" width="35.0" x="938.0" y="480.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="eventgateway1" id="BPMNShape_eventgateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="317.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="320.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent2" id="BPMNShape_messageintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="410.0" y="283.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskProlongCancel" id="BPMNShape_taskProlongCancel">
+        <omgdc:Bounds height="68.0" width="105.0" x="634.0" y="463.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="91.0" width="105.0" x="410.0" y="172.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callactivity1" id="BPMNShape_callactivity1">
+        <omgdc:Bounds height="55.0" width="105.0" x="560.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="710.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="210.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
+        <omgdc:Bounds height="71.0" width="105.0" x="857.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask5" id="BPMNShape_servicetask5">
+        <omgdc:Bounds height="68.0" width="105.0" x="785.0" y="463.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
+        <omgdc:Bounds height="79.0" width="105.0" x="-76.0" y="262.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask7" id="BPMNShape_servicetask7">
+        <omgdc:Bounds height="81.0" width="105.0" x="0.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="175.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="210.0" y="300.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="355.0" y="447.0"></omgdi:waypoint>
+        <omgdi:waypoint x="686.0" y="463.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="-95.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-76.0" y="301.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="337.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="337.0" y="430.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="337.0" y="280.0"></omgdi:waypoint>
+        <omgdi:waypoint x="337.0" y="235.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="357.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="300.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="427.0" y="318.0"></omgdi:waypoint>
+        <omgdi:waypoint x="686.0" y="463.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="739.0" y="497.0"></omgdi:waypoint>
+        <omgdi:waypoint x="785.0" y="497.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="355.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="217.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="515.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="217.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="612.0" y="190.0"></omgdi:waypoint>
+        <omgdi:waypoint x="611.0" y="152.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="152.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="815.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="857.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="250.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="317.0" y="300.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="230.0" y="280.0"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="124.0"></omgdi:waypoint>
+        <omgdi:waypoint x="469.0" y="124.0"></omgdi:waypoint>
+        <omgdi:waypoint x="762.0" y="124.0"></omgdi:waypoint>
+        <omgdi:waypoint x="762.0" y="190.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="962.0" y="215.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="217.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="890.0" y="497.0"></omgdi:waypoint>
+        <omgdi:waypoint x="938.0" y="497.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="-24.0" y="341.0"></omgdi:waypoint>
+        <omgdi:waypoint x="52.0" y="390.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="52.0" y="390.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="341.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

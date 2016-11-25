@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+	<changeSet id="104" author="pminin">
+
+		<sql>
+			CREATE TABLE device_info
+			(
+				id serial NOT NULL,
+				txVersion integer,
+				creditrequest_id integer,
+				info_date timestamp with time zone,
+				resolution_w integer,
+				resolution_h integer,
+				device_platform character varying(254),
+				user_agent character varying(254),
+				CONSTRAINT device_info_pk PRIMARY KEY (id )
+			)
+			WITH (
+			OIDS=FALSE
+			);
+			ALTER TABLE device_info
+			OWNER TO sa;
+
+			alter table device_info add CONSTRAINT fk_crequest_deviceinfo FOREIGN KEY
+			(creditrequest_id)
+			REFERENCES creditrequest (id) MATCH SIMPLE
+			ON UPDATE RESTRICT ON DELETE CASCADE;
+
+		</sql>
+
+	</changeSet>
+
+
+</databaseChangeLog> 

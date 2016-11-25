@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="msgPayment" name="msgPayment"></message>
+  <message id="msgProlong" name="msgProlong"></message>
+  <message id="msgPaymentReceived" name="msgPaymentReceived"></message>
+  <message id="msgBadDebt" name="msgBadDebt"></message>
+  <message id="msgSuspend" name="msgSuspend"></message>
+  <message id="msgActivate" name="msgActivate"></message>
+  <message id="msgClientReject" name="msgClientReject"></message>
+  <message id="msgEnd" name="msgEnd"></message>
+  <process id="procCROffline" name="procCROffline" isExecutable="true" isClosed="false" processType="None">
+    <extensionElements>
+      <activiti:executionListener event="start" class="ru.simplgroupp.workflow.InitOptionsProductListener"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startMain" name="startMain"></startEvent>
+    <callActivity id="callConsiderCR" name="Рассмотреть заявку" calledElement="procConsiderCROffline">
+      <extensionElements>
+        <activiti:in source="creditRequestId" target="creditRequestId"></activiti:in>
+        <activiti:in source="businessObjectClass" target="businessObjectClass"></activiti:in>
+        <activiti:in source="businessObjectId" target="businessObjectId"></activiti:in>
+        <activiti:in source="actionContext" target="actionContext"></activiti:in>
+        <activiti:out source="creditId" target="creditId"></activiti:out>
+        <activiti:executionListener event="start" class="ru.simplgroupp.workflow.SetWfActionsListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[name=Отказ клиента;signalRef=msgClientReject]]></activiti:string>
+          </activiti:field>
+        </activiti:executionListener>
+        <activiti:executionListener event="end" class="ru.simplgroupp.workflow.ClearWfActionsListener"></activiti:executionListener>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow2" sourceRef="taskFillCROffline" targetRef="servicetask13"></sequenceFlow>
+    <endEvent id="endRejected" name="endRejected"></endEvent>
+    <serviceTask id="servicetask2" name="Создать кредит" activiti:expression="${actionProcessor.createCreditNew(businessObjectId)}" activiti:resultVariableName="creditId"></serviceTask>
+    <sequenceFlow id="flow42" sourceRef="servicetask2" targetRef="servicetask3"></sequenceFlow>
+    <serviceTask id="servicetask3" name="Отправить СМС о кредите" activiti:class="ru.simplgroupp.workflow.SendSMSAction">
+      <extensionElements>
+        <activiti:field name="smsCode">
+          <activiti:string><![CDATA[sms.credit.ready]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.creditRequest.acceptedCredit.creditSum}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow43" sourceRef="servicetask3" targetRef="servicetask4"></sequenceFlow>
+    <serviceTask id="servicetask4" name="Отправить письмо о кредите" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.credit.ready]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.creditRequest.acceptedCredit.creditSum}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow44" sourceRef="servicetask4" targetRef="servicetask8"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway8" name="Exclusive Gateway">
+      <extensionElements>
+        <activiti:executionListener event="end" class="ru.simplgroupp.workflow.RemoveVarsListener">
+          <activiti:field name="variableNames">
+            <activiti:string><![CDATA[isTerrorist]]></activiti:string>
+          </activiti:field>
+        </activiti:executionListener>
+      </extensionElements>
+    </exclusiveGateway>
+    <serviceTask id="servicetask5" name="Проверяем на терроризм" activiti:expression="#{actionProcessor.checkTerrorism(clientUserId,creditRequestId)}" activiti:resultVariableName="isTerrorist"></serviceTask>
+    <sequenceFlow id="flow46" sourceRef="servicetask5" targetRef="exclusivegateway8"></sequenceFlow>
+    <sequenceFlow id="flow47" sourceRef="exclusivegateway8" targetRef="servicetask6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{isTerrorist}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow48" sourceRef="exclusivegateway8" targetRef="serviceTaskPasp">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{! isTerrorist}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="servicetask6" name="Отказ в кредите" activiti:expression="${actionProcessor.refuseCredit(creditRequestId, &quot;Находится в списке террористов&quot;, 1)}"></serviceTask>
+    <sequenceFlow id="flow49" sourceRef="servicetask6" targetRef="endRejected"></sequenceFlow>
+    <serviceTask id="servicetask8" name="Отправить письмо с офертой" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.credit.oferta]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param1">
+          <activiti:expression>#{runtime.creditRequest.agreement}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.creditRequest.uniqueNomer}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow51" sourceRef="servicetask8" targetRef="callPaymentInitial"></sequenceFlow>
+    <endEvent id="endevent1" name="EndBadDebt"></endEvent>
+    <callActivity id="callPaymentInitial" name="Заплатить клиенту" calledElement="procPayment">
+      <extensionElements>
+        <activiti:in sourceExpression="#{actionProcessor.getAccountTypeCR(businessObjectId)}" target="accountType"></activiti:in>
+        <activiti:in sourceExpression="#{'ru.simplgroupp.transfer.Payment'}" target="businessObjectClass"></activiti:in>
+        <activiti:in sourceExpression="#{actionProcessor.getPaymentToClientId(creditId)}" target="businessObjectId"></activiti:in>
+        <activiti:in source="actionContext" target="actionContext"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow56" sourceRef="callPaymentInitial" targetRef="timerintermediatecatchevent1"></sequenceFlow>
+    <serviceTask id="servicetask13" name="Считаем user id" activiti:expression="#{actionProcessor.getUserByCreditRequest(creditRequestId).getId()}" activiti:resultVariableName="clientUserId"></serviceTask>
+    <sequenceFlow id="flow67" sourceRef="servicetask13" targetRef="servicetask5"></sequenceFlow>
+    <sequenceFlow id="flow71" sourceRef="startMain" targetRef="taskFillCROffline"></sequenceFlow>
+    <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
+      <timerEventDefinition>
+        <timeDuration>PT1S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow81" sourceRef="timerintermediatecatchevent1" targetRef="endevent1"></sequenceFlow>
+    <userTask id="taskFillCROffline" name="Заполнить заявку" activiti:candidateGroups="creditmanager">
+      <extensionElements>
+        <activiti:taskListener event="create" class="ru.simplgroupp.workflow.SetWfActionsTaskListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[name=Далее;signalRef=msgMore;candidateGroups=creditmanager]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="complete" class="ru.simplgroupp.workflow.ClearWFActionsTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow82" sourceRef="callConsiderCR" targetRef="exclusivegateway9"></sequenceFlow>
+    <sequenceFlow id="flow83" sourceRef="exclusivegateway9" targetRef="endRejected">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{! actionProcessor.crAccepted(creditRequestId)}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow84" sourceRef="exclusivegateway9" targetRef="taskSignAgreement">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{actionProcessor.crAccepted(creditRequestId)}]]></conditionExpression>
+    </sequenceFlow>
+    <boundaryEvent id="boundarymessage1" name="Message" attachedToRef="callConsiderCR" cancelActivity="true">
+      <messageEventDefinition messageRef="msgClientReject"></messageEventDefinition>
+    </boundaryEvent>
+    <endEvent id="endOfertaRejected" name="endOfertaRejected"></endEvent>
+    <sequenceFlow id="flow85" sourceRef="boundarymessage1" targetRef="endOfertaRejected"></sequenceFlow>
+    <userTask id="taskSignAgreement" name="Подписать оферту" activiti:candidateGroups="creditmanager">
+      <extensionElements>
+        <activiti:taskListener event="complete" class="ru.simplgroupp.workflow.ClearWFActionsTaskListener"></activiti:taskListener>
+        <activiti:taskListener event="create" class="ru.simplgroupp.workflow.SetWfActionsTaskListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[name=Согласен;signalRef=msgAccept]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="wfAction1">
+            <activiti:string><![CDATA[name=Не согласен;signalRef=msgReject]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="wfAction2">
+            <activiti:string><![CDATA[name=Отказ клиента;signalRef=msgClientReject]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway10" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow86" sourceRef="taskSignAgreement" targetRef="exclusivegateway10"></sequenceFlow>
+    <sequenceFlow id="flow87" sourceRef="exclusivegateway10" targetRef="servicetask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{actionProcessor.crOfertaAccepted(creditRequestId)}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow88" sourceRef="exclusivegateway10" targetRef="endOfertaRejected">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{! actionProcessor.crOfertaAccepted(creditRequestId)}]]></conditionExpression>
+    </sequenceFlow>
+    <boundaryEvent id="boundarymessage2" name="Message" attachedToRef="taskSignAgreement" cancelActivity="true">
+      <messageEventDefinition messageRef="msgClientReject"></messageEventDefinition>
+    </boundaryEvent>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="taskSignAgreement" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration>${options.waitSignOferta}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow89" sourceRef="boundarytimer1" targetRef="endOfertaRejected"></sequenceFlow>
+    <sequenceFlow id="flow90" sourceRef="boundarymessage2" targetRef="endOfertaRejected"></sequenceFlow>
+    <serviceTask id="serviceTaskPasp" name="Проверяем на валидность паспорта" activiti:expression="${actionProcessor.checkPassportValidity(creditRequestId)}"></serviceTask>
+    <sequenceFlow id="flow91" sourceRef="serviceTaskPasp" targetRef="callConsiderCR"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_procCROffline">
+    <bpmndi:BPMNPlane bpmnElement="procCROffline" id="BPMNPlane_procCROffline">
+      <bpmndi:BPMNShape bpmnElement="startMain" id="BPMNShape_startMain">
+        <omgdc:Bounds height="35.0" width="35.0" x="-510.0" y="261.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callConsiderCR" id="BPMNShape_callConsiderCR">
+        <omgdc:Bounds height="55.0" width="105.0" x="104.0" y="370.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarymessage1" id="BPMNShape_boundarymessage1">
+        <omgdc:Bounds height="30.0" width="30.0" x="154.0" y="410.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endRejected" id="BPMNShape_endRejected">
+        <omgdc:Bounds height="35.0" width="35.0" x="156.0" y="36.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="254.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask3" id="BPMNShape_servicetask3">
+        <omgdc:Bounds height="65.0" width="105.0" x="361.0" y="71.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
+        <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="76.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway8" id="BPMNShape_exclusivegateway8">
+        <omgdc:Bounds height="40.0" width="40.0" x="-83.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask5" id="BPMNShape_servicetask5">
+        <omgdc:Bounds height="55.0" width="105.0" x="-210.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
+        <omgdc:Bounds height="55.0" width="105.0" x="-96.0" y="22.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask8" id="BPMNShape_servicetask8">
+        <omgdc:Bounds height="55.0" width="105.0" x="620.0" y="78.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1090.0" y="273.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callPaymentInitial" id="BPMNShape_callPaymentInitial">
+        <omgdc:Bounds height="61.0" width="105.0" x="740.0" y="255.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask13" id="BPMNShape_servicetask13">
+        <omgdc:Bounds height="55.0" width="105.0" x="-260.0" y="251.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timerintermediatecatchevent1" id="BPMNShape_timerintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1010.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskFillCROffline" id="BPMNShape_taskFillCROffline">
+        <omgdc:Bounds height="55.0" width="105.0" x="-399.0" y="251.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway9" id="BPMNShape_exclusivegateway9">
+        <omgdc:Bounds height="40.0" width="40.0" x="116.0" y="258.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endOfertaRejected" id="BPMNShape_endOfertaRejected">
+        <omgdc:Bounds height="35.0" width="35.0" x="372.0" y="480.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskSignAgreement" id="BPMNShape_taskSignAgreement">
+        <omgdc:Bounds height="55.0" width="105.0" x="230.0" y="223.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarymessage2" id="BPMNShape_boundarymessage2">
+        <omgdc:Bounds height="30.0" width="30.0" x="290.0" y="269.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="250.0" y="267.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway10" id="BPMNShape_exclusivegateway10">
+        <omgdc:Bounds height="40.0" width="40.0" x="380.0" y="259.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="serviceTaskPasp" id="BPMNShape_serviceTaskPasp">
+        <omgdc:Bounds height="71.0" width="175.0" x="-140.0" y="380.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="-294.0" y="278.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-260.0" y="278.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
+        <omgdi:waypoint x="542.0" y="254.0"></omgdi:waypoint>
+        <omgdi:waypoint x="413.0" y="136.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
+        <omgdi:waypoint x="466.0" y="103.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="103.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
+        <omgdi:waypoint x="595.0" y="103.0"></omgdi:waypoint>
+        <omgdi:waypoint x="620.0" y="105.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
+        <omgdi:waypoint x="-105.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-83.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
+        <omgdi:waypoint x="-63.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-44.0" y="77.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
+        <omgdi:waypoint x="-63.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-27.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-53.0" y="380.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
+        <omgdi:waypoint x="9.0" y="49.0"></omgdi:waypoint>
+        <omgdi:waypoint x="156.0" y="53.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow51" id="BPMNEdge_flow51">
+        <omgdi:waypoint x="672.0" y="133.0"></omgdi:waypoint>
+        <omgdi:waypoint x="792.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
+        <omgdi:waypoint x="845.0" y="285.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="287.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow67" id="BPMNEdge_flow67">
+        <omgdi:waypoint x="-208.0" y="251.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-158.0" y="185.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow71" id="BPMNEdge_flow71">
+        <omgdi:waypoint x="-475.0" y="278.0"></omgdi:waypoint>
+        <omgdi:waypoint x="-399.0" y="278.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow81" id="BPMNEdge_flow81">
+        <omgdi:waypoint x="1045.0" y="287.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1090.0" y="290.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
+        <omgdi:waypoint x="156.0" y="370.0"></omgdi:waypoint>
+        <omgdi:waypoint x="136.0" y="298.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow83" id="BPMNEdge_flow83">
+        <omgdi:waypoint x="136.0" y="258.0"></omgdi:waypoint>
+        <omgdi:waypoint x="202.0" y="145.0"></omgdi:waypoint>
+        <omgdi:waypoint x="173.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow84" id="BPMNEdge_flow84">
+        <omgdi:waypoint x="156.0" y="278.0"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="250.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow85" id="BPMNEdge_flow85">
+        <omgdi:waypoint x="169.0" y="440.0"></omgdi:waypoint>
+        <omgdi:waypoint x="389.0" y="480.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow86" id="BPMNEdge_flow86">
+        <omgdi:waypoint x="335.0" y="250.0"></omgdi:waypoint>
+        <omgdi:waypoint x="380.0" y="279.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow87" id="BPMNEdge_flow87">
+        <omgdi:waypoint x="420.0" y="279.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="281.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow88" id="BPMNEdge_flow88">
+        <omgdi:waypoint x="400.0" y="299.0"></omgdi:waypoint>
+        <omgdi:waypoint x="389.0" y="480.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow89" id="BPMNEdge_flow89">
+        <omgdi:waypoint x="265.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="389.0" y="480.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow90" id="BPMNEdge_flow90">
+        <omgdi:waypoint x="305.0" y="299.0"></omgdi:waypoint>
+        <omgdi:waypoint x="389.0" y="480.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow91" id="BPMNEdge_flow91">
+        <omgdi:waypoint x="35.0" y="415.0"></omgdi:waypoint>
+        <omgdi:waypoint x="104.0" y="397.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="62-1" author="helen">
+ <!--
+  <sql>
+    INSERT INTO eventcode( id, name) VALUES (33, 'верификатор задал вопросы'); 
+  </sql>
+  -->
+        <sql>             
+             
+             alter table eventlog drop constraint fk_evenlog_credit;
+             alter table eventlog add constraint fk_evenlog_credit FOREIGN KEY (credit_id)
+               REFERENCES credit (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+         </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

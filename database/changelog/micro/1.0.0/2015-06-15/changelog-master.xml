@@ -1,0 +1,36 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="165" author="helen">
+ 
+    <sql>
+ 
+alter table product_messages add signalref varchar(100);
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion,signalref )
+select 1,id,'email.overdue.action','Письмо о просрочке',
+'Вы просрочили выплату займа',
+'Я Вам доверяю, но Вы просрочили срок возврата займа. Прошу, верните займ или продлите его срок как можно скорее. Ваш Растороп. 8 (800) 775-22-05',0,'msgOverdueEmail'
+from reference where ref_header_id=71 and codeinteger=6;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,body,txversion,signalref )
+select 1,id,'sms.overdue.action','СМС перед просрочкой',
+'Я Вам доверяю, но у Вас заканчивается срок возврата займа. Прошу, верните займ или продлите его срок как можно скорее. Ваш Растороп. 8 (800) 775-22-05',0,'msgOverdueSMS'
+from reference where ref_header_id=71 and codeinteger=6;]]>
+   
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion,signalref )
+select 1,id,'email.refinance.action','Письмо о рефинансировании',
+'Предлагаем рефинансирование',
+'Поскольку Вы просрочили срок возврата займа, предлагаем рассмотреть возможность его рефинансирования. Подробности в личном кабинете. Ваш Растороп. 8 (800) 775-22-05',0,'msgRefinanceEmail'
+from reference where ref_header_id=71 and codeinteger=6;]]>
+
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="72" author="helen">
+ 
+  <sql>
+     
+   CREATE TABLE balance
+   (
+  id serial NOT NULL,
+  partners_id integer,
+  payment_id integer,
+  accounttype_id integer,
+  eventdate timestamp with time zone,
+  amount double precision,
+  txversion integer,
+    CONSTRAINT pk_balance PRIMARY KEY (id ),
+    CONSTRAINT fk_balance_partner FOREIGN KEY (partners_id)
+      REFERENCES partners (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_payment_balance FOREIGN KEY (payment_id)
+      REFERENCES payment (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_balance_accounttype FOREIGN KEY (accounttype_id) 
+      REFERENCES reference (id) MATCH SIMPLE 
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE balance
+  OWNER TO sa;
+GRANT ALL ON TABLE balance TO sa;
+
+
+CREATE UNIQUE INDEX balance_pk
+  ON balance
+  USING btree
+  (id );
+
+   </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

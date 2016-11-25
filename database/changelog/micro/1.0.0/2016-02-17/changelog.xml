@@ -1,0 +1,18 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="369" author="salnikov">
+ 
+        <sql>
+   
+        INSERT INTO aiconstant ( airule_id, name, datatype, datavalue) VALUES ( 7, 'yandexPay.useVerification', 'N', '0');
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

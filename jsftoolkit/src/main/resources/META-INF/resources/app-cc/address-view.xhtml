@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+			  xmlns:h="http://java.sun.com/jsf/html"
+			  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/2002/08/xhtml/xhtml1-transitional.xsd">
+
+	<cc:interface>
+		<cc:attribute name="address" required="true" />
+		<cc:attribute name="displayHouse" required="false" default="#{true}" />
+		<cc:attribute name="displayFlat" required="false" default="#{true}" />
+	</cc:interface>
+
+	<cc:implementation>
+		<h:panelGrid columns="2">
+		    <h:outputText value="Регион - " rendered="#{not empty cc.attrs.address.region}"/> 
+			<h:panelGroup>
+				<h:outputText value="#{cc.attrs.address.regionName}" /> 
+			</h:panelGroup>
+			
+			<h:outputText value="Район - " rendered="#{not empty cc.attrs.address.areaName}"/>
+			<h:panelGroup rendered="#{not empty cc.attrs.address.areaName}">
+				<h:outputText value="#{cc.attrs.address.areaName}" /> 
+			</h:panelGroup>
+			
+			<h:outputText value="Город - " rendered="#{not empty cc.attrs.address.cityName}"/>
+			<h:panelGroup rendered="#{not empty cc.attrs.address.cityName}">
+				<h:outputText value="#{cc.attrs.address.cityName}" /> 
+			</h:panelGroup>
+			
+			<h:outputText value="Населенный пункт - " rendered="#{not empty cc.attrs.address.placeName}"/>
+			<h:panelGroup rendered="#{not empty cc.attrs.address.placeName}">
+				<h:outputText value="#{cc.attrs.address.placeName}" /> 
+			</h:panelGroup>
+			
+			<h:outputText value="Улица - " rendered="#{not empty cc.attrs.address.streetName}"/>
+			<h:panelGroup rendered="#{not empty cc.attrs.address.streetName}">
+				<h:outputText value="#{cc.attrs.address.streetName}" />
+			</h:panelGroup>		
+			
+			<h:outputText value="Дом - " rendered="#{(cc.attrs.displayHouse) and (not empty cc.attrs.address.house)}" />
+			<h:outputText value="#{cc.attrs.address.houseCaption}" />
+			
+			<h:outputText value="Квартира - " rendered="#{not empty cc.attrs.address.flat}"/>
+			<h:panelGroup rendered="#{(cc.attrs.displayHouse) and (not empty cc.attrs.address.flat)}">
+				<h:outputText value="#{cc.attrs.address.flat}" />
+			</h:panelGroup>		
+					
+		</h:panelGrid>
+	</cc:implementation>
+</ui:component>

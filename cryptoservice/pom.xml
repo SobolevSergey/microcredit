@@ -1,0 +1,224 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>SimpleGroupProducts</artifactId>
+        <groupId>ru.simplgroupp</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>cryptoservice</artifactId>
+    <packaging>ejb</packaging>
+    <build>
+        <finalName>cryptoservice</finalName>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+        </dependency>
+
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernate.jpa.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Provides portable constraints such as @Email -->
+        <!-- Hibernate Validator is shipped in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <scope>provided</scope>
+                <version>2.2.5</version>
+            </dependency>
+        -->
+        <dependency>
+            <groupId>ru.simplgroupp</groupId>
+            <artifactId>toolkit</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.security</groupId>
+            <artifactId>jsr105-impl</artifactId>
+            <version>1.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.security</groupId>
+            <artifactId>wss4j</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+            <version>0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>1.5.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.admnkz</groupId>
+            <artifactId>xmldsigri_gost</artifactId>
+            <version>1.1.1</version>
+            <scope>test</scope>
+        </dependency>
+            <dependency>
+                <groupId>ru.CryptoPro</groupId>
+                <artifactId>JCP</artifactId>
+                <scope>provided</scope>
+                <version>${cryptopro.version}</version>
+
+            </dependency>
+
+        <dependency>
+            <groupId>ru.CryptoPro</groupId>
+            <artifactId>JCryptoP</artifactId>
+            <scope>provided</scope>
+            <version>${cryptopro.version}</version>
+        </dependency>
+
+    
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>6.0-5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>4.6.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.1.2.GA</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${commons.logging.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>${xalan.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${xerces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+         <dependency>
+            <groupId>signal-com</groupId>
+            <artifactId>provider</artifactId>
+            <version>2.3.6.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>signal-com</groupId>
+            <artifactId>scjcms</artifactId>
+            <version>1.3.4</version>
+            <scope>provided</scope>
+        </dependency>
+	<dependency>
+	   <groupId>ru.CryptoPro</groupId>
+	   <artifactId>CAdES</artifactId>
+	   <scope>provided</scope>
+           <version>${cryptopro.version}</version>
+	</dependency>
+    
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcmail-jdk16</artifactId>
+            <version>${bcprov.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>${bcprov.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.objsys</groupId>
+            <artifactId>asn1j</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+
+        </dependency>
+        <dependency>
+            <groupId>ru.CryptoPro</groupId>
+            <artifactId>ASN1P</artifactId>
+            <scope>provided</scope>
+            <version>${cryptopro.version}</version>
+        </dependency>
+    </dependencies>
+</project>

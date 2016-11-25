@@ -1,0 +1,19 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="320"  author="KhodyrevDS">
+        <sql>
+            ALTER TABLE account ADD card_synonim varchar(256);
+        </sql>
+    </changeSet>
+
+    <changeSet id="321"  author="KhodyrevDS">
+        <sql>
+            INSERT INTO reference(ref_header_id, name, codeinteger, isactive, txversion)
+            VALUES(17, 'карта Yandex', 9, 1, 0);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

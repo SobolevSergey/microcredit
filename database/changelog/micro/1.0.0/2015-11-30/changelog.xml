@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="302" author="irk333">
+ 
+    <sql>
+    
+ alter table aimodelparams add column isIn int default 1;
+ alter table aimodelparams add column isOut int default 0;
+ 
+ CREATE SEQUENCE aimodel_run_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+  
+create table aimodelvalues (
+  run_id int not null,
+  aimodelparam_id int not null,
+  value text,
+  txversion integer,
+  constraint pk_aimodelvalues PRIMARY KEY (run_id, aimodelparam_id),
+  CONSTRAINT fk_aimodelv_relations_aimodelp FOREIGN KEY (aimodelparam_id)
+      REFERENCES aimodelparams (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE  
+);  
+
+create unique index idx_aimodelvalues_pk on aimodelvalues (run_id, aimodelparam_id);
+create index idx_fk_aimodelv_relations_aimodelp on aimodelvalues (aimodelparam_id);
+     </sql>
+
+
+  </changeSet>
+
+
+
+</databaseChangeLog> 

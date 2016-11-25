@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="160" author="parfenov">
+        <sql>
+            CREATE TABLE cms_page
+            (
+            id 			    integer     NOT NULL,
+            type		    VARCHAR(50)	NOT NULL UNIQUE,
+            description	    VARCHAR(100),
+            title	        VARCHAR(100),
+            keywords	    VARCHAR(100),
+            body			text,
+            CONSTRAINT pk_cms_page PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE cms_page
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX cms_page_pk
+            ON cms_page
+            USING btree
+            (id );
+            GRANT ALL ON TABLE cms_page TO sa;
+
+            CREATE TABLE cms_images
+            (
+            id 			    integer         NOT NULL,
+            cms_page_id     integer         NOT NULL,
+            file_name 	    VARCHAR(256) 	NOT NULL,
+            file_data 	    bytea,
+            CONSTRAINT pk_cms_images PRIMARY KEY (id),
+            CONSTRAINT fk_cms_page_cms_images FOREIGN KEY (cms_page_id)
+            REFERENCES cms_page (id) MATCH SIMPLE
+            ON UPDATE RESTRICT ON DELETE RESTRICT
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE cms_images
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX cms_images_pk
+            ON cms_images
+            USING btree
+            (id );
+            GRANT ALL ON TABLE cms_images TO sa;
+
+        </sql>
+    </changeSet>
+ <changeSet id="161" author="helen">
+    <sql>
+
+    CREATE TABLE aimodel
+    (
+     id serial NOT NULL,
+     datecreate timestamp with time zone,
+     version character varying(50),
+     isactive integer,
+     body text,
+     target character varying(50),
+     mimetype character varying(150),
+     datechange timestamp with time zone,
+     products_id integer,
+     txversion integer DEFAULT 0,
+     CONSTRAINT pk_aimodel PRIMARY KEY (id ),
+     CONSTRAINT fk_model_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+   )
+   WITH (
+     OIDS=FALSE
+   );
+   ALTER TABLE aimodel
+     OWNER TO sa;
+
+   GRANT ALL ON TABLE aimodel TO sa;
+
+   CREATE UNIQUE INDEX aimodel_pk
+      ON aimodel
+      USING btree
+      (id );
+
+   CREATE INDEX relationship_products_model
+     ON aimodel
+     USING btree
+     (products_id );
+
+   CREATE TABLE aimodelparams
+   (
+     aimodel_id integer NOT NULL,
+     name character varying(250) NOT NULL,
+     valuetext text,
+     valuenumber integer,
+     valuedate timestamp with time zone,
+     valuefloat double precision,
+     txversion integer DEFAULT 0,
+     CONSTRAINT pk_aimodelparams PRIMARY KEY (aimodel_id , name ),
+     CONSTRAINT fk_aimodelp_relations_aimodel FOREIGN KEY (aimodel_id)
+        REFERENCES aimodel (id) MATCH SIMPLE
+        ON UPDATE RESTRICT ON DELETE CASCADE
+   )
+   WITH (
+     OIDS=FALSE
+   );
+   ALTER TABLE aimodelparams
+     OWNER TO sa;
+
+
+   CREATE UNIQUE INDEX aimodelparams_pk
+     ON aimodelparams
+     USING btree
+     (aimodel_id , name COLLATE pg_catalog."default" );
+
+
+   CREATE INDEX relationship_5_fk
+     ON aimodelparams
+     USING btree
+     (aimodel_id );
+
+INSERT INTO aimodel (id, datecreate, version, isactive,target, mimetype, datechange,products_id) VALUES (1, '2014-08-15 21:08:20.295+07', '0.2', 0, 'credit.decision', 'text/javascript', '2015-03-18 08:50:35.573+07',1);
+INSERT INTO aimodel (id, datecreate, version, isactive, target, mimetype, datechange,products_id) VALUES (2, '2014-06-05 23:26:36.047+07', '0.6', 1, 'credit.decision', 'text/javascript', NULL,1);
+INSERT INTO aimodel (id, datecreate, version, isactive, target, mimetype, datechange,products_id) VALUES (3, '2014-06-05 23:26:36.047+07', '0.7', 2, 'credit.decision', 'text/javascript', NULL,1);
+
+
+   </sql>
+
+<update tableName="aimodel">
+      	<column name="body" valueClobFile="model1.txt"></column>
+        <where>id=1</where>
+ </update>
+
+<update tableName="aimodel">
+      	<column name="body" valueClobFile="model2.txt"></column>
+        <where>id=2</where>
+ </update>
+
+<update tableName="aimodel">
+      	<column name="body" valueClobFile="model3.txt"></column>
+        <where>id=3</where>
+ </update>
+
+ </changeSet>
+
+</databaseChangeLog>

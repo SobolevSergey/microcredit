@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="303" author="irk333">
+ 
+    <sql>
+create view v_model_biz as
+SELECT v.run_id,
+    max(
+        CASE
+            WHEN p.name::text = 'businessObjectClass'::text THEN v.value
+            ELSE NULL::text
+        END) AS businessobjectclass,
+    max(
+        CASE
+            WHEN p.name::text = 'businessObjectId'::text THEN v.value
+            ELSE NULL::text
+        END) AS businessobjectid
+   FROM aimodelvalues v
+     JOIN aimodelparams p ON p.id = v.aimodelparam_id
+  GROUP BY v.run_id;
+     </sql>
+
+
+  </changeSet>
+<changeSet id="304" author="irk333">
+ 
+    <sql>
+create index id_aimodelparams_name on aimodelparams (name);
+
+create view v_aimodelvalues_params as 
+select v.run_id, v.aimodelparam_id, v.value, p.id, p.name, p.description, p.datatype, p.aimodel_id, p.customkey, p.isin, p.isout 
+from aimodelvalues v JOIN aimodelparams p ON p.id = v.aimodelparam_id;
+</sql>
+  </changeSet>
+
+
+</databaseChangeLog> 

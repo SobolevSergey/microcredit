@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="368" logicalFilePath="1455476071" author="efrolov">
+        <update tableName="bizaction">
+            <column name="businessobjectclass" value="ru.simplgroupp.transfer.Credit"/>
+            <column name="ruleenabled" valueClobFile="closed_credit_bonus_enabled.drl"/>
+            <column name="ruleaction" valueClobFile="closed_credit_bonus_action.drl"/>
+            <where>signalref = 'msgClosedCreditBonus'</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

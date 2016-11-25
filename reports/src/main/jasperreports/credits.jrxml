@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-11-18T12:34:30 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="requests_list" pageWidth="930" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="890" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="de7fb539-77cb-4b0d-94c9-ce6afd50fc6e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<field name="number" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="creditdatabeg" class="java.util.Date"/>
+	<field name="creditdataend" class="java.util.Date"/>
+	<field name="client" class="java.lang.String"/>
+	<field name="creditpercent" class="java.lang.Double"/>
+	<field name="creditsum" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="380" y="30" width="100" height="30" uuid="47a16baa-c71d-4ec6-bb80-82a3c23381e1"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Кредиты]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="100" height="18" forecolor="#000000" uuid="45c8f0e2-de37-4fe6-9017-ec4372d929ca"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Номер займа]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="100" y="0" width="100" height="18" forecolor="#000000" uuid="6530459d-63de-469b-a30b-2a56ec5a2fb2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Дата выдачи]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="0" width="210" height="18" forecolor="#000000" uuid="1b7fcba1-9b25-415b-a5a8-eecd9557793b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Дата окончания по графику]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="410" y="0" width="120" height="18" forecolor="#000000" uuid="87f08147-d7bf-4ef4-88c6-6784702a3334"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Сумма кредита]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="530" y="0" width="90" height="18" forecolor="#000000" uuid="6b43e929-425b-46cc-b515-a0f425333532"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ставка%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="620" y="0" width="100" height="18" forecolor="#000000" uuid="d5ea1f44-4523-4403-a65b-64aad4a5d7f1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Статус займа]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="720" y="0" width="140" height="18" forecolor="#000000" uuid="eda1a723-175a-45e6-be52-a2e37d6e631e"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Клиент]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="3" width="100" height="15" uuid="2484db13-2dfe-452b-b415-7eeadb6bc89a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="0" width="210" height="18" uuid="2a277128-f548-46a8-9775-6c39b8ac19f1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{creditdataend})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="410" y="0" width="120" height="18" uuid="db66dec6-e1ac-4323-8470-f7ae63b0971c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{creditsum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="530" y="0" width="90" height="18" uuid="36362459-dbcd-4f3e-8102-f7c743e64cb1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{creditpercent})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="620" y="0" width="100" height="18" uuid="3e7cc333-ef11-474a-b291-0529d2009d1d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="720" y="0" width="140" height="18" uuid="332fb12a-6f92-4fe0-bcf3-9a4742b2d522"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{client}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="100" y="0" width="100" height="18" uuid="8922c387-3c91-4121-aacf-6cea21b06694"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{creditdatabeg})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

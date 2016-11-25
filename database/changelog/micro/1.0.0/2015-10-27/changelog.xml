@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="282" author="irk333">
+        <sql> 
+	   drop index aimodelparams_pk;
+	  CREATE UNIQUE INDEX aimodelparams_pk ON aimodelparams (id);
+	  
+	  alter table bizactionparam add  datatype character varying(1) NOT NULL;
+	  alter table bizactionparam add datavalue character varying(250);
+	  alter table bizactionparam add datavaluetext text;
+      </sql>
+    </changeSet>
+
+    <changeSet id="282" logicalFilePath="1445933930" author="efrolov">
+        <sql>
+            -------------
+            ALTER TABLE antifraud_suspicions DROP CONSTRAINT antifraud_suspect_rule_fk;
+
+            ALTER TABLE antifraud_suspicions ADD CONSTRAINT antifraud_suspicions_rule_fk
+            FOREIGN KEY (ruleId) REFERENCES ref_antifraud_rules_hunter (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+            -------------
+            ALTER TABLE antifraud_occasions DROP CONSTRAINT antifraud_entities_hu_rule_fk;
+            ALTER TABLE antifraud_occasions DROP CONSTRAINT antifraud_occasions_user_fk;
+
+            ALTER TABLE antifraud_occasions ADD CONSTRAINT antifraud_occasions_hu_rule_fk
+            FOREIGN KEY (hunterObjectId) REFERENCES reference (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+            ALTER TABLE antifraud_occasions ADD CONSTRAINT antifraud_occasions_user_fk
+            FOREIGN KEY (userId) REFERENCES users (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+
+            -------------
+            ALTER TABLE identity_templates DROP CONSTRAINT identity_template_optiontype;
+            ALTER TABLE identity_templates DROP CONSTRAINT identity_template_forcredittype;
+
+            ALTER TABLE identity_templates ADD CONSTRAINT identity_templates_optiontype_fk
+            FOREIGN KEY (optionId) REFERENCES ref_header (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+            ALTER TABLE identity_templates ADD CONSTRAINT identity_templates_forcredittype_fk
+            FOREIGN KEY (forCreditTypeId) REFERENCES ref_header (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+            -------------
+            ALTER TABLE identity_questions DROP CONSTRAINT identity_template_fk;
+
+            ALTER TABLE identity_questions ADD CONSTRAINT identity_questions_template_fk
+            FOREIGN KEY (templateId) REFERENCES identity_templates (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+
+            -------------
+            ALTER TABLE identity_options DROP CONSTRAINT identity_question_fk;
+
+            ALTER TABLE identity_options ADD CONSTRAINT identity_options_question_fk
+            FOREIGN KEY (questionId) REFERENCES identity_questions (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+
+            -------------
+            ALTER TABLE identity_answers DROP CONSTRAINT identity_question_answer_fk;
+
+            ALTER TABLE identity_answers ADD CONSTRAINT identity_answers_question_fk
+            FOREIGN KEY (id) REFERENCES identity_options (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+
+            -------------
+            ALTER TABLE peoplemisc DROP CONSTRAINT peoplemisc_regDateId;
+            ALTER TABLE employment DROP CONSTRAINT employment_startWorkId;
+
+            ALTER TABLE peoplemisc ADD CONSTRAINT peoplemisc_regDateId
+            FOREIGN KEY (regDate_id) REFERENCES reference (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+            ALTER TABLE employment ADD CONSTRAINT employment_startWorkId
+            FOREIGN KEY (dateStartWork_id) REFERENCES reference (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+            -------------
+            ALTER TABLE antifraud_occasions DROP CONSTRAINT antifraud_occasions_status_id_fk;
+
+
+            -------------
+            ALTER TABLE peoplemisc DROP CONSTRAINT peoplemisc_realtyDateId;
+            ALTER TABLE peoplemisc ADD CONSTRAINT peoplemisc_realtyDateId
+                FOREIGN KEY (realtyDate_id) REFERENCES reference (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22.03.2012 15:10:44 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+  <class name="ru.simplgroupp.fias.persistence.Journal" table="journal">
+    <id name="id">
+      <column index="journal_pk" name="id"/>
+      <generator class="native"/>
+    </id>
+    <property column="datestart" generated="never" lazy="false" name="dateStart" type="timestamp"/>
+    <property column="operationtype" generated="never" lazy="false" name="operationType"/>
+    <property column="datefinish" generated="never" lazy="false" name="dateFinish" type="timestamp"/>
+    <property column="status" generated="never" lazy="false" name="status"/>
+    <property column="messagetext" generated="never" lazy="false" name="messageText"/>
+    <property column="versionid" generated="never" lazy="false" name="versionId"/>
+    <property column="versiontext" generated="never" lazy="false" name="versionText"/>
+  </class>
+  <class name="ru.simplgroupp.fias.persistence.AddrObj" table="addrobj">
+    <id name="ID">
+      <column name="aoid"/>
+    </id>
+    <property column="aoguid" generated="never" lazy="false" name="AOGUID"/>
+    <property column="formalname" generated="never" lazy="false" name="formalName"/>
+    <property column="regioncode" generated="never" lazy="false" name="regionCode"/>
+    <property column="autocode" generated="never" lazy="false" name="autoCode"/>
+    <property column="areacode" generated="never" lazy="false" name="areaCode"/>
+    <property column="citycode" generated="never" lazy="false" name="cityCode"/>
+    <property column="ctarcode" generated="never" lazy="false" name="ctarCode"/>
+    <property column="placecode" generated="never" lazy="false" name="placeCode"/>
+    <property column="streetcode" generated="never" lazy="false" name="streetCode"/>
+    <property column="extrcode" generated="never" lazy="false" name="extrCode"/>
+    <property column="sextcode" generated="never" lazy="false" name="sextCode"/>
+    <property column="offname" generated="never" lazy="false" name="officialName"/>
+    <property column="postalcode" generated="never" lazy="false" name="postalCode"/>
+    <property column="okato" generated="never" lazy="false" name="okato"/>
+    <property column="oktmo" generated="never" lazy="false" name="oktmo"/>
+    <property column="updatedate" generated="never" lazy="false" name="updateDate"/>
+    <property column="shortname" generated="never" lazy="false" name="shortName"/>
+    <property column="aolevel" generated="never" lazy="false" name="aoLevel"/>
+    <property column="parentguid" generated="never" lazy="false" name="parentAOGUID"/>
+    <property column="previd" generated="never" lazy="false" name="prevId"/>
+    <property column="nextid" generated="never" lazy="false" name="nextId"/>
+    <property column="code" generated="never" lazy="false" name="kladrCode"/>
+    <property column="plaincode" generated="never" lazy="false" name="plainKladrCode"/>
+    <property column="actstatus" generated="never" lazy="false" name="actualStatus"/>
+    <property column="centstatus" generated="never" lazy="false" name="centerStatus"/>
+    <property column="operstatus" generated="never" lazy="false" name="operStatus"/>
+    <property column="currstatus" generated="never" lazy="false" name="currStatus"/>
+    <property column="startdate" generated="never" lazy="false" name="startDate"/>
+    <property column="enddate" generated="never" lazy="false" name="endDate"/>
+    <property column="livestatus" generated="never" lazy="false" name="liveStatus"/>
+    <many-to-one class="ru.simplgroupp.fias.persistence.AddrObjType" lazy="false" name="type" insert="false" update="false">
+      <column name="aolevel"/>
+      <column name="shortname"/>
+    </many-to-one>
+  </class>
+  <class name="ru.simplgroupp.fias.persistence.AddrObjType" table="socrbase">
+    <composite-id mapped="false" unsaved-value="undefined">
+      <key-property column="level1" name="Level"/>
+      <key-property column="scname" name="Code"/>
+    </composite-id>
+    <property column="kod_t_st" generated="never" lazy="false" name="ID"/>
+    <property column="socrname" generated="never" lazy="false" name="Name"/>
+  </class>
+</hibernate-mapping>

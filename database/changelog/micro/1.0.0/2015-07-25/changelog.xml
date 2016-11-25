@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="197" author="KhodyrevDS">
+        <comment>Добавление таблицы рабочих мест</comment>
+        <sql>
+            CREATE TABLE workplaces(
+                id serial PRIMARY KEY,
+                tx_version int not null,
+                name varchar(256) not null
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="198" author="KhodyrevDS">
+        <comment>Рабочее место у пользователя</comment>
+        <sql>
+            ALTER TABLE users ADD COLUMN workplace_id int REFERENCES workplaces(id) ON DELETE SET NULL;
+        </sql>
+    </changeSet>
+
+    <changeSet id="199" author="KhodyrevDS">
+        <comment>История смены рабочего места у пользователя</comment>
+        <sql>
+            CREATE TABLE user_workplace_history(
+                id serial PRIMARY KEY,
+                tx_version int not null,
+                user_id int REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+                workplace_id int REFERENCES workplaces(id) ON DELETE RESTRICT NOT NULL,
+                modified_date timestamp without time zone NOT NULL,
+                modified_by int REFERENCES users(id) ON DELETE RESTRICT
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

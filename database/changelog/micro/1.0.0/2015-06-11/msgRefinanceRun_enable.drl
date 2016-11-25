@@ -1,0 +1,18 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+import java.util.Date
+import ru.simplgroupp.transfer.PeopleMain
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].3"
+when 
+    $bResult : BooleanRuleResult(getResultValue() == null);
+    $cparams : Map();
+    $context : AbstractContext();
+    $actionProcessor : ActionProcessorBeanLocal();
+then   
+    $bResult.setResultValue($context.getCredit() != null && $context.getCredit().getLastRefinance() != null && $context.getCredit().getLastRefinance().getIsActive() == 2 );
+end

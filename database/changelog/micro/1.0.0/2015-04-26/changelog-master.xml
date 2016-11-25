@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="126" author="irk333">
+ 
+    <sql>
+      insert into eventcode (id, name) values (47, 'Начато рефинансирование');
+      insert into eventcode (id, name) values (48, 'Рефинансирование успешно завершено');
+      insert into eventcode (id, name) values (49, 'Рефинансирование отменено');
+     </sql>
+  </changeSet>
+
+<changeSet id="127" author="helen">
+ 
+    <sql>
+      insert into eventcode (id, name) values (50, 'Обращение к внешнему партнеру СКБ');
+      insert into eventcode (id, name) values (51, 'Выгрузка кредитных историй в СКБ');
+      insert into eventcode (id, name) values (52, 'Ошибка выгрузки кредитных историй в СКБ');
+     </sql>
+  </changeSet>
+
+</databaseChangeLog> 

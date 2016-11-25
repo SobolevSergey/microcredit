@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-10-30T01:16:35 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape" pageWidth="930" pageHeight="395" orientation="Landscape" columnWidth="890" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<style name="Title" fontSize="50" isBold="false"/>
+	<style name="SubTitle" fontSize="18" isBold="false"/>
+	<style name="Column header" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque"/>
+		</conditionalStyle>
+	</style>
+	<field name="requestsNumber" class="java.lang.Long"/>
+	<field name="requestsNumberOneCredit" class="java.lang.Long"/>
+	<field name="requestsNumberTwoPlusCredits" class="java.lang.Long"/>
+	<field name="rejectsNumber" class="java.lang.Long"/>
+	<field name="rejectsNumberOneCredit" class="java.lang.Long"/>
+	<field name="rejectsNumberTwoPlusCredits" class="java.lang.Long"/>
+	<field name="rejectsPercentOneCredit" class="java.lang.Double"/>
+	<field name="rejectsPercentTwoPlusCredits" class="java.lang.Double"/>
+	<field name="totalDebt" class="java.lang.Double"/>
+	<field name="totalDebtOneCredit" class="java.lang.Double"/>
+	<field name="totalDebtTwoPlusCredits" class="java.lang.Double"/>
+	<field name="newClientsPercent" class="java.lang.String"/>
+	<field name="weightedAvgRate" class="java.lang.Double"/>
+	<field name="weightedAvgRateOneCredit" class="java.lang.Double"/>
+	<field name="weightedAvgRateTwoPlusCredits" class="java.lang.Double"/>
+	<field name="avgPeriod" class="java.lang.Double"/>
+	<field name="avgTotalDebt" class="java.lang.Double"/>
+	<field name="avgTotalDebtOneCredit" class="java.lang.Double"/>
+	<field name="avgTotalDebtTwoPlusCredits" class="java.lang.Double"/>
+	<field name="totalCredits" class="java.lang.Long"/>
+	<field name="totalCreditsOneCredit" class="java.lang.Long"/>
+	<field name="totalCreditsTwoPlusCredits" class="java.lang.Long"/>
+	<background>
+		<band height="29" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="400" y="36" width="100" height="30" uuid="5ae1bedf-883a-4bad-8ced-1a365507c22b"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Выдачи]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="190" height="18" forecolor="#000000" uuid="7062c36a-7954-4cc1-b539-1d2d7118c8c2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Обращения: Кол-во]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="190" y="0" width="180" height="18" forecolor="#000000" uuid="b63d0a9c-c936-4f0b-bcef-f0d967c435c1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Отказы: Кол-во]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="370" y="0" width="129" height="18" forecolor="#000000" uuid="b63d0a9c-c936-4f0b-bcef-f0d967c435c1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Новые клиенты: %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="501" y="0" width="159" height="18" forecolor="#000000" uuid="07aec9d5-70d6-44d5-a1da-fb9983faed45"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Выдачи: Кол-во]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="660" y="0" width="159" height="18" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Выдачи: Сумма ОД]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="208" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="100" y="0" width="90" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{requestsNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="0" width="90" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rejectsNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="370" y="3" width="129" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{newClientsPercent}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="570" y="0" width="89" height="18" uuid="cda5c8fc-375a-4be7-91bd-a47e620884d1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalCredits}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="730" y="0" width="89" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{totalDebt})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="60" y="130" width="110" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgTotalDebt})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="240" y="130" width="140" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{weightedAvgRate})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="380" y="130" width="140" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgPeriod})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="100" y="19" width="90" height="18" uuid="b47060aa-59cf-40c2-b6ea-3d7c5c8977ff"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{requestsNumberOneCredit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="100" y="40" width="90" height="18" uuid="73d9ae7b-2e21-431b-bb36-8588297c8e2a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{requestsNumberTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="18" width="90" height="18" forecolor="#000000" uuid="85e2e5a7-6dbf-4493-8931-6f365802d5e4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="40" width="90" height="18" forecolor="#000000" uuid="fe7906fb-b4ca-4028-ae40-94cde25ff7b2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="21" width="90" height="19" uuid="2ffbd7e8-7760-4566-965a-073f71cea5cc"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rejectsNumberOneCredit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="40" width="90" height="18" uuid="bdd8c5da-1d8c-4f27-b617-f52b68cb3726"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rejectsNumberTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="190" y="19" width="80" height="18" forecolor="#000000" uuid="86aedacc-c6a0-4da6-8807-c5f914181a1f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="190" y="40" width="80" height="18" forecolor="#000000" uuid="12601f3f-6454-45b5-84c7-e65d078358fe"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="190" y="58" width="90" height="18" forecolor="#000000" uuid="0e239e4b-6384-4538-90da-8e8721639260"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ%%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="190" y="81" width="90" height="18" forecolor="#000000" uuid="756ccc32-a0be-4cd8-b6bb-7f0acd6135c0"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ%%]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="58" width="90" height="19" uuid="d3e0feb6-9b39-4254-a0ce-d136c815c58f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{rejectsPercentOneCredit})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="77" width="90" height="19" uuid="4cf859a5-dd99-47f5-8951-b75175b7c165"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{rejectsPercentTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="569" y="18" width="90" height="19" uuid="3591bc9e-155f-424d-82ad-ef5b02047e5c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalCreditsOneCredit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="569" y="40" width="90" height="19" uuid="e3fe849e-971b-4b4e-b255-0ca8d0788d01"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalCreditsTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="501" y="21" width="69" height="18" forecolor="#000000" uuid="d4b36c8c-2549-4990-a224-071a80851ed5"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="500" y="40" width="69" height="18" forecolor="#000000" uuid="f8b65415-7337-4415-90cc-bd9f4398aa57"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="660" y="18" width="69" height="18" forecolor="#000000" uuid="6b3b5e58-1ed4-429a-9799-8eb3a34e7c20"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="660" y="41" width="69" height="18" forecolor="#000000" uuid="8c87a67c-3b0e-42be-a3fe-30829d42237f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="730" y="20" width="90" height="19" uuid="3952186b-5ebc-43ec-ac15-3200cd35c3ed"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{totalDebtOneCredit})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="730" y="40" width="90" height="19" uuid="c4473883-cbba-4a96-b40d-198503097598"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{totalDebtTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="110" width="170" height="18" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Выдачи: Ср. сумма ОД]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="170" y="110" width="210" height="18" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Выдачи: Срвзвеш. ставка]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="380" y="110" width="140" height="18" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Выдачи: Ср. срок]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="130" width="61" height="18" forecolor="#000000" uuid="a4b4037a-49f9-4923-a245-be7de90e5670"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="170" y="130" width="70" height="18" forecolor="#000000" uuid="fde68264-70f5-462c-b0d5-dc4eda067fe1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="80" height="18" forecolor="#000000" uuid="ef375bac-c100-477c-a717-4431a625ef97"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="190" y="0" width="80" height="18" forecolor="#000000" uuid="fea1738f-2daf-4ddc-a9dd-32300347ddd6"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="148" width="60" height="18" forecolor="#000000" uuid="e68b88a7-eabc-4ba7-973e-3c060ff4da50"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="168" width="60" height="18" forecolor="#000000" uuid="0cf5c56f-a281-4242-a867-96778c5972b0"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="60" y="148" width="110" height="19" uuid="785fada5-e4c8-41d5-b893-cb1ffc69a77b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgTotalDebtOneCredit})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="60" y="168" width="110" height="19" uuid="d16b765c-ae0f-461e-bbe5-aeb11fbce6d9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{avgTotalDebtTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="170" y="148" width="70" height="18" forecolor="#000000" uuid="b087be56-7746-43ea-90d1-b8c7286ea429"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="170" y="168" width="70" height="18" forecolor="#000000" uuid="22cf108a-ec40-4463-b5c4-e10c043b917b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="240" y="148" width="140" height="19" uuid="75fc207a-26c0-42fa-acbf-a4670a3f7eba"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{weightedAvgRateOneCredit})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="240" y="168" width="140" height="19" uuid="ffffdc01-68fa-41ac-b211-7e3107b7b2ee"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{weightedAvgRateTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="660" y="0" width="69" height="18" forecolor="#000000" uuid="0cc90260-3127-4be2-a07d-29f7eb341fcc"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="501" y="3" width="68" height="18" forecolor="#000000" uuid="368d3250-6a8a-4e28-bb60-7cca27f5f1ff"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

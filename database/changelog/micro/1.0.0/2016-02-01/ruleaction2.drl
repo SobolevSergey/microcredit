@@ -1,0 +1,17 @@
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : NameValueRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Partner" && signalRef == "msgUploadSkb");
+    $context : AbstractContext();
+    $actionProcessor : ActionProcessorBeanLocal();
+then   
+    $actionProcessor.uploadScoringSkb();
+end

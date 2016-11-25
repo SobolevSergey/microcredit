@@ -1,0 +1,38 @@
+import ru.simplgroupp.rules.BooleanRuleResult;
+import java.util.Map;
+import ru.simplgroupp.rules.AbstractContext;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal;
+import ru.simplgroupp.transfer.Reference;
+import ru.simplgroupp.transfer.RefHeader;
+import ru.simplgroupp.transfer.ActiveStatus;
+import ru.simplgroupp.toolkit.common.Convertor;
+
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Reference" && signalRef == "msgCheckPaymentSystemsBalance");
+    $cparams: Map();
+	$actionProcessor : ActionProcessorBeanLocal();
+then
+	Double requiredBalance = Convertor.toDouble($cparams.get("requiredBalance"));
+	Double smsRequiredBalance = Convertor.toDouble($cparams.get("smsRequiredBalance"));
+	Integer sendSmsRequiredBalance = Convertor.toInteger($cparams.get("sendSmsRequiredBalance"));
+	String phoneNumber = Convertor.toString($cparams.get("smsSendPhoneNumber"));
+
+	Integer paySystemCode = ((Reference) $context.getPaymentSystem()).getCodeInteger();
+
+	Double balance = $actionProcessor.checkBalancePaymentSystem(paySystemCode);
+	if (balance != null) {
+		if (balance < smsRequiredBalance && sendSmsRequiredBalance == ActiveStatus.ACTIVE) {
+			$actionProcessor.sendLowBalanceSms(phoneNumber, paySystemCode, balance);
+		}
+		if (balance < requiredBalance) {
+			$actionProcessor.changeReferenceStatus(RefHeader.ACCOUNT_TYPE, paySystemCode, ActiveStatus.ARCHIVE);
+		} else {
+			$actionProcessor.changeReferenceStatus(RefHeader.ACCOUNT_TYPE, paySystemCode, ActiveStatus.ACTIVE);
+		}
+	}
+end

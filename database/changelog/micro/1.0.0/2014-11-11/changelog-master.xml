@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="65" author="helen">
+        <sql>
+         
+            delete from qarequest;
+            
+            alter table qarequest add constraint fk_qareq_creditreq FOREIGN KEY (creditrequest_id)
+               REFERENCES creditrequest (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+           alter table verification drop constraint fk_verification_creditre;
+ 
+           alter table verification add constraint fk_verification_creditre FOREIGN KEY (creditrequest_id)
+               REFERENCES creditrequest (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+      
+          
+         </sql>
+  </changeSet>
+  
+<changeSet id="66" author="irk333">
+        <sql>
+         
+	alter table creditrequest add clienttimezone int null;
+          
+         </sql>
+  </changeSet>  
+	      
+ 
+</databaseChangeLog> 

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="123" author="helen">
+ 
+  <sql>
+create table Permission (
+   Id                   SERIAL               not null,
+   role_ID              INT4                 not null,
+   BusinessObjectClass  VARCHAR(50)          not null,
+   BusinessObjectId     INT4                 null,
+   CanView              INT2                 null default 0,
+   CanEdit              INT2                 null default 0,
+   CanDelete            INT2                 null default 0,
+   CanExecute           INT2                 null default 0,
+   SQLFilter            TEXT                 null,
+   constraint PK_PERMISSION primary key (Id)
+);
+
+create unique index Permission_PK on Permission (
+Id
+);
+
+create  index RelRolePerm_FK on Permission (
+role_ID
+);
+
+alter table Permission
+   add constraint FK_PERMISSI_RELROLEPE_ROLES foreign key (role_ID)
+      references roles (ID)
+      on delete restrict on update restrict;
+
+     </sql>
+  </changeSet>
+
+    <changeSet id="123" author="cvb">
+
+        <sql>
+          
+          ALTER TABLE partners
+              ALTER COLUMN passwordwork TYPE varchar(100),
+              ALTER COLUMN passwordtest TYPE varchar(100);
+          
+          INSERT INTO partners (id, name, realname, urltest, urlwork, passwordtest, canmakepayment, canmakecredithistory, canmakescoring)
+          VALUES (23, 'sociohub', 'Sociohub', 'https://api.sociohub.ru/v2/search', 'https://api.sociohub.ru/v2/search',
+              'bbb1AF43d52edbFFF281C1827b8fab68eCacaDEBCBb3C4E5fDB3FC03d9DeBA7C', false, false, true);
+
+          ALTER TABLE score_model ADD COLUMN code varchar(20);
+          
+          INSERT INTO score_model (partners_id, name, code) VALUES (23, 'Модель 1', 'model1');
+          INSERT INTO score_model (partners_id, name, code) VALUES (23, 'Модель 2', 'model2');
+          INSERT INTO score_model (partners_id, name, code) VALUES (23, 'Модель 3', 'model3');
+          
+          INSERT INTO eventcode (id, name) VALUES (46, 'обращение к внешнему партнеру - Sociohub');
+          
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="283" author="helen">
+
+<sql>
+  
+alter table creditdetails add delay integer default 0;
+
+
+</sql>
+</changeSet>
+
+<changeSet id="284" author="helen">
+
+  <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="stake_initial1.js" />
+      <where>name = 'credit.stake.initial.unknown'</where>
+    </update>
+
+  <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="stake_initial.js" />
+      <where>name = 'credit.stake.initial'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_stake1.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.stake1'</where>
+    </update>
+
+
+  </changeSet>
+
+<changeSet id="285" author="helen">
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgClientReject_enable.drl" />
+      <where>signalref = 'msgClientReject'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+ </changeSet>
+
+
+</databaseChangeLog> 

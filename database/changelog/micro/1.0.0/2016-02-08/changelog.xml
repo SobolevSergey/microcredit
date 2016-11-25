@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="336" author="brinat">
+        <sql>
+            insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, sqlfilter, schedule, issystem, retryinterval, isactive, isatomic, iscsingleton)
+            values (4, 'msgCreditRequestToCancel', 'ru.simplgroupp.transfer.CreditRequest', 'Отказ клиента если кредит одобрили 5 или более дней назад', 'admin', 0, 1, '(c.statusId.id=4) and (c.dateSign is null)', '0 30 1 * * * *', 1, 1800000, 1, 0, 0);
+        </sql>
+
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="credit_request_to_cancel_enabled.drl" />
+            <column name="ruleaction" valueClobFile="credit_request_to_cancel_action.drl" />
+            <where>signalref = 'msgCreditRequestToCancel'</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="337" author="brinat">
+        <sql>
+            ALTER TABLE creditrequest ADD COLUMN initial_stake double precision;
+        </sql>
+    </changeSet>
+    <changeSet id="338" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists columnName="externalId2" tableName="payment"/></not>
+        </preConditions>
+        <addColumn tableName="payment">
+            <column name="externalId2" type="varchar2(128)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="339" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.useFake';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.useFake', 'N', '1', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="340" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.asyncInterval';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.asyncInterval', 'N', '60000', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="341" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.retryInterval';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.retryInterval', 'N', '60000', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="342" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.useWork';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.useWork', 'N', '1', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="343" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.packetInterval';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.packetInterval', 'N', '0', NULL, NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="344" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.processPacketName';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.processPacketName', 'C', 'subPacket', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="345" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.mode';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.mode', 'C', 'SINGLE', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="346" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.processName';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.processName', 'C', 'subStandart', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="347" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.syncMode';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.syncMode', 'C', 'ASYNC', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="348" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.workUrl';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.workUrl', 'C', 'https://gate.ariuspay.ru/paynet/api/v2/', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="349" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.testUrl';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.testUrl', 'C', 'https://sandbox.ariuspay.ru/paynet/api/v2/', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="350" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.asyncSchedule';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.asyncSchedule', 'C', NULL, NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="351" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.packetSchedule';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.packetSchedule', 'C', NULL, NULL, NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="352" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.workEJBName';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.workEJBName', 'C', NULL, NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="353" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.fakeEJBName';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.fakeEJBName', 'C', NULL, NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="354" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.retrySchedule';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.retrySchedule', 'C', NULL, NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="355" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.executionMode';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="356" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.merchantKey';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.merchantKey', 'C', 'AD9B8E2C-DEA1-47AA-AAA3-CF594EE4F093', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="357" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.testLogin';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.testLogin', 'C', 'mobifinans-sbox', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="358" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.workLogin';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.workLogin', 'C', 'mobifinans-sbox', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="359" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.endpoint3ds';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.endpoint3ds', 'C', '848', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="360" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.endpointcardreg';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.endpointcardreg', 'C', '849', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="361" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.endpointdeposit2card';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.endpointdeposit2card', 'C', '852', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="362" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.endpointrecurrent';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.endpointrecurrent', 'C', '851', NULL, NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="363" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.sandbox';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.sandbox', 'N', '1', NULL, NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="364" author="aro">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from aiconstant where name = 'ariusPay.localhost';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (7, 'ariusPay.localhost', 'N', '1', NULL, NULL);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

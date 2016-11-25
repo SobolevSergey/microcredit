@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="151" author="helen">
+
+<sql>
+  
+ INSERT INTO reference(
+             ref_header_id, name, codeinteger, code,isactive, txversion)
+       VALUES (71, 'Платежи клиенту', 10, 'procPayment',1,0);
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'manualPayment','N','0','Возможность ручного платежа',0
+from reference where ref_header_id=71 and codeinteger=10;
+
+
+</sql>
+
+
+  </changeSet>
+
+<changeSet id="152" author="helen">
+<sql>
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'collector.auto.dealing','N','1','Автоматическое распределение',0
+from reference where ref_header_id=71 and codeinteger=9;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'collector.has.supervisor','N','0','Есть коллектор-супервизор',0
+from reference where ref_header_id=71 and codeinteger=9;
+
+</sql>
+
+</changeSet>
+
+
+</databaseChangeLog> 

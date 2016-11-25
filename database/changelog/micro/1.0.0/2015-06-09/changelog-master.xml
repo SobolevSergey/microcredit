@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="159" author="helen">
+
+<sql>
+
+CREATE TABLE airule
+(
+  id serial NOT NULL,
+  packagename character varying(100),
+  body text,
+  ruletype integer,
+  description character varying(200),
+  kbase character varying(30),
+  txversion integer DEFAULT 0,
+  CONSTRAINT pk_airule PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE airule
+  OWNER TO sa;
+
+GRANT ALL ON TABLE airule TO sa;
+
+CREATE INDEX idxpackagename
+  ON airule
+  USING btree
+  (packagename COLLATE pg_catalog."default" );
+
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (7, 'ru.simplgroupp.plugins', NULL, 2, 'Рабочие настройки', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (8, 'ru.simplgroupp.crypto.common', NULL, 2, 'Константы для подписания ЭЦП', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (10, 'ru.simplgroupp.payment.systems.order', NULL, 2, 'Порядок использования платежных систем', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (29, 'ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgOverdueSMS', NULL, 2, 'Тексты писем для ru.simplgroupp.transfer.Credit.msgOverdueSMS', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (30, 'ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgOverdueEmail', NULL, 2, 'Тексты писем для ru.simplgroupp.transfer.Credit.msgOverdueEmail', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (32, 'ru.simplgroupp.sms.common', NULL, 2, 'Константы для отправки смс из системы', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (33, 'ru.simplgroupp.email.common', NULL, 2, 'Константы для отправки email из системы', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (34, 'ru.simplgroupp.socnetwork.common', NULL, 2, 'Константы для соц.сетей', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (35, 'ru.simplgroupp.site.common', NULL, 2, 'Константы запроса информации с разных сайтов', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (42, 'ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgRefinanceEmail', NULL, 2, NULL, NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (40, 'ru.simplgroupp.rules.bonus.limits', NULL, 2, 'Константы для начисления бонусов', NULL);
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (45, 'ru.simplgroup.payment.to.order', NULL, 2, NULL, NULL);
+
+
+CREATE TABLE aiconstant
+(
+  id serial NOT NULL,
+  airule_id integer,
+  name character varying(50),
+  datatype character varying(1) NOT NULL,
+  datavalue character varying(250),
+  description character varying(200),
+  datavaluetext text,
+  txversion integer DEFAULT 0,
+  CONSTRAINT pk_aiconstant PRIMARY KEY (id ),
+  CONSTRAINT fk_aiconsta_relations_airule FOREIGN KEY (airule_id)
+      REFERENCES airule (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE aiconstant
+  OWNER TO sa;
+
+GRANT ALL ON TABLE aiconstant TO sa;
+
+CREATE UNIQUE INDEX aiconstant_pk
+  ON aiconstant
+  USING btree
+  (id );
+
+
+CREATE INDEX idxname
+  ON aiconstant
+  USING btree
+  (name COLLATE pg_catalog."default" );
+
+CREATE INDEX relationship_1_fk
+  ON aiconstant
+  USING btree
+  (airule_id );
+
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3612, 7, 'winPay.payUrl', 'C', 'http://win-pay24.ru/partner/28/payout', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3793, 7, 'winPay.statusUrl', 'C', 'http://win-pay24.ru/partner/28/check', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3584, 7, 'winPay.syncMode', 'C', 'ASYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (35, 10, '1', 'C', 'winPay,manualPay', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (37, 10, '2', 'C', 'winPay,manualPay', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (28, 8, 'cryptoservice.provider.default', 'C', 'SC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (27, 8, 'cryptoservice.securerandom.path', 'C', '/tmp/microcredit/securerandoms/', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (30, 8, 'cryptoservice.spep.url', 'C', 'http://195.245.214.33:7777/esv/?wsdl', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (31, 8, 'cryptoservice.certificate.validation.interval', 'N', '86400000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (39, 10, '4', 'C', 'yandexPay,manualPay', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (40, 10, '5', 'C', 'qiwiPay,manualPay', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (38, 10, '3', 'C', 'contactPay,manualPay', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (1696, 8, 'cryptoservice.keysDir', 'C', 'c:\\Users\\helen1\\1\\', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3596, 7, 'rusStandart.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3139, 30, 'default.body', 'C', NULL, NULL, 'Я Вам доверяю, но Вы просрочили срок возврата займа. Прошу, верните займ или продлите его срок как можно скорее. Ваш Растороп.');
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3141, 30, 'default.subject', 'C', 'Вы просрочили выплату займа', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3140, 29, 'sms.name', 'C', 'Я Вам доверяю, но у Вас заканчивается срок возврата займа. Прошу, верните займ или продлите его срок как можно скорее. Ваш Растороп. 8 (800) 775-22-05', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3570, 7, 'okbCais.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3142, 7, 'rusStandart.requestScoring', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3143, 32, 'sms.login.additional', 'C', 'cassaonline@yandex.ru', 'Логин для запасного сервера смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3144, 32, 'sms.password.additional', 'C', 'qwertyu123', 'Пароль для запасного сервера смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3145, 32, 'sms.url.additional', 'C', 'https://gate.smsaero.ru/send/', 'Запасной url для сервера смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3146, 32, 'sms.login', 'C', 'cassaonline', 'Логин для сервера смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3147, 32, 'sms.password', 'C', 'xopygibu', 'Пароль для сервера смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3148, 32, 'sms.url', 'C', 'https://www.smstraffic.ru/multi.php', 'Url для сервера смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3149, 32, 'sms.from', 'C', 'RASTOROP', 'От кого смс', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3152, 33, 'email.prefix', 'C', 'yandex.ru', 'Url для сервера email', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3153, 34, 'socnetwork.url', 'C', 'http://rastorop.ru/main/rest/social/', 'Url для соц.сетей', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3154, 35, 'geo.url', 'C', 'http://ipgeobase.ru:7020/geo?ip=', 'Url для гео.информации', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3151, 33, 'email.password', 'C', 'qwertyu123', 'Пароль для сервера email', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3150, 33, 'email.login', 'C', 'mail@rastorop.ru', 'Логин для сервера email', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3675, 7, 'contactPay.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3762, 7, 'okbIdv.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3798, 7, 'rusStandart.requestAntifrod', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3191, 40, 'bonus.pay.max.sum', 'F', '3500', 'Максимальная сумма, которую можно оплатить бонусами', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3190, 40, 'bonus.pay.procent', 'F', '0.3', 'Процент платежа, который можно оплатить бонусами', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3192, 40, 'bonus.isactive', 'N', '1', 'Активна ли вся система бонусов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3196, 45, '1', 'N', '3', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3197, 45, '2', 'N', '2', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3198, 45, '3', 'N', '1', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3165, 42, 'default.subject', 'C', 'Предлагаем рефинансирование', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3166, 42, 'default.body', 'C', NULL, NULL, 'Предлагаем рефинансирование - текст письма');
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3187, 40, 'bonus.rate', 'F', '1', 'Курс обмена бонусов к рублю', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3162, 40, 'invite.bonus.amount', 'F', '10000', 'Количество бонусов за приглашенного друга', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3179, 7, 'okbIdv.cacheDays', 'N', '10', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3180, 7, 'okbCais.cacheDays', 'N', '10', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3181, 7, 'rusStandart.cacheDays', 'N', '10', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3182, 7, 'equifax.cacheDays', 'N', '10', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3183, 7, 'sociohub.cacheDays', 'N', '10', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3184, 7, 'sociohub.minCorrectnessScore', 'N', '75', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3185, 7, 'skb.cacheDays', 'N', '10', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3188, 35, 'phone.db.url', 'C', 'http://stand.asap.digital/phonenumbers/api/phonenumber/check/', 'Сайт с БД телефонов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3199, 35, 'fms.db.url.login', 'C', 'adminUser', 'Логин для БД недействительных паспортов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3200, 35, 'fms.db.url.password', 'C', 'admin123', 'Пароль для БД недействительных паспортов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3189, 35, 'fms.db.url', 'C', 'http://stand.asap.digital/passinfo/rest/passcheck?passpnum=', 'Сайт с БД недействительных паспортов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3201, 35, 'phone.db.url.login', 'C', 'adminUser', 'Логин для БД телефонов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3202, 35, 'phone.db.url.password', 'C', 'admin123', 'Пароль для БД телефонов', NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3556, 7, 'winPay.balanceUrl', 'C', 'http://win-pay24.ru/partner/28/balance', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3500, 7, 'winPay.secretKey', 'C', '7yte4', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3539, 7, 'okbIdv.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3477, 7, 'contactAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3478, 7, 'rusStandart.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3479, 7, 'contactPay.senderFakeRegion', 'C', 'Moscow area', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3480, 7, 'contactAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3481, 7, 'rusStandart.workServerURL', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3482, 7, 'contactPay.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3483, 7, 'rusStandart.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3484, 7, 'contactAcq.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3485, 7, 'alfaMarengo.testBik', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3486, 7, 'verify.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3487, 7, 'yandexPay.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3488, 7, 'alphaAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3489, 7, 'alphaAcq.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3490, 7, 'contactPay.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3491, 7, 'payonlineAcq.merchantId', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3492, 7, 'winPay.packetInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3493, 7, 'yandexPay.workUrl', 'C', 'https://calypso.yamoney.ru:9094/', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3494, 7, 'okbCais.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3495, 7, 'alphaAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3496, 7, 'yandexAcq.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3497, 7, 'yandexAcq.useFake', 'N', '1', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3498, 7, 'qiwiAcq.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3499, 7, 'yandexAcq.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3501, 7, 'winPay.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3502, 7, 'yandexAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3503, 7, 'yandexPay.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3504, 7, 'yandexAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3505, 7, 'payonlineAcq.statusUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3506, 7, 'alfaMarengo.workOrderURL', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3507, 7, 'manualPay.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3508, 7, 'verify.taskExecuteSingle.wfAction0', 'C', 'name=Вопросы заданы;signalRef=msgMore;forProcess=true;candidateGroups=verificator', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3509, 7, 'okbCais.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3510, 7, 'okbCais.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3511, 7, 'equifax.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3512, 7, 'manualPay.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3513, 7, 'qiwiGateAcq.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3514, 7, 'payonlineAcq.verificationCardUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3515, 7, 'verify.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3516, 7, 'rusStandart.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3517, 7, 'contactPay.senderFakeCity', 'C', 'MOSCOW', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3518, 7, 'alfaMarengo.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3519, 7, 'okbIdv.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3520, 7, 'contactPay.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3521, 7, 'contactAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3522, 7, 'alfaMarengo.workInn', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3523, 7, 'account1C.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3524, 7, 'okbCais.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3525, 7, 'account1CPay.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3526, 7, 'account1CAcq.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3527, 7, 'okbIdv.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3528, 7, 'yandexAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3529, 7, 'manualPay.taskExecuteSingle.name', 'C', 'taskExecuteSingle', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3530, 7, 'alfaMarengo.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3531, 7, 'qiwiGateAcq.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3532, 7, 'okbIdv.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3533, 7, 'manualPay.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3534, 7, 'rusStandart.requestFSSP', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3535, 7, 'rusStandart.requestPayment', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3536, 7, 'qiwiAcq.statusUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3537, 7, 'payonlineAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3538, 7, 'contactPay.senderFakeName', 'C', 'Vladimir', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3540, 7, 'manualPay.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3541, 7, 'verify.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3542, 7, 'account1CPay.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3543, 7, 'alphaAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3544, 7, 'account1CAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3545, 7, 'okbCais.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3546, 7, 'yandexPay.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3547, 7, 'verify.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3548, 7, 'account1CPay.retryInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3549, 7, 'alphaAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3550, 7, 'account1C.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3551, 7, 'winPay.fakeEJBName', 'C', '', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3552, 7, 'payonlineAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3553, 7, 'contactAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3554, 7, 'rusStandart.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3555, 7, 'manualPay.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3557, 7, 'okbIdv.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3558, 7, 'payonlineAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3559, 7, 'rusStandart.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3560, 7, 'okbCais.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3561, 7, 'verify.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3562, 7, 'alphaAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3563, 7, 'rusStandart.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3564, 7, 'qiwiGateAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3565, 7, 'alfaMarengo.workStatementURL', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3566, 7, 'qiwiAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3567, 7, 'qiwiAcq.login', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3568, 7, 'account1CPay.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3569, 7, 'account1CPay.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3571, 7, 'yandexAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3572, 7, 'equifax.packetInterval', 'N', '60001', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3573, 7, 'account1CAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3574, 7, 'qiwiAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3575, 7, 'alphaAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3576, 7, 'account1CAcq.packetInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3577, 7, 'equifax.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3578, 7, 'winPay.retrySchedule', 'C', '', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3579, 7, 'qiwiAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3580, 7, 'okbCais.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3581, 7, 'alfaMarengo.workOrganization', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3582, 7, 'contactPay.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3583, 7, 'qiwiGateAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3585, 7, 'yandexAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3586, 7, 'contactAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3587, 7, 'alfaMarengo.testAccount', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3588, 7, 'rusStandart.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3589, 7, 'account1CAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3590, 7, 'yandexPay.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3591, 7, 'contactAcq.scid', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3592, 7, 'contactPay.syncMode', 'C', 'ASYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3593, 7, 'account1C.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3594, 7, 'okbCais.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3595, 7, 'qiwiGateAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3597, 7, 'alfaMarengo.workAccount', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3598, 7, 'contactPay.workUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3599, 7, 'contactPay.testUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3600, 7, 'okbIdv.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3601, 7, 'qiwiGateAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3602, 7, 'contactAcq.packetInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3603, 7, 'qiwiAcq.orderUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3604, 7, 'qiwiAcq.providerId', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3605, 7, 'contactAcq.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3606, 7, 'payonlineAcq.rebillUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3607, 7, 'contactPay.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3608, 7, 'rusStandart.requestVerify', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3609, 7, 'yandexAcq.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3610, 7, 'contactPay.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3611, 7, 'okbCais.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3613, 7, 'equifax.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3614, 7, 'payonlineAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3615, 7, 'yandexAcq.shopId', 'N', '18561', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3616, 7, 'equifax.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3617, 7, 'yandexAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3618, 7, 'contactAcq.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3619, 7, 'alphaAcq.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3620, 7, 'equifax.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3621, 7, 'winPay.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3622, 7, 'contactPay.senderFakeLastName', 'C', 'Generous', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3623, 7, 'rusStandart.testServerURL', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3624, 7, 'okbIdv.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3625, 7, 'contactPay.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3626, 7, 'contactPay.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3627, 7, 'yandexPay.useFake', 'N', '1', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3628, 7, 'alphaAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3629, 7, 'yandexAcq.workUrl', 'C', 'https://money.yandex.ru/eshop.xml', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3630, 7, 'payonlineAcq.cancelUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3631, 7, 'okbIdv.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3632, 7, 'alfaMarengo.useFake', 'N', '1', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3633, 7, 'equifax.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3634, 7, 'account1C.mode', 'C', 'PACKET', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3635, 7, 'qiwiAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3636, 7, 'account1CPay.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3637, 7, 'okbCais.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3638, 7, 'verify.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3639, 7, 'account1CAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3640, 7, 'account1C.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3641, 7, 'contactPay.senderFakeZipCode', 'C', '120120', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3642, 7, 'payonlineAcq.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3643, 7, 'contactPay.senderFakeDocWhom', 'C', 'GYVD', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3644, 7, 'yandexPay.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3645, 7, 'qiwiGateAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3646, 7, 'qiwiGateAcq.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3647, 7, 'alfaMarengo.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3648, 7, 'account1C.packetInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3649, 7, 'contactAcq.workUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3650, 7, 'okbIdv.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3651, 7, 'payonlineAcq.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3652, 7, 'contactPay.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3653, 7, 'account1CPay.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3654, 7, 'account1CAcq.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3655, 7, 'equifax.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3656, 7, 'account1C.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3657, 7, 'manualPay.taskExecuteSingle.description', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3658, 7, 'payonlineAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3659, 7, 'account1CPay.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3660, 7, 'yandexPay.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3661, 7, 'verify.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3662, 7, 'account1C.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3663, 7, 'qiwiAcq.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3664, 7, 'qiwiAcq.password', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3665, 7, 'winPay.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3666, 7, 'contactAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3667, 7, 'account1CPay.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3668, 7, 'alfaMarengo.testOrganization', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3669, 7, 'alphaAcq.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3670, 7, 'okbCais.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3671, 7, 'yandexAcq.retryInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3672, 7, 'contactPay.senderFakeDocdate', 'C', '20020423', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3673, 7, 'winPay.packetSchedule', 'C', '', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3674, 7, 'manualPay.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3676, 7, 'payonlineAcq.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3677, 7, 'okbIdv.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3678, 7, 'winPay.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3679, 7, 'rusStandart.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3680, 7, 'yandexAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3681, 7, 'manualPay.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3682, 7, 'qiwiAcq.payUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3683, 7, 'contactPay.senderFakeAddress', 'C', 'MOSCOW Kremlin 5', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3684, 7, 'yandexPay.testUrl', 'C', 'https://bo-demo02.yamoney.ru:9094/', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3685, 7, 'manualPay.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3686, 7, 'alfaMarengo.testInn', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3687, 7, 'yandexPay.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3688, 7, 'manualPay.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3689, 7, 'qiwiGateAcq.packetInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3690, 7, 'alfaMarengo.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3691, 7, 'okbIdv.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3692, 7, 'winPay.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3693, 7, 'verify.packetInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3694, 7, 'contactAcq.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3695, 7, 'account1CAcq.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3696, 7, 'rusStandart.requestFMS', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3697, 7, 'alfaMarengo.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3698, 7, 'okbCais.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3699, 7, 'account1C.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3700, 7, 'payonlineAcq.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3701, 7, 'contactPay.senderFakeDocSerNum', 'C', '1234123456', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3702, 7, 'manualPay.retryInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3703, 7, 'alfaMarengo.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3704, 7, 'manualPay.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3705, 7, 'account1CAcq.mode', 'C', 'PACKET', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3706, 7, 'account1CAcq.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3707, 7, 'contactAcq.testUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3708, 7, 'alfaMarengo.workBik', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3709, 7, 'account1C.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3710, 7, 'alfaMarengo.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3711, 7, 'contactPay.keyStoreAlias', 'C', 'Testkey', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3712, 7, 'verify.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3713, 7, 'account1C.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3714, 7, 'account1CPay.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3715, 7, 'payonlineAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3716, 7, 'okbCais.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3717, 7, 'qiwiAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3718, 7, 'contactPay.senderFakeDocExpDate', 'C', '20720423', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3719, 7, 'equifax.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3720, 7, 'contactPay.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3721, 7, 'alphaAcq.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3722, 7, 'contactPay.senderFakeDocName', 'C', 'PASSPORT', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3723, 7, 'rusStandart.requestFNS', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3724, 7, 'rusStandart.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3725, 7, 'contactPay.senderFakeSurName', 'C', 'Ivanovich', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3726, 7, 'okbIdv.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3727, 7, 'qiwiAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3728, 7, 'contactPay.keyStorePassword', 'C', 'changeit', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3729, 7, 'contactAcq.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3730, 7, 'alphaAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3731, 7, 'contactPay.senderFakeBirthday', 'C', '19700112', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3732, 7, 'okbIdv.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3733, 7, 'account1CPay.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3734, 7, '48.providerId', 'N', '48', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3735, 7, 'yandexPay.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3736, 7, 'qiwiAcq.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3737, 7, 'manualPay.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3738, 7, 'winPay.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3739, 7, 'qiwiGateAcq.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3740, 7, 'winPay.workEJBName', 'C', '', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3741, 7, 'account1CPay.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3742, 7, 'alfaMarengo.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3743, 7, 'qiwiGateAcq.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3744, 7, 'payonlineAcq.packetInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3745, 7, 'contactAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3746, 7, 'yandexPay.retryInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3747, 7, 'okbIdv.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3748, 7, 'qiwiAcq.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3749, 7, 'contactAcq.shopId', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3750, 7, 'qiwiGateAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3751, 7, 'alfaMarengo.asyncInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3752, 7, 'qiwiAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3753, 7, 'payonlineAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3754, 7, 'alfaMarengo.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3755, 7, 'okbIdv.trustStoreName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3756, 7, 'yandexPay.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3757, 7, 'contactAcq.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3758, 7, 'equifax.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3759, 7, 'equifax.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3760, 7, 'alfaMarengo.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3761, 7, 'account1CAcq.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3763, 7, 'alfaMarengo.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3764, 7, 'equifax.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3765, 7, 'contactPay.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3766, 7, 'contactPay.PPcode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3767, 7, 'verify.syncMode', 'C', 'SYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3768, 7, 'qiwiGateAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3769, 7, 'yandexPay.agentId', 'C', '200382', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3770, 7, 'verify.taskExecuteSingle.name', 'C', 'taskExecuteSingle', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3771, 7, 'okbCais.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3772, 7, 'rusStandart.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3773, 7, 'winPay.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3774, 7, 'rusStandart.asyncInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3775, 7, 'yandexPay.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3776, 7, 'payonlineAcq.privateSecurityKey', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3777, 7, 'equifax.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3778, 7, 'manualPay.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3779, 7, 'rusStandart.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3780, 7, 'winPay.asyncSchedule', 'C', '', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3781, 7, 'payonlineAcq.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3782, 7, 'yandexPay.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3783, 7, 'qiwiAcq.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3784, 7, 'alfaMarengo.testStatementURL', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3785, 7, 'qiwiGateAcq.executionMode', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3786, 7, 'rusStandart.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3787, 7, 'equifax.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3788, 7, 'manualPay.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3789, 7, 'equifax.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3790, 7, 'yandexAcq.password', 'C', 'QvdC40Y8g0LjQvdGE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3791, 7, 'yandexAcq.scid', 'N', '56212', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3792, 7, 'contactPay.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3794, 7, 'yandexAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3795, 7, 'account1CAcq.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3796, 7, 'verify.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3797, 7, 'account1CAcq.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3799, 7, 'alphaAcq.packetInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3800, 7, 'qiwiAcq.retryInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3801, 7, 'alfaMarengo.useWork', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3802, 7, 'payonlineAcq.bankCardUrl', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3803, 7, 'yandexPay.syncMode', 'C', 'ASYNC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3804, 7, 'account1CAcq.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3805, 7, 'contactAcq.password', 'C', '219AFD28-CCC2-4CD7-BBBC-9058F761B1CD', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3806, 7, 'qiwiAcq.workEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3807, 7, 'verify.taskExecuteSingle.description', 'C', 'Задать вопросы', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3808, 7, 'contactAcq.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3809, 7, 'verify.packetSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3810, 7, 'account1C.asyncInterval', 'N', '60000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3811, 7, 'rusStandart.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3812, 7, 'contactPay.keyStoreName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3813, 7, 'verify.executionMode', 'C', 'MANUAL', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3814, 7, 'payonlineAcq.asyncSchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3815, 7, 'account1C.processName', 'C', 'subStandart', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3816, 7, 'contactPay.fakeEJBName', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3817, 7, 'account1C.useFake', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3818, 7, 'rusStandart.fakeXmlAnswer', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3819, 7, 'alfaMarengo.packetInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3820, 7, 'verify.retryInterval', 'N', '120000', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3821, 7, 'account1CPay.processPacketName', 'C', 'subPacket', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3822, 7, 'yandexAcq.mode', 'C', 'SINGLE', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3823, 7, 'yandexAcq.executionMode', 'C', 'AUTOMATIC', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3824, 7, 'yandexAcq.testUrl', 'C', 'https://demomoney.yandex.ru/eshop.xml', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3825, 7, 'alfaMarengo.testOrderURL', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3826, 7, 'alphaAcq.retryInterval', 'N', '0', NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3827, 7, 'yandexPay.retrySchedule', 'C', NULL, NULL, NULL);
+INSERT INTO aiconstant (id, airule_id, name, datatype, datavalue, description, datavaluetext) VALUES (3828, 7, 'account1CPay.syncMode', 'C', 'SYNC', NULL, NULL);
+
+</sql>
+
+
+</changeSet>
+
+
+
+</databaseChangeLog> 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+<changeSet id="335" author="ponomarev">
+    <sql>
+insert into aiconstant (airule_id, name, datatype, datavalue) 
+values (7, 'okbHunter.cacheDays', 'N', '10');
+    </sql>
+</changeSet>
+
+<changeSet id="335" author="helen">
+    <sql>
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.min.oldClient','F','0.01','Минимальная ставка для старого клиента',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.max.oldClient','F','0.01','Максимальная ставка для старого клиента',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+ </sql>
+</changeSet>
+
+    <changeSet id="335" author="brinat">
+        <sql>
+            insert into aiconstant (airule_id, name, datatype, datavalue, description, txversion)
+            values ((select id from airule where packagename = 'ru.simplgroupp.email.common'), 'email.smtp.port', 'N', '587', 'Email SMTP порт с TLS', 0);
+            insert into aiconstant (airule_id, name, datatype, datavalue, description, txversion)
+            values ((select id from airule where packagename = 'ru.simplgroupp.email.common'), 'email.smtp.port.no.tls', 'N', '25', 'Email SMTP порт без TLS', 0);
+            insert into aiconstant (airule_id, name, datatype, datavalue, description, txversion)
+            values ((select id from airule where packagename = 'ru.simplgroupp.email.common'), 'email.from', 'C', 'mail@rastorop.ru', 'От кого отправялется email', 0);
+            insert into aiconstant (airule_id, name, datatype, datavalue, description, txversion)
+            values ((select id from airule where packagename = 'ru.simplgroupp.email.common'), 'email.our.server', 'N', '0', 'Используем для отправки почты свой сервер', 0);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

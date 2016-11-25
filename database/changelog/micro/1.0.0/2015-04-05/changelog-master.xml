@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="116" author="helen">
+ 
+  <sql>
+  
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (60, 'рефинансирование', 5, 1, 0);
+
+insert into eventcode (id, name) values (41, 'Рефинансирование');      
+
+drop table friends;
+
+update  credit set creditstatus_id=reference.id from  reference where creditstatus_id=162 and partners_id=1 and reference.ref_header_id=13 and reference.codeinteger=10;
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

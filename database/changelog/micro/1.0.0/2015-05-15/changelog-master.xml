@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="137" author="helen">
+ 
+    <sql>
+    
+
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.sum.min','F','1000.00','Минимальная сумма',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.sum.max','F','15000.00','Максимальная сумма',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.min','N','2','Минимально дней',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.days.max','N','31','Максимально дней',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.min','F','0.01','Минимальная ставка',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.max','F','0.04','Максимальная ставка',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.default','F','0.04','Ставка по умолчанию',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'bonus.rate','F','1','Курс обмена бонусов к рублю',0
+from reference where ref_header_id=71 and codeinteger=6;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'bonus.pay.max.sum','F','3500.00','Максимальная сумма, которую можно оплатить бонусами',0
+from reference where ref_header_id=71 and codeinteger=6;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'bonus.pay.procent','F','0.3','Процент платежа, который можно оплатить бонусами',0
+from reference where ref_header_id=71 and codeinteger=6;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'bonus.isactive','N','1','Активна ли вся система бонусов',0
+from reference where ref_header_id=71 and codeinteger=6;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.stake.initial','Ставка для зарегистрированного пользователя',1,0
+from reference where ref_header_id=71 and codeinteger=1;
+
+     </sql>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="stake_initial.js" />
+      <where>name = 'credit.stake.initial'</where>
+    </update>
+
+  </changeSet>
+
+<changeSet id="138" author="helen">
+ 
+   <sql>
+      alter table products drop column creditsum_min;
+      alter table products drop column creditsum_max;
+      alter table products drop column creditdays_min;
+      alter table products drop column creditdays_max;
+      alter table products drop column creditstake_min;
+      alter table products drop column creditstake_max;
+      alter table products drop column databeg;
+      alter table products drop column dataend;
+  </sql>
+</changeSet>
+
+</databaseChangeLog> 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="328" author="brinat">
+        <sql>
+            update product_messages set body = 'В платежной системе %s на счету: %8.0f' where name = 'sms.low.payment.text'
+        </sql>
+
+        <update tableName="bizaction">
+            <column name="ruleaction" valueClobFile="check_payment_systems_balance_action.drl"/>
+            <where>signalref = 'msgCheckPaymentSystemsBalance'</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

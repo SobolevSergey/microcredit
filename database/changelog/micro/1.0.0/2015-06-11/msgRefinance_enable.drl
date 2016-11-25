@@ -1,0 +1,22 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.util.ProductKeys
+import ru.simplgroupp.workflow.SignalRef
+import java.util.Date
+import ru.simplgroupp.transfer.PeopleMain
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.toolkit.common.Convertor;
+
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult(getResultValue() == null);
+    $cparams : Map();
+    $context : AbstractContext();
+    $actionProcessor : ActionProcessorBeanLocal();
+then   
+    $bResult.setResultValue($context.getCredit() != null && Convertor.toInteger($cparams.get(ProductKeys.REFINANCE_ENABLED))==1 && $context.getCredit().getLastRefinance() == null && $context.getCredit().getDraftProlong() == null && $context.getCredit().getCreditOwner()==null && DatesUtils.daysDiff($context.getCurrentDate(),$context.getCredit().getCreditDataEnd()) >= Convertor.toInteger($cparams.get(ProductKeys.REFINANCE_DAYS_OVERDUE_AVAILABLE)) );
+end

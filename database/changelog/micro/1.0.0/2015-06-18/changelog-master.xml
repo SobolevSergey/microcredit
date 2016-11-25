@@ -1,0 +1,108 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="167" author="parfenov">
+
+        <sql>
+            ALTER TABLE cms_page ADD COLUMN project_name VARCHAR(50);
+
+            UPDATE cms_page SET project_name = 'centrofinance';
+
+            ALTER TABLE cms_page ALTER COLUMN project_name SET NOT NULL;
+        </sql>
+    </changeSet>
+
+<changeSet id="167" author="helen">
+ 
+    <sql>
+ 
+alter table partners add dateversion date;
+
+insert into ref_header (id, partners_id, name) values (79, 1, 'Вид коллекторской деятельности'); 
+insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 79, 'soft', 1, 1); 
+insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 79, 'hard', 2, 1); 
+insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 79, 'legal', 3, 1); 
+insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 79, 'agency', 4, 1); 
+
+
+CREATE TABLE collector
+(
+  id serial NOT NULL,
+  users_id integer,
+  peoplemain_id integer not null,
+  collectiontype_id integer,
+  databeg date,
+  dataend date,
+  comment character varying(500),
+  credit_id integer not null,
+  txversion integer,
+  CONSTRAINT pk_collector PRIMARY KEY (id ),
+  CONSTRAINT fk_collector_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_collector_ref FOREIGN KEY (collectiontype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_collector_people FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_collector_users FOREIGN KEY (users_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE collector
+  OWNER TO sa;
+
+GRANT ALL ON TABLE collector TO sa;
+
+
+CREATE UNIQUE INDEX collector_pk
+  ON collector
+  USING btree
+  (id );
+
+CREATE INDEX idxdatabeg
+  ON collector
+  USING btree
+  (databeg);
+
+
+CREATE INDEX peoplemain_collector
+  ON collector
+  USING btree
+  (peoplemain_id );
+
+
+CREATE INDEX credit_collector
+  ON collector
+  USING btree
+  (credit_id );
+
+
+CREATE INDEX user_collector
+  ON collector
+  USING btree
+  (users_id );
+
+        </sql>
+    </changeSet>
+
+<changeSet id="168" author="helen">
+ 
+    <sql>
+ 
+alter table collector add isactive integer default 0;
+
+   </sql>
+    </changeSet>
+
+
+
+</databaseChangeLog> 
+

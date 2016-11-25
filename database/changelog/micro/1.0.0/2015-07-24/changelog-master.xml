@@ -1,0 +1,64 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="200" author="brinat">
+        <sql>
+            CREATE SEQUENCE terrorists_id_seq
+            INCREMENT 1
+            MINVALUE 1
+            MAXVALUE 9223372036854775807
+            START 1
+            CACHE 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="201" author="brinat">
+        <sql>
+            CREATE TABLE terrorists
+            (
+            id integer NOT NULL DEFAULT nextval('terrorists_id_seq'),
+            surname character varying(255),
+            name character varying(255),
+            midname character varying(255),
+            birthday timestamp without time zone,
+            birthplace character varying(512),
+            databeg timestamp without time zone,
+            dataend timestamp without time zone,
+            isactive boolean,
+            CONSTRAINT terrorists_pkey PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="202" author="brinat">
+        <sql>
+            CREATE SEQUENCE terrorist_settings_id_seq
+            INCREMENT 1
+            MINVALUE 1
+            MAXVALUE 9223372036854775807
+            START 1
+            CACHE 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="203" author="brinat">
+        <sql>
+            CREATE TABLE terrorist_settings
+            (
+            id integer NOT NULL DEFAULT nextval('terrorist_settings_id_seq'),
+            days character varying(30),
+            hour integer,
+            CONSTRAINT terrorist_settings_pkey PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

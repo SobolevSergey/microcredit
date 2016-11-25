@@ -1,0 +1,30 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Credit" && signalRef == "msgToCollector");
+    $context : AbstractContext();
+    $cparams: Map();
+then
+	Object[] scaleDays = CalcUtils.intRangeScale(
+	  0, $context.getCredit().getCreditDays(),
+	  $context.getCredit().getCreditDays(), ((Integer) $cparams.get("credit.days.max.lgot")).intValue()+$context.getCredit().getCreditDays() ,
+	  ((Integer) $cparams.get("credit.days.min.common")).intValue() +$context.getCredit().getCreditDays()-1, 
+			((Integer) $cparams.get("credit.days.max.common")).intValue()+$context.getCredit().getCreditDays(),
+	  ((Integer) $cparams.get("credit.days.min.overdue")).intValue() +$context.getCredit().getCreditDays()-1, 				
+		((Integer) $cparams.get("credit.days.max.overdue")).intValue()+$context.getCredit().getCreditDays()
+	);
+	Object[] scaleDates = CalcUtils.daysToDatesScale($context.getCredit().getCreditDataBeg(), scaleDays);	
+	 int calcInterval = CalcUtils.getScalePos(scaleDates, $context.getCurrentDate());
+	 
+   	$bResult.setResultValue(calcInterval >= 2);
+end

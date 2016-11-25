@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="111" author="helen">
+
+        <sql>
+
+            CREATE TABLE products
+            (
+            id serial NOT NULL,
+            name character varying(250),
+            creditsum_min double precision,
+            creditsum_max double precision,
+            creditstake_min double precision,
+            creditstake_max double precision,
+            creditdays_min integer,
+            creditdays_max integer,
+            code character varying(20),
+            paymenttype_id integer,
+            databeg date,
+            dataend date,
+            isactive integer,
+            txversion integer,
+            CONSTRAINT pk_products PRIMARY KEY (id ),
+            CONSTRAINT fk_referenc_products FOREIGN KEY (paymenttype_id)
+            REFERENCES reference (id) MATCH SIMPLE
+            ON UPDATE RESTRICT ON DELETE RESTRICT
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE products
+            OWNER TO sa;
+            GRANT ALL ON TABLE products TO sa;
+
+
+            CREATE UNIQUE INDEX products_pk
+            ON products
+            USING btree
+            (id );
+
+            insert into products(id,name,creditsum_min,creditsum_max,creditstake_min,creditstake_max,creditdays_min,creditdays_max,code, paymenttype_id,databeg, dataend, isactive)
+            select 1,'Заем до зарплаты',1000,15000,0.002,0.004,2,31,'R001',id,DATE '2014-01-01',DATE '2020-01-01',1
+            from reference where ref_header_id=33 and code='00';
+
+            INSERT INTO partners(
+            id, name, urlwork, loginwork, passwordwork, codework, urluploadwork,
+            realname,  canmakecredithistory, uploadversion,  requestversion)
+            VALUES (22, 'skb', 'https://crs.spec-cb.ru/A2A/request.ashx', 'kassaskb', 'kassaskb123', 10122, 'https://crs.spec-cb.ru/A2A/upload.ashx',
+            'Специализированное КБ', true, '03.00', '02.00');
+
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="112" author="kvs_vovka">
+
+        <sql>
+
+
+
+
+
+            /*==============================================================*/
+            /* Table: EventCalledFriend                                     */
+            /*==============================================================*/
+            create table EventCalledFriend (
+            EventLog_Id          INT4                 not null,
+            Surname              VARCHAR(50)          null,
+            Name                 VARCHAR(50)          null,
+            Email                VARCHAR(100)         null,
+            constraint PK_EVENTCALLEDFRIEND primary key (EventLog_Id)
+            );
+
+            /*==============================================================*/
+            /* Index: EventLogFriend_PK                                     */
+            /*==============================================================*/
+            create unique index EventLogFriend_PK on EventCalledFriend (
+            EventLog_Id
+            );
+
+            alter table EventCalledFriend
+            add constraint FK_EVENTCAL_INHERITAN_EVENTLOG foreign key (EventLog_Id)
+            references EventLog (Id)
+            on delete cascade on update restrict;
+
+
+
+        </sql>
+    </changeSet>
+
+
+
+</databaseChangeLog>

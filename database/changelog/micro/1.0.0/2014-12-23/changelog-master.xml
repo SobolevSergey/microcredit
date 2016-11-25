@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="79" author="helen">
+ 
+  <sql>
+     
+   update reference set codemain='05',codeintegermain=5,ref_header_idmain=2 where ref_header_id=30 and code='02'; 
+   update reference set codemain='05',codeintegermain=5,ref_header_idmain=2 where ref_header_id=30 and code='04';
+   update reference set codemain='03',codeintegermain=3,ref_header_idmain=2 where ref_header_id=30 and code='03';
+   update reference set codemain='01',codeintegermain=1,ref_header_idmain=2 where ref_header_id=30 and code='05';
+   update reference set codemain='04',codeintegermain=4,ref_header_idmain=2 where ref_header_id=30 and code='21';
+   update reference set codemain='04',codeintegermain=4,ref_header_idmain=2 where ref_header_id=30 and code='22';
+   update reference set codemain='04',codeintegermain=4,ref_header_idmain=2 where ref_header_id=30 and code='23';
+   update reference set codemain='04',codeintegermain=4,ref_header_idmain=2 where ref_header_id=30 and code='24';
+   update reference set codemain='04',codeintegermain=4,ref_header_idmain=2 where ref_header_id=30 and code='25';
+   update reference set codemain='04',codeintegermain=4,ref_header_idmain=2 where ref_header_id=30 and code='26';
+
+   </sql>
+  </changeSet>
+   
+ 
+</databaseChangeLog> 

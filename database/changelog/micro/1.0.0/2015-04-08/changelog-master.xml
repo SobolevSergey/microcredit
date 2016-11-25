@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="118" author="helen">
+ 
+  <sql>
+  
+       delete from reference where ref_header_id=64;
+       delete from ref_header where id=64;
+       update ref_header set partners_id=1 where id=63;
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

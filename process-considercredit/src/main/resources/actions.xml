@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action signal-ref="msgMore" description="Далее" business-object-class="ru.simplgroupp.transfer.CreditRequest" 
+        candidate-groups="verificator" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+    <action signal-ref="msgAccept" description="Дать кредит" business-object-class="ru.simplgroupp.transfer.CreditRequest" 
+        candidate-groups="creditmanager" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>    
+    <action signal-ref="msgReject" description="Отказать" business-object-class="ru.simplgroupp.transfer.CreditRequest" 
+        candidate-groups="creditmanager" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>    
+</actions>

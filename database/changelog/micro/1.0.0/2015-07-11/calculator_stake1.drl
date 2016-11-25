@@ -1,0 +1,266 @@
+package ru.simplgroupp.rules.credit.calculator.stake1;
+dialect "java"
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.util.ProductKeys
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import ru.simplgroupp.toolkit.common.IntegerRange
+import ru.simplgroupp.toolkit.common.DateRange
+import ru.simplgroupp.toolkit.common.Convertor;
+
+function double calcStakeInitial(double creditSum, int creditDays, double stakeMin, double stakeMax) {
+    Double c = 0.0435275977526034 * Math.pow(1.00000396879854, creditSum) * Math.pow(0.972552886121762, creditDays);
+    double d = CalcUtils.roundHalfUp( c, 3);
+    if (d < stakeMin) {
+       d = stakeMin;
+    }
+    if (d > stakeMax) {
+       d = stakeMax;
+    }
+    Double s = d * 1000 % 10;
+    if (s != 0) {
+     if (s == 1 || s == 6) {
+      d = CalcUtils.roundHalfUp( d - 0.001, 3);
+        }
+        if (s == 2 || s == 7) {
+         d = CalcUtils.roundHalfUp( d - 0.002, 3);
+     }
+        if (s == 3 || s == 8) {
+         d = CalcUtils.roundHalfUp( d + 0.002, 3);
+        }
+        if (s == 4 || s == 9) {
+         d = CalcUtils.roundHalfUp( d + 0.001, 3);
+        }
+    }    
+ return d;
+}
+
+rule "ru.simplgroupp.rules.credit.calculator.stake1.1"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+    $creditSum : Double();
+    $creditDays : Integer();
+then
+    double stakeMin = ((Double) $cparams.get(ProductKeys.CREDIT_STAKE_MIN)).doubleValue();
+    double stakeMax = ((Double) $cparams.get(ProductKeys.CREDIT_STAKE_MAX)).doubleValue();
+    
+    double d = calcStakeInitial($creditSum, $creditDays, stakeMin, stakeMax); 
+    
+    $bResult.setValue(CreditCalculatorBeanLocal.STAKE_INITIAL, new Double(d));
+end
+
+rule "ru.simplgroupp.rules.credit.calculator.stake1.2"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+    $credit : Credit();
+    $dateCalc : Date();    
+then 
+ CreditRequest ccRequest = $credit.getCreditRequest();
+ 
+ Double initialStake = new Double(0.0);
+ //if credit stake is null
+ if ($credit.getCreditPercent() == null) {
+     double stakeMin = ((Double) $cparams.get(ProductKeys.CREDIT_STAKE_MIN)).doubleValue();
+     double stakeMax = ((Double) $cparams.get(ProductKeys.CREDIT_STAKE_MAX)).doubleValue();    
+     double d = calcStakeInitial(ccRequest.getCreditSum(), ccRequest.getCreditDays(), stakeMin, stakeMax);   
+     initialStake = new Double(d);
+ } else {
+  initialStake = $credit.getCreditPercent();
+ }
+
+   
+ Object[] scaleDays = null;
+ Double[] stakeValues =null;
+ Double[] stakePenaltyValues =null;
+
+
+ //if credit has lgot period and overdue period
+ if (Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_LGOT_PERIOD))==1&&Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_OVERDUE_PERIOD))==1){
+  
+  scaleDays = CalcUtils.intRangeScale( 0, $credit.getCreditDays(),
+  $credit.getCreditDays(), ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue()+$credit.getCreditDays() ,
+  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue() +$credit.getCreditDays(), 
+                ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue()+((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue()+$credit.getCreditDays(),
+  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)) +$credit.getCreditDays()+((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue(), 
+  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_OVERDUE)).intValue()+((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON))+((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue()+$credit.getCreditDays()
+ );
+
+  stakeValues = new Double[] {
+    initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_LGOT)+initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON)+initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_OVERDUE)+initialStake 
+   };
+
+  stakePenaltyValues = new Double[] {
+    new Double(0.0),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_LGOT),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_OVERDUE) 
+   };
+
+
+} else if (Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_LGOT_PERIOD))==1&&Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_OVERDUE_PERIOD))==0){
+  //if credit has lgot period and has not overdue period
+
+ 
+  scaleDays = CalcUtils.intRangeScale( 0, $credit.getCreditDays(),
+  $credit.getCreditDays(), ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue()+$credit.getCreditDays() ,
+  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue() +$credit.getCreditDays(), 
+  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue()+((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue()+$credit.getCreditDays()
+ 
+ );
+
+ 
+  stakeValues = new Double[] {
+    initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_LGOT)+initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON)+initialStake
+   };
+
+  stakePenaltyValues = new Double[] {
+    new Double(0.0),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_LGOT),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON)
+   };
+
+  
+
+} else if (Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_LGOT_PERIOD))==0&&Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_OVERDUE_PERIOD))==1){
+  //if credit has not lgot period and has overdue period
+
+ 
+  scaleDays = CalcUtils.intRangeScale( 0, $credit.getCreditDays(),
+  $credit.getCreditDays(), ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue()+$credit.getCreditDays() ,
+  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue() +$credit.getCreditDays(), 
+                ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue()+((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_OVERDUE)).intValue()+$credit.getCreditDays()
+ 
+ );
+
+  stakeValues = new Double[] {
+    initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON)+initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_OVERDUE)+initialStake 
+   };
+
+  stakePenaltyValues = new Double[] {
+    new Double(0.0),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_OVERDUE) 
+   };
+
+
+}else if (Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_LGOT_PERIOD))==0&&Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_OVERDUE_PERIOD))==0){
+  //if credit has not lgot period and has not overdue period
+
+ scaleDays = CalcUtils.intRangeScale( 0, $credit.getCreditDays(),
+  $credit.getCreditDays(), ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue()+$credit.getCreditDays()
+ 
+ );
+
+  stakeValues = new Double[] {
+    initialStake,
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON)+initialStake,
+    };
+
+  stakePenaltyValues = new Double[] {
+    new Double(0.0),
+    (Double) $cparams.get(ProductKeys.CREDIT_STAKE_COMMON)
+   };
+
+
+}
+
+ 
+ Object[] scaleDates = CalcUtils.daysToDatesScale($credit.getCreditDataBeg(), scaleDays);
+ 
+ double sumMain = 0.0;
+ double sumAdd = 0.0;
+ Date dateStart = $credit.getDateMainRemain();
+ sumMain = $credit.getSumMainRemain();
+ 
+ if (! $credit.getPartialPayment() ) {
+  // there was no payment
+    sumAdd=sumMain*initialStake;
+ }
+ 
+ // calc interval
+ int startInterval = CalcUtils.getScalePos(scaleDates, dateStart);
+ int calcInterval = CalcUtils.getScalePos(scaleDates, $dateCalc);
+ // calc percents
+ double sumPercent = 0.0;
+ //payment was after date for calc 
+ if (dateStart.after($dateCalc)&&!DatesUtils.isSameDay(dateStart,$dateCalc)){
+    sumMain=$credit.getCreditSum();
+    sumPercent = CalcUtils.calcSumPercent(sumMain, $credit.getCreditDataBeg(), stakeValues, scaleDates, $dateCalc)+sumAdd;
+
+ } else {
+    sumPercent = CalcUtils.calcSumPercent(sumMain, dateStart, stakeValues, scaleDates, $dateCalc)+sumAdd;
+ }
+ 
+ double sumPenalty=CalcUtils.calcSumPercent(sumMain, dateStart, stakePenaltyValues, scaleDates, $dateCalc);
+ 
+ $bResult.setValue(CreditCalculatorBeanLocal.INVERVAL_CURRENT, calcInterval);
+ $bResult.setValue(CreditCalculatorBeanLocal.INVERVAL_START, startInterval); 
+if (calcInterval!=-1){ 
+ $bResult.setValue(CreditCalculatorBeanLocal.DAYS_CURRENT_START, Convertor.integerRangeFrom(scaleDays[calcInterval])); 
+ $bResult.setValue(CreditCalculatorBeanLocal.DAYS_CURRENT_END, Convertor.integerRangeTo(scaleDays[calcInterval]));
+ $bResult.setValue(CreditCalculatorBeanLocal.DATE_CURRENT_START, Convertor.dateRangeFrom(scaleDates[calcInterval])); 
+ $bResult.setValue(CreditCalculatorBeanLocal.DATE_CURRENT_END, Convertor.dateRangeTo(scaleDates[calcInterval])); 
+ $bResult.setValue(CreditCalculatorBeanLocal.STAKE_CURRENT, new Double(stakeValues[calcInterval])); 
+} else {
+  $bResult.setValue(CreditCalculatorBeanLocal.STAKE_CURRENT, initialStake);
+}
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_MAIN, sumMain);
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_PERCENT, new Double(sumPercent));
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_ABOVE, new Double(sumPercent));
+
+ double sumBack=0.0;
+ double sumBackOverdue=0.0; 
+ //credit is overdue 
+ if (calcInterval>0){
+    //there was no payment
+    if (! $credit.getPartialPayment() ){
+       sumBack= new Double( sumMain + sumPercent);
+
+    } else {
+       Date dateStatus=$credit.getDateStatus();
+       if ($credit.getCreditDataEnd().after(dateStatus)){
+         dateStatus=$credit.getCreditDataEnd();
+       }  
+       sumBack=CalcUtils.roundFloor(CalcUtils.calcSumBack($credit.getSumMainRemain(), $credit.getCreditSumBack(), new Double(stakeValues[calcInterval]),$dateCalc,dateStatus),0);
+       $bResult.setValue(CreditCalculatorBeanLocal.SUM_PERCENT, CalcUtils.roundFloor(new Double(sumBack-sumMain),0));
+  
+    } 
+  
+      
+ } else {
+    //there was no payment
+    if (! $credit.getPartialPayment() ){
+       sumBack= new Double( sumMain + sumPercent);
+
+    } else {
+       //main sum has been changed  
+       if ($credit.getDateStatus().after($dateCalc)||($credit.getChangedSum()!=null&&$credit.getChangedSum()==1)){
+          sumBack= new Double( sumMain + sumPercent);
+
+       } else {
+          sumBack=$credit.getCreditSumBack()-CalcUtils.calcSumPercentForSubtract($dateCalc,$credit.getCreditDataEnd(), $credit.getSumMainRemain(), $credit.getCreditPercent());
+          $bResult.setValue(CreditCalculatorBeanLocal.SUM_PERCENT, CalcUtils.roundFloor(new Double(sumBack-sumMain),0));
+
+       }
+    }
+ }
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_BACK,sumBack);
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_BACK_OVERDUE,sumBack);
+ $bResult.setValue(CreditCalculatorBeanLocal.SUM_PENALTY,sumPenalty);
+  
+end

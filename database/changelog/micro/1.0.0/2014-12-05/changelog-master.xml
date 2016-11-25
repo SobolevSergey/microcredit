@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="74" author="helen">
+ 
+  <sql>
+     
+  insert into creditstatus(id,name) values(9,'клиент не забрал деньги, автоматически закрыта');
+  alter table creditvalue add valuedate date;
+  alter table creditvalue add valuestring varchar(100);
+
+   </sql>
+  </changeSet>
+<changeSet id="75" author="irk333">
+ 
+  <sql>
+alter table misc alter column classname SET DATA TYPE character varying(150);
+   </sql>
+  </changeSet>	      
+ 
+</databaseChangeLog> 

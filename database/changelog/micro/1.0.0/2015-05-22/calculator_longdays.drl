@@ -1,0 +1,56 @@
+package ru.simplgroupp.rules.credit.calculator.longdays;
+dialect "java"
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.toolkit.common.Convertor;
+import ru.simplgroupp.util.ProductKeys
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.transfer.Credit
+
+
+
+rule "ru.simplgroupp.rules.credit.calculator.longdays.1"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+    $credit : Credit();
+    $dateLong : Date();    
+then
+
+    int calcDays=Convertor.toInteger($cparams.get(ProductKeys.CREDIT_HAS_DAYS_SUM_MAX));
+    //if we have limit for credit days, we should try to calc, is person has an ability for prolongation
+    if (calcDays==1){
+      Date dt=null;
+      if ($credit.isOverdue($dateLong)){
+         dt=$dateLong;
+      } else {
+         dt=$credit.getCreditDataEnd();
+      } 
+      Integer dcred=DatesUtils.daysDiff(dt, $credit.getCreditDataBeg());
+      //prolongation is enabled
+      if (dcred<Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_SUM_MAX))){
+        Integer d=Convertor.toInteger($cparams.get(ProductKeys.PROLONG_DAYS_MAX)); 
+        //calc longdays
+        if (Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_SUM_MAX))-dcred>d) {
+           $bResult.setValue(CreditCalculatorBeanLocal.PROLONG_DAYS,d);
+        } else {	
+           $bResult.setValue(CreditCalculatorBeanLocal.PROLONG_DAYS,Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_SUM_MAX))-dcred);
+        }//end calc longdays
+
+      }//end prolongation is enabled
+    } else {
+       $bResult.setValue(CreditCalculatorBeanLocal.PROLONG_DAYS,Convertor.toInteger($cparams.get(ProductKeys.PROLONG_DAYS_MAX)));
+
+    }//end if we have limit
+
+    Integer days=DatesUtils.daysDiff($dateLong, $credit.getDateMainRemain())+($credit.getCreditDateDebt()==null?1:0);
+    $bResult.setValue(CreditCalculatorBeanLocal.PROLONG_DAYS_FOR_PAYMENT, days);
+    Integer daysf=(!$credit.isOverdue($dateLong)?DatesUtils.daysDiff($credit.getCreditDataEnd(),$dateLong):0);
+    $bResult.setValue(CreditCalculatorBeanLocal.PROLONG_DAYS_BEFORE_CREDIT_END, daysf);
+
+    
+end

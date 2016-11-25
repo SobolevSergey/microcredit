@@ -1,0 +1,56 @@
+package ru.simplgroupp.rules.credit.calculator.initial;
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.toolkit.common.NameValuePair
+import ru.simplgroupp.interfaces.service.HolidaysService
+import java.util.Date
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Account
+import org.apache.commons.lang.time.DateUtils
+
+rule "ru.simplgroupp.rules.credit.calculator.initial.1"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+    $ruleKey : NameValuePair(name == "ruleKey" && value == "ru.simplgroupp.rules.credit.calculator.initial.1" );
+then
+    double creditSum = ((Double) $cparams.get(CreditCalculatorBeanLocal.SUM_MAIN)).doubleValue();
+    double creditStake = ((Double) $cparams.get(CreditCalculatorBeanLocal.STAKE_INITIAL)).doubleValue();
+    int creditDays = ((Number) $cparams.get(CreditCalculatorBeanLocal.DAYS_INITIAL)).intValue();
+    
+    creditDays = creditDays + 1;
+    double sumPercent = CalcUtils.roundHalfUp(creditSum * creditStake * creditDays,0);
+    
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_MAIN, new Double(creditSum));
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_PERCENT, new Double(sumPercent));
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_BACK, new Double(creditSum + sumPercent));
+end
+
+rule "ru.simplgroupp.rules.credit.calculator.initial.2"
+when 
+    $bResult : NameValueRuleResult();
+    $ccRequest : CreditRequest();
+    $holiServ : HolidaysService();
+then
+    double creditSum = $ccRequest.getCreditSum();
+    double creditStake = $ccRequest.getStake();
+    int creditDays = $ccRequest.getCreditDays();
+    Date actualDateStart = $ccRequest.getDateSign();
+    
+    if ($ccRequest.getAccount().getAccountType().getCodeInteger() == Account.CARD_TYPE || $ccRequest.getAccount().getAccountType().getCodeInteger() == Account.BANK_TYPE) {
+     int holiDays = $holiServ.getDaysOfHolidays(actualDateStart);
+     creditDays = creditDays - holiDays;
+     actualDateStart = DateUtils.addDays(actualDateStart, holiDays);
+    }
+    
+    double sumPercent = CalcUtils.roundHalfUp(creditSum * creditStake * (creditDays+1),0);
+    
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_MAIN, new Double(creditSum));
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_PERCENT, new Double(sumPercent));
+    $bResult.setValue(CreditCalculatorBeanLocal.SUM_BACK, new Double(creditSum + sumPercent));
+    $bResult.setValue(CreditCalculatorBeanLocal.DAYS_ACTUAL, new Integer(creditDays));
+    $bResult.setValue(CreditCalculatorBeanLocal.DATE_START_ACTUAL, actualDateStart);
+end

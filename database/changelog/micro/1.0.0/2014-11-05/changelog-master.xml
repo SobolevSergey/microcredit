@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="63" author="helen">
+        <sql>
+         
+            delete from credithistorypay where credit_id not in (select id from credit);
+
+            alter table credithistorypay add constraint fk_history_credit FOREIGN KEY (credit_id)
+               REFERENCES credit (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            alter table requests add requestnumber integer;
+      
+           CREATE OR REPLACE FUNCTION delete_credit(creditid integer) RETURNS void AS $$ BEGIN delete from prolong where credit_id=creditid; delete from repaymentschedule where credit_id=creditid; delete from payment where credit_id=creditid; update creditrequest set acceptedcredit_id=null where acceptedcredit_id=creditid; delete from credit where id=creditid; END; $$ LANGUAGE plpgsql;
+
+         </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

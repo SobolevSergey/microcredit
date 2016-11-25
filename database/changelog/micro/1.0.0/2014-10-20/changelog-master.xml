@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="47" author="helen">
+        <sql>delete from bank;</sql>
+    </changeSet>
+
+    <changeSet id="48" author="helen">
+        <loadData
+                encoding="UTF-8"
+                file="../micro/1.0.0/2014-10-20/bank.csv"
+                separator=";"
+                quotchar="'"
+                tableName="bank">
+            <column name="bik" type="STRING" />
+            <column name="name" type="STRING" />
+            <column name="coraccount"  type="STRING" />
+            <column name="isactive" type="NUMERIC" />
+            <column name="isbank"  type="NUMERIC" />
+            <column name="address"  type="STRING" />
+        </loadData>
+    </changeSet>
+
+
+</databaseChangeLog> 

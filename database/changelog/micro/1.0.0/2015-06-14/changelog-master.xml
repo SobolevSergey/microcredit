@@ -1,0 +1,75 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="164" author="helen">
+ 
+    <sql>
+    
+insert into partners (id, name, urltest, urlwork, logintest, passwordtest, codetest, realname , canmakepayment, canmakecredithistory, canmakescoring, txversion)
+values (24, 'nbki', 'https://icrs.demo.nbki.ru/', 'https://icrs.nbki.ru/', 'ME01FF000003', 'bWx5b7Jv', 'ME01FF000000', 'КБ НБКИ', false, true, true, 0);
+
+insert into aiconstant ( airule_id, name, datatype, datavalue )
+values ( 7, 'nbki.cacheDays', 'N', '10' );
+
+insert into aiconstant ( airule_id, name, datatype, datavalue )
+values ( 7, 'nbki.useWork', 'N', '0' );
+
+insert into aiconstant ( airule_id, name, datatype, datavalue )
+values ( 7, 'nbki.requestScoring', 'N', '0' );
+
+insert into aiconstant ( airule_id, name, datatype, datavalue )
+values ( 7, 'nbki.urlCommon', 'C','products/B2BRequestServlet' );
+
+insert into aiconstant ( airule_id, name, datatype, datavalue )
+values ( 7, 'nbki.urlScoring', 'C','score2' );
+
+insert into ref_header (id, partners_id, name)
+values (75, 24, 'Тип кредита НБКИ');
+
+insert into reference ( ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'автокредит', 1, 1,2,1);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'лизинг', 4, 1,2,2);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'ипотека', 6, 1,2,3);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'кредитная карта', 7, 1,2,4);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'потребительский кредит', 9, 1,2,5);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'развитие бизнеса', 10, 1,2,6);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'пополнение оборотного капитала', 11, 1,2,7);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 75, 'покупка оборудования', 12, 1,2,8);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'межбанковский кредит', 15, 1,2,11);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 75, 'микрокредит', 16, 1,2,19);
+
+insert into eventcode (id, name) values (57,'Обращение к внешнему партнеру КБ НБКИ');
+
+insert into eventcode (id, name) values (58,'Выгрузка данных в КБ НБКИ');
+
+insert into eventcode (id, name) values (59,'Подпись недействительна КБ НБКИ');
+
+insert into eventcode (id, name) values (60,'Ошибка при выгрузке данных в КБ НБКИ');
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

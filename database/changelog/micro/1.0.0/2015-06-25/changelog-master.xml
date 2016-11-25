@@ -1,0 +1,41 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+<changeSet id="177" author="irk333">
+ 
+    <sql>
+      <![CDATA[
+      insert into eventcode (id, name) values (61, 'Права для роли изменены');
+      
+      insert into reference (ref_header_id, name, codeinteger, isactive) values (74, 'Клиент', 1002, 1);
+      insert into reference (ref_header_id, name, codeinteger, isactive) values (74, 'Платёж', 1003, 1);
+      ]]>
+   </sql>
+ </changeSet>
+ 
+<changeSet id="177" author="helen">
+ 
+    <sql>
+    alter table documentmedia alter document_id  drop not null;
+    alter table documentmedia add peoplemain_id integer;
+    alter table documentmedia add CONSTRAINT fk_documentmedia_peoplemain FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+    alter table documentmedia add scantype_id integer;
+    alter table documentmedia add CONSTRAINT fk_documentmedia_reference FOREIGN KEY (scantype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+     insert into ref_header (id, partners_id, name) values (80, 1, 'Виды сканируемых документов'); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 80, 'Скан паспорта', 1, 1); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 80, 'Скан водительского удостоверения', 2, 1); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 80, 'Скан ИНН', 3, 1); 
+     insert into reference ( ref_header_id, name, codeinteger, isactive) values ( 80, 'Скан СНИЛС', 4, 1); 
+
+   </sql>
+    </changeSet>
+</databaseChangeLog> 
+

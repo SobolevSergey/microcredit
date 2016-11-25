@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	   
+
+<changeSet id="261" author="helen">
+ 
+    <sql>
+    
+      update verification_config set diff=0 where diff is null;
+      update verification_config set diff=16 where id=1;
+      update verification_config set diff=30 where id=2;
+      update verification_config set diff=60 where id=3;
+      update verification_config set diff=0.05 where id=7;
+      update verification_config set diff=0.1 where id=8;
+      update verification_config set diff=0.15 where id=9;
+      update verification_config set use_for_matching=false where id in (2,3,8,9);
+      update verification_reference set fieldname='credittypeId' where fieldname='credittype_id';
+      update verification_reference set fieldname='overduestateId' where fieldname='overduestate_id';
+      update verification_reference set fieldname='idCurrency' where fieldname='id_currency';
+      update verification_reference set fieldname='creditAccount' where fieldname='creditaccount';
+
+     </sql>
+  </changeSet>
+
+</databaseChangeLog> 

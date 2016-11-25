@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action signal-ref="msgRefinanceCancel" description="Отменить рефинансирование" business-object-class="ru.simplgroupp.transfer.Refinance" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+	
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+    <action signal-ref="msgRefinancePay" description="Заплатить минимальную сумму" business-object-class="ru.simplgroupp.transfer.Refinance" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>    
+</actions>

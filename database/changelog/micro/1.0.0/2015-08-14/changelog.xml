@@ -1,0 +1,98 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="217" author="helen">
+ 
+    <sql>
+    
+INSERT INTO ref_header(
+            id, partners_id, name, txversion)
+    VALUES (83, 1, 'Состояние звонка', 0);
+
+insert into reference ( ref_header_id, name, codeinteger, isactive )
+values ( 83, 'В процессе разговора', 1, 1);
+
+insert into reference (ref_header_id, name, codeinteger, isactive )
+values ( 83, 'Пропущен', 2, 1);
+
+insert into reference (ref_header_id, name, codeinteger, isactive )
+values ( 83, 'Завершен', 3, 1);
+
+INSERT INTO ref_header(
+            id, partners_id, name, txversion)
+    VALUES (84, 1, 'Результат разговора коллектора с клиентом', 0);
+
+insert into reference ( ref_header_id, name, codeinteger, isactive )
+values ( 84, 'Согласен оплатить', 1, 1);
+
+insert into reference (ref_header_id, name, codeinteger, isactive )
+values ( 84, 'Просит время на погашение долга', 2, 1);
+
+insert into reference ( ref_header_id, name, codeinteger, isactive )
+values ( 84, 'Не согласен оплатить', 3, 1);
+
+alter table calls add status_id integer;
+alter table calls add phone varchar(20);
+alter table calls add isclientcall integer default 0;
+alter table calls add CONSTRAINT fk_status_call FOREIGN KEY (status_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+CREATE TABLE call_result
+(
+  id serial NOT NULL,
+  users_id integer not null,
+  peoplemain_id integer NOT NULL,
+  resulttype_id integer,
+  datecall timestamp with time zone,
+  datepromise date,
+  datenextcontact date,
+  comment character varying(500),
+  txversion integer,
+  CONSTRAINT pk_callresult PRIMARY KEY (id ),
+  CONSTRAINT fk_callresult_people FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_resulttype_ref FOREIGN KEY (resulttype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_callresult_users FOREIGN KEY (users_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE call_result
+  OWNER TO sa;
+GRANT ALL ON TABLE call_result TO sa;
+
+
+CREATE UNIQUE INDEX callresult_pk
+  ON call_result
+  USING btree
+  (id );
+
+
+CREATE INDEX peoplemain_callresult
+  ON call_result
+  USING btree
+  (peoplemain_id );
+
+
+CREATE INDEX user_callresult
+  ON call_result
+  USING btree
+  (users_id );
+
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

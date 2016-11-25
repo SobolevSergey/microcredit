@@ -1,0 +1,101 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="318"  author="irk333">
+        <sql>
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть antifraud-поля', 30, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть кредитную историю', 31, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть переменные из стратегии', 32, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть основные данные заявки', 33, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+update reference 
+set parent_id= (select r.id from reference r inner join ref_header h on (r.ref_header_id = h.id) where h.name = 'Функция в системе' and r.codeinteger=1000 ) 
+where ref_header_id = (select id from ref_header where name = 'Функция в системе') and codeinteger in (30,31,32,33);
+
+insert into rpermission (role_id, feature_id)
+select rl.id, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id), roles rl
+where h.name = 'Функция в системе' and r.codeinteger in (30,31,32,33);
+
+        </sql>
+    </changeSet>
+    
+    <changeSet id="319"  author="irk333">
+        <sql>
+<![CDATA[	  
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть занятость', 34, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть доп.информацию', 35, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть суммарную инф.по кредитам', 36, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть чёрный список', 37, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть логи', 38, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть запросы к партнёрам', 39, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть скоринги', 40, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть долги', 41, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть негативную информацию', 42, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть платежи за телефон', 43, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть поведение', 44, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть верификацию', 45, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+update reference 
+set parent_id= (select r.id from reference r inner join ref_header h on (r.ref_header_id = h.id) where h.name = 'Функция в системе' and r.codeinteger=1000 ) 
+where ref_header_id = (select id from ref_header where name = 'Функция в системе') and codeinteger >= 34 and codeinteger <=45;
+
+insert into rpermission (role_id, feature_id)
+select rl.id, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id), roles rl
+where h.name = 'Функция в системе' and r.codeinteger >=34 and codeinteger <=45;
+  ]]>
+        </sql>
+    </changeSet>    
+	  
+</databaseChangeLog>
+

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	<changeSet id="220" author="parfenov">
+	<sql>
+        alter table cms_documents add column project_name character varying(50) NOT NULL;
+        alter table cms_news add column project_name character varying(50) NOT NULL;
+        alter table cms_question_group add column project_name character varying(50) NOT NULL;
+	</sql>
+    </changeSet>
+	
+	<changeSet id="221" author="julia">
+	
+	<update tableName="bizaction">
+		<column name="signalref" value="msgUploadEquifax" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgScoringEquifax')</where>
+      </update>
+	
+	<sql>
+	INSERT INTO bizaction(bizactiontype_id, signalref, businessobjectclass, description, 
+            candidategroups, forone, formany, issystem,
+            isactive, isrequired, isatomic, iscsingleton)
+	VALUES (4, 'msgUploadSkb', 'ru.simplgroupp.transfer.CreditRequest', 'Выгрузить информацию для Skb', 
+            'admin', 0, 1, 1, 1, 1, 0, 3);	
+
+      </sql>
+      <update tableName="bizaction">
+		<column name="ruleaction" valueClobFile="ruleaction2.drl" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadSkb')</where>
+      </update>
+	
+	<sql>
+	INSERT INTO bizaction(bizactiontype_id, signalref, businessobjectclass, description, 
+            candidategroups, forone, formany, issystem,
+            isactive, isrequired, isatomic, iscsingleton)
+	VALUES (4, 'msgUploadNBKI', 'ru.simplgroupp.transfer.CreditRequest', 'Выгрузить информацию для NBKI', 
+            'admin', 0, 1, 1, 1, 1, 0, 3);	
+
+      </sql>
+      <update tableName="bizaction">
+		<column name="ruleaction" valueClobFile="ruleaction3.drl" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadNBKI')</where>
+      </update>
+	
+	<sql>
+	INSERT INTO bizaction(bizactiontype_id, signalref, businessobjectclass, description, 
+            candidategroups, forone, formany, issystem,
+            isactive, isrequired, isatomic, iscsingleton)
+	VALUES (4, 'msgUploadOkbCais', 'ru.simplgroupp.transfer.CreditRequest', 'Выгрузить информацию для OkbCais', 
+            'admin', 0, 1, 1, 1, 1, 0, 3);	
+
+      </sql>
+      <update tableName="bizaction">
+		<column name="ruleaction" valueClobFile="ruleaction4.drl" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadOkbCais')</where>
+      </update>
+	
+	<sql>
+	INSERT INTO bizaction(bizactiontype_id, signalref, businessobjectclass, description, 
+            candidategroups, forone, formany, issystem,
+            isactive, isrequired, isatomic, iscsingleton)
+	VALUES (4, 'msgUploadRS', 'ru.simplgroupp.transfer.CreditRequest', 'Выгрузить информацию для RS', 
+            'admin', 0, 1, 1, 1, 1, 0, 3);	
+
+      </sql>
+      <update tableName="bizaction">
+		<column name="ruleaction" valueClobFile="ruleaction6.drl" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadRS')</where>
+      </update>
+    </changeSet> 
+    
+
+
+</databaseChangeLog> 

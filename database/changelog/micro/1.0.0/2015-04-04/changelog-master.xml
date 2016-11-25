@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="115" author="helen">
+ 
+  <sql>
+   CREATE TABLE refinance
+(
+  id serial NOT NULL,
+  credit_id integer NOT NULL,
+  creditnew_id integer,
+  refinancedate timestamp with time zone,
+  refinancedays integer,
+  refinancestake double precision,
+  refinanceamount double precision,
+  smscode character varying(10),
+  agreement text,
+  isactive integer,
+  uniquenomer character varying(20),
+  txversion integer,
+  CONSTRAINT pk_refinance PRIMARY KEY (id ),
+  CONSTRAINT fk_refinance_relations_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+ CONSTRAINT fk_refinance_relations_credit_new FOREIGN KEY (creditnew_id)
+      REFERENCES credit (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE refinance
+  OWNER TO sa;
+
+GRANT ALL ON TABLE refinance TO sa;
+
+CREATE UNIQUE INDEX refinance_pk
+  ON refinance
+  USING btree
+  (id );
+
+
+CREATE INDEX relationship_refinance_credit
+  ON refinance
+  USING btree
+  (credit_id );
+
+CREATE INDEX relationship_refinance_credit_new
+  ON refinance
+  USING btree
+  (creditnew_id );
+
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (13, 'передан внутреннему коллектору', 10, 1, 0);
+
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

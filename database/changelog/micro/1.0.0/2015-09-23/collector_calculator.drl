@@ -1,0 +1,36 @@
+package ru.simplgroupp.rules.credit.calculator.collector;
+dialect "java"
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CollectorKeys
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.util.ProductKeys
+import ru.simplgroupp.toolkit.common.Convertor
+import ru.simplgroupp.transfer.Credit;
+
+rule "ru.simplgroupp.rules.credit.calculator.collector.1"
+when
+    $bResult  : NameValueRuleResult();
+    $cparams  : Map();
+	$credit : Credit();
+then
+	Integer delayDays = $credit.getMaxDelay();
+	Boolean firstDelay = Convertor.toBoolean($cparams.get(CollectorKeys.IS_FIRST_DELAY));
+	Integer daysSoft = Convertor.toInteger($cparams.get(ProductKeys.COLLECTOR_DAYS_SOFT));
+	Integer daysHard = Convertor.toInteger($cparams.get(ProductKeys.COLLECTOR_DAYS_HARD));
+
+	String maxCollectorType = Convertor.toString($cparams.get(CollectorKeys.MAX_COLLECTOR_TYPE));
+
+	if (firstDelay && (delayDays >= daysSoft && delayDays < daysHard)) {
+		$bResult.setValue(CollectorKeys.COLLECTOR_TYPE, CollectorKeys.SOFT);
+	}
+	if (!firstDelay || delayDays >= daysHard) {
+		if (CollectorKeys.SOFT.equals(maxCollectorType)) {
+			$bResult.setValue(CollectorKeys.COLLECTOR_TYPE, CollectorKeys.SOFT);
+		} else {
+			$bResult.setValue(CollectorKeys.COLLECTOR_TYPE, CollectorKeys.HARD);
+		}
+	}
+end

@@ -1,0 +1,19 @@
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : NameValueRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Payment" && signalRef == "msgCancelPaymentContact");
+    $context : AbstractContext();
+    $actionProcessor : ActionProcessorBeanLocal();
+then   
+    $actionProcessor.cancelPaymentContact($context.getPayment().getId() );
+end

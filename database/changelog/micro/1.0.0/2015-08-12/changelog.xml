@@ -1,0 +1,35 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="213" author="helen">
+ 
+    <sql>
+    
+INSERT INTO ref_header(
+            id, partners_id, name, txversion)
+    VALUES (82, 1, 'Вид отправителя для обратной связи', 0);
+
+insert into reference ( ref_header_id, name, codeinteger, isactive )
+values ( 82, 'Заемщик', 1, 1);
+
+insert into reference (ref_header_id, name, codeinteger, isactive )
+values ( 82, 'Инвестор', 2, 1);
+
+INSERT INTO aiconstant ( airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 35, 'terrorist.db.url.login', 'C', 'adminUser', 'Логин для БД террористов', NULL);
+INSERT INTO aiconstant ( airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 35, 'terrorist.db.url.password', 'C', 'admin123', 'Пароль для БД террористов', NULL);
+INSERT INTO aiconstant ( airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 35, 'terrorist.db.url', 'C', 'http://stand.asap.digital/terrorist/rest/check?', 'Сайт с БД террористов', NULL);
+
+alter table callback add type_id integer;
+alter table callback add CONSTRAINT fk_type_callback FOREIGN KEY (type_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

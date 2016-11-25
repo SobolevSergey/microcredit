@@ -1,0 +1,42 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="234" author="helen">
+ 
+    <sql>
+ 
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.login.changed','Письмо об изменении логина',
+'Ваше имя входа в систему изменилось',
+'<p>Обратите внимание!</p> <p>Ваше новое имя входа в <a href="http://rastorop.ru/client">личный кабинет</a> на сайте - %1$s.</p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=6;]]>
+
+  
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.password.changed','Письмо о смене пароля',
+'Вы поменяли пароль в системе',
+'<p>Вы успешно поменяли пароль от <a href="http://rastorop.ru/client">личного кабинета</a> на сайте <b>Растороп.</b></p><p> Благодарим Вас за использование нашей системы.</p> <p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=6;]]>
+
+
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="235" author="bogdanchikov">
+        <sql>
+            insert into antifrod_page_types values (18, 'about', 'О компании');
+            insert into antifrod_page_types values (19, 'contacts', 'Контакты');
+            insert into antifrod_page_types values (20, 'forgetpass', 'Напоминание пароля');
+            insert into antifrod_page_types values (21, 'news', 'Новости');
+            insert into antifrod_page_types values (22, 'politics', 'Правила и условия');
+            insert into antifrod_page_types values (23, 'remindpass', 'Смена пароля');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog> 
+

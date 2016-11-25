@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options>
+    <option name="waitRefinance" type="N">
+        <default-value>2</default-value>
+    </option> 
+    <option name="waitDraft" type="C">
+        <default-value>P1D</default-value>
+    </option>         
+</options>

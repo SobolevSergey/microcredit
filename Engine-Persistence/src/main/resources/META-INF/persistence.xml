@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <persistence-unit name="MicroPU" transaction-type="JTA">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:jboss/datasources/MicroDS</jta-data-source>
+        <mapping-file>micro.hbm.xml</mapping-file>
+        <mapping-file>micro-qry.hbm.xml</mapping-file>
+        <mapping-file>micro-reports-qry.hbm.xml</mapping-file>
+        <!-- <mapping-file>queries.hbm.xml</mapping-file> -->
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <!-- <property name="hibernate.archive.autodetection" value=""/> -->
+        </properties>
+    </persistence-unit>
+</persistence>

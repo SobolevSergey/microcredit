@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="145" author="helen">
+
+<sql>
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.credit.calculator.longdays','Рассчитываем количество дней для продления',2,'kbLongdaysCalc',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.refinance.accepted','Смс о рефинансировании займа',
+'Поздравляю, Ваш заём рефинансирован. Не забудьте погасить его вовремя. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.refinance.declined','Смс об отмене рефинансирования',
+'Вы не оплатили необходимую сумму, и Ваше рефинансирование отменено. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.has.days.sum.max','N','1','Есть ли ограничение на кол-во дней кредита вместе с продлениями',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'prolong.enabled','N','1','Возможно ли вообще продление для данного продукта',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'refinance.enabled','N','1','Возможно ли вообще рефинансирование для данного продукта',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+
+INSERT INTO reference(
+             ref_header_id, name, codeinteger, code,isactive,  txversion)
+       VALUES (34, 'Недействителен', 9,'Invalid',1, 0);
+
+</sql>
+
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_longdays.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.longdays'</where>
+    </update>
+
+  </changeSet>
+
+
+</databaseChangeLog> 

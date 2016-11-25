@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean id="ejb-context"
+    class="org.springframework.context.support.ClassPathXmlApplicationContext">
+    <constructor-arg>
+        <list>
+            <value>classpath:/META-INF/applicationContext.xml</value>
+        </list>
+    </constructor-arg>
+</bean>

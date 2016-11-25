@@ -1,0 +1,1 @@
+/usr/lib/jvm/default-java/bin/wsimport -extension -Xnocompile -B-XautoNameResolution -keep -p org.admnkz.crypto.requestspep spep.wsdl

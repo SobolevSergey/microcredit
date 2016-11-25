@@ -1,0 +1,17 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+   <changeSet id="308" logicalFilePath="1449571219" author="efrolov">
+        <sql>
+            ALTER TABLE users ADD COLUMN oktellUuid CHARACTER VARYING;
+            CREATE UNIQUE INDEX users_oktell_uuid ON users (oktellUuid);
+
+            ALTER TABLE calls ADD COLUMN incoming BOOLEAN;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+  
+	<changeSet id="214" author="Julia">
+        <update tableName="report">
+        	<column name="name" value="Письмо для подтверждения кода"></column>
+			<column name="code" value="letter.confirm"></column>
+        	<column name="mimetype" value="text/html"></column>
+		<column name="body" valueClobFile="email.txt"></column> 
+                <where>id=6</where>
+        </update>
+    </changeSet>
+
+	<changeSet id="215" author="Julia">
+ 
+    <sql>
+
+
+CREATE TABLE cms_news
+(
+  id serial NOT NULL,
+  description character varying(300),
+  title character varying(300),
+  keywords character varying(300),
+  name character varying(300),
+  body text,
+  createdate timestamp with time zone,
+  preview_img_id integer,
+  img_id integer,
+  datechange timestamp with time zone,
+  CONSTRAINT pk_cms_news PRIMARY KEY (id),
+  CONSTRAINT fk_preview_img_cms_news FOREIGN KEY (preview_img_id)
+      REFERENCES cms_images (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_main_img_cms_news FOREIGN KEY (img_id)
+      REFERENCES cms_images (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cms_news
+  OWNER TO sa;
+GRANT ALL ON TABLE cms_news TO sa;
+
+CREATE UNIQUE INDEX pk_cms_news_u
+  ON cms_page
+  USING btree
+  (id);
+
+CREATE TABLE cms_text_blocks
+(
+  id serial NOT NULL,
+  name character varying(300),
+  body text,
+  createdate timestamp with time zone,
+  img_id integer,
+  datechange timestamp with time zone,
+  order_ind integer,
+  CONSTRAINT pk_cms_text_blocks PRIMARY KEY (id),
+  CONSTRAINT fk_main_img_text_blocks FOREIGN KEY (img_id)
+      REFERENCES cms_images (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cms_text_blocks
+  OWNER TO sa;
+GRANT ALL ON TABLE cms_text_blocks TO sa;
+
+CREATE UNIQUE INDEX pk_cms_text_blocks_u
+  ON cms_text_blocks
+  USING btree
+  (id);
+
+        </sql>
+    </changeSet>
+<changeSet id="216" author="Julia">
+ 
+    <sql>
+
+
+CREATE TABLE cms_question_group
+(
+  id serial NOT NULL,
+  name character varying(300),
+  order_ind integer,
+  on_main_show integer,
+  on_footer_show integer,
+  createdate timestamp with time zone,
+  datechange timestamp with time zone,
+  CONSTRAINT pk_cms_question_group PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cms_question_group
+  OWNER TO sa;
+GRANT ALL ON TABLE cms_question_group TO sa;
+
+CREATE UNIQUE INDEX pk_cms_question_group_u
+  ON cms_question_group
+  USING btree
+  (id);
+
+CREATE TABLE cms_questions
+(
+  id serial NOT NULL,
+  group_id integer NOT NULL,
+  question text,
+  answer text,
+  createdate timestamp with time zone,
+  datechange timestamp with time zone,
+  on_main_show integer,
+  on_footer_show integer,
+  order_ind integer,
+  CONSTRAINT pk_cms_questions PRIMARY KEY (id),
+  CONSTRAINT fk_cms_questions_group FOREIGN KEY (group_id)
+      REFERENCES cms_question_group (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cms_questions
+  OWNER TO sa;
+GRANT ALL ON TABLE cms_questions TO sa;
+
+CREATE UNIQUE INDEX pk_cms_questions_u
+  ON cms_questions
+  USING btree
+  (id);
+  
+CREATE TABLE cms_documents
+(
+  id serial NOT NULL,
+  name character varying(300),
+  body text,
+  createdate timestamp with time zone,
+  datechange timestamp with time zone,
+  pdf_url character varying(300),
+  order_ind integer,
+  CONSTRAINT pk_cms_documents PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cms_documents
+  OWNER TO sa;
+GRANT ALL ON TABLE cms_documents TO sa;
+
+CREATE UNIQUE INDEX pk_cms_documents_u
+  ON cms_documents
+  USING btree
+  (id);
+
+        </sql>
+    </changeSet>
+	
+</databaseChangeLog> 

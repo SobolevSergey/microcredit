@@ -1,0 +1,22 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.toolkit.common.DateRange
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Credit" && signalRef == "msgOverdueSMS");
+    $context : AbstractContext();
+    $cparams: Map();
+then
+  int nCur = DatesUtils.daysDiff($context.getCurrentDate(), $context.getCredit().getCreditDataBeg() );
+  $bResult.setResultValue(nCur ==  ($context.getCredit().getCreditDays() - 1));
+end

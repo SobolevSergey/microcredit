@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action signal-ref="msgProlongCancel" description="Отменить продление" business-object-class="ru.simplgroupp.transfer.Prolong" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $signalRef : SignalRef(processDefKey == "procProlongCR" && name == "msgProlongCancel");
+then   
+    $bResult.setResultValue(false);
+end		
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+    <action signal-ref="msgProlongPay" description="Заплатить проценты" business-object-class="ru.simplgroupp.transfer.Prolong" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>    
+</actions>

@@ -1,0 +1,18 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $context : AbstractContext( getCredit() != null && getCredit().getIsActive() == 1 && (! getCredit().getIsOver() ) );
+then   
+    $bResult.setResultValue(true);
+end	

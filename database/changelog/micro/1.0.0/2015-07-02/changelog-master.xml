@@ -1,0 +1,49 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="183" author="helen">
+ 
+    <sql>
+ 
+     update verification_reference set fieldname='overduestate_id', condition='overduestateId.id=:overduestate' where id=3;
+
+    </sql>
+    </changeSet>
+
+<changeSet id="184" author="helen">
+ 
+    <sql>
+ 
+     alter table uploading_error add creditrequest_id integer;
+     alter table uploading_error add CONSTRAINT fk_uploaderror_relations_creditrequest FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+CREATE INDEX relationship_uploaddetail_creditrequest
+  ON uploading_detail
+  USING btree
+  (creditrequest_id );
+
+CREATE INDEX relationship_uploaddetail_credit
+  ON uploading_detail
+  USING btree
+  (credit_id );
+
+CREATE INDEX relationship_uploaderror_creditrequest
+  ON uploading_error
+  USING btree
+  (creditrequest_id );
+
+CREATE INDEX relationship_uploaderror_credit
+  ON uploading_error
+  USING btree
+  (credit_id );
+
+    </sql>
+    </changeSet>
+
+</databaseChangeLog> 
+

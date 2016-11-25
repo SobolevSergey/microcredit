@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="157" author="helen">
+
+<sql>
+
+CREATE TABLE reporttype
+(
+  id integer NOT NULL,
+  name character varying(200),
+  txversion integer,
+  CONSTRAINT pk_reporttype PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE reporttype
+  OWNER TO sa;
+
+CREATE UNIQUE INDEX reporttype_pk
+  ON reporttype
+  USING btree
+  (id );
+GRANT ALL ON TABLE reporttype TO sa;
+
+INSERT INTO reporttype(
+            id, name,txversion)
+    VALUES (1, 'Одиночный',0);
+
+INSERT INTO reporttype(
+            id, name,txversion)
+    VALUES (2, 'Список',0);
+
+INSERT INTO reporttype(
+            id, name,txversion)
+    VALUES (3, 'Сводный',0);
+
+  
+CREATE TABLE report
+(
+  id serial NOT NULL,
+  reporttype_id integer NOT NULL,
+  name character varying(200),
+  body text,
+  reportexecutor character varying(100),
+  mimetype character varying(100),
+  products_id integer,
+  code varchar(30),
+  txversion integer,
+  CONSTRAINT pk_report PRIMARY KEY (id ),
+  CONSTRAINT fk_report_relations_reference FOREIGN KEY (reporttype_id)
+      REFERENCES reporttype (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_report_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE report
+  OWNER TO sa;
+
+GRANT ALL ON TABLE report TO sa;
+CREATE INDEX relationship_2_fk
+  ON report
+  USING btree
+  (reporttype_id );
+
+
+CREATE UNIQUE INDEX report_pk
+  ON report
+  USING btree
+  (id );
+
+INSERT INTO report (id, reporttype_id, name, reportexecutor, mimetype,products_id,code,txversion) VALUES (1, 1, 'Оферта на заем', 'template.simple', 'text/html',1,'oferta.credit',0);
+INSERT INTO report (id, reporttype_id, name, reportexecutor, mimetype,products_id,code,txversion) VALUES (2, 1, 'Письмо','template.simple', 'text/html',1,'letter.common',0);
+INSERT INTO report (id, reporttype_id, name, reportexecutor, mimetype,products_id,code,txversion) VALUES (3, 1, 'Оферта на продление','template.simple', 'text/html',1,'oferta.prolong',0);
+INSERT INTO report (id, reporttype_id, name, reportexecutor, mimetype,products_id,code,txversion) VALUES (4, 1, 'Письмо о выгрузке в ОКБ','template.simple', 'text/plain',1,'letter.okb',0);
+INSERT INTO report (id, reporttype_id, name, reportexecutor, mimetype,products_id,code,txversion) VALUES (5, 1, 'Оферта на реструктуризацию','template.simple', 'text/html',1,'oferta.refinance',0);
+
+</sql>
+
+ <update tableName="report">
+       	<column name="mimetype" value="text/html"></column>
+       	<column name="body" valueClobFile="oferta-credit.txt"></column>
+        <where>id=1</where>
+ </update>
+
+<update tableName="report">
+       	<column name="mimetype" value="text/html"></column>
+       	<column name="body" valueClobFile="letter-common.txt"></column>
+        <where>id=2</where>
+ </update>
+
+
+<update tableName="report">
+       	<column name="mimetype" value="text/html"></column>
+       	<column name="body" valueClobFile="oferta-prolong.txt"></column>
+        <where>id=3</where>
+ </update>
+
+<update tableName="report">
+       	<column name="mimetype" value="text/html"></column>
+       	<column name="body" valueClobFile="letter-okb.txt"></column>
+        <where>id=4</where>
+ </update>
+
+
+<update tableName="report">
+       	<column name="mimetype" value="text/html"></column>
+       	<column name="body" valueClobFile="oferta-refinance.txt"></column>
+        <where>id=5</where>
+ </update>
+
+</changeSet>
+
+
+
+</databaseChangeLog> 

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   		      
+   <changeSet id="58" author="irk333">
+        <sql>
+update account set txversion = 0 where txversion is null;
+update address set txversion = 0 where txversion is null;
+update bank set txversion = 0 where txversion is null;
+update blacklist set txversion = 0 where txversion is null;
+update bpermissions set txversion = 0 where txversion is null;
+update calls set txversion = 0 where txversion is null;
+update changerequests set txversion = 0 where txversion is null;
+update contact_blacklist set txversion = 0 where txversion is null;
+update contact_point_service set txversion = 0 where txversion is null;
+update contact_points set txversion = 0 where txversion is null;
+update contact_service set txversion = 0 where txversion is null;
+update country set txversion = 0 where txversion is null;
+update credit set txversion = 0 where txversion is null;
+update credithistorypay set txversion = 0 where txversion is null;
+update creditrequest set txversion = 0 where txversion is null;
+update creditvalue set txversion = 0 where txversion is null;
+update debt set txversion = 0 where txversion is null;
+update document set txversion = 0 where txversion is null;
+update documentmedia set txversion = 0 where txversion is null;
+update employment set txversion = 0 where txversion is null;
+update eventlog set txversion = 0 where txversion is null;
+update misc set txversion = 0 where txversion is null;
+update mismatches set txversion = 0 where txversion is null;
+update negative set txversion = 0 where txversion is null;
+update organization set txversion = 0 where txversion is null;
+update partnerlinks set txversion = 0 where txversion is null;
+update partners set txversion = 0 where txversion is null;
+update payment set txversion = 0 where txversion is null;
+update peoplecontact set txversion = 0 where txversion is null;
+update peoplemain set txversion = 0 where txversion is null;
+update peoplemisc set txversion = 0 where txversion is null;
+update peoplepersonal set txversion = 0 where txversion is null;
+update phonepay set txversion = 0 where txversion is null;
+update phonepaysummary set txversion = 0 where txversion is null;
+update prolong set txversion = 0 where txversion is null;
+update  qarequest set txversion = 0 where txversion is null;
+update qarequestvariant set txversion = 0 where txversion is null;
+update question set txversion = 0 where txversion is null;
+update questionvariant set txversion = 0 where txversion is null;
+update ref_blacklist set txversion = 0 where txversion is null;
+update ref_header set txversion = 0 where txversion is null;
+update ref_negative set txversion = 0 where txversion is null;
+update ref_summary set txversion = 0 where txversion is null;
+update reference set txversion = 0 where txversion is null;
+update refusereason set txversion = 0 where txversion is null;
+update regions set txversion = 0 where txversion is null;
+update repaymentschedule set txversion = 0 where txversion is null;
+update requests set txversion = 0 where txversion is null;
+update score_cronos set txversion = 0 where txversion is null;
+update score_cronos_main set txversion = 0 where txversion is null;
+update scoring set txversion = 0 where txversion is null;
+update spouse set txversion = 0 where txversion is null;
+update summary set txversion = 0 where txversion is null;
+update uploading set txversion = 0 where txversion is null;
+update uploading_error set txversion = 0 where txversion is null;
+update users set txversion = 0 where txversion is null;
+update users_roles set txversion = 0 where txversion is null;
+update verification set txversion = 0 where txversion is null;
+update verification_mark set txversion = 0 where txversion is null;
+         </sql>
+  </changeSet>
+   <changeSet id="59" author="irk333">
+        <sql>
+INSERT INTO reference(
+            ref_header_id, name, code, codeinteger, isactive)
+            VALUES (34, 'Среди недействительных не значится', 'NotInvalid', 2, 1);
+
+         </sql>
+  </changeSet>
+</databaseChangeLog> 

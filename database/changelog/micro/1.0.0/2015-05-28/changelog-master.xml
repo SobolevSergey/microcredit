@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="150" author="helen">
+
+<sql>
+  
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'manualDecision','N','1','Принятие решения вручную',0
+from reference where ref_header_id=71 and codeinteger=8;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'clearIncompletedRequest','С','R/P30D','Ждем удаления недозаполненной заявки',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'waitSignOferta','C','P5D','Ждем подписания оферты',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'manualPayment','N','0','Возможность ручного платежа',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'waitPayment','N','2','Ждем оплаты продления',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'waitRefinance','N','2','Ждем оплаты рефинансирования',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'waitDraft','C','P1D','Ждем рефинансирования',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+
+</sql>
+
+
+  </changeSet>
+
+
+</databaseChangeLog> 

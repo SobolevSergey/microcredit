@@ -1,0 +1,937 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14.05.2012 15:05:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <!-- tmp storage -->
+    <query name="findTmpStorageByKeyAndType">
+        from ru.simplgroupp.persistence.TmpStorageEntity t where t.externalKey = :externalKey and t.type = :type
+    </query>
+    <sql-query name="deleteTmpStorageByKeyAndType">
+        delete from tmp_storage t where t.external_key = :externalKey and t.type = :type
+    </sql-query>
+    <sql-query name="deleteTmpStorageByKey">
+        delete from tmp_storage t where t.external_key = :externalKey
+    </sql-query>
+    <sql-query name="countTmpStorageByKeyAndType">
+        select count(1) from tmp_storage t where t.external_key = :externalKey and t.type = :type
+    </sql-query>
+    <sql-query name="deleteTmpStorageExpired">
+        delete from tmp_storage t where t.cdate is not null and t.max_age_sec is not null and current_timestamp >
+        (t.cdate + t.max_age_sec * interval '1 SECOND');
+    </sql-query>
+    <!-- payments -->
+    <query name="findPaymentToClient">
+        from ru.simplgroupp.persistence.PaymentEntity where (creditId.id = :creditId) and (paysumId.codeinteger = :code)
+        and (paymenttypeId.codeinteger = :code2)
+    </query>
+    <query name="findSendedPayment">
+        from PaymentEntity where creditId = :creditId and partnersId = :partnerId and status = 'SENDED'
+    </query>
+    <query name="getPaymentsByCredit">
+        from ru.simplgroupp.persistence.PaymentEntity where (creditId.id = :creditId) and (paymenttypeId.codeinteger =
+        :paymenttypeId) order by processDate desc
+    </query>
+    <query name="findPaymentByExternalId">
+        select payment from PaymentEntity payment where externalId = :externalId
+    </query>
+    <query name="listPayments">
+        from ru.simplgroupp.persistence.PaymentEntity where (creditId.id = :creditId) and isPaid=true and
+        (paymenttypeId.codeinteger=:paymenttype) order by createDate
+    </query>
+    <!-- credit, prolong, refinance, schedule -->
+    <sql-query name="removeCredit">
+        select delete_credit(:id)
+    </sql-query>
+    <query name="listCreditDetails">
+        from ru.simplgroupp.persistence.CreditDetailsEntity where (creditId.id = :creditId) and ( (:operationCode is
+        null) or (operationId.codeinteger = :operationCode) )
+    </query>
+    <query name="getCreditDetailByAnotherId">
+        from ru.simplgroupp.persistence.CreditDetailsEntity where anotherId=:anotherId
+    </query>
+    <query name="listScheduleEntities">
+        from ru.simplgroupp.persistence.RepaymentScheduleEntity where (creditId.id = :creditId) order by databeg desc
+    </query>
+    <query name="findScheduleActive">
+        from ru.simplgroupp.persistence.RepaymentScheduleEntity where (creditId.id = :creditId) and (isactive=1)
+    </query>
+    <query name="getProlongDaysSum">
+        select sum(longdays) from ru.simplgroupp.persistence.ProlongEntity where (creditId.id = :creditId)
+    </query>
+    <query name="getPeopleSumsInSystem">
+        select sum(amount) from ru.simplgroupp.persistence.PeopleSumsEntity where peopleMainId.id=:peopleMainId
+    </query>
+    <query name="findCreditByAccountNumber">
+        from ru.simplgroupp.persistence.CreditEntity where creditAccount=:accountNumber and isover=false
+    </query>
+    <query name="findFirstSystemCredit">
+        from ru.simplgroupp.persistence.CreditEntity where isactive=:isactive and partnersId.id=:partnersId order by
+        creditdatabeg
+    </query>
+    <query name="getOrganizationAccount">
+        from ru.simplgroupp.persistence.AccountEntity where organizationId.id=:organizationId and isactive=:isactive
+    </query>
+    <sql-query name="sqlRemovePartnerCredits">
+        delete from credit where partners_id=:id
+    </sql-query>
+    <sql-query name="makePartnerCreditsNotActive">
+        update credit set isactive=0 where partners_id=:partner and peoplemain_id=:peoplemain
+    </sql-query>
+    <sql-query name="deleteProlong">
+        delete from prolong where id = :id
+    </sql-query>
+    <sql-query name="deleteRefinance">
+        delete from refinance where id = :id
+    </sql-query>
+    <query name="findRefinanceDraft">
+        from ru.simplgroupp.persistence.RefinanceEntity where creditId.id=:creditId and isactive=:isactive
+    </query>
+    <query name="findLatestByCredit">
+        select c from ru.simplgroupp.persistence.EventLogEntity as c where (c.creditId.id = :creditId) and
+        (c.eventcodeid.id = :eventCode) order by c.eventtime desc
+    </query>
+    <query name="findLatestByCreditRequest">
+        select c from ru.simplgroupp.persistence.EventLogEntity as c where (c.creditRequestId.id = :crequestId) and
+        (c.eventcodeid.id = :eventCode) order by c.eventtime desc
+    </query>
+    <query name="findCreditByPeople">
+        from ru.simplgroupp.persistence.CreditEntity where (peopleMainId.id = :peopleMainId) and (partnersId.id =
+        :partner) and (issameorg = :issameorg) and (isover=:isover)
+    </query>
+    <!-- OfficialDocuments -->
+    <query name="findOfficialDocumentDraft">
+        from ru.simplgroupp.persistence.OfficialDocumentsEntity where peopleMainId.id=:peopleMainId and
+        isActive=:isactive and documentTypeId.codeinteger=:typeId
+    </query>
+    <query name="findOfficialDocumentCreditDraft">
+        from ru.simplgroupp.persistence.OfficialDocumentsEntity where peopleMainId.id=:peopleMainId and
+        creditId.id=:creditId and isActive=:isactive and documentTypeId.codeinteger=:typeId
+    </query>
+    <query name="findOfficialDocumentCreditRequestDraft">
+        from ru.simplgroupp.persistence.OfficialDocumentsEntity where peopleMainId.id=:peopleMainId and
+        creditRequestId.id=:creditRequestId and isActive=:isactive and documentTypeId.codeinteger=:typeId
+    </query>
+    <sql-query name="deleteOfficialDocument">
+        delete from officialdocuments where id = :id
+    </sql-query>
+    <query name="findOfficialDocumentWithAnotherId">
+        from ru.simplgroupp.persistence.OfficialDocumentsEntity where peopleMainId.id=:peopleMainId and
+        anotherId=:anotherId and documentTypeId.codeinteger=:typeId
+    </query>
+    <!-- CreditRequest -->
+    <query name="findCreditRequestActive">
+        from ru.simplgroupp.persistence.CreditRequestEntity as c where (c.peopleMainId.id = :peopleMainId) and
+        (c.acceptedcreditId = null) and (c.statusId.id in (:statuses)) order by c.datecontest desc
+    </query>
+    <query name="findCreditRequestsForMan">
+        from ru.simplgroupp.persistence.CreditRequestEntity as c where (c.peopleMainId.id = :peopleMainId) order by
+        c.datecontest desc
+    </query>
+    <query name="declineAllCreditOffers">
+        update ru.simplgroupp.persistence.CreditOfferEntity c set c.accepted = 0 where c.creditRequestId.id =
+        :creditRequestID and c.accepted is null
+    </query>
+
+    <query name="findPartnersCreditRequests">
+        from ru.simplgroupp.persistence.CreditRequestEntity as c where (c.peopleMainId.id = :peopleMainId) and
+        (c.partnersId.id = :partnerId)
+    </query>
+
+    <query name="findCreditRequestsWithProduct">
+        from ru.simplgroupp.persistence.CreditRequestEntity as c where (c.productId.id = :productId)
+    </query>
+    <query name="findDeviceinfo">
+        from ru.simplgroupp.persistence.DeviceInfoEntity where (creditRequestId.id = :creditRequestId)
+    </query>
+    <query name="findCreditRequestWaitingSign">
+        from ru.simplgroupp.persistence.CreditRequestEntity as c where (c.peopleMainId.id = :peopleMainId) and
+        (c.acceptedcreditId = null) and (c.accepted=:accepted) and (c.statusId.id = :status)
+    </query>
+
+    <query name="findCreditRequestsToUpload">
+        select c
+        from CreditRequestEntity c
+        where
+        not exists (
+        from RequestsEntity r
+        where r.partnersId.id = :partnerId
+        and r.creditRequestId = c
+        and r.requeststatus.id = :requestStatusId
+        and r.responsecode is null
+        )
+    </query>
+
+    <!-- Users -->
+    <query name="findUserByLoginAndPassword">
+        from ru.simplgroupp.persistence.UsersEntity where username=:username and password=:password
+    </query>
+    <query name="findCalledFriendByEmail">
+        from ru.simplgroupp.persistence.PeopleFriendEntity where email = :email
+    </query>
+    <query name="findCalledFriendByPhone">
+        from ru.simplgroupp.persistence.PeopleFriendEntity where phone = :phone
+    </query>
+    <query name="findUserProperties">
+        from ru.simplgroupp.persistence.UserPropertiesEntity where peopleMainId.id = :peopleMainId
+    </query>
+    <sql-query name="findUserByToken">
+        select * from users u where md5(? || u.private_token) = ?
+    </sql-query>
+    <query name="findUserByLogin">
+        from ru.simplgroupp.persistence.UsersEntity where username=:username
+    </query>
+    <query name="findUserByLink">
+        from ru.simplgroupp.persistence.UsersEntity where tempLink=:templink
+    </query>
+    <query name="findUserByPeopleId">
+        from ru.simplgroupp.persistence.UsersEntity where peopleMainId.id=:peopleId
+    </query>
+
+    <sql-query name="findUserIDsByEventCodeAndRoleID">
+        select distinct u.peoplemain_id from eventlog el
+        left join users u on u.id = el.users_id
+        left join users_roles ur on ur.users_id = el.users_id
+        where el.users_id is not null and el.eventcode_id = :eventCode and ur.roles_id = :roleID
+    </sql-query>
+    <query name="findPeoplePersonalByPeopleIDs">
+        select ppe from ru.simplgroupp.persistence.PeoplePersonalEntity ppe where ppe.peopleMainId.id in
+        (:peopleMainIDs)
+        and ppe.isactive = 1 and ppe.partnersId.id = 6
+    </query>
+
+    <query name="getUserTypes">
+        from ru.simplgroupp.persistence.UsertypeEntity order by name
+    </query>
+    <sql-query name="removeUser">
+        select count(*) from delete_user(:id)
+    </sql-query>
+    <sql-query name="deleteRole">
+        delete from roles where id=:id
+    </sql-query>
+    <sql-query name="findFreeCollector">
+        select u.id from users u
+        left join users_roles ur ON ur.users_id = u.id
+        left join collector c on c.users_id = u.id
+        where ur.roles_id = (select id from roles where name = 'collector')
+        group by u.id
+        order by coalesce(count(c.*), 0)
+        limit 1
+    </sql-query>
+    <query name="collectorList">
+        select u from ru.simplgroupp.persistence.UsersEntity u
+        join u.roles r
+        where r.name = 'collector'
+    </query>
+    <sql-query name="passItemsToCollector">
+        update collector set users_id = :toCollectorID where id in (:recordIDs)
+    </sql-query>
+    <sql-query name="passTasksToCollector">
+        update tasks set user_id = :toCollectorID where collector_id in (:collIDs) and status != 0 and date_end is null
+    </sql-query>
+
+    <sql-query name="passFromOneCollectorToAnother">
+        update collector set users_id = :toCollectorID where users_id = :fromCollectorID and isactive != 0
+    </sql-query>
+    <sql-query name="passTasksFromOneCollectorToAnother">
+        update tasks set user_id = :toCollectorID where user_id = :fromCollectorID and status != 0 and date_end is null
+        and collector_id is not null
+    </sql-query>
+
+    <query name="findUsersByRoleID">
+        select u from ru.simplgroupp.persistence.UsersEntity u
+        join u.roles r
+        where r.id = :roleID
+    </query>
+    <query name="findUserByOktellUUID">
+        from ru.simplgroupp.persistence.UsersEntity where oktellUuid = :oktellUuid
+    </query>
+    <query name="findPeopleByPhone">
+        from ru.simplgroupp.persistence.PeopleContactEntity c
+        where
+        c.value = :phone and c.isactive = 1 and (c.partnersId.id = 1 OR c.partnersId.id = 6)
+    </query>
+
+
+    <!-- Collector -->
+    <query name="listDelaysBefore">
+        from ru.simplgroupp.persistence.CollectorEntity ce where ce.peopleMainId.id = :peopleMainID order by
+        ce.collectionTypeId.codeinteger desc
+    </query>
+    <query name="changeCreditStatus">
+        update CollectorEntity ce set ce.isActive = :isActive where ce.peopleMainId.id = :peopleMainID and
+        ce.creditId.id = :creditID
+    </query>
+    <query name="listCollectorTasks">
+        from ru.simplgroupp.persistence.TaskEntity ct where :eventDate >= ct.eventDate and ct.userId.id = :userID and
+        ct.status = :status
+    </query>
+    <query name="changeTaskStatus">
+        update ru.simplgroupp.persistence.TaskEntity ct set ct.status = :status, ct.endDate = :endDate where
+        ct.peopleMainId.id = :peopleID and ct.userId.id = :userID
+    </query>
+    <query name="listCollectorTasksByStatus">
+        from ru.simplgroupp.persistence.TaskEntity ct where ct.status = :status
+    </query>
+    <query name="findTaskByCollectorID">
+        from ru.simplgroupp.persistence.TaskEntity ct where ct.collectorId.id = :collectorID
+    </query>
+    <query name="findActiveTaskByPeople">
+        from ru.simplgroupp.persistence.TaskEntity ct where ct.peopleMainId.id = :peopleMainId and ct.status = :status
+    </query>
+    <query name="assignTaskToCollector">
+        update ru.simplgroupp.persistence.TaskEntity ct set ct.userId = :user
+        where ct.peopleMainId.id = :peopleMainID and ct.collectorId.id = :collectorID and ct.status = :status
+    </query>
+    <sql-query name="removeTasksByCreditID">
+        delete from tasks where credit_id = :creditID and status != 0 and date_end is null
+    </sql-query>
+
+    <sql-query name="removeCollectorRecord">
+        delete from collector where peoplemain_id=:peopleMainId and credit_id=:creditId
+    </sql-query>
+    <sql-query name="removeTask">
+        delete from tasks where id=:id
+    </sql-query>
+    <query name="findCollectorRecord">
+        from ru.simplgroupp.persistence.CollectorEntity where peopleMainId.id = :peopleMainId and creditId.id=creditId
+        and isActive=:isActive
+    </query>
+
+    <!-- Roles -->
+    <query name="findRoleByName">
+        from ru.simplgroupp.persistence.RolesEntity where name = :roleName
+    </query>
+    <query name="findRoleByNameExId">
+        from ru.simplgroupp.persistence.RolesEntity where name = :roleName and id != :roleId
+    </query>
+    <query name="getRoles">
+        from ru.simplgroupp.persistence.RolesEntity order by realName
+    </query>
+    <query name="getMaxRoleId">
+        select max(id) from ru.simplgroupp.persistence.RolesEntity
+    </query>
+
+    <!-- Permissions -->
+    <sql-query name="getPermission">
+        select permread, permwrite from bpermissions where (businessobjectclass = :businessobjectclass) and
+        (businessobjectid = :businessobjectid) and (roles_id = :roles_id)
+    </sql-query>
+    <sql-query name="listRPByRole">
+        select feature_id, bizaction_id from rpermission where role_id = :roleId
+    </sql-query>
+    <sql-query name="delRPFByRole">
+        delete from rpermission where role_id = :roleId and feature_id is not null and bizaction_id is null
+    </sql-query>
+    <sql-query name="delRPAByRole">
+        delete from rpermission where role_id = :roleId and bizaction_id is not null and feature_id is null
+    </sql-query>
+    <sql-query name="insRPFByRole">
+        insert into rpermission (role_id, feature_id) values (:roleId, :featureId)
+    </sql-query>
+    <sql-query name="insRPAByRole">
+        insert into rpermission (role_id, bizaction_id) values (:roleId, :bizactId)
+    </sql-query>
+    <sql-query name="listRPFByRole">
+        <return alias="r" class="ru.simplgroupp.persistence.ReferenceEntity"/>
+        select r.* from reference r inner join rpermission rp on (r.id = rp.feature_id) where (rp.role_id in (:roleIds))
+    </sql-query>
+    <sql-query name="listRPAByRole">
+        <return alias="b" class="ru.simplgroupp.persistence.BizActionEntity"/>
+        select b.* from rpermission rp inner join bizaction b on (b.id = rp.bizaction_id) where (rp.role_id in
+        (:roleIds))
+    </sql-query>
+
+
+    <!-- Products -->
+    <query name="findProductByCode">
+        from ru.simplgroupp.persistence.ProductsEntity where code = :code
+    </query>
+    <query name="getProducts">
+        from ru.simplgroupp.persistence.ProductsEntity order by isActive desc
+    </query>
+    <query name="getProductsActive">
+        from ru.simplgroupp.persistence.ProductsEntity where isActive = :isActive
+    </query>
+    <query name="getProductDefault">
+        from ru.simplgroupp.persistence.ProductsEntity where isActive = :isActive and isDefault=:isDefault
+    </query>
+    <query name="findProductConfigByType">
+        from ru.simplgroupp.persistence.ProductConfigEntity where productId.id = :productId and
+        configTypeId.codeinteger=:configTypeId and isActive=:isActive and (:date between databeg and dataend)
+    </query>
+    <query name="findProductRules">
+        from ru.simplgroupp.persistence.ProductRulesEntity where productId.id = :productId and isActive=:isActive and
+        (:date between databeg and dataend)
+    </query>
+    <query name="findProductRulesByName">
+        from ru.simplgroupp.persistence.ProductRulesEntity where productId.id = :productId and
+        configTypeId.codeinteger=:configTypeId and name=:name and isActive=:isActive and (:date between databeg and
+        dataend)
+    </query>
+    <query name="findProductRulesByType">
+        from ru.simplgroupp.persistence.ProductRulesEntity where productId.id = :productId and
+        configTypeId.codeinteger=:configTypeId and isActive=:isActive and (:date between databeg and dataend)
+    </query>
+    <query name="findAllRulesByKbase">
+        from ru.simplgroupp.persistence.ProductRulesEntity where isActive=:isActive and (:date between databeg and
+        dataend) and kbase=:kbase
+    </query>
+    <query name="listKbase">
+        select distinct kbase from ru.simplgroupp.persistence.ProductRulesEntity where scriptTypeId=:scriptTypeId
+    </query>
+    <query name="findProductRulesByScriptTypeAndName">
+        from ru.simplgroupp.persistence.ProductRulesEntity where productId.id = :productId and
+        scriptTypeId=:scriptTypeId and isActive=:isActive and (:date between databeg and dataend) and
+        configTypeId.codeinteger=:configTypeId and name=:name
+    </query>
+    <query name="findProductMessages">
+        from ru.simplgroupp.persistence.ProductMessagesEntity where productId.id = :productId
+    </query>
+    <query name="findProductMessagesByType">
+        from ru.simplgroupp.persistence.ProductMessagesEntity where productId.id = :productId and
+        configTypeId.codeinteger=:configTypeId
+    </query>
+    <query name="findProductMessageByName">
+        from ru.simplgroupp.persistence.ProductMessagesEntity where productId.id = :productId and
+        configTypeId.code=:code and name=:name
+    </query>
+    <query name="findMessageByName">
+        from ru.simplgroupp.persistence.ProductMessagesEntity where configTypeId.codeinteger=:configTypeId and
+        name=:name
+    </query>
+    <query name="findProductMessagesForProcess">
+        from ru.simplgroupp.persistence.ProductMessagesEntity where productId.id = :productId and
+        configTypeId.code=:code
+    </query>
+    <sql-query name="deleteProduct">
+        delete from products where id = :id
+    </sql-query>
+    <sql-query name="deleteProductConfig">
+        delete from product_config where id = :id
+    </sql-query>
+    <sql-query name="deleteProductMessage">
+        delete from product_messages where id = :id
+    </sql-query>
+    <sql-query name="deleteProductRule">
+        delete from product_rules where id = :id
+    </sql-query>
+
+    <!-- Constants and models -->
+    <query name="findRuleByName">
+        from ru.simplgroupp.persistence.AIRuleEntity where (packageName like :packageName)
+    </query>
+    <query name="findConstant">
+        from ru.simplgroupp.persistence.AIConstantEntity where (aiRule.packageName = :packageName) and (name =
+        :constantName)
+    </query>
+    <sql-query name="deleteRuleConstant">
+        delete from aiconstant where airule_id = :ruleid
+    </sql-query>
+    <sql-query name="deleteModelDraft">
+        delete from aimodel where isactive=:isactive
+    </sql-query>
+    <sql-query name="copyModelParams">
+        <query-param name="toId" type="integer"/>
+        <query-param name="toCustomKey" type="string"/>
+        <query-param name="fromId" type="integer"/>
+        <query-param name="fromCustomKey" type="string"/>
+        insert into aimodelparams (aimodel_id, customkey, name, txversion, datatype, datavalue, description,
+        datavaluetext)
+        select :toId, cast(:toCustomKey as varchar), name, 0, datatype, datavalue, description, datavaluetext
+        from aimodelparams
+        where aimodel_id = :fromId and coalesce(customKey,'') = coalesce(cast(:fromCustomKey as varchar),'') and name
+        not in (
+        select name
+        from aimodelparams
+        where aimodel_id = :toId and coalesce(customKey,'') = coalesce(cast(:toCustomKey as varchar),'')
+        )
+    </sql-query>
+    <sql-query name="deleteModelParams">
+        delete from aimodelparams where aimodel_id = :modelId and coalesce(customKey,'') = coalesce(cast(:customKey as
+        varchar),'')
+    </sql-query>
+    <query name="findModelParams">
+        from ru.simplgroupp.persistence.AIModelParamEntity where (AiModel.id = :modelId) and (name = :name) and
+        (coalesce(customKey,'') = coalesce(cast(:customKey as string ),''))
+    </query>
+    <query name="findModelParamsCK">
+        from ru.simplgroupp.persistence.AIModelParamEntity where (AiModel.id = :modelId) and (coalesce(customKey,'') =
+        coalesce(cast(:customKey as string ),'')) order by name
+    </query>
+    <sql-query name="deleteModelParam">
+        delete from aimodelparams where aimodel_id = :modelId and name = :name
+    </sql-query>
+    <sql-query name="getNextRunId">
+        select nextval('aimodel_run_id_seq')
+    </sql-query>
+    <sql-query name="putModelParamValue">
+        insert into aimodelvalues (run_id, aimodelparam_id, value, txversion) values (:run_id, :aimodelparam_id, :value,
+        0)
+    </sql-query>
+    <sql-query name="listModelsWithRun">
+        select distinct p.aimodel_id from aimodelvalues v inner join aimodelparams p on (p.id = v.aimodelparam_id)
+    </sql-query>
+    <sql-query name="deletePrevResults">
+        delete from aimodelvalues where run_id in (select run_id from v_model_biz where businessObjectClass =
+        :businessObjectClass and businessObjectId = :businessObjectId )
+    </sql-query>
+    <sql-query name="listLastResults">
+        select name, description, datatype, value, aimodelparam_id from v_aimodelvalues_params where run_id in (
+        select v.run_id
+        from v_aimodelvalues_params v
+        where v.customkey is null
+        group by v.run_id
+        having max(case when (v.name = 'businessObjectClass') then v.value else null end) = :businessObjectClass and
+        max(case when (v.name = 'businessObjectId') then v.value else null end) = :businessObjectId
+        )
+    </sql-query>
+    <sql-query name="findModelIdByParam">
+        select aimodel_id from aimodelparams where id = :id
+    </sql-query>
+
+    <!-- Requests -->
+    <query name="getLastPeopleRequestByPartner">
+        from ru.simplgroupp.persistence.RequestsEntity where peopleMainId.id=:peopleMainId and partnersId.id=:partnerId
+        and requeststatus.id=:status order by requestdate desc
+    </query>
+    <query name="listPartnersRequests">
+        from ru.simplgroupp.persistence.RequestsEntity where partnersId.id=:partnerId
+    </query>
+    <sql-query name="removeRequest">
+        delete from requests where id = :id
+    </sql-query>
+    <query name="maxRequestNumber">
+        select max(requestNumber) from ru.simplgroupp.persistence.RequestsEntity
+    </query>
+
+    <!-- DocumentMedia -->
+    <query name="maxDocPageNumber">
+        select max(pagenumber) from ru.simplgroupp.persistence.DocumentMediaEntity where documentId.id=:documentId
+    </query>
+    <sql-query name="deleteDocPage">
+        delete from documentmedia where id = :id
+    </sql-query>
+    <sql-query name="deleteAllDocPages">
+        delete from documentmedia where document_id = :documentId
+    </sql-query>
+
+    <!-- Reference -->
+    <query name="listReferenceHA">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and (isactive=1) order by
+        codeinteger
+    </query>
+    <query name="listReferenceHAP">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and (isactive=1) and
+        (parentId = :parentid) order by codeinteger
+    </query>
+    <query name="listReferenceHAT">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and (isactive=1) and
+        (parentId is null) order by codeinteger
+    </query>
+    <query name="listReferenceHC">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and
+        (codeinteger=:codeInteger) order by codeinteger
+    </query>
+    <query name="listReferenceHCN">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and (codeinteger =
+        :codeInteger) order by name
+    </query>
+    <query name="listReferenceHC1">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and (codeinteger =
+        :codeInteger)
+    </query>
+    <query name="listReferenceHCON">
+        from ru.simplgroupp.persistence.ReferenceEntity where (refHeaderId.id = :headerid) and (code = :code) order by
+        name
+    </query>
+    <query name="listEventCodes">
+        from ru.simplgroupp.persistence.EventCodeEntity
+    </query>
+    <query name="listCreditRequestStatuses">
+        from ru.simplgroupp.persistence.CreditStatusEntity order by name
+    </query>
+    <query name="listPartners">
+        from ru.simplgroupp.persistence.PartnersEntity order by name
+    </query>
+    <query name="partnersForPayment">
+        from ru.simplgroupp.persistence.PartnersEntity where (canMakePayment=true)
+    </query>
+    <query name="partnersForCreditHistory">
+        from ru.simplgroupp.persistence.PartnersEntity where (canMakeCreditHistory=true)
+    </query>
+    <query name="partnersForScoring">
+        from ru.simplgroupp.persistence.PartnersEntity where (canMakeScoring=true)
+    </query>
+    <query name="listReportType">
+        from ru.simplgroupp.persistence.ReportTypeEntity
+    </query>
+
+    <!-- Banks -->
+    <query name="banksList">
+        from ru.simplgroupp.persistence.BankEntity order by name
+    </query>
+    <query name="banksListTerm">
+        from ru.simplgroupp.persistence.BankEntity where (lower(name) like concat('%', lower(:term), '%')) order by name
+    </query>
+    <query name="getBankByName">
+        from ru.simplgroupp.persistence.BankEntity where upper(name) like :name
+    </query>
+    <!-- Misc -->
+    <query name="deleteMiscVars">
+        delete from ru.simplgroupp.persistence.Misc where (ClassName = :className) and (ClassId = :objectId) and (Name
+        in (:names))
+    </query>
+    <query name="findMiscVarsByClassAndId">
+        from ru.simplgroupp.persistence.Misc where (ClassName = :className) and (ClassId = :classId)
+    </query>
+
+    <!-- Workflow -->
+    <sql-query name="findSuperExecutions">
+        select super_exec_, proc_inst_id_ from act_ru_execution where id_ in (:execIds) and super_exec_ is not null
+    </sql-query>
+    <sql-query name="findProcByExec">
+        select proc_inst_id_ from act_ru_execution where id_ in (:execIds) and ((:businesskey is null) or (business_key_
+        = :businesskey)) and ((:procDefId is null) or (proc_def_id_ like :procDefId))
+    </sql-query>
+
+    <!-- Messages -->
+    <sql-query name="removeMessage">
+        delete from messages where id = :id
+    </sql-query>
+    <query name="messagesByPeopleAndUserID">
+        from MessagesEntity ms where ms.peopleMainId.id = :peopleMainID and ms.userId.id = :userID
+    </query>
+    <query name="messagesByPeopleID">
+        from MessagesEntity ms where ms.peopleMainId.id = :peopleMainID
+    </query>
+    <query name="messagesByPeopleIDAndWayID">
+        from MessagesEntity ms where ms.peopleMainId.id = :peopleMainID and ms.messageWayId.codeinteger = :wayID
+    </query>
+    <query name="messagesByPeopleIDAndTypeCode">
+        from MessagesEntity ms where ms.peopleMainId.id = :peopleMainID and ms.messageTypeId.codeinteger = :typeCode
+        order by ms.status desc, id
+    </query>
+    <query name="newMessages">
+        from MessagesEntity ms where ms.userId is null and ms.messageTypeId.codeinteger = :typeCode
+    </query>
+    <query name="messageByUserID">
+        from MessagesEntity ms where ms.userId.id = :userID and ms.messageTypeId.codeinteger = :typeCode and ms.inOut =
+        :inOut
+    </query>
+    <query name="messageByTypeCode">
+        from MessagesEntity ms where ms.messageTypeId.codeinteger = :typeCode and ms.inOut = :inOut
+    </query>
+    <query name="findPaymentMessageByPaymentCode">
+        from PaymentMessageEntity re where re.paymentId.id = :id
+    </query>
+    <sql-query name="deletePaymentMessageByPaymentCode">
+        delete from payments_messages where payment_id = :id
+    </sql-query>
+
+    <!-- Bonus and friends -->
+    <query name="bonusList">
+        from ru.simplgroupp.persistence.RefBonusEntity order by name
+    </query>
+    <sql-query name="deleteFriend">
+        delete from peoplefriends where id = :id
+    </sql-query>
+    <query name="getBonusByPeopleAndCode">
+        from ru.simplgroupp.persistence.PeopleBonusEntity pbe where pbe.peopleMainId.id = :peopleMainID
+        and pbe.bonusId.codeinteger = :bonusCode
+    </query>
+    <query name="removeBonus">
+        delete from ru.simplgroupp.persistence.PeopleBonusEntity pbe
+        where pbe.id = :bonusID
+    </query>
+    <query name="getPeopleBonusInSystem">
+        <![CDATA[select sum(amount) from ru.simplgroupp.persistence.PeopleBonusEntity where (peopleMainId.id=:peopleMainId) and (eventdate <= :eventdate)]]>
+    </query>
+    <query name="getUserBonusPayProperties">
+        <![CDATA[select payByBonus from ru.simplgroupp.persistence.UserPropertiesEntity where (peopleMainId.id=:peopleMainId)]]>
+    </query>
+    <query name="updatePeopleBonusProperties">
+        <![CDATA[update ru.simplgroupp.persistence.UserPropertiesEntity set payByBonus = :bonuspay, actionDate = :actionDate where (peopleMainId.id=:peopleMainId)]]>
+    </query>
+    <query name="findCreditPayBonus">
+        <![CDATA[from ru.simplgroupp.persistence.PeopleBonusEntity where (credit_id=:credit_id) and (operation_id=:operation_id) and (eventdate between :start and :end)]]>
+    </query>
+
+    <!-- Business actions -->
+    <query name="listBOActions">
+        from ru.simplgroupp.persistence.BizActionEntity where (processDefKey is null) and (businessObjectClass is not
+        null)
+    </query>
+    <query name="listBPActions">
+        from ru.simplgroupp.persistence.BizActionEntity where (processDefKey = :processDefKey)
+    </query>
+    <query name="listBPActionsProduct">
+        from ru.simplgroupp.persistence.BizActionEntity where (processDefKey = :processDefKey) and
+        (productId.id=:productId)
+    </query>
+    <query name="listBPActionsAll">
+        from ru.simplgroupp.persistence.BizActionEntity where (processDefKey is not null)
+    </query>
+    <query name="listBAByEvent">
+        from ru.simplgroupp.persistence.BizActionEventEntity order by eventCode
+    </query>
+    <query name="getBizActionTypes">
+        from ru.simplgroupp.persistence.BizActionTypeEntity
+    </query>
+    <query name="findBizObjectAction">
+        from ru.simplgroupp.persistence.BizActionEntity where (businessObjectClass = :businessObjectClass) and
+        (signalRef = :signalRef)
+    </query>
+    <query name="findBizObjectActionProduct">
+        from ru.simplgroupp.persistence.BizActionEntity where (businessObjectClass = :businessObjectClass) and
+        (signalRef = :signalRef) and (productId.id=productId)
+    </query>
+    <query name="findBizObjectActionByRef">
+        from ru.simplgroupp.persistence.BizActionEntity where (businessObjectClass is not null) and (signalRef =
+        :signalRef) and (processDefKey is null)
+    </query>
+    <query name="findProcessAction">
+        from ru.simplgroupp.persistence.BizActionEntity where (businessObjectClass = :businessObjectClass) and
+        (signalRef = :signalRef) and (processDefKey = :processDefKey) and (:plugin = null or plugin = :plugin)
+    </query>
+
+    <!-- Lists -->
+    <query name="findLists">
+        from ru.simplgroupp.persistence.BusinessListEntity where (BusinessObjectClass = :businessObjectClass) and
+        (SubType = :SubType) and (IsExplicit = :isExplicit) order by name
+    </query>
+    <sql-query name="clearListItems">
+        delete from bolistitems where bolist_id = :listId
+    </sql-query>
+    <sql-query name="isItemInList">
+        select count(*) from bolistitems where bolist_id = :listId and businessobjectid = :itemId
+    </sql-query>
+    <sql-query name="countItemInList">
+        select count(*) from bolistitems where bolist_id = :listId
+    </sql-query>
+    <sql-query name="removeListItem">
+        delete from bolistitems where bolist_id = :listId and businessobjectid = :itemId
+    </sql-query>
+    <sql-query name="insertListItem">
+        insert into bolistitems (bolist_id, businessobjectid) values (:listId, :itemId)
+    </sql-query>
+    <sql-query name="saveListCondSingle">
+        insert into bolistcond (bolist_id, body) values (:listId, :body)
+    </sql-query>
+    <sql-query name="removeListConds">
+        delete from bolistcond where bolist_id = :listId
+    </sql-query>
+    <sql-query name="getListCondSingle">
+        select body from bolistcond where bolist_id = :listId
+    </sql-query>
+
+    <!-- CMS -->
+    <query name="getCmsPageByType">
+        from ru.simplgroupp.persistence.cms.CmsPageEntity where type = :type and projectName = :projectName
+    </query>
+    <query name="getCmsImageByPageId">
+        from ru.simplgroupp.persistence.cms.CmsImagesEntity where cmsPage.id = :pageId
+    </query>
+    <sql-query name="clearImgNews">
+        update cms_news set img_id = null where id = :id
+    </sql-query>
+    <sql-query name="clearPreviewImgNews">
+        update cms_news set preview_img_id = null where id = :id
+    </sql-query>
+    <sql-query name="removeImage">
+        delete from cms_images where id = :id
+    </sql-query>
+    <sql-query name="cmsNewsPagi">
+        select * from cms_news where project_name = :projectName LIMIT :limit OFFSET :offset
+    </sql-query>
+    <sql-query name="countNewsProject">
+        select count(*) from cms_news where project_name = :projectName
+    </sql-query>
+    <query name="cmsNewsFindAll">
+        from ru.simplgroupp.persistence.cms.CmsNewsEntity where projectName = :projectName
+    </query>
+    <query name="cmsQuestionGroupFindAll">
+        from ru.simplgroupp.persistence.cms.CmsQuestionGroupEntity where projectName = :projectName
+    </query>
+    <query name="cmsQuestionByGroup">
+        from ru.simplgroupp.persistence.cms.CmsQuestionsEntity where group.id = :groupId order by id asc
+    </query>
+    <query name="cmsQuestionByProjectname">
+        from ru.simplgroupp.persistence.cms.CmsQuestionsEntity where group.projectName = :projectName order by id asc
+    </query>
+    <sql-query name="countQuestionProject">
+        select count(*) from cms_questions cq
+        join cms_question_group cqg on cq.group_id = cqg.id
+        where cqg.project_name = :projectName
+    </sql-query>
+    <query name="cmsDocumentFindAll">
+        from ru.simplgroupp.persistence.cms.CmsDocumentsEntity where projectName = :projectName and isArchive is null
+    </query>
+    <query name="cmsDocumentFindArchive">
+        from ru.simplgroupp.persistence.cms.CmsDocumentsEntity where projectName = :projectName and isArchive is not
+        null
+    </query>
+
+    <!-- Звонки -->
+    <sql-query name="removeCall">
+        delete from calls where id = :id
+    </sql-query>
+    <query name="callResultsByPeopleAndUserID">
+        from CallResultEntity cr where cr.peopleMainId.id = :peopleMainID and cr.userId.id = :userID
+    </query>
+    <query name="callResultsByPeople">
+        from CallResultEntity cr where cr.peopleMainId.id = :peopleMainID
+    </query>
+    <query name="callsByPeopleAndUserID">
+        from CallsEntity ce where ce.peopleMainId.id = :peopleMainID and ce.userId.id = :userID
+    </query>
+    <query name="callsByPeople">
+        from CallsEntity ce where ce.peopleMainId.id = :peopleMainId
+    </query>
+
+
+    <!-- Antifraud -->
+    <query name="findAntifraudTypeByName">
+        from ru.simplgroupp.persistence.antifraud.AntifraudFieldTypesEntity where type = :typeName
+    </query>
+    <query name="findAntifraudPageTypeByName">
+        from ru.simplgroupp.persistence.antifraud.AntifraudPageTypesEntity where type = :typeName
+    </query>
+    <query name="findAntifraudPageEntityBySessionId">
+        from ru.simplgroupp.persistence.antifraud.AntifraudPageEntity where type = :typeName
+        and sessionId = :sessionId and dateEnd is null
+    </query>
+    <query name="updateFieldsRequestId">
+        update ru.simplgroupp.persistence.antifraud.AntifraudFieldEntity
+        set creditRequestId = :creditRequestEntity, peopleMainId = :peopleMainEntity
+        where sessionId = :sessionId and peopleMainId is null and creditRequestId is null
+    </query>
+
+    <query name="findAntifraudOccasionByQuestion">
+        from ru.simplgroupp.persistence.antifraud.AntifraudOccasionEntity
+        where questionOption.questionId = :question
+    </query>
+
+
+    <!--Identity question-->
+    <query name="findCreditsFromKbByCreditRequest">
+        select c from ru.simplgroupp.persistence.CreditEntity c
+        where
+        c.partnersId.id != 1 and
+        c.partnersId.canMakeCreditHistory = TRUE and
+        c.creditRequestId.id = :creditRequestId
+    </query>
+    <query name="deleteAllQuestionsByCreditRequest">
+        delete from ru.simplgroupp.persistence.IdentityQuestionEntity q
+        where
+        q.creditRequest.id = :creditRequestId
+    </query>
+
+    <!-- OtherDocument -->
+    <query name="findPeopleOtherDocuments">
+        select d from ru.simplgroupp.persistence.DocumentOtherEntity d
+        where
+        d.peopleMainId.id = :peopleId
+        and d.documenttypeId.refHeaderId.id = :type
+        and d.isactive = 1
+    </query>
+
+    <query name="deleteOtherDocument">
+        delete from ru.simplgroupp.persistence.DocumentOtherEntity d
+        where
+        d.id = :id
+    </query>
+
+
+    <!-- credit offer -->
+    <sql-query name="deleteCreditOffer">
+        delete from creditoffer where id = :id
+    </sql-query>
+    <query name="findCreditOfferByCreditRequest">
+        select c from ru.simplgroupp.persistence.CreditOfferEntity as c where (c.creditRequestId.id = :creditRequestId)
+        order by c.creditSum desc
+    </query>
+
+
+    <!--VerificationReference and config-->
+    <query name="findVerificationReferenceForRate">
+        SELECT vr FROM ru.simplgroupp.persistence.VerificationReferenceEntity vr
+        WHERE vr.entityName = :entityName and vr.useForRate=true
+    </query>
+
+    <query name="findVerificationConfigForMatching">
+        SELECT vc FROM ru.simplgroupp.persistence.VerificationConfigEntity vc
+        WHERE vc.fieldId = :verificationReference and vc.useForMatching=true
+    </query>
+
+    <query name="findVerificationConfigForRating">
+        <![CDATA[SELECT vc FROM ru.simplgroupp.persistence.VerificationConfigEntity vc
+		WHERE vc.fieldId =:verificationReference and vc.diff>=:diff
+		ORDER BY vc.rating desc]]>
+    </query>
+
+    <query name="findAllVerificationReference">
+        select v from ru.simplgroupp.persistence.VerificationReferenceEntity v
+    </query>
+
+    <sql-query name="removeVerification">
+        delete from verification where id = :id
+    </sql-query>
+
+
+    <!-- antifraud rules -->
+    <query name="findActiveAntifraudRules">
+        from ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity where isActive=:isActive and parrentRule is
+        null
+    </query>
+    <query name="findRefAntifraudRuleByCode">
+        from ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity where code = :code
+    </query>
+    <query name="findParamsForRuleAll">
+        from ru.simplgroupp.persistence.antifraud.RefAntifraudRulesParamsEntity where rulesId.id=:ruleId
+    </query>
+    <query name="findParamsForRule">
+        from ru.simplgroupp.persistence.antifraud.RefAntifraudRulesParamsEntity
+        where rulesId.id=:ruleId and forRequest=:forRequest
+    </query>
+    <query name="findHunterRuleByCode">
+        from ru.simplgroupp.persistence.antifraud.RefHunterRuleEntity where code = :ruleCode
+    </query>
+    <query name="findAllAntifraudRules">
+        select r from ru.simplgroupp.persistence.antifraud.RefAntifraudRulesEntity r
+    </query>
+
+    <query name="findAccountsByPeople">
+        from ru.simplgroupp.persistence.AccountEntity where peopleMainId = :people and accountTypeId = :type
+        and accountnumber = :number and isactive = 1
+    </query>
+    <query name="findAccountsByPeopleAndCardMask">
+        from ru.simplgroupp.persistence.AccountEntity where peopleMainId = :people and accountTypeId = :type
+        and cardNumberMasked = :cardNumberMasked and isactive = 1
+    </query>
+    <query name="findDebtsWithDecisionDebt">
+        <![CDATA[select d from ru.simplgroupp.persistence.DebtEntity d where d.dateDecision is not null and d.dateDecision <= :end and d.dateDecision >= :start]]>
+    </query>
+
+
+    <!-- common sql -->
+    <sql-query name="isTableOrViewExists">
+        SELECT 1 FROM information_schema.tables WHERE table_schema = :schemaName AND table_name = :tableName
+    </sql-query>
+
+
+    <!-- для вопросов верификатора -->
+    <query name="findOptionsForQuestion">
+        from ru.simplgroupp.persistence.QuestionVariantEntity where questionId.id = :questionId
+    </query>
+    <query name="findStatusesForOption">
+        from ru.simplgroupp.persistence.verificatorquestion.QuestionVariantStatusEntity
+        where option.id = :optionId
+    </query>
+
+
+    <!-- BlackList -->
+    <sql-query name="deleteBlackListBySourceCode">
+        delete from ref_blacklist where source_id = :sourceID
+    </sql-query>
+</hibernate-mapping>

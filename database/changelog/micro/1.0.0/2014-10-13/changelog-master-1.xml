@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="43" author="irk333">
+        <sql>
+create table CreditValue (
+   Id                   SERIAL not null,
+   Credit_ID            INT4                 not null,
+   Name2                VARCHAR(50)          not null,
+   ValueDouble          FLOAT8               null,
+   ValueLong            INT8                 null,
+   IsActive             INT4                 not null,
+   DataBeg              TIMESTAMP WITH TIME ZONE not null,
+   constraint PK_CREDITVALUE primary key (Id)
+);	  
+create unique index CreditValue_PK on CreditValue (Id);
+create  index Relationship_119_FK on CreditValue (Credit_ID);
+create  index idxCreditVal1 on CreditValue (Credit_ID,Name2,IsActive);
+alter table CreditValue add constraint FK_CREDITVA_RELATIONS_CREDIT foreign key (Credit_ID) references Credit (ID) on delete cascade on update restrict;</sql>
+    </changeSet>
+</databaseChangeLog> 

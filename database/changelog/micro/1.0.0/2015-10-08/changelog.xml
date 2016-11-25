@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+<changeSet id="264" author="ponomarev">
+    <sql>
+insert into ref_header(id, partners_id, name, txversion)
+select 89, id, 'Сущности ОКБ "Национальный хантер"', 0 from partners where name = 'OkbHunter';
+
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Основной заявитель', 'MA', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Паспорт', 'MA_PAS', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Адрес регистрации', 'MA_RAD', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Телефон по месту регистрации', 'MA_RTEL', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Адрес проживания', 'MA_CAD', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Телефон по месту проживания', 'MA_CTEL', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Телефон мобильный', 'MA_MTEL', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Работодатель', 'MA_EMP', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Телефон по месту работы', 'MA_ETEL', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Адрес работодателя', 'MA_EAD', 1, 0);
+
+insert into reference (ref_header_id, name, code, isactive, txversion)
+values(89, 'Электронная почта', 'MA_EMA', 1, 0);
+    </sql>
+</changeSet>
+
+<changeSet id="265" author="ponomarev">
+    <sql>
+insert into ref_header(id, partners_id, name, txversion)
+values(90, 1, 'Статус мошенничества', 0);
+
+
+insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+values(90, 'Низкорисковый', 'Clear', 1, 1, 0);
+
+insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+values(90, 'Среднерисковый автоматическая проверка', 'Auto Suspect', 2, 1, 0);
+
+insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+values(90, 'Среднерисковый ручная проверка', 'Manual Suspect', 5, 1, 0);
+
+insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+values(90, 'Высокорисковый', 'Refer', 7, 1, 0);
+    </sql>
+</changeSet>
+
+</databaseChangeLog>

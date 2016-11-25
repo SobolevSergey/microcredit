@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="156" author="helen">
+
+<sql>
+  
+alter table creditrequest add creditpurpose_id integer;
+
+alter table creditrequest add CONSTRAINT fk_creditrequest_purpose FOREIGN KEY (creditpurpose_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+alter table peoplefriends add phone varchar(20);
+alter table peoplefriends add forbonus integer;
+alter table peoplefriends add available boolean default false;
+</sql>
+
+
+  </changeSet>
+
+
+
+</databaseChangeLog> 

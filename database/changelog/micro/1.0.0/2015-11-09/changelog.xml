@@ -1,0 +1,32 @@
+﻿<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+  <changeSet id="288" author="irk333">
+
+    <sql>
+      alter table bolist add column subtype varchar(50) null;
+    </sql>
+ </changeSet>
+ 
+  <changeSet id="289" author="irk333">
+
+    <sql>
+      insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isatomic, txversion) 
+        values (2, 'msgSendAnyEMail', 'ru.simplgroupp.transfer.Credit', 'Отправить письмо', 'callcenter,verificator,creditmanager,admin',1, 1, 0, 1, 0, 0);
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'subject', 'Тема', 0, 'C' from bizaction where bizactiontype_id = 2 and signalref = 'msgSendAnyEMail';
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'body', 'Сообщение', 0, 'C' from bizaction where bizactiontype_id = 2 and signalref = 'msgSendAnyEMail';	
+	
+      insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, issystem, isactive, isatomic, txversion) 
+        values (3, 'msgSendAnySMS', 'ru.simplgroupp.transfer.Credit', 'Отправить письмо', 'callcenter,verificator,creditmanager,admin',1, 1, 0, 1, 0, 0);
+      insert into bizactionparam (bizaction_id, code, name, txversion, datatype) 
+	select id, 'body', 'Сообщение', 0, 'C' from bizaction where bizactiontype_id = 3 and signalref = 'msgSendAnySMS';		
+    </sql>
+ </changeSet> 
+
+</databaseChangeLog>
+

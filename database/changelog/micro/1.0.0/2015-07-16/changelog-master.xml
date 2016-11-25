@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="192" author="irk333">
+ 
+    <sql>
+      
+      alter table aimodel add way_id int null;
+      alter table aimodel add  CONSTRAINT fk_creditrequest_way FOREIGN KEY (way_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT; 
+      update aimodel set way_id = (select id from reference where ref_header_id = 66 and codeinteger = 2 );
+     </sql>
+  </changeSet>
+<changeSet id="193" author="irk333">
+ 
+    <sql>
+      update creditrequest set way_id = (select id from reference where ref_header_id = 66 and codeinteger = 2 );
+     </sql>
+  </changeSet>  
+<changeSet id="194" author="irk333">
+ 
+    <sql>
+      insert into aimodel (datecreate, version, isactive, target, mimetype, datechange, products_id, way_id, txversion)
+	values (current_date, '0.1', 1, 'credit.decision.offline','text/javascript', current_date, (select id from products where code = 'R001') , (select id from reference where ref_header_id = 66 and codeinteger = 3 ) ,0);
+     </sql>
+    <update tableName="aimodel">
+      <column name="body" valueClobFile="model.js" />
+      <where>target = 'credit.decision.offline'</where>
+    </update>     
+  </changeSet>    
+
+</databaseChangeLog> 

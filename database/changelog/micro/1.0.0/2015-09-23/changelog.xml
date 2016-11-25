@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	   
+
+<changeSet id="249" author="helen">
+ 
+    <sql>
+    
+insert into eventcode(id,name)
+values(69,'Предложение клиенту других условий займа');
+
+insert into eventcode(id,name)
+values(70,'Принятие клиентом других условий займа');
+
+insert into eventcode(id,name)
+values(71,'Отказ клиента от других условий займа');
+
+     </sql>
+  </changeSet>
+
+<changeSet id="250" author="helen">
+ 
+    <sql>
+    
+  alter table creditrequest add creditdays_initial integer;
+  alter table creditrequest add creditsum_initial double precision;
+
+     </sql>
+  </changeSet>
+  
+  <changeSet id="251" author="julia">
+ 
+    <sql>
+    UPDATE product_config SET name='verificatorMustEdit' WHERE name='verificator.must.edit';
+
+     </sql>
+  </changeSet>
+
+
+    <changeSet id="251" author="brinat">
+        <sql>
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion) values
+            (1, (select id from reference where ref_header_id = 71 and codeinteger = 5), 1, '2010-01-01', '2020-01-01', 'credit.days.collector.period', 'N', 1, 'С какого дня просрочки передаем коллектору', 0);
+
+            update bizaction set sqlfilter = '(c.issameorg = true) and (c.isover = false) and (c.creditdataendfact is null) and (c.isactive=1)' where signalref = 'msgToCollector' and businessobjectclass = 'ru.simplgroupp.transfer.Credit';
+        </sql>
+
+        <update tableName="product_rules">
+            <column name="rulebody" valueClobFile="collector_calculator.drl" />
+            <where>name = 'ru.simplgroupp.rules.credit.calculator.collector'</where>
+        </update>
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="msgToCollector_enable.drl" />
+            <where>signalref = 'msgToCollector'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+        </update>
+    </changeSet>
+
+
+</databaseChangeLog> 

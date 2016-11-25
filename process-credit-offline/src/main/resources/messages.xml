@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+    <message name="email.credit.ready.subject" type="C">
+        <default-value>Вам отправлен заём на сумму %5.0f рублей.</default-value>
+    </message>
+    <message name="email.credit.ready.body" type="C">
+        <default-value><![CDATA[<p>Поздравляем!</p><p>Вам отправлена сумма займа %5.0f рублей.</p><p>Посмотреть информацию про заём, а также погасить его, Вы можете <a href="http://rastorop.ru/client"> в своем личном кабинете.</a> </p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>]]>           
+        </default-value>
+    </message> 
+    <message name="email.credit.oferta.subject" type="C">
+        <default-value>Ваша оферта в системе Растороп по займу %1$s</default-value>
+    </message>    
+    <message name="email.credit.oferta.body" type="C">
+        <default-value><![CDATA[%2$s]]></default-value>
+    </message>     
+    <message name="sms.rejected" type="C">
+        <default-value>К сожалению, мы не можем выдать Вам займ на сумму %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05</default-value>
+    </message> 
+    <message name="email.rejected.subject" type="C">
+        <default-value><![CDATA[Вам отказано в займе на сумму %5.0f рублей]]></default-value>
+    </message>
+    <message name="email.rejected.body" type="C">
+        <default-value><![CDATA[<p>К сожалению, мы не можем выдать Вам займ на сумму %5.0f рублей.</p><p>Ваш Растороп. 8 (800) 775-22-05</p>]]></default-value>
+    </message>     
+    <message name="sms.credit.ready" type="C">
+        <default-value>Вам отправлен займ на сумму %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05</default-value>
+    </message>    
+</messages>

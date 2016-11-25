@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+    <appender name="rfps_console" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %p %c: %m%n"/>
+        </layout>
+    </appender>
+    <appender name="LOG-SYSTEM" class="org.apache.log4j.FileAppender">
+        <param name="file" value="${jboss.server.log.dir}/rfps.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+          <param name="ConversionPattern" value="[%t] %d{ISO8601} [%5p] %c %m at %l%n"/>
+        </layout>
+    </appender>
+
+    <logger name="syslog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="LOG-SYSTEM"/>
+		<appender-ref ref="rfps_console"/>
+    </logger>
+
+<!--Root logger-->
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="rfps_console"/>
+    </root>
+</log4j:configuration>

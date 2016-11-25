@@ -1,0 +1,29 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+    <changeSet id="297" author="mponomar">
+        <addPrimaryKey 
+            columnNames="id"
+            constraintName="pk_ref_antifraud_rules_hunter_entities"
+            tableName="ref_antifraud_rules_hunter_entities"/>
+    </changeSet>
+
+    <changeSet id="298" author="mponomar">
+        <sql>
+            update partners 
+            set 
+                urltest = 'https://nh-test.rb-ei.com/OnlineMatchingService/OnlineMatching.asmx?wsdl',
+                logintest = 'C970_OM',
+                passwordtest = 'p!c{4fNVqmI1',
+                codetest = '970',
+                grouptest = '62',
+                requestversion = '115'
+            where name = 'OkbHunter' 
+        </sql>
+    </changeSet>
+    
+</databaseChangeLog>

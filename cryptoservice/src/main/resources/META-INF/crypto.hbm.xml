@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 14.05.2012 15:05:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.admnkz.crypto.data.Status" table="status">
+        <id name="ID">
+            <column name="ID" />
+        </id>
+        <property name="Name" column="name" />
+    </class>
+    <class name="org.admnkz.crypto.data.Certificate" table="certificate">
+        <id name="id">
+            <column name="id" />
+        </id>    
+        <many-to-one name="Status" class="org.admnkz.crypto.data.Status" lazy="false" column="status_id">
+        </many-to-one>
+        <many-to-one name="Signer" class="org.admnkz.crypto.data.Certificate" column="signer_id" lazy="false"></many-to-one>
+        <property name="SubjectType" column="SubjectType"></property>
+        <property name="SubjectCN" column="SubjectCN"></property>
+        <property name="DateStart" column="DateStart"></property>
+        <property name="DateFinish" column="DateFinish"></property>
+        <property name="Body" column="body"></property>
+        <property name="PrivateKey" column="privatekey"></property>
+        <property name="PrivateKeyAlias" column="privatekeyalias"></property>
+        <property name="PrivateKeyPath" column="PrivateKeyPath"></property>
+        <property name="PrivateKeyPassword" column="PrivateKeyPassword"></property>
+        <property name="ProviderName" column="ProviderName"></property>
+        <property name="SubjectDN" column="SubjectDN"></property>
+        <property name="SecureRandom" column="securerandom"></property>
+        <property name="ValidationLastTime" column="ValidationLastTime"></property>
+        <property name="ValidationCode" column="ValidationCode"></property>
+        <property name="ValidationMessage" column="ValidationMessage"></property>
+        <bag name="settings" lazy="false" inverse="true">
+        	<key column="certificate_id"></key>
+        	<one-to-many class="org.admnkz.crypto.data.Settings"/>
+        </bag>
+    </class>
+    <class name="org.admnkz.crypto.data.Settings" table="settings">
+        <id name="ID">
+            <column name="ID" />
+        </id>    
+        <many-to-one name="Certificate" class="org.admnkz.crypto.data.Certificate" lazy="false" column="certificate_id">
+        </many-to-one>
+        <property name="ProviderName" column="ProviderName"></property>
+        <property name="SignatureAlg" column="SignatureAlg"></property>
+        <property name="XmlSignatureAlg" column="XmlSignatureAlg"></property>
+        <property name="DigestAlg" column="DigestAlg"></property>
+        <property name="XmlDigestAlg" column="XmlDigestAlg"></property>
+        <property name="SecureRandomAlg" column="SecureRandomAlg"></property>
+        <property name="XmlDSigProviderName" column="XmlDSigProviderName"></property>
+        <property name="PrivateKeyAlg" column="privatekeyalg"></property>
+        <property name="DigestProviderName" column="digestprovidername"></property>
+        <property name="KeyManagerAlg" column="keymanageralg"></property>
+        <property name="SslProtocol" column="sslprotocol"></property>
+        <property name="JsseProviderName" column="jsseprovidername"></property>
+    </class>    
+    <sql-query name="removeChilds">
+    	delete from certificate where signer_id = :signerID
+    </sql-query>
+    <sql-query name="nullChilds">
+    	update certificate set signer_id = null where signer_id = :signerID
+    </sql-query>    
+
+    <sql-query name="selectSecureRandom">
+    	select securerandom from certificate where id = :ID
+    </sql-query>    
+        
+</hibernate-mapping>

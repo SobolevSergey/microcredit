@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns = "http://java.sun.com/xml/ns/javaee"
+  version = "3.1"
+  xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee
+     http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+  <enterprise-beans>
+    <session>
+      <ejb-name>CryptoService</ejb-name>
+      <ejb-class>org.admnkz.crypto.app.CryptoService</ejb-class>
+      <business-local>org.admnkz.crypto.app.ICryptoService</business-local>
+      <business-remote>org.admnkz.crypto.app.IRemoteCryptoService</business-remote>
+      <session-type>Stateless</session-type>
+<!--        
+        <ejb-local-ref>
+        	<ejb-ref-name>CryptoOptions</ejb-ref-name>
+        	<ejb-ref-type>Session</ejb-ref-type>
+        	<local>org.admnkz.common.IOptions</local>
+        	<lookup-name>java:global/Engine-EJB/CryptoOptions!org.admnkz.common.IOptions</lookup-name>
+        	<injection-target>
+        		<injection-target-class>org.admnkz.crypto.app.CryptoService</injection-target-class>
+        		<injection-target-name>options</injection-target-name>
+        	</injection-target>
+        </ejb-local-ref>    
+-->              
+    </session>
+<!--     
+    <session>
+      <ejb-name>Options</ejb-name>
+      <ejb-class>org.admnkz.common.Options</ejb-class>
+      <session-type>Singleton</session-type>
+      <init-on-startup>true</init-on-startup>
+      <business-local>org.admnkz.common.IOptions</business-local>
+      <env-entry>
+       	<env-entry-name>optionsPath</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>d:/workspace/kassa_online/microcredit/cryptoservice/data/options.properties</env-entry-value>
+		<injection-target>
+			<injection-target-class>org.admnkz.common.Options</injection-target-class>
+			<injection-target-name>optionsPath</injection-target-name>
+		</injection-target>
+      </env-entry>     
+    </session>  
+-->      
+ </enterprise-beans>
+</ejb-jar>

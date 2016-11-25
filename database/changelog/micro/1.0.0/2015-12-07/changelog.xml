@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+    <changeSet id="306" author="helen">
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="msgCancelPaymentContact.drl"/>
+            <where>signalref = 'msgCancelPaymentContact'and businessobjectclass = 'ru.simplgroupp.transfer.Payment'
+            </where>
+        </update>
+    </changeSet>
+
+    <changeSet id="303" author="brinat">
+        <sql>
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (11, 'Информационные технологии / Телекоммуникации', '26', 26, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (11, 'Сервис и Услуги', '27', 27, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (11, 'Армия и силовые структуры', '28', 28, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (11, 'Охранная деятельность', '29', 29, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (11, 'Добывающий сектор', '30', 30, 1, 0);
+
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (7, 'генеральный директор', '11', 11, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (7, 'главный бухгалтер', '12', 12, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (7, 'линейный менеджер', '13', 13, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (7, 'высшее управляющее звено', '14', 14, 1, 0);
+            insert into reference (ref_header_id, name, code, codeinteger, isactive, txversion)
+            values (7, 'среднее управляющее звено', '15', 15, 1, 0);
+        </sql>
+    </changeSet>
+
+    <changeSet id="307" author="brinat">
+        <sql>
+            <!-- IP-адрес заявки встречается более 2 раз за текущий день (ранее подано не менее 2 заявок с того же IP-адреса) -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person)
+            values ('IP-адрес заявки встречается более 2 раз за текущий день (ранее подано не менее 2 заявок с того же IP-адреса)', 'ru.simplgroupp.persistence.EventLogEntity', 'MA_IP_2', 1, 2, 0, 0);
+
+            <!-- Параметры запросa -->
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_2'), 'partnerId', ' and partnersId.id=:partnerId', 'системная запись', 'N', 1, 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_2'), 'eventcodeid', ' and eventcodeid.id=:eventcodeid', 'код подачи кредитной заявки', 'N', 10, 1, 0);
+
+            <!-- Параметры для ответа -->
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_2'), 'eventtime', ' and eventtime>=:eventtime', 'в течении какого времени ищем', 'D', 1, 0, 0);insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_2'), 'eventcodeid', ' and eventcodeid.id=:eventcodeid', 'код подачи кредитной заявки', 'N', 10, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_2'), 'partnerId', ' and partnersId.id=:partnerId', 'системная запись', 'N', 1, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_2'), 'ipaddress', ' and ipaddress=:ipaddress', 'IP адрес', 'S', 0, 0);
+
+            <!-- IP-адрес заявки встречается более 5 раз за последние 7 дней (ранее подано не менее 5 заявок с того же IP-адреса за предшествующие 7 дней) -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person)
+            values ('IP-адрес заявки встречается более 5 раз за последние 7 дней (ранее подано не менее 5 заявок с того же IP-адреса за предшествующие 7 дней)', 'ru.simplgroupp.persistence.EventLogEntity', 'MA_IP_5_7', 1, 5, 0, 0);
+
+            <!-- Параметры запросa -->
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_7'), 'partnerId', ' and partnersId.id=:partnerId', 'системная запись', 'N', 1, 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_7'), 'eventcodeid', ' and eventcodeid.id=:eventcodeid', 'код подачи кредитной заявки', 'N', 10, 1, 0);
+
+            <!-- Параметры для ответа -->
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_7'), 'eventtime', ' and eventtime>=:eventtime', 'в течении какого времени ищем', 'D', 7, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_7'), 'eventcodeid', ' and eventcodeid.id=:eventcodeid', 'код подачи кредитной заявки', 'N', 10, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_7'), 'partnerId', ' and partnersId.id=:partnerId', 'системная запись', 'N', 1, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_7'), 'ipaddress', ' and ipaddress=:ipaddress', 'IP адрес', 'S', 0, 0);
+
+            <!-- IP-адрес заявки встречается более 5 раз за последние 30 дней (ранее подано не менее 5 заявок с того же IP-адреса за предшествующие 30 дней) -->
+            insert into ref_antifraud_rules (name, entityname, code, isactive, times, check_same_person, include_same_person)
+            values ('IP-адрес заявки встречается более 5 раз за последние 30 дней (ранее подано не менее 5 заявок с того же IP-адреса за предшествующие 30 дней)', 'ru.simplgroupp.persistence.EventLogEntity', 'MA_IP_5_30', 1, 5, 0, 0);
+
+            <!-- Параметры запросa -->
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_30'), 'partnerId', ' and partnersId.id=:partnerId', 'системная запись', 'N', 1, 1, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_30'), 'eventcodeid', ' and eventcodeid.id=:eventcodeid', 'код подачи кредитной заявки', 'N', 10, 1, 0);
+
+            <!-- Параметры ответа -->
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_30'), 'eventtime', ' and eventtime>=:eventtime', 'в течении какого времени ищем', 'D', 30, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_30'), 'eventcodeid', ' and eventcodeid.id=:eventcodeid', 'код подачи кредитной заявки', 'N', 10, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_30'), 'partnerId', ' and partnersId.id=:partnerId', 'системная запись', 'N', 1, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_IP_5_30'), 'ipaddress', ' and ipaddress=:ipaddress', 'IP адрес', 'S', 0, 0);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="325" author="cobalt">
+
+        <sql>
+            INSERT INTO report (id, reporttype_id, name, reportexecutor, mimetype,products_id,code,txversion) VALUES (7,
+            1, 'Письмо должнику','template.simple', 'text/html',1,'letter.collector',0);
+        </sql>
+
+        <update tableName="report">
+            <column name="mimetype" value="text/html"></column>
+            <column name="body" valueClobFile="letter-collector.txt"></column>
+            <where>id=7</where>
+        </update>
+
+    </changeSet>
+</databaseChangeLog>

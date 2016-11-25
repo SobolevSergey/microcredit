@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="124" author="helen">
+ 
+    <sql>
+  
+    alter table creditrequest alter products_id  drop not null;
+    alter table credit alter products_id  drop not null;
+     </sql>
+  </changeSet>
+	      <changeSet id="125" author="julia">
+ 
+    <sql>
+CREATE TABLE peoplefriends
+(
+  id serial NOT NULL,
+  peoplemain_id integer NOT NULL,
+  dateactual timestamp with time zone,
+  surname character varying(100),
+  name character varying(100),
+  email character varying(100),
+  txversion integer DEFAULT 0,
+  CONSTRAINT pk_peoplefriends PRIMARY KEY (id),
+  CONSTRAINT fk_peoplefr_relbhvpeo_peoplema FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE peoplefriends
+  OWNER TO sa;
+
+CREATE UNIQUE INDEX peoplefriends_pk
+  ON peoplefriends
+  USING btree
+  (id);
+
+CREATE INDEX relfrdpeople_fk
+  ON peoplefriends
+  USING btree
+  (peoplemain_id);
+   </sql>
+  </changeSet>
+</databaseChangeLog> 

@@ -1,0 +1,20 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+ 	<changeSet id="296" author="helen">
+	  <sql>
+       
+        ALTER TABLE debt ADD COLUMN credit_id integer;
+        ALTER TABLE debt ADD COLUMN isactive integer default 1;
+        ALTER TABLE debt ADD COLUMN amount_penalty double precision;
+        ALTER TABLE debt ADD CONSTRAINT fk_debt_credit FOREIGN KEY (credit_id)
+          REFERENCES credit (id) MATCH SIMPLE
+          ON UPDATE RESTRICT ON DELETE CASCADE;
+    </sql>
+    </changeSet>
+</databaseChangeLog>
+

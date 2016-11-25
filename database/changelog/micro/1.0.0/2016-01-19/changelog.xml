@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="327" author="brinat">
+        <sql>
+            insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, sqlfilter, issystem, retryinterval, isactive, isrequired, isatomic, iscsingleton, txversion)
+            values ((select id from bizactiontype where name='Выполнить в приложении'), 'msgCheckPaymentSystemsBalance', 'ru.simplgroupp.transfer.Reference', 'Проверка баланса платежных систем', 'admin', 0, 1, '(c.refHeaderId.id=17)', 1, 1800000, 1, 1, 0, 3, 0);
+
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion)
+            values ((select id from products where isdefault = 1 and isactive = 1), (select id from reference where ref_header_id = 71 and codeinteger = 10), 1, '2010-01-01', '2020-01-01', 'smsRequiredBalance', 'N', '50000', 'Минимальная сумма на платежной системе для отправки смс', 0);
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion)
+            values ((select id from products where isdefault = 1 and isactive = 1), (select id from reference where ref_header_id = 71 and codeinteger = 10), 1, '2010-01-01', '2020-01-01', 'requiredBalance', 'N', '15000', 'Минимальная сумма для отключения платежной системы', 0);
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion)
+            values ((select id from products where isdefault = 1 and isactive = 1), (select id from reference where ref_header_id = 71 and codeinteger = 10), 1, '2010-01-01', '2020-01-01', 'sendSmsRequiredBalance', 'N', '1', 'Включение отправки смс', 0);
+            insert into product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion)
+            values ((select id from products where isdefault = 1 and isactive = 1), (select id from reference where ref_header_id = 71 and codeinteger = 10), 1, '2010-01-01', '2020-01-01', 'smsSendPhoneNumber', 'C', '79115592121', 'Номер телефона для отправки смс при малом балансе платежной системы', 0);
+            insert into product_messages (products_id, configtype_id, name, body, description, txversion)
+            values ((select id from products where isdefault = 1 and isactive = 1), (select id from reference where ref_header_id = 71 and codeinteger = 6), 'sms.low.payment.text', 'В платежной системе paySystemName на счету: balance', 'Текст смс сообщения при малом балансе платежной системы', 0);
+        </sql>
+
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="check_payment_systems_balance_enabled.drl" />
+            <column name="ruleaction" valueClobFile="check_payment_systems_balance_action.drl" />
+            <where>signalref = 'msgCheckPaymentSystemsBalance'</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

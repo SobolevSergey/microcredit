@@ -1,0 +1,31 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="178" author="helen">
+ 
+    <sql>
+ 
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.add.bonus','Письмо о добавлении бонусов',
+'Бонус в системе микрозаймов Растороп',
+'<p>Поздравляем!</p> <p>Вам начислили бонус в системе микрозаймов Растороп. Количество бонусов можно посмотреть в <a href="https://rastorop.ru/main/index.shtml">личном кабинете</a>.</p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=6;]]>
+
+  
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.invite.friend','Письмо о приглашении друга',
+'Приглашение в систему микрозаймов Растороп',
+'<p>Добрый день!</p><p>Вас пригласили в систему микрозаймов Растороп. Добро пожаловать, в <a href="https://rastorop.ru/main/index.shtml">Растороп</a>.</p> <p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=6;]]>
+
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

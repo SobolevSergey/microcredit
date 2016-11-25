@@ -1,0 +1,101 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+<changeSet id="171" author="irk333">
+ 
+    <sql>
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Создать заявку', 1);
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Посмотреть заявку', 2);
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Редактировать заявку', 3);
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Удалить заявку', 4);
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Принять ручное решение по заявке', 5);
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Задать вопросы по заявке', 6);
+      
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Посмотреть займ', 3);      
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Редактировать займ', 2);      
+      insert into reference (ref_header_id, name, codeinteger) values (74, 'Удалить займ', 4);      
+   </sql>
+    </changeSet>
+
+<changeSet id="172" author="irk333">
+ 
+    <sql>
+      <![CDATA[
+      update reference set isactive = 1 where ref_header_id = 74;
+      
+      update reference set codeintegermain = 1 where ref_header_id = 74 and codeinteger >=1 and codeinteger <=6;
+       	
+      update reference set codeinteger = 7, codeintegermain = 2 where ref_header_id = 74 and name = 'Посмотреть займ';
+      update reference set codeinteger = 8, codeintegermain = 2 where ref_header_id = 74 and name = 'Редактировать займ';      
+      update reference set codeinteger = 9, codeintegermain = 2 where ref_header_id = 74 and name = 'Удалить займ';      
+      ]]> 
+   </sql>
+    </changeSet>
+
+<changeSet id="171" author="helen">
+ 
+    <sql>
+     alter table verification add verificationdate timestamp with time zone;
+
+CREATE INDEX relationship_req_peoplemain
+  ON requests
+  USING btree
+  (peoplemain_id );
+
+   </sql>
+    </changeSet>
+<changeSet id="172" author="helen">
+ 
+    <sql>
+     alter table scoring add scoringdate timestamp with time zone;
+</sql>
+</changeSet>
+
+<changeSet id="173" author="helen">
+ 
+    <sql>
+     CREATE TABLE callback
+(
+  id serial NOT NULL,
+  users_id integer NULL,
+  daterequest timestamp with time zone,
+  surname character varying(100),
+  name character varying(100),
+  email character varying(100),
+  txversion integer DEFAULT 0,
+  phone character varying(20),
+  isactive integer,
+  datecall timestamp with time zone,
+  CONSTRAINT pk_callback PRIMARY KEY (id ),
+  CONSTRAINT fk_callback_users FOREIGN KEY (users_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE callback
+  OWNER TO sa;
+
+
+CREATE UNIQUE INDEX callback_pk
+  ON callback
+  USING btree
+  (id );
+
+
+CREATE INDEX rel_callback_users_fk
+  ON callback
+  USING btree
+  (users_id );
+
+</sql>
+
+  </changeSet>
+
+</databaseChangeLog> 
+

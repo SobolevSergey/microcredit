@@ -1,0 +1,11 @@
+package ru.simplgroupp.rules.creditreturn.condition;
+
+import ru.simplgroupp.rules.BooleanRuleResult
+
+rule "Return enabled"
+when 
+    eval(true);
+    $bResult : BooleanRuleResult();
+then
+    $bResult.setResultValue(true);
+end

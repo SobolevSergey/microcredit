@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2010, Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags. See the copyright.txt file in the
+  ~ distribution for a full listing of individual contributors.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not, write to the Free
+  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+  -->
+
+<module xmlns="urn:jboss:module:1.1" name="org.activiti">
+
+    <resources>
+        <resource-root path="activiti-bpmn-converter-@activiti.version@.jar"/>
+	<resource-root path="activiti-bpmn-model-@activiti.version@.jar"/>
+	<resource-root path="activiti-bpmn-layout-@activiti.version@.jar"/>
+	<resource-root path="activiti-camel-@activiti.version@.jar"/>
+	<!-- <resource-root path="activiti-cdi.jar"/> -->
+	<resource-root path="activiti-common-rest-@activiti.version@.jar"/>
+	<resource-root path="activiti-crystalball-@activiti.version@.jar"/>
+	<resource-root path="activiti-cxf-@activiti.version@.jar"/>	
+	<resource-root path="activiti-diagram-rest-@activiti.version@.jar"/>
+	<resource-root path="activiti-engine-@activiti.version@.jar"/>
+	<resource-root path="activiti-explorer-@activiti.version@.jar"/>
+	<resource-root path="activiti-image-generator-@activiti.version@.jar"/>
+	<resource-root path="activiti-json-converter-@activiti.version@.jar"/>
+	<resource-root path="activiti-ldap-@activiti.version@.jar"/>
+	<resource-root path="activiti-modeler-@activiti.version@.jar"/>
+	<resource-root path="activiti-mule-@activiti.version@.jar"/>
+	<resource-root path="activiti-osgi-@activiti.version@.jar"/>
+	<resource-root path="activiti-process-validation-@activiti.version@.jar"/>
+	<resource-root path="activiti-rest-@activiti.version@.jar"/>
+	<resource-root path="activiti-simple-workflow-@activiti.version@.jar"/>
+	<resource-root path="activiti-spring-@activiti.version@.jar"/>
+	<resource-root path="mybatis-3.2.5.jar"/>
+	<resource-root path="commons-email-1.3.2.jar"/>
+	
+	
+        <!-- Insert resources here -->
+    </resources>
+
+    <dependencies>
+      <module name="org.spring" export="true" />
+      <module name="javax.api" />
+      <module name="javaee.api" />
+      <module name="javax.transaction.api"/>
+      <module name="javax.persistence.api"/>
+      <module name="javax.enterprise.api" />
+      <module name="javax.inject.api" />
+      <module name="javax.ejb.api" />
+      <module name="javax.xml.bind.api" /> 
+      <module name="javax.servlet.api" />
+      <module name="javax.mail.api" />
+      <module name="javax.activation.api" />
+      <module name="org.slf4j" />
+      <module name="org.slf4j.jcl-over-slf4j" />      
+      <module name="org.joda.time" slot="2.1" />
+      <module name="org.apache.commons.lang3" />
+      <module name="com.fasterxml.jackson" />
+      <module name="org.codehaus.jackson.jackson-core-asl" />
+      
+      
+    </dependencies>
+</module>

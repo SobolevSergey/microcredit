@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="190" author="irk333">
+ 
+    <sql>
+      
+      alter table creditrequest add way_id int null;
+      alter table creditrequest add  CONSTRAINT fk_creditrequest_way FOREIGN KEY (way_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT; 
+    
+     </sql>
+  </changeSet>
+
+<changeSet id="190" author="helen">
+ 
+    <sql>
+    
+insert into eventcode(id,name)
+values(63,'Обращение к внешней базе данных');
+
+
+     </sql>
+  </changeSet>
+
+
+</databaseChangeLog> 

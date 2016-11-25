@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+	<deployment>
+		<dependencies>
+			<module name="javax.faces.api"></module>
+			<module name="com.sun.jsf-impl"></module>		
+			<module name="org.jboss.modules"></module>
+			<module name="org.apache.commons.io"></module>
+			<module name="org.apache.commons.lang"></module>
+			<module name="org.apache.commons.lang3"></module>
+			<module name="org.apache.commons.codec"></module>		
+ 			<module name="javax.transaction.api"></module>
+            <module name="org.hibernate.commons-annotations"></module>
+            <module name="org.hibernate.envers"></module>
+            <module name="org.hibernate"></module>
+            <module name="org.hibernate.validator"></module>
+            <module name="org.dom4j"></module>
+            <module name="org.spring"></module>
+            <module name="org.activiti"></module>
+            <module name="org.joda.time" slot="2.1" />
+            <module name="javax.inject.api" />
+			<module name="javax.xml.bind.api"></module>  
+			<module name="org.jboss.resteasy.resteasy-jaxb-provider"></module> 
+			<module name="ru.simplgroupp.microcredit.service"></module>
+			<module name="ru.simplgroupp.microdep.service"></module>
+                        <module name="org.bouncycastle"></module>
+
+            <!--<module name="com.sun.net.ssl"></module>-->
+        </dependencies>
+	</deployment>
+</jboss-deployment-structure>

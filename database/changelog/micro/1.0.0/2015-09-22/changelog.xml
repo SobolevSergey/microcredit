@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="248" author="helen">
+        <sql>
+      INSERT INTO aiconstant ( airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'okbIdv.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'okbCais.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'rusStandart.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'equifax.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'sociohub.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'nbki.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'skb.numberRepeats', 'N', '5', NULL, NULL);
+      INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 7, 'identity.numberRepeats', 'N', '200', NULL, NULL);
+
+        </sql>
+
+    </changeSet>
+</databaseChangeLog>
+

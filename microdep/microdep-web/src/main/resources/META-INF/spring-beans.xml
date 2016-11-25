@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans META-INF/spring-beans.xsd">
+	
+	<bean id="transactionManager" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:jboss/TransactionManager"></property>
+		<property name="resourceRef" value="true" />
+	</bean>
+	
+   <bean id="procStartConfiguration" class="ru.simplgroupp.ejb.ProcessConfiguration">
+       <property name="engineConfiguration">
+		   <bean class="org.activiti.engine.impl.cfg.JtaProcessEngineConfiguration">
+		      <property name="dataSourceJndiName" value="java:jboss/datasources/MicroDS" />
+		      <property name="databaseType" value="postgres" />
+		      <property name="transactionManager" ref="transactionManager" />
+		      <property name="transactionsExternallyManaged" value="true" />
+		      <property name="databaseSchemaUpdate" value="true" />
+		      <property name="jobExecutorActivate" value="false" />   
+		      <property name="jpaPersistenceUnitName" value="MicroPUStart"/>
+		      <property name="jpaCloseEntityManager" value="false"/>
+		      <property name="jpaHandleTransaction" value="false"/>      
+		 
+		      <property name="mailServerHost" value="smtp.mail.ru" />
+		      <property name="mailServerPort" value="25" /> 
+		      <property name="mailServerDefaultFrom" value="microcredit-test@mail.ru" />
+		      <property name="mailServerUsername" value="microcredit-test" />
+		      <property name="mailServerPassword" value="a123456" />
+		 
+		   </bean>	           
+       </property>
+       <property name="deployURL" value="@url.wf.properties@"/>
+       <!-- 
+       <property name="processConditions">       
+           <list>
+               <value>procCR;1.0.0-SNAPSHOT;1.0.0-SNAPSHOT;required</value>
+               <value>procNewCR;1.0.1-SNAPSHOT;1.0.1-SNAPSHOT;required</value>
+               <value>procCollectorCR;1.0.0-SNAPSHOT;1.0.0-SNAPSHOT;optional</value>
+           </list>         
+       </property>
+       -->       
+   </bean>	
+   
+   <bean id="dbStartConfiguration" class="ru.simplgroupp.ejb.DatabaseConfiguration">
+       <property name="deployURL" value="@url.db.properties@"></property>
+   </bean>   
+	<!-- 
+	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+	      <property name="dataSource" ref="dsMicro" />
+	 </bean>
+	 -->	       
+</beans>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns = "http://java.sun.com/xml/ns/javaee"
+         version = "3.1"
+         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee
+     http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+  <enterprise-beans>
+    <session>
+      <ejb-name>FiasService</ejb-name>
+      <ejb-class>ru.simplgroupp.fias.ejb.FiasService</ejb-class>
+      <session-type>Stateless</session-type>
+      <business-local>ru.simplgroupp.fias.ejb.IFIASService</business-local>
+    </session>
+    <session>
+      <ejb-name>FiasUpdater</ejb-name>
+      <ejb-class>ru.simplgroupp.fias.ejb.FiasUpdater</ejb-class>
+      <session-type>Stateless</session-type>
+      <business-local>ru.simplgroupp.fias.ejb.FiasUpdaterLocal</business-local>
+  <!--    <timer>
+        <schedule>
+          <second>0</second>
+          <minute>0</minute>
+          <hour>0</hour>
+          <day-of-week>4</day-of-week>
+          <month>*</month>
+          <year>*</year>
+        </schedule>
+        <timeout-method>
+          <method-name>handleTimer</method-name>
+          <method-params>
+            <method-param>javax.ejb.Timer</method-param>
+          </method-params>
+        </timeout-method>
+      </timer> -->
+      <env-entry>
+        <env-entry-name>downloadServiceUrl</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>http://fias.nalog.ru/WebServices/Public/DownloadService.asmx</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>externalUnrarCommand</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>/usr/bin/unrar</env-entry-value>
+      </env-entry>
+    </session>
+  </enterprise-beans>
+</ejb-jar>

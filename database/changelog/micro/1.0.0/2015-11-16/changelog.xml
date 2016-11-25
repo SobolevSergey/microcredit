@@ -1,0 +1,28 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+   <changeSet id="293"  author="helen">
+        <sql>
+            ALTER TABLE peoplemain drop constraint if exists ak_identifier_2_peoplema;
+            ALTER TABLE peoplemain drop constraint if exists ak_identifier_3_peoplema;
+
+        </sql>
+    </changeSet>
+	
+	<changeSet id="293" author="brinat">
+	  <sql>
+        ALTER TABLE callback DROP CONSTRAINT IF EXISTS fk_callback_people;
+        ALTER TABLE callback DROP COLUMN IF EXISTS header;
+        ALTER TABLE callback DROP COLUMN IF EXISTS file;
+        ALTER TABLE callback DROP COLUMN IF EXISTS peoplemain_id;
+
+        ALTER TABLE messages ADD COLUMN status integer;
+        ALTER TABLE messages ADD COLUMN in_out integer;
+    </sql>
+    </changeSet>
+</databaseChangeLog>
+

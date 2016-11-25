@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="143" author="helen">
+ 
+    <sql>
+    
+alter table products add description varchar(500);
+update products set description='Первый заем на сумму от 1000 до 10000 рублей, сроком до 30 дней';
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.creditreturn.condition','Доступно ли продление',2,'kbReturn',0
+from reference where ref_header_id=71 and codeinteger=3;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.creditreturn.limits','Параметры для возвращаемой суммы',2,'kbReturn',0
+from reference where ref_header_id=71 and codeinteger=3;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.credit.calculator.initial','Рассчитываем первоначальные параметры кредита',2,'kbCreditCalc',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.credit.calculator.stake1','Рассчитываем кредит и ставку',2,'kbCreditCalc',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.credit.calculator.params','Рассчет параметров инициализации кредита',2,'kbCreditParams',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_rules(products_id,configtype_id,isactive,databeg,dataend,name, description,scripttype_id, kbase,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'ru.simplgroupp.rules.credit.calculator.bonus','Рассчитываем сумму бонусов для погашения',2,'kbBonusCalc',0
+from reference where ref_header_id=71 and codeinteger=3;
+
+
+     </sql>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="creditreturn_condition.drl" />
+      <where>name = 'ru.simplgroupp.rules.creditreturn.condition'</where>
+    </update>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="creditreturn_limits.drl" />
+      <where>name = 'ru.simplgroupp.rules.creditreturn.limits'</where>
+    </update>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_initial.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.initial'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_stake1.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.stake1'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_params.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.params'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_bonus.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.bonus'</where>
+    </update>
+
+  </changeSet>
+
+<changeSet id="144" author="helen">
+
+<sql>
+update product_config set datavalue='1' where name='credit.days.min.common';
+update product_config set datavalue='1' where name='credit.days.min.overdue';
+
+</sql>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="creditreturn_condition.drl" />
+      <where>name = 'ru.simplgroupp.rules.creditreturn.condition'</where>
+    </update>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="creditreturn_limits.drl" />
+      <where>name = 'ru.simplgroupp.rules.creditreturn.limits'</where>
+    </update>
+
+ <update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_initial.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.initial'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_stake1.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.stake1'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_params.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.params'</where>
+    </update>
+
+<update tableName="product_rules">
+      <column name="rulebody" valueClobFile="calculator_bonus.drl" />
+      <where>name = 'ru.simplgroupp.rules.credit.calculator.bonus'</where>
+    </update>
+
+  </changeSet>
+
+
+</databaseChangeLog> 

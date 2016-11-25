@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="121" author="irk333">
+ 
+    <sql>
+    alter table creditrequest add products_id          INT4                 null;
+    create  index rel_product_creditrequest_FK on creditrequest (products_id);    
+    alter table creditrequest add constraint FK_CREDITRE_REL_PRODU_PRODUCTS foreign key (products_id) references products (id) on delete restrict on update restrict;    
+      
+    alter table credit add products_id          INT4                 null;
+    create  index rel_product_credit_FK on Credit (products_id);    
+    alter table Credit add constraint FK_CREDIT_REL_PRODU_PRODUCTS foreign key (products_id) references products (id) on delete restrict on update restrict;    
+    
+	update creditrequest set products_id = (select min(id) from products);
+	update credit set products_id = (select min(id) from products);
+    
+    alter table creditrequest alter products_id  set not null;
+    alter table credit alter products_id  set not null;
+     </sql>
+  </changeSet>
+	      
+</databaseChangeLog> 

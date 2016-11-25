@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="117" author="irk333">
+ 
+  <sql>
+  
+insert into ref_header (id, name) values (63, 'Вид бонуса' );
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (63, 'за приглашение друга', 1, 1, 0);
+
+insert into ref_header (id, name) values (64, 'Вид операции по бонусам' );
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'начислено', 1, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'потрачено', 2, 1, 0);
+
+insert into eventcode (id, name) values (45, 'Добавлен бонус');      
+     </sql>
+     <sql>
+	alter table peoplebonus add operation_id int not null;
+	alter table peoplebonus add constraint fk_bonus_ref_oper FOREIGN KEY (operation_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;	
+	alter table peoplebonus drop constraint fk_bonus_ref;
+	alter table peoplebonus add constraint fk_bonus_ref FOREIGN KEY (bonus_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+	
+	drop table ref_bonus;
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

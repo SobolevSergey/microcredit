@@ -1,0 +1,26 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Credit" && signalRef == "msgToCourt");
+    $context : AbstractContext();
+    $cparams: Map();
+    $actionProcessor : ActionProcessorBeanLocal();
+then   
+  if ($context.getCredit().getIsOver()!=null&& $context.getCredit().getIsOver()==false&& $context.getCredit().getCreditDataEndFact()==null&& $context.getCredit().getIsActive()==1&& $context.getCredit().getCreditStatus().getCodeInteger() != 9)
+  {
+    $bResult.setResultValue(true);
+  } else 
+  {
+    $bResult.setResultValue(false);
+  }
+end

@@ -1,0 +1,31 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+<changeSet id="170" author="helen">
+ 
+    <sql>
+ 
+     update partners set uploadversion='3.0r',dateversion=(Date '2014-07-01') where id=24;
+
+    CREATE INDEX relationship_reference_messages
+      ON product_messages
+      USING btree
+     (configtype_id );
+
+    CREATE INDEX name_messages
+      ON product_messages
+      USING btree
+     (name);
+
+
+   </sql>
+    </changeSet>
+
+
+
+</databaseChangeLog> 
+

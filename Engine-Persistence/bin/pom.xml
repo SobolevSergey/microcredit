@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>SimpleGroupProducts</artifactId>
+        <groupId>ru.simplgroupp</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>Engine-Persistence</artifactId>
+    <packaging>ejb</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+        </dependency>
+
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <version>${hibernate.jpa.version}</version>
+        </dependency>
+
+        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Provides portable constraints such as @Email -->
+        <!-- Hibernate Validator is shipped in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        
+   	    <dependency>
+		    <groupId>javax.transaction</groupId>
+		    <artifactId>jta</artifactId>
+		    <version>1.1</version>
+		    <scope>provided</scope>
+	    </dependency>        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency> 
+        <!-- ejb unit test dependencies -start -->
+ 
+<!--                 
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>provided</scope>               
+        </dependency>
+        
+         <dependency>
+             <groupId>org.jboss.spec</groupId>
+             <artifactId>jboss-javaee-6.0</artifactId>
+             <version>1.0.0.Final</version>
+             <type>pom</type>
+             <scope>provided</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.jboss.as</groupId>
+             <artifactId>jboss-as-arquillian-container-managed</artifactId>
+             <version>7.2.0.Final</version>
+             <scope>test</scope>
+         </dependency>       
+-->          
+         <!-- ejb unit test dependencies -end -->     
+         
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0-5</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-core</artifactId>
+			<version>4.6.0</version>
+			<scope>provided</scope>
+		</dependency>		
+		
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901.jdbc4</version>
+			<scope>test</scope>
+		</dependency> 		
+		<dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-core</artifactId>
+	    	<version>${hibernate.core.version}</version>
+	    </dependency>	
+	    <dependency>
+	      <groupId>org.hibernate</groupId>
+	      <artifactId>hibernate-entitymanager</artifactId>
+	      <version>${hibernate.core.version}</version>
+	    </dependency>  	
+	    <dependency>
+    		<groupId>org.hibernate.common</groupId>
+    		<artifactId>hibernate-commons-annotations</artifactId>
+    		<version>${hibernate.annot.version}</version>	    
+	    </dependency>             
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${version.ejb.plugin}</version>
+                <configuration>
+                    <!-- Tell Maven we are using EJB 3.1 -->
+                    <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>            
+        </plugins>
+         <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>             
+         </testResources>        
+    </build>
+
+</project>

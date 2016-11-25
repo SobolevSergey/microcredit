@@ -1,0 +1,19 @@
+import ru.simplgroupp.rules.BooleanRuleResult;
+import java.util.Map;
+import ru.simplgroupp.rules.AbstractContext;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal;
+import ru.simplgroupp.transfer.CreditRequest;
+
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgCreditRequestToCancel");
+    $cparams: Map();
+	$actionProcessor : ActionProcessorBeanLocal();
+then
+	CreditRequest request = $context.getCreditRequest();
+    $actionProcessor.saveClientRefuse(request.getId(), null);
+end

@@ -1,0 +1,38 @@
+package ru.simplgroupp.rules.credit.calculator.params;
+dialect "java"
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.toolkit.common.Convertor;
+import ru.simplgroupp.util.ProductKeys
+
+rule "ru.simplgroupp.rules.credit.calculator.params.1"
+when 
+    $bResult : NameValueRuleResult();
+    $cparams : Map();
+then
+    int creditCount=Convertor.toInteger($cparams.get(CreditCalculatorBeanLocal.CREDIT_CLOSED_COUNT));
+    double sumMaxUnknown=((Double) $cparams.get(ProductKeys.CREDIT_SUM_MAX_UNKNOWN)).doubleValue();
+    if (creditCount==0){
+        $bResult.setValue(ProductKeys.CREDIT_SUM_MAX, CalcUtils.roundFloor(sumMaxUnknown,0));
+
+    } else {
+       double sumMax = ((Double) $cparams.get(ProductKeys.CREDIT_SUM_MAX)).doubleValue();
+       double sumMaxCalc=((Double) $cparams.get(ProductKeys.CREDIT_SUM_ADDITION)).doubleValue()*creditCount+sumMaxUnknown;
+       if (sumMaxCalc<=sumMax){
+         $bResult.setValue(ProductKeys.CREDIT_SUM_MAX, CalcUtils.roundFloor(sumMaxCalc,0));
+       } else {
+         $bResult.setValue(ProductKeys.CREDIT_SUM_MAX, CalcUtils.roundFloor(sumMax,0));
+
+       }  
+    }
+   
+   $bResult.setValue(ProductKeys.CREDIT_SUM_MIN, ((Double) $cparams.get(ProductKeys.CREDIT_SUM_MIN)).doubleValue());
+   $bResult.setValue(ProductKeys.CREDIT_DAYS_MIN,Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_MIN)));
+   $bResult.setValue(ProductKeys.CREDIT_DAYS_MAX,Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_MAX)));
+
+    
+end

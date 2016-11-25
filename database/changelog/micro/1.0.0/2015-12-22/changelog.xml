@@ -1,0 +1,61 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="315"  author="irk333">
+        <sql>
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) 
+select id, 'Смотреть контактную информацию', 25, 1, 0 
+from ref_header where name = 'Функция в системе';
+
+update reference 
+set parent_id= (select r.id from reference r inner join ref_header h on (r.ref_header_id = h.id) where h.name = 'Функция в системе' and r.codeinteger=1002 ) 
+where ref_header_id = (select id from ref_header where name = 'Функция в системе') and codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 1, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 2, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 3, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 4, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 5, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 6, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 7, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+insert into rpermission (role_id, feature_id)
+select 8, r.id
+from reference r inner join ref_header h on (r.ref_header_id = h.id)
+where h.name = 'Функция в системе' and r.codeinteger in (25);
+
+        </sql>
+    </changeSet>
+    	  
+</databaseChangeLog>
+

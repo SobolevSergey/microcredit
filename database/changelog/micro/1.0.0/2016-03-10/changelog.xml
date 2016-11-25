@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="373" author="brinat">
+        <sql>
+            ALTER TABLE qarequest ADD COLUMN peoplemain_id integer;
+            update qarequest q set peoplemain_id = (select peoplemain_id from creditrequest where id = q.creditrequest_id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="374" logicalFilePath="1457620124" author="efrolov">
+        <sql>
+            ALTER TABLE qarequest ADD COLUMN createdAt TIMESTAMP WITH TIME ZONE DEFAULT now();
+            ALTER TABLE qarequest ADD COLUMN updatedAt TIMESTAMP WITH TIME ZONE;
+
+            ALTER TABLE qarequest ADD COLUMN userId INTEGER;
+            ALTER TABLE qarequest ADD CONSTRAINT qarequest_userId FOREIGN KEY (userId) REFERENCES users (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+            ALTER TABLE question ADD COLUMN typeId INTEGER;
+            ALTER TABLE question ADD CONSTRAINT question_typeId FOREIGN KEY (typeId) REFERENCES reference (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+            INSERT INTO ref_header (id, partners_id, name, txversion) VALUES (92, 1, 'Типы вопросов верификатора', 0);
+            INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion)
+            VALUES (92, 'Проверочный вопрос', 1, 1, 0);
+            INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion)
+            VALUES (92, 'Вопрос верификатора', 2, 1, 0);
+
+
+            ALTER TABLE antifraud_occasions ADD COLUMN questionOptionId INTEGER;
+            ALTER TABLE antifraud_occasions ADD CONSTRAINT antifraud_occasions_questionOptionId FOREIGN KEY (questionOptionId) REFERENCES questionvariant (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+            UPDATE question SET typeId = (SELECT id FROM reference where ref_header_id = 92 and codeInteger = 1) WHERE typeId ISNULL;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

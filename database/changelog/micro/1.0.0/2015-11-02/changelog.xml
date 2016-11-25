@@ -1,0 +1,27 @@
+﻿<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="287" logicalFilePath="1446474002" author="efrolov">
+        <sql>
+            ALTER TABLE antifraud_suspicions ADD COLUMN internalRuleId INTEGER;
+
+            ALTER TABLE antifraud_suspicions
+            ADD CONSTRAINT antifraud_suspicions_internal_rule_fk FOREIGN KEY (internalRuleId) REFERENCES ref_antifraud_rules (id)
+            MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        </sql>
+    </changeSet>
+  <changeSet id="287" author="helen">
+
+  <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgProlong_enable.drl" />
+      <where>signalref = 'msgProlong'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+
+ </changeSet>
+
+</databaseChangeLog>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="365" author="aro">
+        <sql>
+            delete from aiconstant where name = 'ariusPay.useWork';
+        </sql>
+    </changeSet>
+<changeSet id="365" author="helen">
+        <sql>
+            alter table payment drop column if exists "externalId2";
+            alter table payment add column externalid2 varchar(128);
+        </sql>
+    </changeSet>
+
+    <changeSet id="366" logicalFilePath="1455087074" author="efrolov">
+        <sql>
+            ALTER TABLE questionvariant ADD COLUMN defaultAnswer BOOLEAN NOT NULL DEFAULT FALSE;
+
+            CREATE TABLE questionvariant_antifraudentity (
+                id        SERIAL PRIMARY KEY,
+                txVersion INTEGER,
+                optionId  INTEGER NOT NULL,
+                entityId  INTEGER NOT NULL,
+                statusId  INTEGER NOT NULL,
+                CONSTRAINT questionvariant_antifraudentity_variant FOREIGN KEY (optionId) REFERENCES questionvariant (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE,
+                CONSTRAINT questionvariant_antifraudentity_entity FOREIGN KEY (entityId) REFERENCES reference (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+                CONSTRAINT questionvariant_antifraudentity_status FOREIGN KEY (statusId) REFERENCES reference (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

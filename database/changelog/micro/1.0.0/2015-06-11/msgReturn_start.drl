@@ -1,0 +1,18 @@
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.PaymentUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.PeopleBonus
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : NameValueRuleResult();
+    $context : AbstractContext();
+    $cparams: Map();
+    $actionProcessor: ActionProcessorBeanLocal();
+then    
+  $bResult.setValues($actionProcessor.calcReturnData($context.getCredit().getId(), "paymentForm"));
+end

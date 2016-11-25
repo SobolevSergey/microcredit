@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+  <changeSet id="69" author="irk333">
+ 
+  <sql>
+      alter table payment add account_id integer null;
+      alter table payment add CONSTRAINT fk_payment_account FOREIGN KEY (account_id) REFERENCES account (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+  </sql>
+  </changeSet>
+  
+  <changeSet id="70" author="irk333">
+ 
+  <sql>
+      alter table payment add accounttype_id integer null;
+      alter table payment add CONSTRAINT fk_payment_account_type FOREIGN KEY (accounttype_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+  </sql>
+  </changeSet>  
+	      
+ 
+</databaseChangeLog> 

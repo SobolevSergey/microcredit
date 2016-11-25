@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="130" author="helen">
+ 
+    <sql>
+    
+
+insert into ref_header (id, partners_id,name) values (69, 1,'Способ выполнения ');
+
+INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive,  txversion)
+       VALUES (69, 'Автоматический', 1,1, 0);
+      INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive,  txversion)
+       VALUES (69, 'Ручной', 2, 1, 0);
+
+insert into ref_header (id, partners_id,name) values (70, 1,'Вид рассылки');
+
+INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive,  txversion)
+       VALUES (70, 'Смс-рассылка', 1,1, 0);
+      INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive, txversion)
+       VALUES (70, 'Email-рассылка', 2, 1,0);
+
+
+CREATE TABLE messages
+(
+  id serial NOT NULL,
+  users_id integer,
+  peoplemain_id integer,
+  messagedate timestamp with time zone,
+  messagetype_id integer,
+  messageway_id integer,
+  messageheader varchar(200),
+  messagebody text,
+  txversion integer,
+  CONSTRAINT pk_messages PRIMARY KEY (id ),
+  CONSTRAINT fk_messages_relations_peoplemain FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_messages_relations_users FOREIGN KEY (users_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_messages_ref_type FOREIGN KEY (messagetype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+ CONSTRAINT fk_messages_ref_way FOREIGN KEY (messageway_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE messages
+  OWNER TO sa;
+GRANT ALL ON TABLE messages TO sa;
+
+CREATE UNIQUE INDEX messages_pk
+  ON messages
+  USING btree
+  (id );
+
+
+CREATE INDEX relationship_messages_users
+  ON messages
+  USING btree
+  (users_id );
+
+
+CREATE INDEX relationship_messages_people
+  ON messages
+  USING btree
+  (peoplemain_id );
+
+
+
+     </sql>
+  </changeSet>
+
+</databaseChangeLog> 

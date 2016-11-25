@@ -1,0 +1,18 @@
+import ru.simplgroupp.rules.BooleanRuleResult;
+import java.util.Map;
+import ru.simplgroupp.rules.AbstractContext;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+import java.util.List;
+import java.util.Arrays;
+import ru.simplgroupp.transfer.Reference;
+import ru.simplgroupp.transfer.Account;
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Reference" && signalRef == "msgCheckPaymentSystemsBalance");
+    $cparams: Map();
+then
+    $bResult.setResultValue(true);
+end

@@ -1,0 +1,26 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import java.util.Map
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.Collector
+import ru.simplgroupp.util.CollectorKeys
+import ru.simplgroupp.util.ProductKeys
+import ru.simplgroupp.util.DatesUtils
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Collector" && signalRef == "msgCollectorType");
+    $context : AbstractContext();
+    $cparams: Map();
+then
+	$bResult.setResultValue(false);
+    Date dateSoftStart = $context.getCollector().getDatabeg();
+    Integer daysHard = (Integer) $cparams.get(ProductKeys.COLLECTOR_DAYS_HARD);
+
+    Integer daysDiff = DatesUtils.daysDiff(new Date(), dateSoftStart);
+    if (daysDiff >= daysHard) {
+        $bResult.setResultValue(true);
+    }
+end

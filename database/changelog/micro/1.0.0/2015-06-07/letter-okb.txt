@@ -1,0 +1,9 @@
+№ - 1
+Имя участника - orgname
+Обратный адрес - orgemail
+Телефон - orgphone
+Дата учета - dateupload
+Кредитный портфель - creditcode
+Имя файла - filename
+Размер файла - filesize
+Дата создания файла - dateupload

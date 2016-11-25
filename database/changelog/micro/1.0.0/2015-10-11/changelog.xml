@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+<changeSet id="266" author="ponomarev">
+    <sql>
+create table ref_antifraud_rules_hunter (
+    id serial,
+    code varchar(30),
+    name varchar(200),
+    isactive integer,
+    txversion integer default 0,
+    constraint pk_ref_antifraud_rules_hunter primary key (id)
+);
+    </sql>
+</changeSet>
+
+<changeSet id="267" author="ponomarev">
+    <sql>
+create table ref_antifraud_rules_hunter_entities (
+    id serial,
+    rules_hunter_id integer,
+    ref_entity_id integer,
+    txversion integer default 0,
+    constraint fk_ref_af_rul_hunt_ent_r_af_rul_h foreign key (rules_hunter_id)
+    references ref_antifraud_rules_hunter (id),
+    constraint fk_ref_af_rul_hunt_ent_r_ref foreign key (ref_entity_id)
+    references reference (id)
+);
+    </sql>
+</changeSet>
+
+<changeSet id="268" author="ponomarev">
+    <sql>
+insert into ref_antifraud_rules_hunter (code, name, isactive) values
+('MA_SPAS_DPER', 'Тот же паспорт основного заявителя, но другой человек', 1),
+('MA_SPAS_DPER_00', 'Тот же паспорт основного заявителя, но другой человек в течении дня', 1),
+('MA_SPAS_DPER_01', 'Тот же паспорт основного заявителя, но другой человек день назад', 1),
+('MA_SPAS_DPER_02_06', 'Тот же паспорт основного заявителя, но другой человек за период от 2 до 6 дней назад', 1),
+('MA_SPAS_DPER_07_14', 'Тот же паспорт основного заявителя, но другой человек за период от 7 до 14 дней назад', 1),
+('MA_SPAS_DPER_15_30', 'Тот же паспорт основного заявителя, но другой человек за период от 15 до 30 дней назад', 1),
+('MA_SPAS_DPER_31_60', 'Тот же паспорт основного заявителя, но другой человек за период от 31 до 60 дней назад', 1),
+('MA_SPAS_DPER_61_90', 'Тот же паспорт основного заявителя, но другой человек за период от 61 до 90 дней назад', 1),
+('MA_SPAS_DPER_91_180', 'Тот же паспорт основного заявителя, но другой человек за период от 91 до 180 дней назад', 1),
+('MA_SPAS_DRADD', 'Тот же паспорт основного заявителя, но другой адрес регистрации за последние 90 дней', 1),
+('MA_SPAS_DRADD_PCODE', 'Тот же паспорт основного заявителя, но другой почтовый индекс адреса регистрации за последние 90 дней', 1),
+('MA_SMTEL_DPER_60', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека, 3 и более раз за последние 60 дней', 1),
+('MA_SMTEL_DPER_00', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека в течении дня', 1),
+('MA_SMTEL_DPER_01', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека день назад', 1),
+('MA_SMTEL_DPER_02_06', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека за период от 2 до 6 дней назад', 1),
+('MA_SMTEL_DPER_07_14', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека за период от 7 до 14 дней назад', 1),
+('MA_SMTEL_DPER_15_30', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека за период от 15 до 30 дней назад', 1),
+('MA_SMTEL_DPER_31_60', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека за период от 31 до 60 дней назад', 1),
+('MA_SMTEL_DPER_61_90', 'Мобильный телефон основного заявителя такой же, как мобильный телефон у другого человека за период от 61 до 90 дней назад', 1),
+('MA_SCTEL_WTEL_60', 'Телефон по текущему адресу основного заявителя такой же, как и рабочий телефон в другом заявлении за последние 60 дней', 1),
+('MA_SMTEL_WTEL_DPER', 'Мобильный телефон основного заявителя такой же, как телефон работодателя в другом заявлении за последние 90 дней', 1),
+('MA_SWTEL_HTEL_60', 'Рабочий телефон основного заявителя такой же, как личный телефон в другом заявлении за последние 90 дней', 1),
+('MA_SPER_INC50_90', 'Тот же основной заёмщик, но доход увеличился более чем на 50% за последние 90 дней', 1),
+('MA_SINN_DPER', 'Тот же ИНН основного заявителя, другой человек', 1),
+('MA_SINN_DPAS', 'Тот же ИНН основного заявителя, другой паспорт за последние 90 дней', 1),
+('MA_SPER_INC50_30', 'Тот же основной заёмщик, но доход увеличился более чем на 50% за последние 30 дней', 1),
+('MA_SPAS_DRADD_30', 'Тот же паспорт, но другой адрес регистрации за последние 30 дней', 1),
+('MA_SPAS_DCADD_30', 'Тот же паспорт, но другой адрес фактического проживания за последние 30 дней', 1),
+('MA_SPER_DPAS_30', 'Тот же человек, другой паспорт за последние 30 дней', 1),
+('MA_SPAS_DEMP_60', 'Тот же паспорт, другой работодатель за последние 60 дней', 1),
+('MA_SPAS_DCADD_60', 'Тот же паспорт, другой адрес фактического проживания за последние 60 дней', 1),
+('MA_SPAS_DMTEL_60', 'Тот же паспорт, другой мобильный телефон за последние 60 дней', 1),
+('MA_SPER_DEMP_60', 'Тот же человек другой работодатель за последние 60 дней', 1),
+('MA_SPER_DCADD_60', 'Тот же человек другой адрес фактического проживания за последние 60 дней', 1),
+('MA_SPER_DMTEL_60', 'Тот же человек другой мобильный телефон за последние 60 дней', 1),
+('MA_SWTEL_MTEL_60', 'Тот же телефон работодателя, что и мобильный в другом заявлении', 1),
+('MA_SCTEL_MTEL_60', 'Тот же телефон по адресу фактического проживания, что и мобильный телефон в другом заявлении', 1),
+('MA_SMTEL_CTEL_60', 'Тот же мобильный телефон, что и телефон по адресу фактического проживания в другом заявлении', 1),
+('MA_SRTEL_MTEL_60', 'Тот же телефон по адресу регистрации, что и мобильный телефон в другом заявлении', 1),
+('MA_SMTEL_RTEL_60', 'Тот же мобильный телефон, что и телефон по адресу регистрации в другом заявлении', 1),
+('MULT_MA_MOB', 'Тот же мобильный телефон основного заявителя встречается более 3 раз за последние 30 дней', 1),
+('MULT_MA_CTEL', 'Тот же телефон по текущему адресу основного заявителя встречается более 3 раз за последние 60 дней', 1),
+('MULT_MA_CADD', 'Множественные заявления с использованием того же текущего адреса основного заявителя, более 3 раз за последние 60 дней', 1),
+('MULT_MA_MOB_DPAS_60', 'Тот же мобильный телефон основного заявителя встречается более 3 раз за последние 60 дней', 1),
+('MULT_MA_PER_30', 'Тот же основной заявитель, что и любой заявитель, отмеченный в множественных заявлениях за последние 30 дней', 1),
+('MULT_MA_PER_60', 'Тот же основной заявитель, что и любой заявитель, отмеченный в множественных заявлениях за последние 60 дней', 1),
+('MULT_MA_WTEL_DPER_30', 'Тот же телефон работодателя, что и у другого заявителя, в более чем 5 заявлениях за последние 30 дней', 1),
+('MA_AS', 'Тот же основной заявитель, что и в заявлении со статусом Auto Suspect', 1),
+('MA_AS_30', 'Тот же основной заявитель, что и в заявлении со статусом Auto Suspect за последние 30 дней', 1),
+('MA_AS_31_60', 'Тот же основной заявитель, что и в заявлении со статусом Auto Suspect за период от 31 до 60 дней назад', 1),
+('MA_AS_61_90', 'Тот же основной заявитель, что и в заявлении со статусом Auto Suspect за период от 61 до 90 дней назад', 1),
+('MA_AS_91_180', 'Тот же основной заявитель, что и в заявлении со статусом Auto Suspect за период от 91 до 180 дней назад', 1),
+('MA_AS_181_360', 'Тот же основной заявитель, что и в заявлении со статусом Auto Suspect за период от 181 до 360 дней назад', 1),
+('MA_PAS_AS', 'Тот же паспорт основного заявителя, что и в заявлении со статусом Auto Suspect', 1),
+('MA_CTEL_AS', 'Тот же текущий телефон основного заявителя, что и в заявлении со статусом Auto Suspect', 1),
+('MA_RTEL_AS', 'Тот же телефон по адресу регистрации основного заявителя, что и в заявлении со статусом Auto Suspect', 1),
+('MA_MTEL_AS', 'Тот же мобильный телефон основного заявителя, что и в заявлении со статусом Auto Suspect за последние 30 дней', 1),
+('MA_RADD_AS', 'То же адрес регистрации основного заёмщика, что и в заявление со статусом Auto Suspect', 1),
+('MA_CADD_AS', 'Тот же текущий адрес основного заявителя, что и в заявлении со статусом Auto Suspect', 1),
+('MA_MS', 'Тот же основной заявитель, что и в заявлении со статусом Manual Suspect', 1),
+('MA_MS_30', 'Тот же основной заявитель, что и в заявлении со статусом Manual Suspect за последние 30 дней', 1),
+('MA_MS_31_60', 'Тот же основной заявитель, что и в заявлении со статусом Manual Suspect за период от 31 до 60 дней назад', 1),
+('MA_MS_61_90', 'Тот же основной заявитель, что и в заявлении со статусом Manual Suspect за период от 61 до 90 дней назад', 1),
+('MA_MS_91_180', 'Тот же основной заявитель, что и в заявлении со статусом Manual Suspect за период от 91 до 180 дней назад', 1),
+('MA_MS_181_360', 'Тот же основной заявитель, что и в заявлении со статусом Manual Suspect за период от 181 до 360 дней назад', 1),
+('MA_PAS_MS', 'Тот же паспорт основного заявителя, что и в заявлении со статусом Manual Suspect', 1),
+('MA_CTEL_MS', 'Тот же текущий телефон основного заявителя, что и в заявлении со статусом Manual Suspect', 1),
+('MA_RTEL_MS', 'Тот же телефон по адресу регистрации основного заявителя, что и в заявлении со статусом Manual Suspect', 1),
+('MA_MTEL_MS', 'Тот же мобильный телефон основного заявителя, что и в заявлении со статусом Manual Suspect за последние 60 дней', 1),
+('MA_RADD_MS', 'Тот же адрес регистрации основного заявителя, что и в заявлении со статусом Manual Suspect', 1),
+('MA_CADD_MS', 'Тот же текущий адрес основного заявителя, что и в заявлении со статусом Manual Suspect', 1),
+('MA_REF', 'Тот же основной заявитель, что и в заявлении со статусом Refer', 1),
+('MA_REF_30', 'Тот же основной заявитель, что и в заявлении со статусом Refer за последние 30 дней', 1),
+('MA_REF_31_60', 'Тот же основной заявитель, что и в заявлении со статусом Refer за период от 31 до 60 дней назад', 1),
+('MA_REF_61_90', 'Тот же основной заявитель, что и в заявлении со статусом Refer за период от 61 до 90 дней назад', 1),
+('MA_REF_91_180', 'Тот же основной заявитель, что и в заявлении со статусом Refer за период от 91 до 180 дней назад', 1),
+('MA_REF_181_360', 'Тот же основной заявитель, что и в заявлении со статусом Refer за период от 181 до 360 дней назад', 1),
+('MA_PAS_REF', 'Тот же паспорт основного заявителя, что и в заявлении со статусом Refer', 1),
+('MA_CTEL_REF', 'Тот же текущий телефон основного заявителя, что и в заявлении со статусом Refer', 1),
+('MA_RTEL_REF', 'Тот же телефон по адресу регистрации основного заявителя, что и в заявлении со статусом Refer', 1),
+('MA_MTEL_REF', 'Тот же мобильный телефон основного заявителя, что и в заявлении со статусом Refer за последние 60 дней', 1),
+('MA_RADD_REF', 'Тот же адрес регистрации основного заявителя, что и в заявлении со статусом Refer', 1),
+('MA_CADD_REF', 'Тот же текущий адрес основного заявителя, что и в заявлении со статусом Refer', 1),
+('MA_AS_PER', 'Тот же заявитель как и лицо со статусом Auto Suspect', 1),
+('MA_PAS_AS_PAS', 'Тот же паспорт заявителя, как и паспорт со статусом Auto Suspect', 1),
+('MA_CTEL_AS_TEL', 'Тот же текущий телефон заявителя как и телефон со статусом Auto Suspect', 1),
+('MA_RTEL_AS_TEL', 'Тот же телефон по месту регистрации, как и телефон со статусом Auto Suspect', 1),
+('MA_MTEL_AS_TEL', 'Тот же мобильный телефон заявителя, как и телефон со статусом Auto Suspect за последние 60 дней', 1),
+('MA_WTEL_AS_TEL', 'Тот же рабочий телефон заявителя, как и персональный телефон со статусом Auto Suspect за последние 90 дней', 1),
+('MA_WTEL_AS_WTEL', 'Тот же рабочий телефон заявителя, как и рабочий телефон со статусом Auto Suspect за последние 90 дней', 1),
+('MA_RADD_AS_ADD', 'Тот же адрес регистрации, как и адрес со статусом Auto Suspect', 1),
+('MA_CADD_AS_ADD', 'Тот же адрес фактический, как и адрес со статусом Auto Suspect', 1),
+('MA_EMP_AS_EMP', 'Тот же работодатель заявителя, как и работодатель со статусом Auto Suspect за последние 60 дней', 1),
+('MA_MS_PER', 'Тот же заявитель как и лицо со статусом Manual Suspect', 1),
+('MA_PAS_MS_PAS', 'Тот же паспорт заявителя, как и паспорт со статусом Manual Suspect', 1),
+('MA_CTEL_MS_TEL', 'Тот же текущий телефон заявителя как и телефон со статусом Manual Suspect', 1),
+('MA_RTEL_MS_TEL', 'Тот же телефон по адресу регистрации, как телефон со статусом Manual Suspect', 1),
+('MA_MTEL_MS_TEL', 'Тот же мобильный телефон заявителя, как телефон со статусом Manual Suspect за последние 60 дней', 1),
+('MA_WTEL_MS_TEL', 'Тот же рабочий телефон заявителя, как и персональный телефон со статусом Manual Suspect за последние 90 дней', 1),
+('MA_WTEL_MS_WTEL', 'Тот же рабочий телефон заявителя, как и рабочий телефон со статусом Manual Suspect за последние 90 дней', 1),
+('MA_RADD_MS_ADD', 'Тот же адрес регистрации, как и адрес со статусом Manual Suspect', 1),
+('MA_CADD_MS_ADD', 'Тот же адрес фактический, как и адрес со статусом Manual Suspect', 1),
+('MA_EMP_MS_EMP', 'Тот же работодатель заявителя, как и работодатель со статусом Manual Suspect за последние 60 дней', 1),
+('MA_MS_PER_180', 'Тот же заявитель как и любой заявитель со статусом Suspect Manual in 180 days', 1),
+('MA_MS_PER_30', 'Тот же заявитель как и любой заявитель со статусом Suspect Manual in 30 days', 1),
+('MA_REF_PER', 'Тот же заявитель как и лицо со статусом Refer', 1),
+('MA_PAS_REF_PAS', 'Тот же паспорт заявителя, как и паспорт со статусом Refer', 1),
+('MA_CTEL_REF_TEL', 'Тот же текущий телефон заявителя как и телефон со статусом Refer', 1),
+('MA_RTEL_REF_TEL', 'Тот же телефон по адресу регистрации, как телефон со статусом Refer', 1),
+('MA_MTEL_REF_TEL', 'Тот же мобильный телефон заявителя, как телефон со статусом Refer за последние 60 дней', 1),
+('MA_WTEL_REF_TEL', 'Тот же рабочий телефон заявителя, как и персональный телефон со статусом Refer за последние 90 дней', 1),
+('MA_WTEL_REF_WTEL', 'Тот же рабочий телефон заявителя, как и рабочий телефон со статусом Refer за последние 90 дней', 1),
+('MA_RADD_REF_ADD', 'Тот же адрес регистрации, как и адрес со статусом Refer', 1),
+('MA_CADD_REF_ADD', 'Тот же адрес фактический, как и адрес со статусом Refer', 1),
+('MA_EMP_REF_EMP', 'Тот же работодатель заявителя, как и работодатель со статусом Refer за последние 60 дней', 1),
+('MA_REF_PER_180', 'Тот же заявитель как и любой заявитель со статусом Refer in 180 days', 1),
+('MA_REF_PER_30', 'Тот же заявитель как и любой заявитель со статусом Refer in 30 days', 1),
+('MA_SAM_PER_RFPS', 'Заявитель есть в системе Национальный Хантер', 1),
+('MA_SPER_00', 'Тот же основной заявитель в течении дня', 1),
+('MA_SPER_01', 'Тот же основной заявитель день назад', 1),
+('MA_SPER_02_06', 'Тот же основной заявитель за период от 2 до 6 дней назад', 1),
+('MA_SPER_07_14', 'Тот же основной заявитель за период от 7 до 14 дней назад', 1),
+('MA_SPER_15_30', 'Тот же основной заявитель за период от 15 до 30 дней назад', 1),
+('MA_SPER_31_60', 'Тот же основной заявитель за период от 31 до 60 дней назад', 1),
+('MA_SPER_61_90', 'Тот же основной заявитель за период от 61 до 90 дней назад', 1),
+('MA_SPER_91_180', 'Тот же основной заявитель за период от 91 до 180 дней назад', 1),
+('MA_MTEL_DUMMY', 'Мобильный телефон основного заемщика не прошел валидацию модулем и преобразован в DUMMY', 1),
+('MA_RTEL_DUMMY', 'Телефон по адресу регистрации основного заемщика не прошел валидацию модулем и преобразован в DUMMY', 1),
+('MA_CTEL_DUMMY', 'Телефон по адресу проживания основного заемщика не прошел валидацию модулем и преобразован в DUMMY', 1),
+('MA_WTEL_DUMMY', 'Телефон работодателя основного заемщика не прошел валидацию модулем и преобразован в DUMMY', 1),
+('MA_INN_PER_DUMMY', 'Личный ИНН основного заемщика не прошел валидацию модулем и преобразован в DUMMY', 1),
+('MA_EMP_DUMMY', 'Наименование работодателя основного заемщика не прошло валидацию модулем и преобразован в DUMMY', 1),
+('MA_WTEL_BIG_GOOD', 'Телефон работодателя основного заемщика найден в списке номеров крупных работодателей без мошенников', 1),
+('MA_WTEL_MED_GOOD', 'Телефон работодателя основного заемщика найден в списке номеров средних работодателей без мошенников', 1),
+('MA_WTEL_BIG_BAD', 'Телефон работодателя основного заемщика найден в списке номеров крупных работодателей с мошенниками', 1),
+('MA_WTEL_MED_BAD', 'Телефон работодателя основного заемщика найден в списке номеров средних работодателей с мошенниками', 1),
+('MA_RADD_PCODE_HR', 'Почтовый индекс адреса регистрации найден в списке почтовых индексов с высокой степенью риска', 1),
+('MA_RADD_PCODE_MR', 'Почтовый индекс адреса регистрации найден в списке почтовых индексов с средней степенью риска', 1),
+('MA_RADD_PCODE_LR', 'Почтовый индекс адреса регистрации найден в списке почтовых индексов с низкой степенью риска', 1),
+('MA_CADD_PCODE_HR', 'Почтовый индекс фактического адреса найден в списке почтовых индексов с высокой степенью риска', 1),
+('MA_CADD_PCODE_MR', 'Почтовый индекс фактического адреса найден в списке почтовых индексов с средней степенью риска', 1),
+('MA_CADD_PCODE_LR', 'Почтовый индекс фактического адреса найден в списке почтовых индексов с низкой степенью риска', 1);
+    </sql>
+</changeSet>
+
+<changeSet id="269" author="ponomarev">
+    <sql>
+insert into ref_antifraud_rules_hunter_entities (rules_hunter_id, ref_entity_id)
+select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_00'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_00'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_01'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_01'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_02_06'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_02_06'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_07_14'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_07_14'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_15_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_15_30'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_91_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DPER_91_180'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DRADD'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DRADD'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DRADD_PCODE'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DRADD_PCODE'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_00'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_00'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_01'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_01'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_02_06'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_02_06'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_07_14'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_07_14'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_15_30'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_15_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_DPER_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SCTEL_WTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SCTEL_WTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_WTEL_DPER'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_WTEL_DPER'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SWTEL_HTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SWTEL_HTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_INC50_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SINN_DPER'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SINN_DPAS'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SINN_DPAS'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_INC50_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DRADD_30'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DRADD_30'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DCADD_30'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DCADD_30'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DPAS_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DPAS_30'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DEMP_60'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DEMP_60'), (select id from reference where ref_header_id = 89 and code = 'MA_EMP')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DCADD_60'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DCADD_60'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DMTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPAS_DMTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DEMP_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DEMP_60'), (select id from reference where ref_header_id = 89 and code = 'MA_EMP')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DCADD_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DCADD_60'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DMTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_DMTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SWTEL_MTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SWTEL_MTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SCTEL_MTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SCTEL_MTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_CTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_CTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SRTEL_MTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SRTEL_MTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_RTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SMTEL_RTEL_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_MOB'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_MOB'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_CTEL'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_CTEL'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_CADD'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_CADD'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_MOB_DPAS_60'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_MOB_DPAS_60'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_PER_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_PER_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_WTEL_DPER_30'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+union select (select id from ref_antifraud_rules_hunter where code = 'MULT_MA_WTEL_DPER_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS_91_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS_181_360'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_PAS_AS'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_AS'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_AS'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_AS'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_AS'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_AS'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_91_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_181_360'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_PAS_MS'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_MS'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_MS'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_MS'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_MS'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_MS'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_91_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_181_360'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_PAS_REF'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_REF'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_REF'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_REF'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_REF'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_REF'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_AS_PER'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_PAS_AS_PAS'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_AS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_AS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_AS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_AS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_AS_WTEL'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_AS_ADD'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_AS_ADD'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_EMP_AS_EMP'), (select id from reference where ref_header_id = 89 and code = 'MA_EMP')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_PER'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_PAS_MS_PAS'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_MS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_MS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_MS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_MS_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_MS_WTEL'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_MS_ADD'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_MS_ADD'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_EMP_MS_EMP'), (select id from reference where ref_header_id = 89 and code = 'MA_EMP')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_PER_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MS_PER_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_PER'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_PAS_REF_PAS'), (select id from reference where ref_header_id = 89 and code = 'MA_PAS')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_REF_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_REF_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_REF_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_REF_TEL'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_REF_WTEL'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_REF_ADD'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_REF_ADD'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_EMP_REF_EMP'), (select id from reference where ref_header_id = 89 and code = 'MA_EMP')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_PER_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_REF_PER_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SAM_PER_RFPS'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_00'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_01'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_02_06'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_07_14'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_15_30'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_31_60'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_61_90'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_SPER_91_180'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_MTEL_DUMMY'), (select id from reference where ref_header_id = 89 and code = 'MA_MTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RTEL_DUMMY'), (select id from reference where ref_header_id = 89 and code = 'MA_RTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CTEL_DUMMY'), (select id from reference where ref_header_id = 89 and code = 'MA_CTEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_DUMMY'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_INN_PER_DUMMY'), (select id from reference where ref_header_id = 89 and code = 'MA')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_EMP_DUMMY'), (select id from reference where ref_header_id = 89 and code = 'MA_EMP')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_BIG_GOOD'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_MED_GOOD'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_BIG_BAD'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_WTEL_MED_BAD'), (select id from reference where ref_header_id = 89 and code = 'MA_ETEL')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_PCODE_HR'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_PCODE_MR'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_RADD_PCODE_LR'), (select id from reference where ref_header_id = 89 and code = 'MA_RAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_PCODE_HR'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_PCODE_MR'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD')
+
+union select (select id from ref_antifraud_rules_hunter where code = 'MA_CADD_PCODE_LR'), (select id from reference where ref_header_id = 89 and code = 'MA_CAD');
+    </sql>
+
+</changeSet>
+
+</databaseChangeLog>

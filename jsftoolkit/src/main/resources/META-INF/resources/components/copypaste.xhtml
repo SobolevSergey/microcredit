@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+              xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:a4j="http://richfaces.org/a4j"
+              xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/2002/08/xhtml/xhtml1-transitional.xsd">
+    <cc:interface>
+        <cc:attribute name="value" required="true"/>
+        <cc:attribute name="converter" default="convertPhoneNumber"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <h:outputScript library="js" name="clipboard.min.js" target="head"/>
+
+        <h:outputText value="#{cc.attrs.value}" id="phoneText">
+            <f:converter converterId="#{cc.attrs.converter}"/>
+        </h:outputText>
+        <h:inputText value="#{cc.attrs.value}" id="phoneInput" style="display: none; width: inherit" disabled="true"/>
+
+        <h:commandLink id="copy">
+            <a4j:ajax/>
+            <h:graphicImage value="#{resource['images/copypaste.png']}" title="Скопировать в буфер обмена"/>
+        </h:commandLink>
+
+        <h:outputScript>
+            new Clipboard('#' + '#{cc.clientId}:copy'.replace(/:/g, '\\:'), {
+                target: function () {
+                    return undefined;
+                },
+                text: function() {
+                    return "#{cc.attrs.value}";
+                }
+            }).on('error', function(e) {
+                console.error('Копирование не доступно:', e.action);
+
+                var phoneInput = $('#' + '#{cc.clientId}:phoneInput'.replace(/:/g, '\\:'))
+                phoneInput.attr('size', phoneInput.val().length)
+                phoneInput.show();
+
+                $('#' + '#{cc.clientId}:phoneText'.replace(/:/g, '\\:')).hide()
+
+                phoneInput[0].setSelectionRange(0, 9999);
+            });
+        </h:outputScript>
+    </cc:implementation>
+
+</ui:component>

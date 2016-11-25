@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-10-29T21:13:06 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape" pageWidth="930" pageHeight="395" orientation="Landscape" columnWidth="890" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<field name="prolongationsAmount" class="java.lang.Long"/>
+	<field name="prolongationsAmountOneCredit" class="java.lang.Long"/>
+	<field name="prolongationsAmountTwoPlusCredits" class="java.lang.Long"/>
+	<field name="creditAmount" class="java.lang.Long"/>
+	<field name="creditAmountOneCredit" class="java.lang.Long"/>
+	<field name="creditAmountTwoPlusCredits" class="java.lang.Long"/>
+	<field name="creditAvgSum" class="java.lang.Double"/>
+	<field name="creditAvgSumOneCredit" class="java.lang.Double"/>
+	<field name="creditAvgSumTwoPlusCredits" class="java.lang.Double"/>
+	<field name="prolongationAvgTerm" class="java.lang.Double"/>
+	<field name="prolongationAvgTermOneCredit" class="java.lang.Double"/>
+	<field name="prolongationAvgTermTwoPlusCredits" class="java.lang.Double"/>
+	<field name="prolongationPaymentAvgSum" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="400" y="36" width="122" height="30" uuid="5ae1bedf-883a-4bad-8ced-1a365507c22b"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Продления]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="200" height="18" forecolor="#000000" uuid="5dcc62ea-3384-4b21-ac6f-19758fb761e9"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Продления: Кол-во]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="0" width="200" height="18" forecolor="#000000" uuid="7062c36a-7954-4cc1-b539-1d2d7118c8c2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Продления: Кол-во займов]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="400" y="0" width="300" height="18" forecolor="#000000" uuid="b63d0a9c-c936-4f0b-bcef-f0d967c435c1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Продления: Займ: Средняя сумма]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="700" y="0" width="200" height="18" forecolor="#000000" uuid="07aec9d5-70d6-44d5-a1da-fb9983faed45"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Продления: Средний срок]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="157" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="0" width="200" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prolongationsAmount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="0" width="300" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{creditAmount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="400" y="0" width="300" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{creditAvgSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="700" y="0" width="200" height="18" uuid="cda5c8fc-375a-4be7-91bd-a47e620884d1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{prolongationAvgTerm})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="105" width="290" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{prolongationPaymentAvgSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="20" width="120" height="18" uuid="f293299c-23cd-4f7c-9aaf-20c27b432348"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{creditAmountOneCredit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="70" y="40" width="130" height="18" uuid="714f59fa-eae2-452c-a7de-3d7195eef62e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prolongationsAmountTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="40" width="70" height="18" forecolor="#000000" uuid="768b0d55-69e6-4528-be2a-f3dc3e427172"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="20" width="70" height="18" forecolor="#000000" uuid="5f86a9b7-5578-43d9-8161-53b7727294bf"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="22" width="70" height="18" forecolor="#000000" uuid="0b5f6069-3f87-4892-b91f-5994aa03771d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="400" y="43" width="70" height="18" forecolor="#000000" uuid="c7f0a7c5-d48b-4db3-8411-23756ff565a3"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="75" y="25" width="130" height="18" uuid="82e12564-5540-434e-9561-a41f8139e6a5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prolongationsAmountOneCredit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="43" width="120" height="18" uuid="eb5bbc73-a3b4-4ae4-bfdc-e6c8dbac8b64"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{creditAmountTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="480" y="22" width="220" height="18" uuid="4da383a8-e048-4069-aa58-0e46a56970e7"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{creditAvgSumOneCredit})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="480" y="43" width="220" height="18" uuid="445fd609-2dd6-4000-9b33-b15d3f5d3a7e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{creditAvgSumTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="400" y="22" width="70" height="18" forecolor="#000000" uuid="352c5332-5cc6-4313-9af1-72b903e0a195"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="205" y="48" width="70" height="18" forecolor="#000000" uuid="9927359e-4b66-46e6-818a-b223ba147ae5"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="700" y="22" width="70" height="18" forecolor="#000000" uuid="cdd9a5ff-8feb-48e6-9abb-dc96b82b442a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="700" y="43" width="70" height="18" forecolor="#000000" uuid="58a748d8-8699-47cd-a862-2afae87c420c"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="780" y="20" width="120" height="18" uuid="6c8e384d-db76-475f-bb36-6e0ecd793ded"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{prolongationAvgTermOneCredit})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="780" y="43" width="120" height="18" uuid="50d7f513-6a90-497a-aeca-62a136c9ce1b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{prolongationAvgTermTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="87" width="290" height="18" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Продления: Платеж: Средняя сумма]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

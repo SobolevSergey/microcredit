@@ -1,0 +1,40 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import ru.simplgroupp.util.ProductKeys
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Credit" && signalRef == "msgToCollector");
+    $context : AbstractContext();
+    $cparams: Map();
+then
+	Integer lgotPeriod = (Integer) $cparams.get(ProductKeys.CREDIT_HAS_LGOT_PERIOD);
+	if (lgotPeriod != null && lgotPeriod > 0) {
+		Object[] scaleDays = CalcUtils.intRangeScale(
+		  0, $context.getCredit().getCreditDays(),
+		  $context.getCredit().getCreditDays(), ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT)).intValue()+$context.getCredit().getCreditDays() ,
+		  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MIN_COMMON)).intValue() +$context.getCredit().getCreditDays()-1, 
+				((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_COMMON)).intValue()+$context.getCredit().getCreditDays(),
+		  ((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MIN_OVERDUE)).intValue() +$context.getCredit().getCreditDays()-1, 				
+			((Integer) $cparams.get(ProductKeys.CREDIT_DAYS_MAX_OVERDUE)).intValue()+$context.getCredit().getCreditDays()
+		);
+		Object[] scaleDates = CalcUtils.daysToDatesScale($context.getCredit().getCreditDataBeg(), scaleDays);	
+		int calcInterval = CalcUtils.getScalePos(scaleDates, $context.getCurrentDate());
+		
+		if (calcInterval >= 2) {
+			$bResult.setResultValue(true);
+		}
+	} else {
+		Integer daysDelay = (Integer) $cparams.get(ProductKeys.CREDIT_DAYS_COLLECTOR_PERIOD);
+		Integer creditDelay = $context.getCredit().getMaxDelay();
+		$bResult.setResultValue(daysDelay <= creditDelay);
+	}
+end

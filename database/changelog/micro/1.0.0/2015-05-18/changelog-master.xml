@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="140" author="irk333">
+ 
+    <sql>
+    insert into ref_header (id, name) values (72, 'Назначение платежа');
+    insert into reference (ref_header_id, name, codeinteger) values (72, 'Возврат долга', 1);
+    insert into reference (ref_header_id, name, codeinteger) values (72, 'За продление', 2);
+    insert into reference (ref_header_id, name, codeinteger) values (72, 'За рефинансирование', 3);
+     </sql>
+
+  </changeSet>
+
+<changeSet id="140" author="helen">
+ 
+    <sql>
+    
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.accepted','Письмо об одобрении займа',
+'Ваш заём на сумму %5.0f рублей одобрен.',
+'<p>Поздравляем!</p><p>Вам одобрен заём на сумму %5.0f рублей на %d дней.</p><p>Для получения займа, Вам необходимо подписать оферту <a href="http://rastorop.ru/client"> в своем личном кабинете.</a> </p><p>Сразу после этого я отправлю Вам деньги.</p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=8;]]>
+
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.rejected','Письмо об отказе в выдаче займа',
+'Вам отказано в займе на сумму %5.0f рублей.',
+'<p>К сожалению, мы не можем выдать Вам заем на сумму %5.0f рублей.</p><p>Ваш Растороп. 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=8;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.accepted','Письмо об одобрении займа',
+'Ваш заём на сумму %5.0f рублей одобрен.',
+'<p>Поздравляем!</p><p>Вам одобрен заём на сумму %5.0f рублей на %d дней.</p><p>Для получения займа, Вам необходимо подписать оферту <a href="http://rastorop.ru/client"> в своем личном кабинете.</a> </p><p>Сразу после этого я отправлю Вам деньги.</p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=7;]]>
+
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.rejected','Письмо об отказе в выдаче займа',
+'Вам отказано в займе на сумму %5.0f рублей.',
+'<p>К сожалению, мы не можем выдать Вам заем на сумму %5.0f рублей.</p><p>Ваш Растороп. 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=7;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.credit.oferta','Оферта займа',
+'Ваша оферта в системе Растороп по займу %1$s',
+'%2$s',0
+from reference where ref_header_id=71 and codeinteger=7;]]>
+
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.credit.overdue','Письмо о просрочке займа',
+'Вы просрочили выплату займа',
+'Я Вам доверяю, но Вы просрочили срок возврата займа. Прошу, верните займ или продлите его срок как можно скорее. Ваш Растороп.',0
+from reference where ref_header_id=71 and codeinteger=7;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.credit.ready','Письмо об отправке займа',
+'Вам отправлен займ на сумму %5.0f рублей.',
+'<p>Поздравляем!</p><p>Вам отправлена сумма займа %5.0f рублей.</p><p>Посмотреть информацию про займ, а также погасить его, Вы можете <a href="http://rastorop.ru/client"> в своем личном кабинете.</a> </p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>',0
+from reference where ref_header_id=71 and codeinteger=7;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.prolong.oferta','Оферта продления займа',
+'Ваша оферта в системе Растороп по займу %1$s',
+'%2$s',0
+from reference where ref_header_id=71 and codeinteger=2;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.refinance.oferta','Оферта рефинансирования займа',
+'Ваша оферта в системе Растороп по займу %1$s',
+'%2$s',0
+from reference where ref_header_id=71 and codeinteger=4;]]>
+
+<![CDATA[insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.success','Письмо о регистрации в системе',
+'Регистрация в системе микрозаймов Растороп',
+'<p>Поздравляем!</p>
+    <p>Ваша заявка на получение займа принята и будет обработана в ближайшее время. Теперь у Вас есть <a href="http://rastorop.ru/client">личный кабинет</a>, которым Вы можете пользоваться для получения информации о статусе заявок, а также для получения новых займов.</p>
+    <p>Ваш <b>Растороп</b> 8 (800) 775-22-05.</p>',0
+from reference where ref_header_id=71 and codeinteger=1;]]>
+
+
+     </sql>
+</changeSet>
+
+<changeSet id="141" author="helen">
+ 
+    <sql>
+    update ref_header set partners_id=1 where id=72;
+     </sql>
+
+  </changeSet>
+
+<changeSet id="142" author="helen">
+ 
+    <sql>
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.accepted','Смс об одобрении займа',
+'Поздравляю, Ваш заём на сумму %5.0f рублей одобрен. Теперь Вам необходимо подписать договор в личном кабинете. Сразу после этого я отправлю Вам деньги. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.rejected','Смс об отказе от займа',
+'К сожалению, мы не можем выдать Вам заём на сумму %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.credit.closed','Смс об успешном закрытии займа',
+'Займ полностью выплачен и закрыт, буду рад увидеть Вас снова. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=3;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.credit.closed.partially','Смс о частичном погашении займа',
+'Спасибо, я получил часть займа, но не забудьте погасить его полностью. Вся информация в личном кабинете. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=3;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.credit.overdue','Смс о просрочке займа',
+'Я Вам доверяю, но у Вас заканчивается срок возврата займа. Прошу, верните займ или продлите его срок как можно скорее. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.credit.ready','Смс о выдаче займа',
+'Вам отправлен заём на сумму %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=7;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.payment.received','Смс о получении оплаты',
+'Оплата по займу получена. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=3;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.prolong.accepted','Смс о продлении займа',
+'Ваш займ продлён до %1$td/%1$tm/%1$ty включительно. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.prolong.started','Смс о начале продления',
+'Для продления займа необходимо оплатить сумму процентов. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.refinance.started','Смс о начале рефинансирования',
+'Для реструктуризации займа необходимо оплатить %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.prolong.declined','Смс об отмене продления',
+'Продление по вашему займу отменено',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_messages(products_id,configtype_id,name,description,body,txversion )
+select 1,id,'sms.success.password','Смс о пароле',
+'Пароль от личного кабинета Растороп. Обязательно смените при первом входе. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=1;
+
+insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.prolong.started','Письмо о начале продления','Вы начали продление займа',
+'Для продления займа необходимо оплатить сумму процентов. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_messages(products_id,configtype_id,name,description,subject,body,txversion )
+select 1,id,'email.refinance.started','Письмо о начале рефинансирования','Вы начали реструктуризацию займа',
+'Для реструктуризации займа необходимо оплатить %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05',0
+from reference where ref_header_id=71 and codeinteger=4;
+
+
+  </sql>
+
+  </changeSet>
+
+</databaseChangeLog> 

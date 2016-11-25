@@ -1,0 +1,4 @@
+db.driver=org.postgresql.Driver
+db.url=jdbc:postgresql://localhost:5432/microbpm
+db.user=sa
+db.password=58025

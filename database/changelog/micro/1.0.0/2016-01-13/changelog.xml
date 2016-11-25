@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="326" logicalFilePath="1452692756" author="efrolov">
+        <sql>
+            ALTER TABLE ref_bonus ADD COLUMN rate DOUBLE PRECISION;
+
+
+            INSERT INTO ref_bonus (name, codeinteger, isactive, txversion, rate)
+            VALUES ('успешное закрытие займа без просрочки', 9, 0, 0, 0.03);
+
+            INSERT INTO eventcode (id, name) VALUES (43, 'Займ закрыт раньше срока');
+            INSERT INTO eventcode (id, name) VALUES (44, 'Займ закрыт без просрочки');
+
+            INSERT INTO bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups,
+                                   forone, formany, issystem, isactive, isrequired, isatomic,
+                                   iscsingleton, txversion, istemporary)
+            VALUES (4, 'msgClosedCreditBonus', 'ru.simplgroupp.transfer.PeopleMain',
+                    'Выдать бонус за успешно закрытый заем без просрочки', 'admin', 1, 0, 1, 1, 1, 0, 0, 0, 0);
+
+            select setval('bizactionevent_id_seq',10);
+ 
+            INSERT INTO bizactionevent (bizaction_id, eventcode, txversion)
+            VALUES ((select id from bizaction where signalref = 'msgClosedCreditBonus'), 43, 0);
+
+            INSERT INTO bizactionevent (bizaction_id, eventcode, txversion)
+            VALUES ((select id from bizaction where signalref = 'msgClosedCreditBonus'), 44, 0);
+        </sql>
+
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="closed_credit_bonus_enabled.drl" />
+            <column name="ruleaction" valueClobFile="closed_credit_bonus_action.drl" />
+            <where>signalref = 'msgClosedCreditBonus'</where>
+        </update>
+    </changeSet>
+
+  <changeSet id="326"  author="helen">
+        <sql>
+            ALTER TABLE qarequest ADD comment varchar(500);
+            ALTER TABLE qarequestvariant ADD comment varchar(500);
+            alter table questionvariant add score double precision;
+     
+  create or replace view v_credits_count as
+select peoplemain_id,count(id) as cntcredits
+from credit where isactive=1 and isover=false and partners_id not in (1,6) group by peoplemain_id;
+
+  ALTER TABLE v_credits_count
+    OWNER TO sa;
+ 
+create or replace view v_scans_count as
+select peoplemain_id,count(id) as cntscans
+from documentmedia group by peoplemain_id;
+
+ALTER TABLE v_scans_count
+  OWNER TO sa;
+
+CREATE OR REPLACE VIEW v_for_collector AS 
+   SELECT p.surname, p.name, p.midname, p.birthdate, p.birthplace, 
+        CASE
+            WHEN p.gender = 178 THEN 'М'::text
+            ELSE 'Ж'::text
+        END AS gender, d.series, d.number, d.docdate, d.docorg, c.creditsum, c.creditsumback, c.creditdatabeg, c.creditdataend, c.creditaccount, 
+        CASE
+            WHEN c.creditsumdebt IS NULL THEN c.creditsum
+            ELSE c.creditsumdebt
+        END AS creditsumdebt, a.address_text, 
+        CASE
+            WHEN a.issame = 1 THEN a.address_text
+            ELSE a1.address_text
+        END AS raddress_text, pc1.value AS mobilephone, 
+        CASE
+            WHEN a.issame = 1 THEN pc2.value
+            ELSE pc3.value
+        END AS homephone, pc4.value AS workphone, e.datesign, c.datestatus, pc5.value AS email, c.maxdelay,
+        r.name as crregion,a.region_name as aregregion,a1.region_name as aresregion, emp.extcreditsum, 
+        ref1.name as experience,vcc.cntcredits,a2.region_name as aworkregion,vs.cntscans
+   FROM credit c
+   JOIN creditrequest e ON c.peoplemain_id = e.peoplemain_id AND c.id = e.acceptedcredit_id
+   LEFT JOIN regions r on e.region=r.code
+   JOIN document d ON c.peoplemain_id = d.peoplemain_id AND d.isactive = 1 AND d.partners_id = 6
+   JOIN peoplepersonal p ON p.peoplemain_id = c.peoplemain_id AND p.isactive = 1 AND p.partners_id = 6
+   JOIN address a ON c.peoplemain_id = a.peoplemain_id AND a.isactive = 1 AND a.partners_id = 6 AND a.addrtype = 175
+   LEFT JOIN address a1 ON c.peoplemain_id = a1.peoplemain_id AND a1.isactive = 1 AND a1.partners_id = 6 AND a1.addrtype = 176
+   LEFT JOIN address a2 ON c.peoplemain_id = a2.peoplemain_id AND a2.isactive = 1 AND a2.partners_id = 6 AND a2.addrtype = 250
+   JOIN peoplecontact pc1 ON c.peoplemain_id = pc1.peoplemain_id AND pc1.isactive = 1 AND pc1.contact_id = 171 AND pc1.partners_id = 6
+   JOIN peoplecontact pc5 ON c.peoplemain_id = pc5.peoplemain_id AND pc5.isactive = 1 AND pc5.contact_id = 170 AND pc5.partners_id = 6
+   LEFT JOIN peoplecontact pc2 ON c.peoplemain_id = pc2.peoplemain_id AND pc2.isactive = 1 AND pc2.contact_id = 172 AND pc2.partners_id = 6
+   LEFT JOIN peoplecontact pc3 ON c.peoplemain_id = pc3.peoplemain_id AND pc3.isactive = 1 AND pc3.contact_id = 251 AND pc3.partners_id = 6
+   LEFT JOIN peoplecontact pc4 ON c.peoplemain_id = pc4.peoplemain_id AND pc4.isactive = 1 AND pc4.contact_id = 180 AND pc4.partners_id = 6
+   LEFT JOIN employment emp ON c.peoplemain_id = emp.peoplemain_id AND emp.partners_id = 6 and emp.current=1
+   LEFT JOIN reference ref1 on emp.datestartwork_id=ref1.id
+   LEFT JOIN v_credits_count vcc ON c.peoplemain_id = vcc.peoplemain_id
+   LEFT JOIN v_scans_count vs ON c.peoplemain_id = vs.peoplemain_id
+  WHERE c.isactive = 1 AND c.partners_id = 1 AND c.creditstatus_id = 485
+  ORDER BY p.surname;
+
+ALTER TABLE v_for_collector
+  OWNER TO sa;
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

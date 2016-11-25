@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-10-29T22:55:05 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape" pageWidth="930" pageHeight="495" orientation="Landscape" columnWidth="890" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<field name="amount" class="java.lang.Long"/>
+	<field name="amountInTerm" class="java.lang.Long"/>
+	<field name="amountWithOverdue" class="java.lang.Long"/>
+	<field name="amountActive" class="java.lang.Long"/>
+	<field name="commonDebt" class="java.lang.Double"/>
+	<field name="commonDebtActive" class="java.lang.Double"/>
+	<field name="commonDebtInTerm" class="java.lang.Double"/>
+	<field name="commonDebtWithOverdue" class="java.lang.Double"/>
+	<field name="commonDebtIncrement" class="java.lang.Double"/>
+	<field name="commonDebtIncrementOneCredit" class="java.lang.Double"/>
+	<field name="commonDebtIncrementTwoPlusCredits" class="java.lang.Double"/>
+	<field name="amountWithOverdue1_3" class="java.lang.Long"/>
+	<field name="amountWithOverdue4_10" class="java.lang.Long"/>
+	<field name="amountWithOverdue11_30" class="java.lang.Long"/>
+	<field name="amountWithOverdue31_60" class="java.lang.Long"/>
+	<field name="amountWithOverdue61_90" class="java.lang.Long"/>
+	<field name="amountWithOverdue91_plus" class="java.lang.Long"/>
+	<field name="commonDebtWithOverdue1_3" class="java.lang.Double"/>
+	<field name="commonDebtWithOverdue4_10" class="java.lang.Double"/>
+	<field name="commonDebtWithOverdue11_30" class="java.lang.Double"/>
+	<field name="commonDebtWithOverdue31_60" class="java.lang.Double"/>
+	<field name="commonDebtWithOverdue61_90" class="java.lang.Double"/>
+	<field name="commonDebtWithOverdue91_plus" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="380" y="40" width="122" height="30" uuid="5ae1bedf-883a-4bad-8ced-1a365507c22b"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Портфель]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="200" height="18" forecolor="#000000" uuid="5dcc62ea-3384-4b21-ac6f-19758fb761e9"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Портфель: ВСЕГО: Кол-во]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="480" y="0" width="230" height="18" forecolor="#000000" uuid="7062c36a-7954-4cc1-b539-1d2d7118c8c2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Портфель: ВСЕГО: Сумма ОД]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="0" width="280" height="18" forecolor="#000000" uuid="1b168d56-99d3-4a47-8990-9bdda286be1f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Портфель: Просрочка: Сроки: Кол-во]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="301" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="60" width="120" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="20" width="120" height="18" uuid="bb0fe1cf-701b-47d5-ba46-2e6ddaa6c4e8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountActive}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="38" width="120" height="18" uuid="09d0149b-3f30-4d6b-bc70-3c7fd23e30c0"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountInTerm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="20" width="80" height="18" forecolor="#000000" uuid="8d4f0149-5e2d-46c7-aef1-955d82b1bbb4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Активный]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="38" width="80" height="18" forecolor="#000000" uuid="d7b3ea05-8f90-4c7a-9118-723a48019cc8"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Срок]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="57" width="80" height="22" forecolor="#000000" uuid="90ebe022-b10b-47fe-b560-355d06ae5f9a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Просрочка]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="560" y="42" width="150" height="18" uuid="191e359c-3e0f-4070-952c-10d502c1efd1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtInTerm})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="560" y="60" width="150" height="18" uuid="9541b93f-e6e4-496c-ac6e-033c4b445a4a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="480" y="24" width="80" height="18" forecolor="#000000" uuid="c48032d4-b268-4809-b043-4392e4183c10"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Активный]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="480" y="42" width="80" height="18" forecolor="#000000" uuid="14562b83-0ff5-4181-9253-a0a9ecec6d81"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Срок]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="480" y="61" width="80" height="18" forecolor="#000000" uuid="23e362ae-cc13-4926-94a1-7fe933d26f14"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Просрочка]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="380" y="200" width="300" height="18" uuid="3dfb229c-0ea5-4034-a23c-fcd66a49ea02"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtIncrementTwoPlusCredits})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="380" y="180" width="300" height="18" uuid="b08df413-1d46-492c-906d-5072246e29ef"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtIncrementOneCredit})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="310" y="180" width="70" height="18" forecolor="#000000" uuid="5fdbcf09-07d9-44e1-b22c-d060ec39b18d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1 займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="310" y="200" width="70" height="18" forecolor="#000000" uuid="1c401f29-739d-4d11-97a8-3698cdef3061"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="20" width="80" height="18" forecolor="#000000" uuid="c5f98b98-a985-4fc5-92f5-71836e975a5c"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[4-10 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="61" width="80" height="18" forecolor="#000000" uuid="f3f0907c-3fa4-447f-8d92-8adadece2e1b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[31-60 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="42" width="80" height="18" forecolor="#000000" uuid="592ae7cb-64f4-4787-b3c7-757b3f0b77bf"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[11-30 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="82" width="80" height="18" forecolor="#000000" uuid="2778cded-7a58-4a42-bc0f-889b7b3cc709"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[61-90 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="100" width="80" height="18" forecolor="#000000" uuid="71d92cd0-cced-4be2-ac8c-b92d5ff6d44d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[91+ дня]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="24" width="200" height="18" uuid="85174bda-aa0f-4a3a-8ada-7e405e313b7f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue4_10}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="42" width="200" height="18" uuid="a7a760dc-d155-4abe-a2d3-b627269a709e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue11_30}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="61" width="200" height="18" uuid="eae9cf3a-8039-411d-9f5c-5aa026bcb5bd"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue31_60}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="80" width="200" height="18" uuid="45dc2899-7ffd-4b63-9ccf-f48fa10824fe"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue61_90}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="100" width="200" height="18" uuid="44724034-ea48-43c6-bda0-dbe6b5603b5c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue91_plus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="176" width="80" height="18" forecolor="#000000" uuid="b61469d0-7024-4242-9a25-90ec533bba00"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[4-10 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="194" width="80" height="18" forecolor="#000000" uuid="c9951fc0-6eec-4f9b-8561-58152ebafc6e"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[11-30 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="212" width="80" height="18" forecolor="#000000" uuid="8948bc6a-2343-4a76-946e-4b2e3b1965f0"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[31-60 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="230" width="80" height="18" forecolor="#000000" uuid="32434582-2227-4d52-b0ad-8713840379ac"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[61-90 дня]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="250" width="70" height="18" forecolor="#000000" uuid="74529e2d-0e80-46df-b1ef-7268ad055a24"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[91+ дня]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="560" y="20" width="150" height="18" uuid="f7d2c560-d5a0-4257-a153-6f50270bc424"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtActive})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="176" width="230" height="18" uuid="e59c1783-3696-41f8-a319-567cede362f1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue4_10})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="194" width="230" height="18" uuid="2834dc0a-ae53-4f25-886b-cd6079eb2471"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue11_30})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="213" width="230" height="16" uuid="ca3b111f-afec-4830-8a90-762e8ec7a169"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue31_60})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="231" width="230" height="16" uuid="318f322d-af38-4bb6-b828-ecf64d26d5a1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue61_90})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="248" width="230" height="18" uuid="c7f044d9-dfdd-4dd0-b698-10b10d957489"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue91_plus})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="2" width="120" height="18" uuid="2370bd42-5bd2-4c71-829b-8baef469a5aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="200" y="0" width="80" height="18" forecolor="#000000" uuid="93e458b8-d7b1-42b6-9d25-b7b2926e186d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1-3 дня]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="280" y="2" width="200" height="18" uuid="bc98030e-7518-4ac3-b469-b8d99b40695e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountWithOverdue1_3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="560" y="2" width="150" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebt})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="158" width="80" height="18" forecolor="#000000" uuid="b6dda15d-d436-4f83-97d3-18d77afcaadd"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1-3 дня]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="158" width="230" height="18" uuid="a974d428-2b12-4fb3-96a8-82f054f7e043"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtWithOverdue1_3})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="380" y="160" width="300" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{commonDebtIncrement})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="140" width="310" height="18" forecolor="#000000" uuid="6beca2be-247f-46e9-9f53-2e1cfeeeb87b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Портфель: Просрочка: Сроки: Сумма ОД]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="310" y="140" width="370" height="18" forecolor="#000000" uuid="b63d0a9c-c936-4f0b-bcef-f0d967c435c1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Портфель: Просрочка: Сумма ОД: Прирост]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="310" y="160" width="70" height="18" forecolor="#000000" uuid="55e24796-3bbf-4598-a626-ea5f0e4adae8"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="480" y="2" width="80" height="18" forecolor="#000000" uuid="57395c5c-15a4-40a6-85d8-18dfbfa48c28"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="2" width="80" height="18" forecolor="#000000" uuid="75b358c8-8ba3-453c-98c2-85c9cd32a07c"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="103" author="helen">
+ 
+  <sql>
+    
+    
+   CREATE TABLE regionsnew
+(
+  code character varying(5) NOT NULL,
+  name character varying(50),
+  codereg character varying(2) NOT NULL,
+  txversion integer,
+  CONSTRAINT regionnew_code PRIMARY KEY (code )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE regionsnew
+  OWNER TO sa;
+
+CREATE UNIQUE INDEX regnew_code
+  ON regionsnew
+  USING btree
+  (code COLLATE pg_catalog."default" );
+
+
+CREATE UNIQUE INDEX regnew_codereg
+  ON regionsnew
+  USING btree
+  (codereg COLLATE pg_catalog."default" );
+
+insert into regionsnew select * from regions;
+
+alter table creditrequest drop constraint fk_crequest_regions;
+ 
+alter table creditrequest add CONSTRAINT fk_crequest_regions FOREIGN KEY (region)
+      REFERENCES regionsnew (code) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+  </sql>
+ 
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

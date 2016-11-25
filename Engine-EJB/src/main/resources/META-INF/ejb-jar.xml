@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns = "http://java.sun.com/xml/ns/javaee"
+  version = "3.1"
+  xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee
+     http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+  <enterprise-beans>
+  <session>
+      <ejb-name>KassaBean</ejb-name>
+      <ejb-class>ru.simplgroupp.ejb.KassaBean</ejb-class>
+      <session-type>Stateless</session-type>
+  		<business-local>ru.simplgroupp.interfaces.KassaBeanLocal</business-local>
+  </session>
+
+  <session>
+		<ejb-name>BIKUpdaterBean</ejb-name>
+		<ejb-class>ru.simplgroupp.ejb.BIKUpdaterBean</ejb-class>
+		<session-type>Stateless</session-type>
+		<business-local>ru.simplgroupp.interfaces.BIKUpdaterLocal</business-local>
+		<env-entry>
+			<env-entry-name>downloadBIKUrl</env-entry-name>
+			<env-entry-type>java.lang.String</env-entry-type>
+			<env-entry-value>http://www.cbr.ru/mcirabis/BIK/bik_db_%s.zip</env-entry-value>
+		</env-entry>
+	</session>
+
+    <session>
+          <ejb-name>HunterHashBean</ejb-name>
+          <env-entry>
+              <description>path to configuration directory</description>
+              <env-entry-name>configurationDirectory</env-entry-name>
+              <env-entry-type>java.lang.String</env-entry-type>
+              <env-entry-value>@path.experian@</env-entry-value>
+          </env-entry>
+    </session>
+  </enterprise-beans>
+</ejb-jar>

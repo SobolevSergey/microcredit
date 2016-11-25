@@ -1,0 +1,253 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="372" author="rustem saidaliyev">
+        <sql>
+
+            ALTER TABLE address ADD COLUMN address_text_to_street character varying(500);
+            COMMENT ON COLUMN address.address_text_to_street IS 'Адрес текстом до уровня улицы';
+
+            ALTER TABLE address ADD COLUMN kzegovdata_ats bigint;
+            COMMENT ON COLUMN address.kzegovdata_ats IS 'ID Ats (Административно-территориальное устройство Республики Казахстан) конечной части адреса. Портал Открытые данные Электронного правительства Республики Казахстан http://data.egov.kz';
+
+            ALTER TABLE address ADD COLUMN kzegovdata_geonims bigint;
+            COMMENT ON COLUMN address.kzegovdata_geonims IS 'ID Geonims (Устройство населенных пунктов Республики Казахстан) конечной части адреса. Портал Открытые данные Электронного правительства Республики Казахстан http://data.egov.kz ';
+
+            ALTER TABLE address ADD COLUMN kzegovdata_cato character varying(18);
+            COMMENT ON COLUMN address.kzegovdata_cato IS 'Код Классификатор административно-территориальных объектов Республики Казахстан. Портал Открытые данные Электронного правительства Республики Казахстан http://data.egov.kz';
+
+            CREATE TABLE kzegovdata_atstype
+            (
+                id bigint NOT NULL,
+                short_value_ru character varying(1000),
+                value_ru character varying(1000) NOT NULL,
+                short_value_kz character varying(1000),
+                actual boolean NOT NULL,
+                value_kz character varying(1000),
+                code bigint NOT NULL,
+                CONSTRAINT pk_kzegovdata_atstype PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE kzegovdata_atstype
+            OWNER TO postgres;
+            COMMENT ON TABLE kzegovdata_atstype
+            IS 'Портал Открытые данные Электронного правительства Республики Казахстан (http://data.egov.kz). Адресный регистр. Типы административно-территориальных единиц (области, города, поселки и т.д.)';
+
+            CREATE TABLE kzegovdata_geonimstype
+            (
+                id bigint NOT NULL,
+                this_is character varying(1000),
+                short_value_ru character varying(1000),
+                value_ru character varying(1000) NOT NULL,
+                short_value_kz character varying(1000),
+                actual boolean NOT NULL,
+                value_kz character varying(1000),
+                code bigint NOT NULL,
+                CONSTRAINT pk_kzegovdata_geonimstype PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE kzegovdata_geonimstype
+            OWNER TO postgres;
+            COMMENT ON TABLE kzegovdata_geonimstype
+            IS 'Портал Открытые данные Электронного правительства Республики Казахстан (http://data.egov.kz). Адресный регистр. Типы составных частей населенных пунктов (улицы, проспекты, переулки и т.д.)';
+
+
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(4,'','ГОРОД РАЙОННОГО ЗНАЧЕНИЯ','',true,'АУДАНДЫҚ МАҢЫЗЫ БАР ҚАЛАСЫ',4);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(9,'','ГОРОД РЕСПУБЛИКАНСКОГО ЗНАЧЕНИЯ','',true,'РЕСПУБЛИКАЛЫҚ МАҢЫЗЫ БАР ҚАЛАСЫ',9);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(54,'','ЗИМОВКА','',false,'ҚЫСТАУЫ',54);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(59,'','АУЛЬНЫЙ ОКРУГ','',true,'АУЫЛДЫҚ ОКРУГІ',59);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(55,'','УЧАСТОК','',false,'УЧАСТІГІ',55);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(5,'','РАЙОН','',true,'АУДАНЫ',5);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(1,'','СЕЛО','',true,'АУЫЛЫ',1);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(6,'','ГОРОД ОБЛАСТНОГО ЗНАЧЕНИЯ','',true,'ОБЛЫСТЫҚ МАҢЫЗЫ БАР ҚАЛАСЫ',6);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(37,'','РАЗЪЕЗД','',false,'ЖОЛ АЙРЫҒЫ',37);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(49,'','ЛЕСХОЗ','',false,'ОРМАН ШАРУАШЫЛЫҒЫ',49);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(56,'','ОТДЕЛЕНИЕ','',false,'БӨЛІМШЕСІ',56);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(70,'','САНАТОРИЙ','',false,'ШИПАЖАЙ',70);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(2,'','ПОСЕЛОК','',true,'КЕНТI',2);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(7,'','ОБЛАСТЬ','',true,'ОБЛЫСЫ',7);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(45,'','НАСЕЛЕННЫЙ ПУНКТ','',false,'ЕЛДІ МЕКЕНІ',45);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(38,'','СТАНЦИЯ','',false,'СТАНСАСЫ',38);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(52,'','ПОСЕЛКОВЫЙ ОКРУГ','',false,'КЕНТТІК ОКРУГІ',52);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(57,'','ЗАСТАВА','',false,'ШЕКАРАЛЫҚ БЕКЕТ',57);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(69,'','ПОДХОЗ','',false,'ҚОСАЛҚЫ ШАРУАШЫЛЫҚ',69);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(3,'','СЕЛЬСКИЙ ОКРУГ','',true,'СЕЛОЛЫҚ ОКРУГІ',3);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(10,'','РЕСПУБЛИКА','',true,'РЕСПУБЛИКАСЫ',10);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(8,'','РАЙОН В ГОРОДЕ','',true,'ҚАЛА IШIНДЕГI АУДАНЫ',8);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(53,'','ЗАИМКА','',false,'ЗАИМКА',53);
+            insert into kzegovdata_atstype(id, short_value_ru, value_ru, short_value_kz, actual, value_kz, code)
+            values(65,'','ФЕРМА','',false,'ФЕРМАСЫ',65);
+
+
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(58,'','','САДОВОДЧЕСКИЙ КОЛЛЕКТИВ','',true,'БАҒБАНДЫҚ ҰЖЫМ',58);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(72,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ СОБСТВЕННИКОВ ДАЧНЫХ УЧАСТКОВ','',true,'САЯЖАЙЛЫҚ ЖЕР ТЕЛІМДЕРІ МЕНШІК ИЕЛЕРІ ТҰТЫНУ КООПЕРАТИВІ',72);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(77,'','','УЧЕТНЫЙ КВАРТАЛ','',true,'ЕСЕПТіК КВАРТАЛ',77);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(84,'','','РЯД','',true,'ҚАТАР',84);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(89,'','','ТАМОЖЕННЫЙ ПОСТ','',true,'КЕДЕН БЕКЕТІ',89);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(91,'','','КАРДОН','',true,'КАРДОН',91);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(15,'','','ПРОСПЕКТ','',true,'ДАҢҒЫЛЫ',15);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(11,'','','УЛИЦА','',true,'КӨШЕCI',11);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(16,'','','ЛИНИЯ','',true,'ЖЕЛIСI',16);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(23,'','','ЗИМОВКА','',true,'ҚЫСТАУЫ',23);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(28,'','','ТУПИК','',true,'ТҰЙЫҚ КӨШЕСІ',28);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(30,'','','ВОИНСКАЯ ЧАСТЬ','',true,'ӘСКЕРИ БӨЛIМI',30);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(35,'','','ГАРАЖНОЕ ОБЩЕСТВО','',true,'ГАРАЖДЫҚ ҚОҒАМЫ',35);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(42,'','','САДОВОЕ ОБЩЕСТВО','',true,'БАУ-БАҚШАЛЫҚ ҚОҒАМЫ',42);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(47,'','','ПЛОЩАДКА','',true,'АЛАҢҚАЙЫ',47);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(61,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ СОБСТВЕННИКОВ ГАРАЖЕЙ','',true,'ГАРАЖ ИЕЛЕРІНІҢ ТҰТЫНУ КООПЕРАТИВІ',61);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(66,'','','УРОЧИЩЕ','',true,'КОНЫС',66);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(73,'','','РАЗРЕЗ','',true,'ҚИЫҚ',73);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(78,'','','ГАРАЖНО-СТРОИТЕЛЬНЫЙ КООПЕРАТИВ','',true,'ГАРАЖ- ҚҰРЫЛЫС КООПЕРАТИВІ',78);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(80,'','','КАДАСТРОВЫЙ КВАРТАЛ','',true,'КАДАСТР КВАРТАЛЫ',80);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(85,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ САДОВОДЧЕСКОЕ ОБЩЕСТВО','',false,'БАҒБАНДЫҚ ҚОҒАМ ТҰТЫНУ КООПЕРАТИВІ',85);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(92,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ СОБСТВЕННИКОВ ИНДИВИДУАЛЬНЫХ ГАРАЖЕЙ','',true,'ЖЕКЕ ГАРАЖ ИЕЛЕРІНІҢ ТҰТЫНУ КООПЕРАТИВІ',92);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(12,'','','БУЛЬВАР','',true,'БУЛЬВАРЫ',12);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(17,'road','','ДОРОГА','',true,'ЖОЛЫ',17);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(24,'','','МИКРОРАЙОН','',true,'ШАҒЫН АУДАНЫ',24);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(29,'','','ТРАКТ','',true,'ДАҢҒЫЛ ЖОЛЫ',29);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(31,'','','РАЗЪЕЗД','',true,'ЖОЛ АЙРЫҒЫ',31);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(36,'','','ДАЧНОЕ ОБЩЕСТВО','',true,'САЯЖАЙ ҚОҒАМЫ',36);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(43,'','','БАЗА ОТДЫХА','',true,'ДЕМАЛЫС БАЗАСЫ',43);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(48,'','','УЧАСТОК','',true,'ТЕЛІМІ',48);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(50,'','','ПРОМЫШЛЕННАЯ ЗОНА','',true,'ӨНДІРІСТІК АЙМАҒЫ',50);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(62,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ','',true,'ТҰТЫНУ КООПЕРАТИВІ',62);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(67,'','','ЗОНА','',true,'АЙМАҚ',67);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(74,'','','САДОВОДЧЕСКОЕ ОБЩЕСТВО','',true,'БАҒБАНШЫЛЫҚ ҚОҒАМЫ',74);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(79,'','','ГАРАЖНО-ЭКСПЛУАТАЦИОННЫЙ КООПЕРАТИВ','',true,'ГАРАЖ ПАЙДАЛАНУШЫЛАР КООПЕРАТИВі',79);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(81,'','','САДОВОДЧЕСКО-ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ','',true,'БАУ-БАқША ТұТЫНУШЫЛАР КООПЕРАТИВІ',81);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(86,'','','АССОЦИАЦИЯ КРЕСТЬЯНСКИХ ХОЗЯЙСТВ','',false,'ШАРУА ҚОЖАЛЫҚТАРЫ ҚАУЫМДАСТЫҒЫ',86);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(93,'','','Садоводческий комплекс','',true,'Бағбандық кешені',93);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(18,'','','НАБЕРЕЖНАЯ','',true,'ЖАҒАЛАУЫ',18);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(13,'','','АЛЛЕЯ','',true,'АЛЛЕЯСЫ',13);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(20,'','','ПРОЕЗД','',true,'ӨТПЕ ЖОЛЫ',20);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(25,'','','КВАРТАЛ','',true,'ОРАМ',25);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(32,'','','ДАЧНЫЙ КООПЕРАТИВ','',true,'CАЯЖАЙ КООПЕРАТИВІ',32);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(44,'','','ОТДЕЛЕНИЕ','',true,'БӨЛІМШЕСІ',44);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(51,'','','КРЕСТЬЯНСКОЕ ХОЗЯЙСТВО','',true,'ШАРУА ҚОЖАЛЫҒЫ',51);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(63,'','','САДОВОДЧЕСКОЕ ТОВАРИЩЕСТВО','',true,'БАҒБАНДЫҚ СЕРІКТЕСТІК',63);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(68,'','','ТЕРРИТОРИЯ','',true,'АУМАҚ',68);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(75,'','','ДАЧНЫЙ КОМПЛЕКС','',true,'САЯЖАЙ КЕШЕНІ',75);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(82,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ САДОВОДЧЕСКИХ ТОВАРИЩЕСТВ','',true,'БАУ-БАҚША СЕРІКТЕСТІКТЕРІНІҢ ТҰТЫНУ КООПЕРАТИВІ',82);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(87,'','','ПРОИЗВОДСТВЕННЫЙ КООПЕРАТИВ','',false,'ӨНДІРІСТІК КООПЕРАТИВІ',87);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(14,'','','ПЛОЩАДЬ','',true,'АЛАҢЫ',14);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(19,'','','ПЕРЕУЛОК','',true,'ТҰЙЫҚ КӨШЕ',19);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(21,'','','ЛЕСХОЗ','',true,'ОРМАНШАРЫ',21);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(26,'','','ЗАСТАВА','',true,'ШЕКАРА БЕКЕТІ',26);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(33,'','','ГАРАЖНЫЙ КООПЕРАТИВ','',true,'ГАРАЖДЫҚ КООПЕРАТИВІ',33);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(40,'','','ГАРАЖНЫЙ МАССИВ','',true,'ГАРАЖДЫҚ АЛАБЫ',40);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(64,'','','ДАЧНЫЙ МАССИВ','',true,'САЯЖАЙ АЛАБЫ',64);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(71,'','','ПОТРЕБИТЕЛЬСКИЙ ГАРАЖНЫЙ КООПЕРАТИВ','',true,'ГАРАЖ ТҰТЫНУ КООПЕРАТИВІ',71);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(76,'','','ПОТРЕБИТЕЛЬСКИЙ КООПЕРАТИВ САДОВОДОВ','',true,'бау-бақша тұтыну кооперативі',76);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(83,'','','ОБЩЕСТВО САДОВОДОВ','',true,'БАУ-БАқША қОғАМЫ',83);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(88,'','','ФЕРМА','',true,'ФЕРМА',88);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(90,'','','ЛЕСНИЧЕСТВО','',true,'ОРМАН ШАРУАШЫЛЫҒЫ',90);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(22,'','','ЗАИМКА','',true,'ЗАЙМКАСЫ',22);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(27,'','','ШОССЕ','',true,'ШОССЕCЫ',27);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(34,'','','МАССИВ','',true,'АЛАБЫ',34);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(41,'','','СТАНЦИЯ','',true,'СТАНСАСЫ',41);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(39,'','','ТРАССА','',true,'ТАС ЖОЛЫ',39);
+            insert into kzegovdata_geonimstype(id,this_is,short_value_ru,value_ru,short_value_kz,actual,value_kz,code)
+            values(46,'','','ЖИЛОЙ МАССИВ','',true,'ТҰРҒЫН ҮЙ АЛАБЫ',46);
+
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="281" author="irk333">
+        <sql> 
+	  alter table bizactionparam add column id serial not null;
+	    
+	  alter table bizactionparam drop constraint pk_bizactionparam;
+	  alter table bizactionparam add constraint pk_bizactionparam PRIMARY KEY (id);
+      </sql>
+    </changeSet>
+<changeSet id="281" author="ponomarev">
+    <sql>
+alter table ref_antifraud_rules_hunter_entities drop constraint if exists fk_ref_af_rul_hunt_ent_r_af_rul_h;
+
+alter table ref_antifraud_rules_hunter_entities drop constraint if exists fk_ref_af_rul_hunt_ent_r_ref;
+
+
+alter table ref_antifraud_rules_hunter_entities add constraint 
+fk_ref_af_rul_hunt_ent_r_af_rul_h foreign key (rules_hunter_id) references ref_antifraud_rules_hunter (id)
+on update restrict on delete restrict;
+
+alter table ref_antifraud_rules_hunter_entities add constraint 
+fk_ref_af_rul_hunt_ent_r_ref foreign key (ref_entity_id) references reference (id)
+on update restrict on delete restrict;
+    </sql>
+</changeSet>
+
+</databaseChangeLog>

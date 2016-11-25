@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="helen">
+        <comment>test</comment>
+        <sql>alter table partners add column realname character varying(30);</sql>
+    </changeSet>
+  <changeSet id="2" author="helen">
+        <comment>test</comment>
+        <sql>alter table qarequest add column answervaluemoney double precision;</sql>
+    </changeSet>
+ <changeSet id="3" author="helen">
+        <comment>test</comment>
+        <sql>alter table qarequest add column answervalueref integer;</sql>
+    </changeSet>
+<changeSet id="4" author="helen">
+     <comment>test</comment>
+        <sql>alter table partners add column canmakepayment boolean;</sql>
+        <sql>alter table partners add column canmakescoring boolean;</sql>
+        <sql>alter table partners add column canmakecredithistory boolean;</sql>
+</changeSet>
+	
+<changeSet id="5" author="helen">
+     <comment>test</comment>
+        <sql>CREATE TABLE changerequests(id serial NOT NULL,creditrequest_id integer,users_id integer,requestdate timestamp with time zone,description text,CONSTRAINT pk_changereq PRIMARY KEY (id ),CONSTRAINT fk_change_creditrequest FOREIGN KEY (creditrequest_id) REFERENCES creditrequest (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE, CONSTRAINT fk_change_users FOREIGN KEY (users_id) REFERENCES users (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE changerequests OWNER TO postgres;</sql>
+        <sql>CREATE UNIQUE INDEX changerequests_pk ON changerequests USING btree (id );</sql>
+        <sql>CREATE INDEX changerequests_fk ON eventlog USING btree (creditrequest_id );</sql>
+</changeSet>
+	
+<changeSet id="6" author="helen">
+     <comment>test</comment>
+        <sql>CREATE TABLE uploading(id serial NOT NULL,partners_id integer,dateuploading timestamp with time zone,status integer,CONSTRAINT pk_uploading PRIMARY KEY (id ),CONSTRAINT fk_uploading_relations_partners FOREIGN KEY (partners_id) REFERENCES partners (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE uploading OWNER TO postgres;</sql>
+        <sql>CREATE INDEX relationship_uploading_fk ON uploading USING btree (partners_id );</sql>
+        <sql>CREATE UNIQUE INDEX uploading_pk ON uploading USING btree (id );</sql>
+</changeSet>
+
+<changeSet id="7" author="helen">
+        <comment>test</comment>
+        <sql>alter table credit add column paydiscipline character varying(100);</sql>
+        <sql>alter table credit add column creditsumpaid double precision;</sql>
+        <sql>alter table credit add column creditmonthlypayment double precision;</sql>
+        <sql>alter table uploading add column name character varying(50);</sql>
+
+    </changeSet>
+
+<changeSet id="8" author="helen">
+        <comment>test</comment>
+        <sql>alter table uploading add column info text; alter table uploading add column report text; alter table uploading add column recordsall integer; alter table uploading add column recordscorrect integer;alter table uploading add column recordserror integer;</sql>
+         <sql>alter table creditrequest add column isuploaded boolean DEFAULT false;</sql>
+     </changeSet>
+
+<changeSet id="9" author="helen">
+        <comment>test</comment>
+        <sql> alter table uploading add column uploadid integer;</sql>
+</changeSet>
+
+<changeSet id="10" author="helen">
+        <comment>test</comment>
+        <sql> alter table uploading add column responseid character varying(50);</sql>
+         <sql>alter table peoplepersonal add column isuploaded boolean DEFAULT false;</sql>
+        <sql>alter table document add column isuploaded boolean DEFAULT false;</sql>
+
+
+</changeSet>
+<changeSet id="11" author="helen">
+        <comment>test</comment>
+        <sql> alter table uploading add column responsedate timestamp with time zone;</sql>
+        <sql>CREATE TABLE uploading_error(id serial NOT NULL,uploading_id integer NOT NULL,credit_id integer,description character varying(255),CONSTRAINT pk_upload_error PRIMARY KEY (id ),CONSTRAINT fk_uploaderror_relations_uploading FOREIGN KEY (uploading_id) REFERENCES uploading (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE uploading_error OWNER TO postgres;</sql>
+        <sql>CREATE INDEX relationship_uploaderror_fk ON uploading_error USING btree (uploading_id );</sql>
+        <sql>CREATE UNIQUE INDEX uploaderror_pk ON uploading_error USING btree (id );</sql> 
+</changeSet>
+
+ <changeSet id="12" author="helen">
+        <comment>test</comment>
+        <sql>alter table partners add column uploadversion character varying(10);</sql>
+    </changeSet>
+
+<changeSet id="13" author="helen">
+        <comment>test</comment>
+        <sql>CREATE TABLE refusereason(id serial NOT NULL,reason_id integer,name character varying(255),namefull character varying(255),CONSTRAINT pk_refusereason PRIMARY KEY (id ),CONSTRAINT fk_referenc_refuse FOREIGN KEY (reason_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE refusereason OWNER TO postgres;</sql>
+        <sql>CREATE UNIQUE INDEX refusereason_pk ON refusereason USING btree (id );</sql>
+        <sql>CREATE INDEX relationship_refusereason ON refusereason USING btree (reason_id);</sql>
+        <sql>alter table creditrequest drop constraint fk_rejectreason;</sql>
+        <sql>alter table creditrequest add constraint fk_refusereason foreign key (rejectreason_id) references refusereason (id) MATCH SIMPLE  ON UPDATE RESTRICT ON DELETE RESTRICT;</sql>  
+    </changeSet>
+
+<changeSet id="14" author="helen">
+        <comment>test</comment>
+        <sql> alter table organization add column email character varying(50);</sql>
+        <sql> alter table organization add column phone character varying(20);</sql>
+</changeSet>
+
+<changeSet id="15" author="helen">
+        <comment>test</comment>
+        <sql> alter table organization add column iscreditorg boolean;</sql>
+        <sql>alter table credit drop constraint fk_credit_bank;</sql>
+        <sql> alter table credit add column creditorganization_id integer;</sql>
+        <sql>alter table credit add constraint fk_org foreign key (creditorganization_id) references organization (id) MATCH SIMPLE  ON UPDATE RESTRICT ON DELETE RESTRICT;</sql>  
+        
+</changeSet>
+
+<changeSet id="16" author="helen">
+        <comment>test</comment>
+        <sql>alter table partners add column groupwork character varying(50);</sql>
+        <sql>alter table partners RENAME COLUMN groupid TO grouptest;</sql>
+</changeSet>
+
+<changeSet id="17" author="helen">
+        <comment>test</comment>
+        <sql>CREATE TABLE contact_points(id serial NOT NULL,version integer,erased integer,parent_id integer,pp_code character varying(6),bic character varying(12),name character varying(150),city_head character varying(35),address1 character varying(140),address2 character varying(35),address3 character varying(35),address4 character varying(35),phone character varying(100),name_rus character varying(100),country integer,deleted integer,city_lat character varying(35),addr_lat character varying(140),contact integer,region integer,can_revoke integer,can_change integer,get_money integer,send_curr character varying(252),rec_curr character varying(252),attr_grps character varying(55),city_id integer,logo_id integer,scen_id integer,unique_trn integer,metro integer,CONSTRAINT pk_cpoints PRIMARY KEY (id )) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE contact_points OWNER TO postgres;</sql>
+        <sql>CREATE UNIQUE INDEX cpoints_pk ON contact_points USING btree (id );</sql>
+        <sql>CREATE TABLE contact_blacklist(id serial NOT NULL,version integer,erased integer,nameu_f character varying(50),nameu_i character varying(50),nameu_o character varying(50),birthday character varying(254),passport character varying(254),address character varying(254),nameu character varying(150),deleted integer,CONSTRAINT pk_cblacklist PRIMARY KEY (id )) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE contact_blacklist OWNER TO postgres;</sql>
+        <sql>CREATE UNIQUE INDEX cblacklist_pk ON contact_blacklist USING btree (id );</sql>
+        <sql> alter table account add column point_id integer;</sql>
+        <sql>alter table account add CONSTRAINT fk_account_cpoint FOREIGN KEY (point_id) REFERENCES contact_points (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;</sql>  
+
+</changeSet>
+
+<changeSet id="18" author="irk333">
+	<comment>test</comment>
+	<sql>create table bpermissions (ID                   SERIAL               not null,  roles_ID             INT4                 not null,  BusinessObjectClass  VARCHAR(150)         null,   BusinessObjectId     VARCHAR(250)         null,   permRead             BOOL                 null,   permWrite            BOOL                 null,   constraint PK_BPERMISSIONS primary key (ID));</sql>
+	<sql>create unique index bpermissions_PK on bpermissions (ID);</sql>
+	<sql>create  index Relationship_114_FK on bpermissions (roles_ID);</sql>
+	<sql>create  index idxCIR on bpermissions (BusinessObjectClass,BusinessObjectId,roles_ID);</sql>
+	<sql>alter table bpermissions add constraint FK_BPERMISS_RELATIONS_ROLES foreign key (roles_ID) references roles (ID) on delete restrict on update restrict;</sql>
+</changeSet>
+
+<changeSet id="19" author="irk333">
+	<comment>test</comment>
+	<sql>alter table refusereason add constantname varchar(30) null;</sql>
+</changeSet>	
+
+<changeSet id="20" author="helen">
+	<comment>test</comment>
+	<sql>insert into partners(id,name,realname,canmakepayment) values(19,'payonline','payonline',true);</sql>
+        <sql>insert into reference(id,ref_header_id,name,codeinteger,isactive) values(442,17,'Qiwi кошелек',5,1);</sql>
+        <sql>insert into partnerlinks(id,reference_id,partners_id,isactive) values(5,442,19,1);</sql>
+
+</changeSet>	
+
+<changeSet id="21" author="helen">
+        <comment>test</comment>
+        <sql> alter table settings drop column lastuploaddate;</sql>
+        <sql> alter table bank drop column code;</sql>
+   
+</changeSet>
+
+<changeSet id="22" author="helen">
+	<comment>test</comment>
+    <sql>insert into organization(id,name,partners_id,databeg,isactive,iscreditorg,email) values(5,'Кредитное бюро ОКБ',5,DATE '2010-01-01',1,false,'bureauoperator@bki-okb.ru');</sql>
+    <sql>insert into organization(id,name,partners_id,databeg,isactive,iscreditorg) values(4,'Кредитное бюро Эквифакс',4,DATE '2010-01-01',1,false);</sql>
+    <sql>insert into organization(id,name,partners_id,databeg,isactive,iscreditorg) values(13,'Кредитное бюро Русский стандарт',13,DATE '2010-01-01',1,false);</sql>
+
+</changeSet>
+
+<changeSet id="23" author="irk333">
+	<comment>test</comment>
+	<sql>alter table credit add creditdatedebt timestamp with time zone;</sql>
+</changeSet>	
+
+<changeSet id="24" author="helen">
+	<comment>test</comment>
+	<sql>alter table eventlog add browser varchar(10);</sql>
+        <sql>alter table eventlog add useragent varchar(200);</sql>
+        <sql>alter table eventlog add provider varchar(100);</sql>
+        <sql>alter table eventlog add geoplace varchar(300);</sql>
+        <sql>alter table eventlog add os varchar(50);</sql>
+
+
+</changeSet>
+
+
+<changeSet id="25" author="helen">
+	<comment>test</comment>
+	<sql>alter table settings add geosite varchar(100);</sql>
+</changeSet>
+
+<changeSet id="26" author="irk333">
+	<comment>test</comment>
+	<sql>INSERT INTO roles(id, name, righttoedit, righttowrite, righttoall, righttoview, righttoaddrules, righttocall) VALUES (6, 'admin', false, false, false, false, false, false);</sql>
+</changeSet>
+
+
+<changeSet id="27" author="helen">
+	<comment>test</comment>
+	<sql>alter table repaymentschedule add creditsum double precision;</sql>
+        <sql>alter table repaymentschedule add reasonend_id integer;</sql>
+
+</changeSet>	
+
+<changeSet id="28" author="helen">
+	<comment>test</comment>
+
+        <sql>CREATE FUNCTION delete_user(uid integer) RETURNS void AS $BODY$ Declare pid Integer; BEGIN select peoplemain_id into pid from users where id=uid; delete from users_roles where users_id=uid; delete from users where id=uid; delete from peoplepersonal where peoplemain_id=pid; delete from peoplemain where id=pid; END; $BODY$ LANGUAGE plpgsql VOLATILE COST 100; ALTER FUNCTION delete_user(integer) OWNER TO postgres;</sql>
+</changeSet>	
+
+<changeSet id="29" author="helen">
+	<comment>test</comment>
+         <sql>update usertype set name='Специалист' where id=3;</sql>
+         <sql>delete from usertype where id=4;</sql>
+         <sql>delete from usertype where id=5;</sql>
+         <sql>delete from usertype where id=6;</sql>
+         <sql>alter table roles add realname varchar(30);</sql>
+
+</changeSet>	
+
+<changeSet id="30" author="helen">
+	<comment>test</comment>
+    <sql>insert into creditstatus(id,name) values(8,'отказ клиента');</sql>
+
+</changeSet>	
+
+<changeSet id="31" author="helen">
+	<comment>test</comment>
+	<sql>alter table creditrequest add datesign timestamp with time zone;</sql>
+</changeSet>
+
+<changeSet id="32" author="helen">
+	<comment>test</comment>
+	<sql>CREATE TABLE contact_service(id serial NOT NULL, version integer,erased integer,parent_id integer,caption character varying(100),comment character varying(254),caption_la character varying(100),comment_la character varying(254),can_in integer,can_pay integer, cs_in character varying(10),cs_in_fee character varying(10),cs_pay character varying(10),CONSTRAINT pk_cserv PRIMARY KEY (id )) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE contact_service OWNER TO postgres;</sql>
+        <sql>CREATE UNIQUE INDEX cserv_pk ON contact_service USING btree (id );</sql>
+        <sql>CREATE TABLE contact_point_service(id serial NOT NULL,version integer,erased integer,point_id integer,service_id integer,CONSTRAINT pk_pointserv PRIMARY KEY (id ), CONSTRAINT fk_point FOREIGN KEY (point_id) REFERENCES contact_points (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT, CONSTRAINT fk_serv FOREIGN KEY (service_id) REFERENCES contact_service (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT) WITH (OIDS=FALSE);</sql>
+        <sql>ALTER TABLE contact_point_service OWNER TO postgres;</sql>
+        <sql>CREATE UNIQUE INDEX cpserv_pk ON contact_point_service USING btree (id );</sql>
+
+</changeSet>
+
+<changeSet id="33" author="helen">
+	<comment>test</comment>
+	<sql>alter table credit add datestatus timestamp with time zone;</sql>
+    <sql>insert into eventcode(id,name) values(29,'отказ пользователя от займа');</sql>
+
+</changeSet>
+
+<changeSet id="34" author="helen">
+	<comment>test</comment>
+	<sql>alter table prolong add isactive integer;</sql>
+
+</changeSet>
+
+<changeSet id="35" author="helen">
+	<comment>test</comment>
+	<sql>alter table contact_blacklist add birthdate date;</sql>
+    <sql>insert into ref_header(id,name,partners_id) values(56,'Причины попадания в черный список',1);</sql>
+    <sql>insert into reference(id,name,ref_header_id,isactive,codeinteger) values(443,'Подозрение в терроризме',56,1,1);</sql>
+</changeSet>
+
+<changeSet id="36" author="aro">
+    <comment>remove nextval default value</comment>
+    <sql>ALTER TABLE contact_points ALTER COLUMN id SET DEFAULT NULL;</sql>
+    <sql>ALTER TABLE contact_blacklist ALTER COLUMN id SET DEFAULT NULL;</sql>
+    <sql>ALTER TABLE contact_service ALTER COLUMN id SET DEFAULT NULL;</sql>
+    <sql>ALTER TABLE contact_point_service ALTER COLUMN id SET DEFAULT NULL;</sql>
+</changeSet>
+
+<changeSet id="37" author="helen">
+	<comment>test</comment>
+	<sql>alter table account drop constraint fk_account_bank;</sql>
+</changeSet>
+
+<changeSet id="38" author="helen">
+	<comment>test</comment>
+	<sql>alter table changerequests add isedited integer;</sql>
+</changeSet>
+
+<changeSet id="39" author="irk333">
+	<comment>test</comment>
+	<sql>alter table users_roles drop constraint fk_users_ro_relations_users;</sql>
+	<sql>alter table users_roles add CONSTRAINT fk_users_ro_relations_users FOREIGN KEY (users_id) REFERENCES users (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;</sql>
+	<sql>alter table summary drop   CONSTRAINT fk_summary_creditre;</sql>
+	<sql>alter table summary add CONSTRAINT fk_summary_creditre FOREIGN KEY (creditrequest_id) REFERENCES creditrequest (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;</sql>
+</changeSet>
+
+</databaseChangeLog>

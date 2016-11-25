@@ -1,0 +1,49 @@
+<table style="width:940px;margin:20px auto;font-family:''Myriad Pro'',sans-serif;border:0">
+	<tr>
+		<td style="padding:0 0 10px">
+			<table style="width:100%;border:0">
+				<tr>
+					<td>
+						<a href="http://rastorop.ru/main" target="_blank"><img src="http://rastorop.ru/client/resources/mail/logo.png" alt="быстрые онлайн займы" width="190px"></a>
+					</td>
+					<td>
+						<p style="color:#ff6419;font-size: 13px;margin: 0;text-align: right;">Звонок по России бесплатный:<br><a style="font-size: 23px;font-weight: bold;">8 (800) 775-22-05</a></p>						
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<td style="padding:0 0 10px">
+			<table style="width:100%;border:0">
+<tr>
+<td><img style="height: 260px; left: -200px;top: -50px;width: 224px;" src="http://rastorop.ru/client/resources/mail/bg.png" alt=""></td>
+		<td>
+			<div style="background: #CFC8BC;height: 1px;"></div>
+		</td>
+				<td style="border:1px solid #CFC8BC;border-radius:4px;float:right;padding:10px 35px;position:relative;width:640px;margin:80px 0">
+				<h1 style="color:#ff5300;font-size: 22px;font-weight: normal;">Здравствуйте!</h1>
+				<p style="color:#474747;font-size: 14px;">description</p>
+		</td>
+	</tr>
+</table>
+	<tr>
+		<td style="padding:20px 0;">
+			<table style="width:100%;border:0">
+				<tr>
+					<td>
+						<p style="color:#6b6b6b;font-size: 13px;margin: 0;">© 2014, ООО “Касса онлайн”<br> Номер в государственном реестре микрофинансовых организаций 651403029004957 от 09.04.2014 года.</p>
+					</td>
+					<td align="right">
+						<a href="http://google.com/" target="_blank" style="margin-left:10px"><img src="http://rastorop.ru/client/resources/mail/gl.png" alt=""></a>
+						<a href="https://vk.com/club70895331" target="_blank" style="margin-left:10px"><img src="http://rastorop.ru/client/resources/mail/vk.png" alt=""></a>
+						<a href="http://my.mail.ru/mail/cassaonline/" target="_blank" style="margin-left:10px"><img src="http://rastorop.ru/client/resources/mail/ml.png" alt=""></a>
+						<a href="http://www.odnoklassniki.ru/profile/564859433398" target="_blank" style="margin-left:10px"><img src="http://rastorop.ru/client/resources/mail/ok.png" alt=""></a>
+						<a href="https://www.facebook.com/pages/Растороп/257285754457138" target="_blank" style="margin-left:10px"><img src="http://rastorop.ru/client/resources/mail/fb.png" alt=""></a>
+						<a href="https://twitter.com/rastorop1" target="_blank" style="margin-left:10px"><img src="http://rastorop.ru/client/resources/mail/tw.png" alt=""></a>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+

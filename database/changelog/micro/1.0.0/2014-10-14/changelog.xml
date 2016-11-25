@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   		      
+  <changeSet id="45" author="irk333">
+    <sql>
+CREATE OR REPLACE FUNCTION setCreditValue(creditid integer, namev varchar, dvalue double precision, dateCalc timestamp) RETURNS void AS $$ BEGIN update creditvalue set isactive = 0 where (credit_id = creditid) and (name2 = namev) and (isactive = 1); insert into creditvalue (credit_id, name2, valueDouble, isactive, databeg) values (creditid, namev, dvalue, 1, dateCalc); END; $$ LANGUAGE plpgsql;
+    </sql>
+  </changeSet>
+</databaseChangeLog> 

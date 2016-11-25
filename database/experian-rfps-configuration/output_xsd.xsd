@@ -1,0 +1,1372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:mclsoftware.co.uk:hunterII" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import  schemaLocation="enums.xsd" />
+  <xs:element name="BATCH">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="HEADER">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COUNT" type="xs:decimal" />
+              <xs:element name="ORIGINATOR" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="1" name="SUPPRESS" type="ENUM_YES" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="1" maxOccurs="1" name="SUBMISSIONS">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="SUBMISSION">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" name="SUB_HEADER">
+                      <xs:complexType>
+                        <xs:all>
+                          <xs:element minOccurs="0" maxOccurs="1" name="EVENTS">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="1" maxOccurs="unbounded" name="EVENT">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element minOccurs="1" maxOccurs="1" name="CODE" type="xs:string" />
+                                      <xs:element minOccurs="1" maxOccurs="1" name="OPERATION" type="xs:string" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="ASSESSMENTS">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="1" maxOccurs="unbounded" name="ASSESSMENT">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element minOccurs="1" maxOccurs="1" name="CODE" type="xs:string" />
+                                      <xs:element minOccurs="1" maxOccurs="1" name="OPERATION" type="xs:string" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:all>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="IDENTIFIER" type="xs:string" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="PRODUCT" type="PRODUCT_CODES" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="CLASSIFICATION" type="xs:string" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="DATE" type="xs:date" />
+                    <xs:element minOccurs="1" maxOccurs="1" name="APP_DATE" type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="1" name="HM_VERSION" >
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="10" />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="MA">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                          <xs:element minOccurs="0" maxOccurs="1" name="PER_INDEX">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="1" name="PHK1">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PHK2">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="LNAME">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="1" name="DOB">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PER_INN">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PREV_FL">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PREV_FP">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PREV_LN">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="INC_TM">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:totalDigits value="13" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="INC_DOC">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:totalDigits value="13" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="INC_ADD">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:totalDigits value="13" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_PAS">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="DHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="MA_DOC">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="DHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="DOT" type="DOT" />
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_SPO">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="PHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="PHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="LNAME">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="DOB">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="1" name="MA_RAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_RTEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_CAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_CTEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_TAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="MA_MTEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_EMP">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="ORG_NAME">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="JOT" type="JOT" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="INN">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="MA_ETEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_EAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_EMA">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="EMAIL">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="MA_VEH">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="CAR_REG">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="VIN">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="MA_ETEL_O">
+                            <xs:complexType>
+                              <xs:sequence> 
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="12" name="MA_ETEL_M">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM_MASK">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:integer">
+                                      <xs:totalDigits value="11" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="entID" use="optional">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string" />
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="6" name="AP">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                          <xs:element minOccurs="0" maxOccurs="1" name="PER_INDEX">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="1" name="PHK1">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PHK2">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="LNAME">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="1" name="DOB">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PER_INN">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PREV_FL">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PREV_FP">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="PREV_LN">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="64" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="INC_TM">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:totalDigits value="13" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="INC_DOC">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:totalDigits value="13" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="INC_ADD">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:totalDigits value="13" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="APP_TYPE" type="ATY" />
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_PAS">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="DHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="A_DOC">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="DHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="DOT" type="DOT" />
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_SPO">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="PHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="PHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="LNAME">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="DOB">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="1" maxOccurs="1" name="A_RAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_RTEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_CAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_CTEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_TAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="A_MTEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_EMP">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="ORG_NAME">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="JOT" type="JOT" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="INN">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="A_ETEL">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_EAD">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="COUNTRY" type="CTR" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="POST_CODE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="10" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="1" maxOccurs="1" name="REGION" type="RGC" />
+                                <xs:element minOccurs="0" maxOccurs="1" name="DISTRICT">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK1">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="AHK2">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="HOUSE">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="BUILD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="CONSTR">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="20" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="APART">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_EMA">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="EMAIL">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="1" name="A_VEH">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="CAR_REG">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="VIN">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="2" name="A_ETEL_O">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:maxLength value="64" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="12" name="A_ETEL_M">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" name="STATUS" type="xs:string" />
+                                <xs:element minOccurs="1" maxOccurs="1" name="TEL_NUM_MASK">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:integer">
+                                      <xs:totalDigits value="11" />
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="entID" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string" />
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="entID" use="optional">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string" />
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="NotificationRqd" use="optional">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:nonNegativeInteger">
+                        <xs:totalDigits value="1" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="subID" use="optional">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string" />
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

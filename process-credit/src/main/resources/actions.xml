@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<!-- 
+    <action signal-ref="msgClientReject" description="Отказ клиента" business-object-class="ru.simplgroupp.transfer.CreditRequest" 
+        candidate-groups="customer,creditmanager,verificator,admin" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $signalRef : SignalRef(processDefKey == "procCR" && name == "msgClientReject");
+    $context : AbstractContext();
+then   
+    $bResult.setResultValue( $context.getCredit() == null);
+end		
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+-->    
+    <action signal-ref="msgAccept" description="Согласен" business-object-class="ru.simplgroupp.transfer.CreditRequest" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+    <action signal-ref="msgReject" description="Не согласен" business-object-class="ru.simplgroupp.transfer.CreditRequest" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+<!--        
+    <action signal-ref="msgBadDebt" description="Списать как безнадёжный" business-object-class="ru.simplgroupp.transfer.Credit" 
+        candidate-groups="creditmanager,admin" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $signalRef : SignalRef(processDefKey == "procCR" && name == "msgBadDebt");
+    $context : AbstractContext();
+then   
+    $bResult.setResultValue( $context.getCredit().isOverdue($context.getCurrentDate()));
+end		
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action>
+     
+    <action signal-ref="msgProlong" description="Продлить кредит" business-object-class="ru.simplgroupp.transfer.Credit" 
+        candidate-groups="customer" candidate-users="" assignee="" system="1" required="1" active="1">
+		<rule-enabled><![CDATA[
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.util.DatesUtils;
+import ru.simplgroupp.toolkit.common.Convertor;
+
+
+// если текущий кредит еще не начался (сегодня выходной, начнется в понедельник)
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $signalRef : SignalRef(processDefKey == "procCR" && name == "msgProlong");
+    $context : AbstractContext();
+then
+	if ( $context.getCreditRequest().getAcceptedCredit() != null && $context.getCreditRequest().getAcceptedCredit().getCreditDataBeg().after( $context.getCurrentDate() )) {	   
+    	  $bResult.setResultValue(false);
+    	  $bResult.addInfo(1,"Ваш текущий заём ещё не начался");
+   	} else {
+   		int daysCreditMax = Convertor.toInteger($cparams.get("credit.days.sum.max"));
+   		int numProlongsMax = Convertor.toInteger($cparams.get("credit.prolongs.max"));
+        //допускается дней просрочки  
+        int daysOverdueMax = Convertor.toInteger($cparams.get("credit.days.max.lgot"));
+ 
+   		int daysCredit = DatesUtils.daysDiff($context.getCredit().getCreditDataEnd(), $context.getCredit().getCreditDataBeg());
+   		int numProlongs = ($context.getCredit().getCreditLong()==null)?0:$context.getCredit().getCreditLong().intValue();
+        //есть дней просрочки
+   		int daysCreditOverdue = DatesUtils.daysDiff($context.getCurrentDate(),$context.getCredit().getCreditDataEnd());
+
+   		if (daysCredit >= daysCreditMax) {
+    		  $bResult.setResultValue(false);
+    		  $bResult.addInfo(2,"Вы не можете превысить максимальный срок займа " + String.valueOf(daysCreditMax) + " дней");   		
+   		}
+   		
+   		if (numProlongs >= numProlongsMax) {
+    		  $bResult.setResultValue(false);
+    		  $bResult.addInfo(3,"Заём не может быть продлён более " + String.valueOf(numProlongsMax) + " раз" );   		   		
+   		}
+
+        if (daysCreditOverdue > daysOverdueMax) {
+    		  $bResult.setResultValue(false);
+    		  $bResult.addInfo(4,"Вы вышли из льготного периода, пролонгация не разрешена" );   		   		
+   		}
+   	}
+end
+
+rule "[$RULE_NAME_PREFIX$].2"
+
+when 
+  $bResult : BooleanRuleResult();
+  $cparams : Map();
+  $signalRef : SignalRef(processDefKey == "procCR" && name == "msgProlong");
+  $context : AbstractContext(getCreditRequest() == null || getCreditRequest().getAcceptedCredit() == null || getCredit() == null);
+
+then
+	$bResult.setResultValue(false);
+end
+
+		]]></rule-enabled>        
+		<rule-action><![CDATA[]]></rule-action>
+    </action> 
+-->           
+</actions>

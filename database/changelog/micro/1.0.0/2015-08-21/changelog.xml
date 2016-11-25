@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="223" author="parfenov">
+        <sql>
+            CREATE TABLE antifrod_field_types
+            (
+            id 			    serial     NOT NULL,
+            type		    VARCHAR(50)	NOT NULL UNIQUE,
+            description	    VARCHAR(100),
+            CONSTRAINT pk_antifrod_field_types PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE antifrod_field_types
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX antifrod_field_types_pk
+            ON antifrod_field_types
+            USING btree
+            (id );
+            GRANT ALL ON TABLE antifrod_field_types TO sa;
+
+            INSERT INTO antifrod_field_types (type, description) VALUES ('lastname', 'Фамилия');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('firstname', 'Имя');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('middlename', 'Отчество');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('bithdate', 'Дата рождения');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('mobile_phone', 'Мобильный телефон');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('email', 'Email');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('seria_passport', 'Серия паспорт');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('number_passport', 'Номер паспорта');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('date_start_passport', 'Дата выдачи паспорта');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('street_registr', 'Улица прописки');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('home_registr', 'Дом прописки');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('marriage', 'Семейное положение');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('street_fact', 'Улица проживания');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('home_fact', 'Дом проживания');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('phone_fact', 'Телефон по месту проживания');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('education', 'Образование');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('work_place', 'Место работы');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('occupation', 'Должность');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('amount_income', 'Сумма дохода');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('is_car', 'Наличие авто');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('creditsum', 'Сумма займа');
+            INSERT INTO antifrod_field_types (type, description) VALUES ('creditdate', 'Срок займа');
+
+
+
+            CREATE TABLE antifrod_field
+            (
+            id 			    serial     NOT NULL,
+            type_id		    integer     NOT NULL,
+            value    	    VARCHAR(100),
+            createAt        timestamp with time zone,
+            creadit_id      integer,
+            user_id         integer,
+            CONSTRAINT pk_antifrod_field PRIMARY KEY (id),
+            CONSTRAINT fk_antifrod_field_antifrod_field_types FOREIGN KEY (type_id)
+            REFERENCES antifrod_field_types (id) MATCH SIMPLE
+            ON UPDATE RESTRICT ON DELETE RESTRICT
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE antifrod_field
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX antifrod_field_pk
+            ON antifrod_field
+            USING btree
+            (id );
+            GRANT ALL ON TABLE antifrod_field TO sa;
+
+
+            CREATE TABLE antifrod_page_types
+            (
+            id 			    serial     NOT NULL,
+            type		    VARCHAR(50)	NOT NULL UNIQUE,
+            description	    VARCHAR(100),
+            CONSTRAINT pk_antifrod_page_types PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE antifrod_page_types
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX antifrod_page_types_pk
+            ON antifrod_page_types
+            USING btree
+            (id );
+            GRANT ALL ON TABLE antifrod_page_types TO sa;
+
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index', 'Главная страница');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('kto_my', 'Кто я');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('faq', 'Вопросы ответы');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('campaign', 'Акции');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('poluhit_zaem', 'Как получить заем');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('vernut_zaem', 'Как вернуть заем');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('pravila', 'Соглашения и правила');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('partneram', 'Партнерам');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('kontakti', 'Контакты');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index1', 'Анкета 1 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index2', 'Анкета 2 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index3', 'Анкета 3 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index4', 'Анкета 4 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index5', 'Анкета 5 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index6', 'Анкета 6 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index7', 'Анкета 7 стр.');
+            INSERT INTO antifrod_page_types (type, description) VALUES ('index8', 'Анкета 8 стр.');
+
+
+            CREATE TABLE antifrod_page
+            (
+            id 			    serial     NOT NULL,
+            type_id		    integer     NOT NULL,
+            date_start           timestamp with time zone,
+            date_end             timestamp with time zone,
+            credit_id       integer,
+            user_id         integer,
+            CONSTRAINT pk_antifrod_page PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE antifrod_page
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX antifrod_page_pk
+            ON antifrod_page
+            USING btree
+            (id );
+            GRANT ALL ON TABLE antifrod_page TO sa;
+
+        </sql>
+    </changeSet>
+
+<changeSet id="223" author="helen">
+        <sql>
+
+     alter table antifrod_field drop creadit_id;
+     alter table antifrod_field drop user_id;
+     alter table antifrod_page drop credit_id;
+     alter table antifrod_page drop user_id;
+     alter table antifrod_field add txversion integer default 0;
+     alter table antifrod_page add txversion integer default 0;
+     alter table antifrod_field add creditrequest_id integer not null;
+     alter table antifrod_field add peoplemain_id integer not null;
+     alter table antifrod_page add creditrequest_id integer not null;
+     alter table antifrod_page add peoplemain_id integer not null;
+     alter table antifrod_field add constraint fk_antifrodf_relations_creditre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+     alter table antifrod_field add CONSTRAINT fk_antifrodf_peoplemain FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+     alter table antifrod_page add constraint fk_antifrodp_relations_creditre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+     alter table antifrod_page add CONSTRAINT fk_antifrodp_peoplemain FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+
+   </sql>
+</changeSet>
+
+</databaseChangeLog> 

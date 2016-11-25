@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	   
+
+<changeSet id="257" author="helen">
+ 
+    <sql>
+    
+       alter table ref_blacklist add email varchar(50);
+       alter table ref_blacklist add comment varchar(500);
+       alter table ref_blacklist add source_id integer;
+       alter table ref_blacklist add CONSTRAINT ref_bl_source_fk FOREIGN KEY (source_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+      INSERT INTO ref_header (id, partners_id, name, txversion) VALUES (87, 1, 'Источник информации черных списков', 0); 
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (87, 'Верификатор', 1, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (87, 'Коллектор', 2, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (87, 'Система', 3, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (87, 'Внешние черные списки', 4, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (87, 'Национальный хантер', 5, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (87, 'Другое', 6, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (56, 'Мошенничество', 3, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (56, 'Банкротство', 4, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (56, 'Негатив', 5, 1, 0);
+      INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (56, 'Другое', 6, 1, 0);
+
+
+     </sql>
+  </changeSet>
+
+
+
+</databaseChangeLog> 

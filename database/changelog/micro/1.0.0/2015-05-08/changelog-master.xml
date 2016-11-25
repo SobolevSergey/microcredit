@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="132" author="helen">
+ 
+    <sql>
+  
+    alter table scoring add score_risk double precision;
+   
+
+ 
+     </sql>
+  </changeSet>
+	<changeSet id="133" author="Julia">
+ 
+    <sql>
+     
+CREATE TABLE userproperties
+(
+  id serial NOT NULL,
+  peoplemain_id integer,
+  pay_by_bonus integer,
+  actiondate timestamp with time zone,
+  txversion integer,
+  CONSTRAINT pk_userproperties PRIMARY KEY (id),
+  CONSTRAINT fk_userprop_people FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE userproperties
+  OWNER TO sa;
+GRANT ALL ON TABLE userproperties TO sa;
+
+CREATE UNIQUE INDEX userproperties_pk
+  ON userproperties
+  USING btree
+  (id);
+
+CREATE INDEX relationship_prop_peoplemain
+  ON userproperties
+  USING btree
+  (peoplemain_id);
+ 
+     </sql>
+  </changeSet>
+
+<changeSet id="134" author="helen">
+ 
+    <sql>
+  
+	
+INSERT INTO reference(
+            ref_header_id, name, codeinteger, isactive, txversion)
+    VALUES (63, 'оплата кредита', 3, 1, 0);
+
+     </sql>
+  </changeSet>
+</databaseChangeLog> 

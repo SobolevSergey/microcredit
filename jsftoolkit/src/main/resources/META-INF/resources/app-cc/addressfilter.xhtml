@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+			  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+			  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:a4j="http://richfaces.org/a4j"
+			  xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/2002/08/xhtml/xhtml1-transitional.xsd">
+
+	<cc:interface>
+		<cc:attribute name="addressCtl" required="true" />
+	</cc:interface>
+
+	<cc:implementation>
+		<a4j:region>
+		<h:panelGrid columns="2" id="regAddress" >
+			<h:outputText value="Регион" />
+			<h:panelGroup>
+				<h:selectOneMenu value="#{cc.attrs.addressCtl.addressLevels[0].compositeID}" valueChangeListener="#{cc.attrs.addressCtl.levelChanged}">
+					<f:attribute name="nlevel" value="#{0}" />
+					<f:selectItems value="#{cc.attrs.addressCtl.addressLevels[0].refLevel}" />
+					<a4j:ajax event="change" execute="@region" render="regAddress regHouse"/>					
+				</h:selectOneMenu>
+			</h:panelGroup>
+			<h:panelGroup></h:panelGroup>
+			<h:panelGroup>
+				<h:selectOneMenu rendered="#{cc.attrs.addressCtl.levelCount >=2 }" value="#{cc.attrs.addressCtl.addressLevels[1].compositeID}" valueChangeListener="#{cc.attrs.addressCtl.levelChanged}">
+					<f:attribute name="nlevel" value="#{1}" />
+					<f:selectItems value="#{cc.attrs.addressCtl.addressLevels[1].refLevel}" />
+					<a4j:ajax event="change" execute="@region" render="regAddress regHouse" />
+				</h:selectOneMenu>
+			</h:panelGroup>
+			<h:panelGroup></h:panelGroup>
+			<h:panelGroup>
+				<h:selectOneMenu rendered="#{cc.attrs.addressCtl.levelCount >=3 }" value="#{cc.attrs.addressCtl.addressLevels[2].compositeID}" valueChangeListener="#{cc.attrs.addressCtl.levelChanged}">
+					<f:attribute name="nlevel" value="#{2}" />
+					<f:selectItems value="#{cc.attrs.addressCtl.addressLevels[2].refLevel}" />
+					<a4j:ajax event="change" execute="@region" render="regAddress regHouse" />
+				</h:selectOneMenu>				
+			</h:panelGroup>
+			<h:panelGroup></h:panelGroup>
+			<h:panelGroup>
+				<h:selectOneMenu rendered="#{cc.attrs.addressCtl.levelCount >=4 }" value="#{cc.attrs.addressCtl.addressLevels[3].compositeID}" valueChangeListener="#{cc.attrs.addressCtl.levelChanged}">
+					<f:attribute name="nlevel" value="#{3}" />
+					<f:selectItems value="#{cc.attrs.addressCtl.addressLevels[3].refLevel}" />
+					<a4j:ajax event="change" execute="@region" render="regAddress regHouse" />
+				</h:selectOneMenu>				
+			</h:panelGroup>		
+			<h:panelGroup></h:panelGroup>
+			<h:panelGroup>
+				<h:selectOneMenu rendered="#{cc.attrs.addressCtl.levelCount >=5 }" value="#{cc.attrs.addressCtl.addressLevels[4].compositeID}" valueChangeListener="#{cc.attrs.addressCtl.levelChanged}">
+					<f:attribute name="nlevel" value="#{4}" />
+					<f:selectItems value="#{cc.attrs.addressCtl.addressLevels[4].refLevel}" />
+					<a4j:ajax event="change" execute="@region" render="regAddress regHouse"  />
+				</h:selectOneMenu>				
+			</h:panelGroup>
+		</h:panelGrid>
+		</a4j:region>
+		<h:panelGroup id="regHouse">	
+			<h:panelGrid columns="2" rendered="#{cc.attrs.addressCtl.isBottomLevel}">
+				<h:outputText value="Дом" /> <h:inputText value="#{cc.attrs.addressCtl.address.house}" style="width:25px" />  
+				<h:outputText value="корпус" /> <h:inputText value="#{cc.attrs.addressCtl.address.corpus}" style="width:25px" /> 
+				<h:outputText value="литера"  /> <h:inputText value="#{cc.attrs.addressCtl.address.liter}" style="width:25px"/> 
+				<h:outputText value="Квартира" /> <h:inputText value="#{cc.attrs.addressCtl.address.flat}" style="width:25px"/> 
+			</h:panelGrid>
+		</h:panelGroup>
+	</cc:implementation>
+
+</ui:component>

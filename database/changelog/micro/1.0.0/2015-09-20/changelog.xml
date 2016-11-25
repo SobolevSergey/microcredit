@@ -1,0 +1,104 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+<changeSet id="247" author="cobalt">
+    <sql>
+        ALTER TABLE "public"."peoplemisc" ADD COLUMN "underage" int4;
+        insert into "public"."ref_header" ( "partners_id", "id", "txversion", "name") values ( '1', '86', '0', 'Вид документа подтверждающего пенсию');
+        insert into "public"."reference" ( "isactive", "codeinteger", "ref_header_id", "txversion", "name") values ( '1', '1', '86', '0', 'Пенсионное удостоверение');
+        insert into "public"."reference" ( "isactive", "codeinteger", "ref_header_id", "txversion", "name") values ( '1', '2', '86', '0', 'Справка из ПФР');
+
+        CREATE TABLE "public"."documentother" (
+        "id" int4 NOT NULL,
+        "documenttype_id" int4 NOT NULL,
+        "peoplemain_id" int4 NOT NULL,
+        "partners_id" int4 NOT NULL,
+        "series" varchar(10),
+        "number" varchar(10),
+        "docdate" date,
+        "docenddate" date,
+        "docorg" varchar(255),
+        "comment" text,
+        "isactive" int4 DEFAULT 1,
+        "txversion" int4,
+        PRIMARY KEY ("id")
+        )
+        WITH (OIDS=FALSE);
+
+        ALTER TABLE documentother
+        OWNER TO sa;
+        GRANT ALL ON TABLE documentother TO sa;
+
+        insert into "public"."reference" ( "isactive", "codeinteger", "ref_header_id", "txversion", "name") values ( '1', '12', '16', '0', 'Первый дополнительный номер телефона для связи');
+        insert into "public"."reference" ( "isactive", "codeinteger", "ref_header_id", "txversion", "name") values ( '1', '13', '16', '0', 'Второй дополнительный номер телефона для связи');
+
+        CREATE TABLE "public"."peopleother" (
+        "id" int4 NOT NULL,
+        "peoplemain_id" int4 NOT NULL,
+        "partners_id" int4 NOT NULL,
+        "creditrequest_id" int4,
+        "isactive" int4,
+        "public_role" varchar(255) DEFAULT NULL,
+        "public_relative_role" varchar(255) DEFAULT NULL,
+        "public_relative_fio" varchar(255) DEFAULT NULL,
+        "benific_fio" varchar(255) DEFAULT NULL,
+        "other" bool,
+        "reclam_accept" bool,
+        "txversion" int4,
+        PRIMARY KEY ("id")
+        )
+        WITH (OIDS=FALSE);
+
+        ALTER TABLE peopleother
+        OWNER TO sa;
+        GRANT ALL ON TABLE peopleother TO sa;
+
+        ALTER TABLE documentother add CONSTRAINT fk_do_pm FOREIGN KEY (peoplemain_id)
+            REFERENCES peoplemain (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+        ALTER TABLE documentother add CONSTRAINT fk_do_ref FOREIGN KEY (documenttype_id)
+            REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        ALTER TABLE documentother add CONSTRAINT fk_do_part FOREIGN KEY (partners_id)
+            REFERENCES partners (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        ALTER TABLE peopleother add CONSTRAINT fk_po_pm FOREIGN KEY (peoplemain_id)
+            REFERENCES peoplemain (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+        ALTER TABLE peopleother add CONSTRAINT fk_po_pr FOREIGN KEY (partners_id)
+            REFERENCES partners (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        ALTER TABLE peopleother add CONSTRAINT fk_po_rq FOREIGN KEY (creditrequest_id)
+            REFERENCES creditrequest (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+
+        CREATE INDEX documenttype_documentother
+            ON documentother
+        USING btree
+            (documenttype_id );
+
+        CREATE INDEX peoplemain_documentother
+        ON documentother
+        USING btree
+        (peoplemain_id );
+
+        CREATE INDEX partners_documentother
+        ON documentother
+        USING btree
+        (partners_id );
+
+        CREATE INDEX peoplemain_peopleother
+        ON peopleother
+        USING btree
+        (peoplemain_id );
+
+        CREATE INDEX partners_peopleother
+        ON peopleother
+        USING btree
+        (partners_id );
+
+        CREATE INDEX creditrequest_peopleother
+        ON peopleother
+        USING btree
+        (creditrequest_id );
+    </sql>
+
+</changeSet>
+</databaseChangeLog>

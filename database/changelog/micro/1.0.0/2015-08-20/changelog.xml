@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	   
+
+<changeSet id="221" author="helen">
+ 
+    <sql>
+    
+insert into eventcode(id,name)
+values(64,'Передача кредита внутреннему коллектору');
+
+insert into eventcode(id,name)
+values(65,'Передача кредита внешнему коллектору');
+
+insert into eventcode(id,name)
+values(66,'Передача кредита в суд');
+
+     </sql>
+  </changeSet>
+
+    <changeSet id="222" author="brinat">
+        <sql>
+            insert into reference (ref_header_id, name, codeinteger, isactive) values (74,'Коллектор',1007,1)
+        </sql>
+        <sql>
+            insert into rpermission(role_id, feature_id) values (
+                (select id from roles where name = 'collector'),
+                (select id from reference where codeinteger = 1007 and ref_header_id = 74)
+            )
+        </sql>
+    </changeSet>
+</databaseChangeLog> 

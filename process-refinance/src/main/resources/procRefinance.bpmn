@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="msgPaymentReceived" name="msgPaymentReceived"></message>
+  <message id="msgRefinanceCancel" name="msgRefinanceCancel"></message>
+  <process id="procRefinance" name="procRefinance" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="ru.simplgroupp.workflow.InitOptionsProductListener"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <serviceTask id="taskCalcRefinance" name="Расчитать параметры рефинансирования" activiti:expression="#{actionProcessor.calcRefinanceData(businessObjectId, creditId)}" activiti:resultVariableName="refinanceParams"></serviceTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="servicetask6"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow2" sourceRef="taskCalcRefinance" targetRef="exclusivegateway1"></sequenceFlow>
+    <serviceTask id="taskRefinanceSave" name="Подтвердить рефинансирование" activiti:expression="#{actionProcessor.refinanceSave(creditId)}"></serviceTask>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="taskRefinanceSave">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{refinanceParams.get('refinance.payment.sum.remain') <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="taskSMSaccept" name="Послать СМС о рефинансировании" activiti:class="ru.simplgroupp.workflow.SendSMSAction">
+      <extensionElements>
+        <activiti:field name="smsCode">
+          <activiti:string><![CDATA[sms.refinance.accepted]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow4" sourceRef="taskRefinanceSave" targetRef="servicetask4"></sequenceFlow>
+    <endEvent id="endOk" name="End"></endEvent>
+    <sequenceFlow id="flow5" sourceRef="taskSMSaccept" targetRef="endOk"></sequenceFlow>
+    <eventBasedGateway id="eventgateway1" name="Event Gateway">
+      <extensionElements>
+        <activiti:executionListener event="start" class="ru.simplgroupp.workflow.SetWfActionsListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[name=Отказаться;signalRef=msgRefinanceCancel;candidateGroups=customer]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="wfAction1">
+            <activiti:string><![CDATA[name=Заплатить;signalRef=msgRefinancePay;candidateGroups=customer]]></activiti:string>
+          </activiti:field>
+        </activiti:executionListener>
+        <activiti:executionListener event="end" class="ru.simplgroupp.workflow.ClearWfActionsListener"></activiti:executionListener>
+        <activiti:executionListener event="end" class="ru.simplgroupp.workflow.ClearNeedPaymentListener"></activiti:executionListener>
+        <activiti:executionListener event="start" class="ru.simplgroupp.workflow.NeedPaymentListener">
+          <activiti:field name="type">
+            <activiti:expression>#{2}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="sumId">
+            <activiti:expression>#{3}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="sumFrom">
+            <activiti:expression>#{refinanceParams.get('refinance.payment.sum.remain')}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="sumTo">
+            <activiti:expression>#{refinanceParams.get('refinance.payment.sum.remain')}</activiti:expression>
+          </activiti:field>
+        </activiti:executionListener>
+      </extensionElements>
+    </eventBasedGateway>
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="eventgateway1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{refinanceParams.get('refinance.payment.sum.remain') > 0}]]></conditionExpression>
+    </sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent1" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="msgPaymentReceived"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow7" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent1"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent2" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="msgRefinanceCancel"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow8" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent2"></sequenceFlow>
+    <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
+      <timerEventDefinition>
+        <timeDate>${actionProcessor.calcISODateRefinance(businessObjectId, options.waitRefinance)}</timeDate>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow9" sourceRef="eventgateway1" targetRef="timerintermediatecatchevent1"></sequenceFlow>
+    <serviceTask id="taskRefinanceCancel" name="Отменить рефинансирование" activiti:expression="#{actionProcessor.refinanceCancel(creditId)}"></serviceTask>
+    <sequenceFlow id="flow10" sourceRef="messageintermediatecatchevent2" targetRef="taskRefinanceCancel"></sequenceFlow>
+    <sequenceFlow id="flow11" sourceRef="timerintermediatecatchevent1" targetRef="taskRefinanceCancel"></sequenceFlow>
+    <serviceTask id="servicetask1" name="Послать СМС об отмене" activiti:class="ru.simplgroupp.workflow.SendSMSAction">
+      <extensionElements>
+        <activiti:field name="smsCode">
+          <activiti:string><![CDATA[sms.refinance.declined]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow12" sourceRef="taskRefinanceCancel" targetRef="servicetask5"></sequenceFlow>
+    <endEvent id="endCancel" name="End"></endEvent>
+    <sequenceFlow id="flow13" sourceRef="servicetask1" targetRef="endCancel"></sequenceFlow>
+    <serviceTask id="servicetask2" name="Выбираем подходящую систему для приёма денег" activiti:expression="#{actionProcessor.findAcquiringSystem(creditId, data.accountType, data.paymentId, actionContext)}" activiti:resultVariableName="acquiringSystemName"></serviceTask>
+    <sequenceFlow id="flow14" sourceRef="messageintermediatecatchevent1" targetRef="servicetask2"></sequenceFlow>
+    <callActivity id="callactivity1" name="Call activity" calledElement="subStandart">
+      <extensionElements>
+        <activiti:in sourceExpression="#{actionContext.getPlugins().getPluginConfig(acquiringSystemName)}" target="plugin"></activiti:in>
+        <activiti:in sourceExpression="#{'ru.simplgroupp.transfer.Credit'}" target="businessObjectClass"></activiti:in>
+        <activiti:in source="creditId" target="businessObjectId"></activiti:in>
+        <activiti:in source="data" target="data"></activiti:in>
+        <activiti:in source="actionContext" target="actionContext"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow15" sourceRef="servicetask2" targetRef="callactivity1"></sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="callactivity1" targetRef="timerintermediatecatchevent2"></sequenceFlow>
+    <serviceTask id="servicetask3" name="Событие - начало рефинансирования" activiti:class="ru.simplgroupp.workflow.BusinessEventTask">
+      <extensionElements>
+        <activiti:field name="businessObjectClass">
+          <activiti:expression>#{businessObjectClass}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="businessObjectId">
+          <activiti:expression>#{businessObjectId}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="eventCode">
+          <activiti:expression>#{47}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow17" sourceRef="servicetask3" targetRef="taskCalcRefinance"></sequenceFlow>
+    <serviceTask id="servicetask4" name="Событие - успешное рефинансирование" activiti:class="ru.simplgroupp.workflow.BusinessEventTask">
+      <extensionElements>
+        <activiti:field name="businessObjectClass">
+          <activiti:expression>#{businessObjectClass}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="businessObjectId">
+          <activiti:expression>#{businessObjectId}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="eventCode">
+          <activiti:expression>#{48}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow18" sourceRef="servicetask4" targetRef="taskSMSaccept"></sequenceFlow>
+    <serviceTask id="servicetask5" name="Событие - неуспешное рефинансирование" activiti:class="ru.simplgroupp.workflow.BusinessEventTask">
+      <extensionElements>
+        <activiti:field name="eventCode">
+          <activiti:expression>#{49}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="businessObjectClass">
+          <activiti:expression>#{businessObjectClass}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="businessObjectId">
+          <activiti:expression>#{businessObjectId}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow19" sourceRef="servicetask5" targetRef="servicetask1"></sequenceFlow>
+    <intermediateCatchEvent id="timerintermediatecatchevent2" name="TimerCatchEvent">
+      <timerEventDefinition>
+        <timeDuration>PT1S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow20" sourceRef="timerintermediatecatchevent2" targetRef="taskCalcRefinance"></sequenceFlow>
+    <serviceTask id="servicetask6" name="послать оферту" activiti:async="true" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.refinance.oferta]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.refinance.uniqueNomer}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="param1">
+          <activiti:expression>#{runtime.refinance.agreement}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="servicetask7" name="послать письмо о начале рефинансирования" activiti:async="true" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.refinance.started]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.refinance.refinanceAmount}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow21" sourceRef="servicetask6" targetRef="servicetask7"></sequenceFlow>
+    <sequenceFlow id="flow22" sourceRef="servicetask7" targetRef="servicetask3"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_procRefinance">
+    <bpmndi:BPMNPlane bpmnElement="procRefinance" id="BPMNPlane_procRefinance">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="-70.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskCalcRefinance" id="BPMNShape_taskCalcRefinance">
+        <omgdc:Bounds height="81.0" width="105.0" x="126.0" y="290.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="286.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskRefinanceSave" id="BPMNShape_taskRefinanceSave">
+        <omgdc:Bounds height="65.0" width="105.0" x="680.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskSMSaccept" id="BPMNShape_taskSMSaccept">
+        <omgdc:Bounds height="65.0" width="105.0" x="940.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endOk" id="BPMNShape_endOk">
+        <omgdc:Bounds height="35.0" width="35.0" x="1050.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="eventgateway1" id="BPMNShape_eventgateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="380.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="383.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent2" id="BPMNShape_messageintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="480.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timerintermediatecatchevent1" id="BPMNShape_timerintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="383.0" y="431.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskRefinanceCancel" id="BPMNShape_taskRefinanceCancel">
+        <omgdc:Bounds height="75.0" width="105.0" x="660.0" y="420.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="85.0" width="105.0" x="914.0" y="410.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endCancel" id="BPMNShape_endCancel">
+        <omgdc:Bounds height="35.0" width="35.0" x="1050.0" y="435.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="81.0" width="105.0" x="473.0" y="207.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callactivity1" id="BPMNShape_callactivity1">
+        <omgdc:Bounds height="55.0" width="105.0" x="620.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask3" id="BPMNShape_servicetask3">
+        <omgdc:Bounds height="55.0" width="105.0" x="-10.0" y="302.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
+        <omgdc:Bounds height="62.0" width="105.0" x="810.0" y="139.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask5" id="BPMNShape_servicetask5">
+        <omgdc:Bounds height="74.0" width="105.0" x="795.0" y="421.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timerintermediatecatchevent2" id="BPMNShape_timerintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="230.0" y="184.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
+        <omgdc:Bounds height="55.0" width="105.0" x="-40.0" y="398.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask7" id="BPMNShape_servicetask7">
+        <omgdc:Bounds height="55.0" width="105.0" x="130.0" y="420.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="-53.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="12.0" y="398.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="231.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="286.0" y="330.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="306.0" y="310.0"></omgdi:waypoint>
+        <omgdi:waypoint x="306.0" y="169.0"></omgdi:waypoint>
+        <omgdi:waypoint x="680.0" y="169.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="785.0" y="169.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="170.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="992.0" y="202.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1067.0" y="220.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="326.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="380.0" y="330.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="400.0" y="310.0"></omgdi:waypoint>
+        <omgdi:waypoint x="400.0" y="265.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="420.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="480.0" y="327.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="400.0" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="400.0" y="431.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="497.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="712.0" y="420.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="418.0" y="448.0"></omgdi:waypoint>
+        <omgdi:waypoint x="660.0" y="457.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="765.0" y="457.0"></omgdi:waypoint>
+        <omgdi:waypoint x="795.0" y="458.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="1019.0" y="452.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1050.0" y="452.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="418.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="473.0" y="247.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="578.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="620.0" y="247.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="672.0" y="220.0"></omgdi:waypoint>
+        <omgdi:waypoint x="672.0" y="183.0"></omgdi:waypoint>
+        <omgdi:waypoint x="422.0" y="183.0"></omgdi:waypoint>
+        <omgdi:waypoint x="354.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="247.0" y="184.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="95.0" y="329.0"></omgdi:waypoint>
+        <omgdi:waypoint x="126.0" y="330.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="915.0" y="170.0"></omgdi:waypoint>
+        <omgdi:waypoint x="940.0" y="169.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="900.0" y="458.0"></omgdi:waypoint>
+        <omgdi:waypoint x="914.0" y="452.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="230.0" y="201.0"></omgdi:waypoint>
+        <omgdi:waypoint x="178.0" y="201.0"></omgdi:waypoint>
+        <omgdi:waypoint x="178.0" y="290.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="65.0" y="425.0"></omgdi:waypoint>
+        <omgdi:waypoint x="130.0" y="447.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="182.0" y="420.0"></omgdi:waypoint>
+        <omgdi:waypoint x="42.0" y="357.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

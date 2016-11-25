@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="280" author="irk333">
+        <sql> 
+	  alter table aimodelparams add column id serial not null;
+	  alter table aimodelparams add column customkey character varying(50);
+	    
+	  alter table aimodelparams drop constraint pk_aimodelparams;
+	  alter table aimodelparams add constraint pk_aimodelparams PRIMARY KEY (id);
+      </sql>
+    </changeSet>
+   
+<changeSet id="280" author="helen">
+
+<sql>
+  
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'checkInnerAF','N','1','Проверяем ли на внутренние АМ правила',0
+from reference where ref_header_id=71 and codeinteger=8;
+
+
+</sql>
+  </changeSet>
+</databaseChangeLog> 

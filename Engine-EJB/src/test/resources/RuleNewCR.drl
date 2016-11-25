@@ -1,0 +1,41 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+
+// если текущего кредита нет, или он закрыт, и открытой заявки нет
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgAddCreditRequest");
+    $context : AbstractContext( (getCredit() == null || getCredit().getIsOver()) && getCreditRequest() == null);
+then
+   	$bResult.setResultValue(true);
+end
+
+// если текущего кредита нет, или он закрыт, а открытая заявка есть
+rule "[$RULE_NAME_PREFIX$].2"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgAddCreditRequest");
+    $context : AbstractContext((getCredit() == null || getCredit().getIsOver()) && getCreditRequest() != null);
+then
+   	$bResult.setResultValue(false);
+   	$bResult.addInfo(1, "У вас уже есть открытая заявка");
+end
+
+// если текущий кредит
+rule "[$RULE_NAME_PREFIX$].3"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgAddCreditRequest");
+    $context : AbstractContext( getCredit() != null && (!getCredit().getIsOver()) );
+then
+   	$bResult.setResultValue(false);
+   	$bResult.addInfo(2, "У вас уже открыт кредит");
+end

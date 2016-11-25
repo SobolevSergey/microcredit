@@ -1,0 +1,21 @@
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.PeopleBonus
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.transfer.BaseCredit
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext( getClient() != null );
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.PeopleMain" && signalRef == "msgBonus");
+    $cparams: Map();
+    $actionProcessor : ActionProcessorBeanLocal();
+then   
+    if($cparams.get("invitedByPeopleId") != null)
+	$actionProcessor.addBonus((Integer)$cparams.get("invitedByPeopleId"), $context.getClient().getId(),null, new Integer(ru.simplgroupp.transfer.PeopleBonus.BONUS_CODE_INVITE), new Integer(ru.simplgroupp.transfer.BaseCredit.OPERATION_IN));
+end

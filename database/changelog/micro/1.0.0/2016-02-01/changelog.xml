@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	
+	
+   <changeSet id="333" author="helen">
+	
+	<update tableName="bizaction">
+		
+                <column name="sqlfilter" value="c.id=4" />
+                <column name="ruleaction" valueClobFile="ruleaction1.drl" />
+                <column name="businessobjectclass" value="ru.simplgroupp.transfer.Partner" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadEquifax')</where>
+      </update>
+	
+      <update tableName="bizaction">
+		
+                <column name="sqlfilter" value="c.id=22" />
+                <column name="ruleaction" valueClobFile="ruleaction2.drl" />
+                <column name="businessobjectclass" value="ru.simplgroupp.transfer.Partner" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadSkb')</where>
+      </update>
+
+	
+     <update tableName="bizaction">
+		
+                <column name="sqlfilter" value="c.id=24" />
+                <column name="ruleaction" valueClobFile="ruleaction3.drl" />
+                <column name="businessobjectclass" value="ru.simplgroupp.transfer.Partner" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadNBKI')</where>
+      </update>
+
+      <update tableName="bizaction">
+		
+                <column name="sqlfilter" value="c.id=5" />
+                <column name="ruleaction" valueClobFile="ruleaction4.drl" />
+                <column name="businessobjectclass" value="ru.simplgroupp.transfer.Partner" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadOkbCais')</where>
+      </update>
+
+      
+      <update tableName="bizaction">
+		
+                <column name="sqlfilter" value="c.id=13" />
+                <column name="ruleaction" valueClobFile="ruleaction5.drl" />
+                <column name="businessobjectclass" value="ru.simplgroupp.transfer.Partner" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgUploadRS')</where>
+      </update>
+
+  
+    </changeSet>
+
+
+    <changeSet id="333" author="brinat">
+        <sql>
+            insert into airule (packagename, ruletype, description, txversion)
+            values ('ru.simplgroupp.callback', 2, 'Настройки для уведомлений обратной связи', 0);
+
+            insert into aiconstant (airule_id, name, datatype, datavalue, description, txversion)
+            values ((select id from airule where packagename='ru.simplgroupp.callback'), 'callback.enabled', 'N', 0, 'Включение/выключение уведомлений об обратной связи', 0);
+            insert into aiconstant (airule_id, name, datatype, description, txversion)
+            values ((select id from airule where packagename='ru.simplgroupp.callback'), 'callback.email', 'C', 'Email адрес для уведомлений обратной связи', 0);
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 

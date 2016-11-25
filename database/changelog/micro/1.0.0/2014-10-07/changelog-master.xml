@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   		      
+   <changeSet id="40" author="helen">
+    
+    <sql>CREATE TABLE ref_blacklist(id serial NOT NULL,surname character varying(30),name character varying(30),midname character varying(30),maidenname character varying(30), birthdate timestamp with time zone,databeg timestamp with time zone,dataend timestamp with time zone,isactive integer, series character varying(10),number character varying(10),reason_id integer,CONSTRAINT pk_ref_bl PRIMARY KEY (id ),CONSTRAINT fk_ref_bl_relations FOREIGN KEY (reason_id) REFERENCES reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT ) WITH (OIDS=FALSE);
+    CREATE UNIQUE INDEX ref_bl_pk ON ref_blacklist USING btree (id );</sql>
+</changeSet>
+
+</databaseChangeLog> 

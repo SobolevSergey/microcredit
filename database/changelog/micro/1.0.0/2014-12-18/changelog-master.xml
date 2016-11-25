@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="77" author="helen">
+ 
+  <sql>
+     
+   alter table phonepaysummary drop constraint fk_phonesummary_creditre;
+   alter table phonepaysummary add constraint fk_phonesummary_creditre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+   alter table address drop constraint fk_address_relations_creditre;
+   alter table address add constraint fk_address_relations_creditre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+   alter table document drop constraint fk_document_relations_creditre;
+   alter table document add constraint fk_document_relations_creditre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+  alter table employment drop constraint fk_employ_cre;
+  alter table document add constraint fk_employ_cre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+ alter table employment drop constraint fk_employme_relations_partners;
+  alter table document add constraint fk_employme_relations_partners foreign key (partners_id)
+      REFERENCES partners (id) MATCH SIMPLE  ON UPDATE RESTRICT ON DELETE CASCADE;
+
+ alter table negative drop constraint fk_negative_creditre;
+   alter table negative add constraint fk_negative_creditre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+ alter table peoplemisc drop constraint fk_peoplemisc_cre;
+   alter table peoplemisc add constraint fk_peoplemisc_cre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+alter table peoplepersonal drop constraint fk_peopleper_cre;
+   alter table peoplepersonal add constraint fk_peopleper_cre FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+alter table repaymentschedule drop constraint fk_repaymen_relations_credit;
+   alter table repaymentschedule add constraint fk_repaymen_relations_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+alter table scoring drop constraint fk_scoring_peoplemain;
+   alter table scoring add constraint fk_scoring_peoplemain FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+
+
+   </sql>
+  </changeSet>
+   
+ 
+</databaseChangeLog> 

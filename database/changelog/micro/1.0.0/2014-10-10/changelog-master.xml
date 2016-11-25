@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="42" author="helen">
+        <sql>
+            alter table phonepay add constraint fk_phone_sum foreign key (summary_id)
+            references phonepaysummary (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+	</sql>
+	<sql>
+            alter table phonepaysummary add constraint fk_phonesum_pay foreign key (paymenttype)
+            references reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+	</sql>
+	<sql>
+            alter table phonepaysummary add constraint fk_phonesum_payt foreign key (paymentperiodtype)
+            references reference(id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+	</sql>
+	<sql>
+	    alter table ref_blacklist add mobilephone character varying (20);
+	</sql>
+	<sql>
+            alter table debt drop constraint fk_reference_authority;
+	</sql>
+	<sql>
+            alter table debt add constraint fk_reference_authority foreign key (authority_id)
+            references reference (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+	</sql>
+	<sql>
+            alter table verification add constraint fk_ver_mark foreign key (verification_mark)
+            references verification_mark (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+	</sql>
+	<sql>
+            alter table verification add constraint fk_val_mark foreign key (validation_mark) references verification_mark
+            (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+        </sql>
+    </changeSet>
+</databaseChangeLog> 

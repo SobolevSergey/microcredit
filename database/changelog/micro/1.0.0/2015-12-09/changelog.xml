@@ -1,0 +1,31 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+   <changeSet id="309" logicalFilePath="1449571219" author="irk333">
+        <sql>
+	    alter table bolist add isexplicit integer default 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="310" author="brinat">
+        <sql>
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_SPAS_DRADD'), 'addrtype', ' and addrtype.codeinteger=:addrtype ', 'адрес регистрации', 'N', 0, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MA_SPAS_DRADD_PCODE'), 'addrtype', ' and addrtype.codeinteger=:addrtype ', 'адрес регистрации', 'N', 0, 0, 0);
+            insert into ref_antifraud_rules_params (rules_id, name, condition, description, datatype, value_integer, for_request, txversion)
+            values ((select id from ref_antifraud_rules where code = 'MULT_MA_CADD'), 'addrtype', ' and addrtype.codeinteger=:addrtype ', 'адрес регистрации', 'N', 0, 0, 0);
+        </sql>
+    </changeSet>
+
+    <changeSet id="310" author="KhodyrevDS">
+        <sql>
+            alter table account add kpp varchar(9);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

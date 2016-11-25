@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+		<property name="dataSource" ref="dataSource" />
+      <property name="databaseSchemaUpdate" value="true" />
+<!--       
+      <property name="jpaCloseEntityManager" value="false" />
+      <property name="jpaHandleTransaction" value="false" />
+      <property name="jpaPersistenceUnitName" value="BpmPU" />
+-->      
+ 	  <property name="history" value="none" />
+      <property name="mailServerHost" value="smtp.mail.ru" />
+      <property name="mailServerPort" value="25" /> 
+      <property name="mailServerDefaultFrom" value="microcredit-test@mail.ru" />
+      <property name="mailServerUsername" value="microcredit-test" />
+      <property name="mailServerPassword" value="a123456" />
+ 
+   </bean>
+   
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
+	  <property name="driverClassName" value="org.postgresql.Driver" />
+	  <property name="url" value="jdbc:postgresql://localhost:5432/micro" />
+	  <property name="username" value="sa" />
+	  <property name="password" value="microcredit" />
+	  <property name="defaultAutoCommit" value="false" />
+	</bean> 
+	
+	<bean id="bizActionProcessor" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:global/microcredit/engine-ejb/BizActionProcessorBean!ru.simplgroupp.interfaces.BizActionProcessorBeanLocal"></property>
+	</bean>		
+	
+	<bean id="actionProcessor" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:global/Engine-EJB/ActionProcessorBean!ru.simplgroupp.interfaces.ActionProcessorBeanLocal"></property>
+	</bean>	 
+	
+ 	<bean id="workflow" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:global/Engine-EJB/WorkflowBean!ru.simplgroupp.interfaces.WorkflowBeanLocal"></property>
+	</bean>	
+<!--   
+	<bean id="transactionManager" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:jboss/TransactionManager"></property>
+		<property name="resourceRef" value="true" />
+	</bean>
+-->
+</beans>

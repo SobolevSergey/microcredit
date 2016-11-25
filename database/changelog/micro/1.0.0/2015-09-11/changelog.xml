@@ -1,0 +1,89 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="237" author="KhodyrevDS">
+        <sql>
+            ALTER TABLE account ADD COLUMN rebill_anchor varchar;
+        </sql>
+    </changeSet>
+    <changeSet id="238" author="KhodyrevDS">
+        <sql>
+            CREATE TABLE payonline_verification(
+            guid varchar(36) PRIMARY KEY,
+            account_id int NOT NULL
+            );
+        </sql>
+    </changeSet>
+ <changeSet id="239" author="brinat">
+        <sql>
+            CREATE SEQUENCE collector_tasks_id_seq
+            INCREMENT 1
+            MINVALUE 1
+            MAXVALUE 9223372036854775807
+            START 1
+            CACHE 1;
+        </sql>
+        <sql>
+            CREATE TABLE collector_tasks
+            (
+            id integer NOT NULL DEFAULT nextval('collector_tasks_id_seq'),
+            event_date date NOT NULL,
+            task_type_id integer NOT NULL,
+            user_id integer NOT NULL,
+            peoplemain_id integer,
+            collector_id integer,
+            status integer NOT NULL,
+            date_end date,
+            txversion integer,
+            CONSTRAINT pk_collector_tasks PRIMARY KEY (id),
+            CONSTRAINT fk_collector_tasks_users FOREIGN KEY (user_id)
+            REFERENCES users (id)
+            ON DELETE set NULL,
+            CONSTRAINT fk_collector_task_peoplemain FOREIGN KEY (peoplemain_id)
+            REFERENCES peoplemain (id)
+            ON DELETE CASCADE,
+            CONSTRAINT fk_collector_task_collector FOREIGN KEY (collector_id)
+            REFERENCES collector (id)
+            ON DELETE set NULL,
+            CONSTRAINT fk_collector_tasks_refs FOREIGN KEY (task_type_id)
+            REFERENCES reference (id)
+            ON DELETE set NULL
+            );
+        </sql>
+        <sql>
+            INSERT INTO ref_header (id, partners_id, name, txversion) VALUES (85, 1, 'Вид задач для коллектора', 0);
+            INSERT INTO reference (ref_header_id, name, codeinteger, isactive, txversion) VALUES (85, 'Звонок клиенту', 1, 1, 0);
+        </sql>
+    </changeSet>
+
+
+<changeSet id="239" author="helen">
+<sql>
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'credit.has.prolong.from.overdue','N','1','Есть продление из просрочки',0
+from reference where ref_header_id=71 and codeinteger=2;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'verificator.must.edit','N','1','Есть редактирование верификатором анкеты',0
+from reference where ref_header_id=71 and codeinteger=8;
+
+</sql>
+
+</changeSet>
+
+
+<changeSet id="240" author="helen">
+
+  <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgProlong_enable.drl" />
+      <where>signalref = 'msgProlong'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+
+ </changeSet>
+
+</databaseChangeLog>

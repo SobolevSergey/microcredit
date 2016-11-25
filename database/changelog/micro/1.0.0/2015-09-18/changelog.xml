@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="245" author="helen">
+        <sql>
+            ALTER TABLE ref_blacklist alter column surname type varchar(40);
+            ALTER TABLE ref_blacklist alter column name type varchar(40);
+            ALTER TABLE ref_blacklist alter column midname type varchar(40);
+            ALTER TABLE ref_blacklist alter column maidenname type varchar(40);
+            drop table if exists mismatches ;
+            drop table  if exists aaa;
+
+            insert into regions (code,name,codereg,txversion)
+             values ('35','РЕСПУБЛИКА КРЫМ','91',0);
+           insert into regions (code,name,codereg,txversion)
+             values ('67','СЕВАСТОПОЛЬ','92',0);
+           alter table creditrequest drop CONSTRAINT fk_crequest_regions;
+           alter table creditrequest add CONSTRAINT fk_crequest_regions FOREIGN KEY (region)
+              REFERENCES regions (code) MATCH SIMPLE
+             ON UPDATE RESTRICT ON DELETE RESTRICT;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

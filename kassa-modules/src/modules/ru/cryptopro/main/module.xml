@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.1" name="ru.cryptopro">
+
+    <dependencies>
+	    <module name="javax.api" />
+	    <module name="sun.jdk" />  
+          
+        <system export="true">
+            <paths>  
+            	<path name="ru/CryptoPro/Crypto"/>    
+
+		<path name="ru/CryptoPro/Crypto/Cipher"/>
+                <path name="ru/CryptoPro/Crypto/Provider"/>
+				
+		<path name="ru/CryptoPro/Crypto/Key"/>
+		<path name="ru/CryptoPro/Crypto/resources"/>      
+
+            	<path name="ru/CryptoPro/JCP"/>     
+                <path name="ru/CryptoPro/JCP/JCP"/>
+                <path name="ru/CryptoPro/JCP/Cipher"/>
+               
+                <path name="ru/CryptoPro/JCP/Key"/>
+                
+                <path name="ru/CryptoPro/JCP/KeyStore"/>
+                <path name="ru/CryptoPro/JCP/KeyStore/HDImage"/>
+
+                <path name="ru/CryptoPro/JCP/params"/>
+                <path name="ru/CryptoPro/JCP/params/AlgIdInterface"/>
+
+                <path name="ru/CryptoPro/JCP/spec"/>
+
+                <path name="ru/CryptoPro/JCP/tools"/>
+          <!--       
+                <path name="ru/CryptoPro/CAdES"/>
+
+                <path name="ru/CryptoPro/JCP/Util/GetProperty"/>
+ 
+                <path name="ru/CryptoPro/JCP/ASN"/>
+                <path name="ru/CryptoPro/JCP/ASN/CryptographicMessageSyntax"/>
+                
+                <path name="ru/CryptoPro/JCP/ASN/Gost28147_89_EncryptionSyntax"/>
+               
+                <path name="ru/CryptoPro/JCP/ASN/GostR3410_EncryptionSyntax"/>
+                
+                <path name="ru/CryptoPro/JCP/ASN/PKIX1Explicit88"/> 
+               
+                <path name="com/objsys/asn1j/runtime/Asn1BerDecodeBuffer"/>
+
+               <path name="com/objsys/asn1j/runtime/Asn1BerEncodeBuffer"/>
+               <path name="com/objsys/asn1j/runtime/Asn1Null"/>
+               <path name="com/objsys/asn1j/runtime/Asn1ObjectIdentifier"/>
+               <path name="com/objsys/asn1j/runtime/Asn1OctetString"/>
+
+                <path name="com/objsys/asn1j/runtime/Asn1Type"/> -->
+
+             
+
+            </paths>
+        </system>
+    </dependencies>
+    
+</module>

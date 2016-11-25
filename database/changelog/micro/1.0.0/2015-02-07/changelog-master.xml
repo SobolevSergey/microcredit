@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="91" author="helen">
+ 
+  <sql>
+    INSERT INTO ref_header( id, name,partners_id) VALUES (60, 'операции с кредитом - подробно',1); 
+   
+     
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (60, 'создание кредита',1,1);
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (60, 'продление кредита',2,1);
+
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (60, 'просрочка кредита',3,1);
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (60, 'оплата клиентом кредита',4,1);
+    
+
+   CREATE TABLE creditdetails
+   (
+  id serial NOT NULL,
+  operation_id integer NOT NULL,
+  eventdate timestamp with time zone,
+  eventenddate  timestamp with time zone,
+  amount_main double precision,
+  amount_percent double precision,
+  amount_all double precision,
+  amount_operation double precision,
+  credit_id integer not null,
+  txversion integer,
+    CONSTRAINT pk_creditdetails PRIMARY KEY (id ),
+    CONSTRAINT fk_creditdetails_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_operdetails_reference FOREIGN KEY (operation_id)
+      REFERENCES reference (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+ )
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE creditdetails
+  OWNER TO sa;
+GRANT ALL ON TABLE creditdetails TO sa;
+
+
+CREATE UNIQUE INDEX creditdetails_pk
+  ON creditdetails
+  USING btree
+  (id );
+
+CREATE INDEX relationship_details_credit
+  ON creditdetails
+  USING btree
+  (credit_id );
+
+    
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

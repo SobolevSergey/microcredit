@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+	    <artifactId>SimpleGroupProducts</artifactId>
+	    <groupId>ru.simplgroupp</groupId>
+	    <version>1.0.0-SNAPSHOT</version>
+	</parent>	
+	
+	<artifactId>microcredit-modules</artifactId>
+	<packaging>pom</packaging>
+	<name>microcredit-modules</name>
+	<description>microcredit-modules</description>
+	
+	<properties>
+	    
+	</properties>
+
+	<dependencies>
+	    <dependency>
+		    <groupId>ru.simplgroupp</groupId>
+		    <artifactId>Engine-Service</artifactId>
+		    <version>${project.version}</version>
+	    </dependency>
+	    <dependency>
+		    <groupId>ru.simplgroupp</groupId>
+		    <artifactId>toolkit</artifactId>
+		    <version>${project.version}</version>
+	    </dependency>	    
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+		      <plugin>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.7</version>
+			<executions>
+			  <execution>
+			    <id>copy-resources</id>
+			    <!-- here the phase you need -->
+			    <phase>validate</phase>
+			    <goals>
+			      <goal>copy-resources</goal>
+			    </goals>
+			    <configuration>
+			      <outputDirectory>${basedir}/target/modules</outputDirectory>
+			      <resources>          
+				<resource>
+				  <directory>src/modules</directory>
+				  <filtering>true</filtering>
+				</resource>
+			      </resources>              
+			    </configuration>            
+			  </execution>
+			</executions>
+		      </plugin>		  
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<replace dir="target/modules" token="@project.version@" value="${project.version}">
+									<include name="**/module.xml" />
+								</replace>			
+							</target>
+					
+						</configuration>					
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>ru.simplgroupp</groupId>
+									<artifactId>Engine-Service</artifactId>
+									<version>${project.version}</version>
+									<outputDirectory>${project.build.directory}/modules/ru/simplgroupp/microcredit/service/main</outputDirectory>
+									<destFileName>Engine-Service-${project.version}.jar</destFileName>
+								</artifactItem>	
+								<artifactItem>
+									<groupId>ru.simplgroupp</groupId>
+									<artifactId>toolkit</artifactId>
+									<version>${project.version}</version>
+									<outputDirectory>${project.build.directory}/modules/ru/simplgroupp/microcredit/service/main</outputDirectory>
+									<destFileName>toolkit-${project.version}.jar</destFileName>
+								</artifactItem>								
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>properties-maven-plugin</artifactId>
+			    <version>1.0-alpha-2</version>
+			    <executions>
+			      <execution>
+				<phase>initialize</phase>
+				<goals>
+				  <goal>read-project-properties</goal>
+				</goals>
+			      </execution>
+			    </executions>
+			    <configuration>
+			      <files>
+				<file>../dev.properties</file>
+			      </files>
+			    </configuration>
+			</plugin> 
+			<plugin>
+			    <artifactId>maven-antrun-plugin</artifactId>
+			    <executions>
+				<execution>
+				    <phase>install</phase>
+				    <configuration>
+					<tasks>
+					    <delete>
+						<fileset dir="${jboss.server.dir}/modules/ru/simplgroupp/microcredit/service/main" includes="**/*"/>
+					    </delete>
+					    <copy todir="${jboss.server.dir}/modules/">
+						<fileset dir="${project.build.directory}/modules">
+						    <include name="**/*"/>
+						</fileset>
+					    </copy>
+					</tasks>
+				    </configuration>
+				    <goals>
+					<goal>run</goal>
+				    </goals>
+				</execution>
+			    </executions>
+			</plugin> 			
+		</plugins>
+	</build>
+	
+</project>

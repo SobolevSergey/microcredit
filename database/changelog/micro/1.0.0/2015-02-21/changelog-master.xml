@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="96" author="helen">
+ 
+  <sql>
+    
+    
+    alter table regions alter column code type varchar(5);
+    alter table address alter column region_short type varchar(5);
+    alter table creditrequest alter column region type varchar(5);
+    insert into regions(code,name,codereg) values ('71-8','ХАНТЫ-МАНСИЙСКИЙ АВТОНОМНЫЙ ОКРУГ',86);
+insert into regions(code,name,codereg) values ('71-9','ЯМАЛО-НЕНЕЦКИЙ АВТОНОМНЫЙ ОКРУГ',89);
+    update address set region_short='71-8' where region_short is null and upper(region_name) like '%ХАНТЫ%';
+   update address set region_short='71-9' where region_short is null and upper(region_name) like '%ЯМАЛО%';
+  </sql>
+ 
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

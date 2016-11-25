@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="86" author="helen">
+ 
+  <sql>
+
+   alter table creditrequest add region varchar(2);
+   alter table creditrequest add CONSTRAINT fk_crequest_regions FOREIGN KEY (region)
+      REFERENCES regions (code) MATCH SIMPLE
+      ON UPDATE restrict ON DELETE restrict;
+  alter table creditrequest add city varchar(200);
+
+  </sql>
+ 
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

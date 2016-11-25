@@ -1,0 +1,84 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.SignalRef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.transfer.Credit
+import java.util.Date
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.util.DatesUtils;
+import ru.simplgroupp.toolkit.common.Convertor;
+import ru.simplgroupp.util.ProductKeys;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+
+rule "[$RULE_NAME_PREFIX$].1"
+
+when 
+  $bResult : BooleanRuleResult();
+  $cparams : Map();
+  $context : AbstractContext(getCreditRequest() == null || getCreditRequest().getAcceptedCredit() == null || getCredit() == null);
+
+then
+	$bResult.setResultValue(false);
+        $bResult.addInfo(1,"У Вас нет активных займов" ); 
+
+end
+
+// если текущий кредит еще не начался (сегодня выходной, начнется в понедельник)
+rule "[$RULE_NAME_PREFIX$].2"
+when 
+    $bResult : BooleanRuleResult();
+    $cparams : Map();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Credit" && signalRef == "msgProlong");
+    $context : AbstractContext();
+then
+	if ( $context.getCreditRequest().getAcceptedCredit() != null && $context.getCreditRequest().getAcceptedCredit().getCreditDataBeg().after( $context.getCurrentDate() )) {	   
+    	  $bResult.setResultValue(false);
+    	  $bResult.addInfo(1,"Ваш текущий заём ещё не начался");
+   	} else {
+   		int daysCreditMax = Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_SUM_MAX));
+   		int numProlongsMax = Convertor.toInteger($cparams.get(ProductKeys.CREDIT_PROLONGS_MAX));
+        //допускается дней просрочки  
+        int daysOverdueMax = Convertor.toInteger($cparams.get(ProductKeys.CREDIT_DAYS_MAX_LGOT));
+ 
+   		int daysCredit = DatesUtils.daysDiff($context.getCredit().getCreditDataEnd(), $context.getCredit().getCreditDataBeg());
+   		int numProlongs = ($context.getCredit().getCreditLong()==null)?0:$context.getCredit().getCreditLong().intValue();
+                 //есть дней просрочки
+   		int daysCreditOverdue = DatesUtils.daysDiff($context.getCurrentDate(),$context.getCredit().getCreditDataEnd());
+                int daysCreditAll=daysCredit+daysCreditOverdue;
+   		if (daysCreditAll >= daysCreditMax) {
+    		  $bResult.setResultValue(false);
+    		  $bResult.addInfo(2,"Вы не можете превысить максимальный срок займа " + String.valueOf(daysCreditMax) + " дней");   		
+   		}
+   		
+   		if (numProlongs >= numProlongsMax) {
+    		  $bResult.setResultValue(false);
+    		  $bResult.addInfo(3,"Заём не может быть продлён более " + String.valueOf(numProlongsMax) + " раз" );   		   		
+   		}
+
+               if (daysCreditOverdue > daysOverdueMax) {
+    		  $bResult.setResultValue(false);
+    		  $bResult.addInfo(4,"Вы вышли из льготного периода, пролонгация не разрешена" );   		   		
+   		}
+              if($context.getCredit().getCreditOwner()!=null){
+                  $bResult.setResultValue(false);
+    		  $bResult.addInfo(5,"Кредит рефинансирован, пролонгация не разрешена" ); 
+              }
+              if($context.getCredit().getDraftProlong()!=null){
+                  $bResult.setResultValue(false);
+    		  $bResult.addInfo(6,"У Вас уже есть начатое продление, Вам необходимо оплатить проценты по займу на странице погашения займа." ); 
+              }
+              if($context.getCredit().getDraftRefinance()!=null){
+                  $bResult.setResultValue(false);
+    		  $bResult.addInfo(7,"Кредит на рефинансировании, пролонгация не разрешена" ); 
+              }
+
+             if(Convertor.toInteger($cparams.get(ProductKeys.PROLONG_ENABLED))==0){
+                  $bResult.setResultValue(false);
+    		  $bResult.addInfo(8,"Для данного продукта пролонгация не разрешена" ); 
+              }
+
+
+   	}
+end

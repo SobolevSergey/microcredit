@@ -1,0 +1,35 @@
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.PeopleBonus
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.transfer.BaseCredit
+import ru.simplgroupp.transfer.RefBonus
+import ru.simplgroupp.transfer.Credit
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext( getClient() != null );
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Credit" && signalRef == "msgClosedCreditBonus");
+    $cparams: Map();
+    $actionProcessor : ActionProcessorBeanLocal();
+then
+    Integer bonusCode = new Integer(ru.simplgroupp.transfer.PeopleBonus.BONUS_CODE_CLOSE_CREDIT_WITHOUT_DELAY);
+    Integer operationCode = new Integer(ru.simplgroupp.transfer.BaseCredit.OPERATION_IN);
+
+    Integer peopleMainId = $context.getClient().getId();
+    Credit credit = $context.getCredit();
+    RefBonus bonus = $actionProcessor.getBonusByCodeInteger(bonusCode);
+
+    if (bonus != null) {
+        Double rate = bonus.getRate();
+        Double percentSum = credit.getCreditSumBack() - credit.getCreditSum();
+        Double amount = percentSum * rate;
+
+        $actionProcessor.addBonus(peopleMainId, null, null, bonusCode, amount, operationCode);
+    }
+end

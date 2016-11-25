@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+<changeSet id="305" author="ponomarev">
+    <sql>
+insert into aiconstant (airule_id, name, datatype, datavalue) 
+values (7, 'okbHunter.changePasswordUrl', 'C', 'https://nh-test.rb-ei.com/EIHunterManager/passwords.asmx');
+    </sql>
+</changeSet>
+
+<changeSet id="305" author="helen">
+ 
+    <sql>
+    
+ alter table creditrequest add column datedecision timestamp with time zone;
+ alter table creditrequest add column decisionway_id integer;
+ alter table creditrequest add CONSTRAINT fk_creditrequest_ref_way FOREIGN KEY (decisionway_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+ 
+update creditrequest set datedecision=datestatus where status_id in (2,8);
+update creditrequest set datedecision=datesign where status_id in (4,6,7);
+
+update creditrequest set decisionway_id=(select id from reference where ref_header_id=69 and codeinteger=1) where status_id=2;
+update creditrequest set decisionway_id=(select id from reference where ref_header_id=69 and codeinteger=2) where status_id in (4,6,7,8);
+
+     </sql>
+
+   <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgToCourt.drl" />
+      <where>signalref = 'msgToCourt'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+
+
+  </changeSet>
+
+
+
+</databaseChangeLog>

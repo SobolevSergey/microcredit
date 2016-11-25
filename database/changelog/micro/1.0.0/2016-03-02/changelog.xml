@@ -1,0 +1,15 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="371" author="brinat">
+        <sql>
+            update partners set urlwork='http://facebook.com/profile.php?id=' where name='Facebook';
+            update partners set urlwork='http://ok.ru/profile/' where name='Одноклассники';
+            update partners set urlwork='https://vk.com/id' where name='Вконтакте';
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

@@ -1,0 +1,74 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="242" author="helen">
+        <sql>
+          
+            ALTER TABLE officialdocuments add COLUMN credit_id integer;
+            ALTER TABLE officialdocuments add COLUMN creditrequest_id integer;
+            ALTER TABLE officialdocuments add CONSTRAINT fk_ofdoc_credit FOREIGN KEY (credit_id)
+              REFERENCES credit (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+            ALTER TABLE officialdocuments add CONSTRAINT fk_ofdoc_creditrequest FOREIGN KEY (creditrequest_id)
+              REFERENCES creditrequest (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+            drop table contact_blacklist;
+            DROP FUNCTION setcreditvalue(integer, character varying, double precision, timestamp without time zone);
+            drop table creditvalue;
+        </sql>
+    </changeSet>
+    <changeSet id="243" author="brinat">
+        <sql>
+            INSERT INTO eventcode (id, name) VALUES(67, 'Результат обзвона коллектором');
+            INSERT INTO eventcode (id, name) VALUES(68, 'Взятие клиента коллектором');
+        </sql>
+        <sql>
+            INSERT INTO roles (id, name, righttoedit, righttowrite, righttoall, righttoview, righttoaddrules, righttocall, realname) VALUES (8, 'collectorsupervisor', false, false, false, false, false, false, 'коллектор супервизор');
+            INSERT INTO reference (ref_header_id, name, codeinteger, isactive) VALUES (74, 'Коллектор супервизор', 1008, 1);
+            INSERT INTO rpermission (role_id, feature_id) VALUES ((select id from roles where name = 'collectorsupervisor'), (select id from reference where ref_header_id = 74 and codeinteger = 1008));
+        </sql>
+        <sql>
+            ALTER TABLE collector_tasks RENAME TO tasks;
+
+            ALTER TABLE tasks add COLUMN creditrequest_id integer;
+            ALTER TABLE tasks add COLUMN credit_id integer;
+
+            ALTER TABLE tasks ADD CONSTRAINT fk_task_credit_request FOREIGN KEY (creditrequest_id)
+            REFERENCES creditrequest (id)
+            ON DELETE CASCADE;
+
+            ALTER TABLE tasks ADD CONSTRAINT fk_task_credit FOREIGN KEY (credit_id)
+            REFERENCES credit (id)
+            ON DELETE CASCADE;
+
+            ALTER TABLE tasks DROP CONSTRAINT IF EXISTS pk_collector_tasks;
+            ALTER TABLE tasks DROP CONSTRAINT IF EXISTS fk_collector_tasks_users;
+            ALTER TABLE tasks DROP CONSTRAINT IF EXISTS fk_collector_task_peoplemain;
+            ALTER TABLE tasks DROP CONSTRAINT IF EXISTS fk_collector_tasks_refs;
+            ALTER TABLE tasks DROP CONSTRAINT IF EXISTS fk_collector_task_collector;
+
+            ALTER TABLE tasks ADD CONSTRAINT pk_task PRIMARY KEY(id);
+
+            ALTER TABLE tasks ADD CONSTRAINT fk_task_users FOREIGN KEY (user_id)
+            REFERENCES users (id)
+            ON DELETE SET NULL;
+
+            ALTER TABLE tasks ADD CONSTRAINT fk_task_peoplemain FOREIGN KEY (user_id)
+            REFERENCES peoplemain (id)
+            ON DELETE CASCADE;
+
+            ALTER TABLE tasks ADD CONSTRAINT fk_task_refs FOREIGN KEY (task_type_id)
+            REFERENCES reference (id)
+            ON DELETE SET NULL;
+
+            ALTER TABLE tasks ADD CONSTRAINT fk_task_collector FOREIGN KEY (collector_id)
+            REFERENCES collector (id)
+            ON DELETE SET NULL;
+        </sql>
+        <sql>
+            UPDATE ref_header SET name='Виды задач' WHERE id = 85;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

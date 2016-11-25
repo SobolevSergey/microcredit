@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	<changeSet id="218" author="julia">
+	<sql>
+	INSERT INTO bizaction(bizactiontype_id, signalref, businessobjectclass, description, 
+            candidategroups, forone, formany, issystem,
+            isactive, isrequired, isatomic, iscsingleton)
+	VALUES (4, 'msgScoringEquifax', 'ru.simplgroupp.transfer.CreditRequest', 'Выгрузить информацию для Equifax', 
+            'admin', 0, 1, 1, 1, 1, 0, 3);	
+
+      </sql>
+      <update tableName="bizaction">
+		<column name="ruleaction" valueClobFile="ruleaction1.drl" />
+		<where>(businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest') and (signalref = 'msgScoringEquifax')</where>
+      </update>
+    </changeSet>   
+
+<changeSet id="219" author="julia">
+        <sql>
+            DELETE FROM products WHERE id='2';
+        </sql>
+       
+    </changeSet>	
+	
+	<changeSet id="219" author="brinat">
+        <sql>
+            INSERT INTO roles(id,name, righttoedit, righttowrite, righttoall, righttoview, righttoaddrules, righttocall, realname)
+            VALUES (7,'collector', false, false, false, false, false, false, 'коллектор');
+        </sql>
+        <sql>
+            UPDATE reference SET code = 'SOFT' WHERE ref_header_id = 79 AND name = 'soft';
+            UPDATE reference SET code = 'HARD' WHERE ref_header_id = 79 AND name = 'hard';
+            UPDATE reference SET code = 'LEGAL' WHERE ref_header_id = 79 AND name = 'legal';
+            UPDATE reference SET code = 'AGENCY' WHERE ref_header_id = 79 AND name = 'agency';
+        </sql>
+
+        <sql>
+            INSERT INTO product_rules(products_id,configtype_id,isactive,databeg,dataend,name,description,scripttype_id,kbase,txversion)
+            VALUES
+            (1, (SELECT id FROM reference WHERE ref_header_id = 71 AND codeinteger = 9), 1, (Date '2010-01-01'), (Date '2020-01-01'), 'ru.simplgroupp.rules.credit.calculator.collector', 'Расчет вида коллекторской деятельности', 2, 'kbCreditCollector',0);
+        </sql>
+        <update tableName="product_rules">
+            <column name="rulebody" valueClobFile="calculator_collector.drl" />
+            <where>name = 'ru.simplgroupp.rules.credit.calculator.collector'</where>
+        </update>
+    </changeSet>
+    
+</databaseChangeLog> 

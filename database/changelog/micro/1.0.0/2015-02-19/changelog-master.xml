@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="95" author="helen">
+ 
+  <sql>
+    
+    
+    insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (59, 'Судебный орган', 4, 1, 0);
+    insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (35, 'Коллектор', 4, 1, 0);
+    alter table debt add datedecision date;
+
+  </sql>
+ 
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

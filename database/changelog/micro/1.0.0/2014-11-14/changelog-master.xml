@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="68" author="helen">
+ 
+  <sql>
+    INSERT INTO ref_header( id, name,partners_id) VALUES (57, 'операции со счетом клиента',1); 
+    INSERT INTO ref_header( id, name,partners_id) VALUES (58, 'причина операции со счетом клиента',1);     
+     
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (57, 'зачисление на счет',1,1);
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (57, 'снятие со счета',2,1);
+
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (58, 'переплата по кредиту',1,1);
+   INSERT INTO reference(ref_header_id, name, codeinteger, isactive) VALUES (58, 'оплата за кредит',2,1);
+    
+
+   CREATE TABLE peoplesums
+   (
+  id serial NOT NULL,
+  peoplemain_id integer,
+  operation_id integer NOT NULL,
+  operationtype_id integer,
+  eventdate timestamp with time zone,
+  amount double precision,
+  credit_id integer,
+  txversion integer,
+    CONSTRAINT pk_peoplesums PRIMARY KEY (id ),
+    CONSTRAINT fk_peoplesums_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_oper_reference FOREIGN KEY (operation_id)
+      REFERENCES reference (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_opertype_reference FOREIGN KEY (operationtype_id)
+      REFERENCES reference (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_peoplesums_people FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE peoplesums
+  OWNER TO sa;
+GRANT ALL ON TABLE peoplesums TO sa;
+
+
+CREATE UNIQUE INDEX peoplesums_pk
+  ON peoplesums
+  USING btree
+  (id );
+
+CREATE INDEX relationship_sums_peoplemain
+  ON peoplesums
+  USING btree
+  (peoplemain_id );
+
+    
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

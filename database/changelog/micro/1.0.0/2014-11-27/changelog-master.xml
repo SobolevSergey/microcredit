@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+  <changeSet id="71" author="helen19711">
+ 
+  <sql>
+      alter table partners add requestversion varchar(10);
+      update partners set requestversion='02.00' where id=13;
+      insert into partners(id,name,realname,canmakepayment) values(20,'WinPay','WinPay',true);
+  </sql>
+  </changeSet>
+  
+   
+ 
+</databaseChangeLog> 

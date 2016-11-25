@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="162" author="parfenov">
+        <sql>
+
+            drop table cms_images;
+            drop table cms_page;
+
+            CREATE TABLE cms_page
+            (
+            id 			    serial     NOT NULL,
+            type		    VARCHAR(50)	NOT NULL UNIQUE,
+            description	    VARCHAR(100),
+            title	        VARCHAR(100),
+            keywords	    VARCHAR(100),
+            body			text,
+            CONSTRAINT pk_cms_page PRIMARY KEY (id)
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE cms_page
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX cms_page_pk
+            ON cms_page
+            USING btree
+            (id );
+            GRANT ALL ON TABLE cms_page TO sa;
+
+            CREATE TABLE cms_images
+            (
+            id 			    serial         NOT NULL,
+            cms_page_id     integer         NOT NULL,
+            file_name 	    VARCHAR(256) 	NOT NULL,
+            file_data 	    bytea,
+            CONSTRAINT pk_cms_images PRIMARY KEY (id),
+            CONSTRAINT fk_cms_page_cms_images FOREIGN KEY (cms_page_id)
+            REFERENCES cms_page (id) MATCH SIMPLE
+            ON UPDATE RESTRICT ON DELETE RESTRICT
+            )
+            WITH (
+            OIDS=FALSE
+            );
+            ALTER TABLE cms_images
+            OWNER TO sa;
+
+            CREATE UNIQUE INDEX cms_images_pk
+            ON cms_images
+            USING btree
+            (id );
+            GRANT ALL ON TABLE cms_images TO sa;
+
+        </sql>
+    </changeSet>
+
+<changeSet id="162" author="helen">
+    <sql>
+
+  CREATE TABLE bizactiontype
+  (
+     id integer NOT NULL,
+     name character varying(250),
+     txversion integer DEFAULT 0,
+   CONSTRAINT pk_bizactiontype PRIMARY KEY (id )
+  )
+  WITH (
+    OIDS=FALSE
+  );
+  ALTER TABLE bizactiontype
+    OWNER TO sa;
+
+   GRANT ALL ON TABLE bizactiontype TO sa;
+
+  CREATE UNIQUE INDEX bizactiontype_pk
+    ON bizactiontype
+    USING btree
+    (id );
+
+  INSERT INTO bizactiontype (id, name) VALUES (1, 'Выполнить правило');
+  INSERT INTO bizactiontype (id, name) VALUES (2, 'Отправить письмо');
+  INSERT INTO bizactiontype (id, name) VALUES (3, 'Отправить СМС');
+  INSERT INTO bizactiontype (id, name) VALUES (4, 'Выполнить в приложении');
+  INSERT INTO bizactiontype (id, name) VALUES (5, 'Запустить процесс');
+  INSERT INTO bizactiontype (id, name) VALUES (6, 'Запустить стартовую форму');
+
+ CREATE TABLE bizaction
+(
+  id serial NOT NULL,
+  bizactiontype_id integer NOT NULL,
+  signalref character varying(150),
+  businessobjectclass character varying(150),
+  description character varying(150),
+  assignee character varying(150),
+  candidategroups character varying(250),
+  candidateusers character varying(250),
+  forone integer,
+  formany integer,
+  sqlfilter text,
+  datafilter text,
+  schedule character varying(250),
+  runprocessdefkey character varying(150),
+  issystem integer,
+  retryinterval integer,
+  errorcode character varying(50),
+  errormessage text,
+  laststart timestamp with time zone,
+  lastend timestamp with time zone,
+  processdefkey character varying(150),
+  ruleenabled text,
+  ruleaction text,
+  isactive integer NOT NULL DEFAULT 0,
+  isrequired integer,
+  isatomic integer,
+  plugin character varying(50),
+  listid integer,
+  iscsingleton integer NOT NULL DEFAULT 0,
+  next_id integer,
+  txversion integer DEFAULT 0,
+  rulestart text,
+  istemporary integer DEFAULT 0,
+  products_id integer,
+  configtype_id integer,
+  CONSTRAINT pk_bizaction PRIMARY KEY (id ),
+  CONSTRAINT fk_bizactio_relations_bizactio FOREIGN KEY (bizactiontype_id)
+      REFERENCES bizactiontype (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_bizact_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_bizact_ref_type FOREIGN KEY (configtype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE bizaction
+  OWNER TO sa;
+
+ GRANT ALL ON TABLE bizaction TO sa;
+
+CREATE UNIQUE INDEX bizaction_pk
+  ON bizaction
+  USING btree
+  (id );
+
+
+CREATE INDEX idxbizobj
+  ON bizaction
+  USING btree
+  (businessobjectclass COLLATE pg_catalog."default" );
+
+
+CREATE INDEX idxbizproc
+  ON bizaction
+  USING btree
+  (processdefkey COLLATE pg_catalog."default" );
+
+
+CREATE INDEX relationship_bizacttype
+  ON bizaction
+  USING btree
+  (bizactiontype_id );
+
+CREATE INDEX relationship_products_bizact
+  ON bizaction
+  USING btree
+  (products_id );
+
+
+CREATE TABLE bizactionevent
+(
+  id serial NOT NULL,
+  bizaction_id integer NOT NULL,
+  eventcode integer NOT NULL,
+  txversion integer DEFAULT 0,
+  CONSTRAINT pk_bizactionevent PRIMARY KEY (id ),
+  CONSTRAINT fk_bizactio_relbaact_bizactio FOREIGN KEY (bizaction_id)
+      REFERENCES bizaction (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_bizactio_eventcode FOREIGN KEY (eventcode)
+      REFERENCES eventcode (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE bizactionevent
+  OWNER TO sa;
+
+ GRANT ALL ON TABLE bizactionevent TO sa;
+
+
+CREATE UNIQUE INDEX bizactionevent_pk
+  ON bizactionevent
+  USING btree
+  (id );
+
+
+CREATE INDEX idxbaecode
+  ON bizactionevent
+  USING btree
+  (eventcode );
+
+CREATE INDEX relbaact_fk
+  ON bizactionevent
+  USING btree
+  (bizaction_id );
+
+
+   </sql>
+ </changeSet>
+
+<changeSet id="163" author="helen">
+    <sql>
+
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (22, 4, 'msgAccept', 'ru.simplgroupp.transfer.CreditRequest', 'Изменения внесены', '', 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procCreditRequestmsgChangeRequest', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (23, 4, 'msgReject', 'ru.simplgroupp.transfer.CreditRequest', 'Изменения отклонены', '', 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procCreditRequestmsgChangeRequest', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (24, 4, 'msgMore', 'ru.simplgroupp.transfer.CreditRequest', 'Далее', '', 'verificator', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procConsiderCR', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (25, 4, 'msgAccept', 'ru.simplgroupp.transfer.CreditRequest', 'Дать кредит', '', 'creditmanager', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procConsiderCR',  1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (33, 4, 'msgRestoreProcess1', 'ru.simplgroupp.transfer.CreditRequest', 'Восстановить процесс с начала', NULL, 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (2, 4, 'msgChangeRequest', 'ru.simplgroupp.transfer.CreditRequest', 'Изменить данные', NULL, 'callcenter', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0,  0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (4, 4, 'msgRemove', 'ru.simplgroupp.transfer.CreditRequest', 'Удалить', NULL, 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (45, 4, 'msgRestoreProcess2', 'ru.simplgroupp.transfer.CreditRequest', NULL, NULL, 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL,  1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (19, 4, 'msgEdit', 'ru.simplgroupp.transfer.Credit', 'Редактировать', NULL, 'creditmanager,admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL,  NULL, 1, 1, NULL, NULL, NULL, 0, NULL, 0,  0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (26, 4, 'msgReject', 'ru.simplgroupp.transfer.CreditRequest', 'Отказать', '', 'creditmanager', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procConsiderCR', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (14, 4, 'msgMore', 'ru.simplgroupp.transfer.CreditRequest', 'Далее', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procNewCR', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (8, 4, 'msgProlongPay', 'ru.simplgroupp.transfer.Prolong', 'Заплатить проценты', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procProlongCR', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (50, 4, 'msgRefinanceCancel', 'ru.simplgroupp.transfer.Refinance', 'Отменить рефинансирование', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procRefinance', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (3, 4, 'msgEdit', 'ru.simplgroupp.transfer.CreditRequest', 'Редактировать', NULL, 'callcenter,verificator,creditmanager,admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (31, 4, 'msgRestoreProcess', 'ru.simplgroupp.transfer.CreditRequest', 'Восстановить процесс', NULL, 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0,  0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (44, 4, 'msgToCourt', 'ru.simplgroupp.transfer.Credit', 'Передать в суд', NULL, 'creditmanager,admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (17, 4, 'msgAccept', 'ru.simplgroupp.transfer.CreditRequest', 'Согласен', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procCR', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (18, 4, 'msgReject', 'ru.simplgroupp.transfer.CreditRequest', 'Не согласен', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procCR', 1, 1, 0, NULL, NULL, 0, NULL, 0,  0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (47, 4, 'msgBonus', 'ru.simplgroupp.transfer.PeopleMain', 'Выдать бонус', NULL, 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0,  0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (20, 4, 'msgSuspend', 'ru.simplgroupp.transfer.Credit', 'Остановить кредит', '', 'admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (7, 4, 'msgProlongCancel', 'ru.simplgroupp.transfer.Prolong', 'Отменить продление', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procProlongCR', 1, 1, 0, NULL, NULL, 0, NULL, 0,  0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (5, 5, 'msgReturn', 'ru.simplgroupp.transfer.Credit', 'Вернуть кредит', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, 'procReturnCR', 1, NULL, NULL, NULL, NULL, NULL, NULL,1, 1, 0, NULL, NULL, 0, NULL, 0, 0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (53, 4, 'msgRefinance', 'ru.simplgroupp.transfer.Credit', 'Рефинансировать', NULL, 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL,1, 0, 0, NULL, NULL, 0, NULL, 0, 0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (6, 4, 'msgProlong', 'ru.simplgroupp.transfer.Credit', 'Продлить кредит', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL,1, 1, 0, NULL, NULL, 0, NULL, 0,  0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (12, 4, 'msgAddCreditRequest', 'ru.simplgroupp.transfer.PeopleMain', 'Взять кредит', NULL, 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0,  0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (54, 5, 'msgRefinanceRun', 'ru.simplgroupp.transfer.Refinance', 'Рефинансировать', NULL, 'customer', NULL, 1, 0, NULL, NULL, NULL, 'procRefinance', 0, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0, NULL, NULL, 0, NULL, 0, 0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (15, 4, 'msgClientReject', 'ru.simplgroupp.transfer.CreditRequest', 'Отказ клиента', '', 'customer,creditmanager,verificator,admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (51, 4, 'msgRefinancePay', 'ru.simplgroupp.transfer.Refinance', 'Заплатить минимальную сумму', '', 'customer', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procRefinance', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (28, 2, 'msgOverdueEmail', 'ru.simplgroupp.transfer.Credit', 'Послать email по просрочке', NULL, 'admin', NULL, 0, 1, '(c.issameorg = true) and (c.isover = false) and (c.creditdataendfact is null) and ((c.creditStatusId.codeinteger = 8) or (c.creditStatusId.codeinteger = 10)) and (c.isactive=1)', NULL, '0 0 4 * * * *', '', 1, 1800000, NULL, NULL, '2015-06-10 08:28:39.359+07', '2015-06-10 08:28:39.546+07', NULL, 1, 1, 0, NULL, NULL, 3, NULL, 5847, 0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (29, 3, 'msgOverdueSMS', 'ru.simplgroupp.transfer.Credit', 'Послать смс по просрочке', NULL, 'admin', NULL, 0, 1, '(c.issameorg = true) and (c.isover = false) and (c.creditdataendfact is null) and (c.creditStatusId.codeinteger = 1) and (c.isactive=1)', NULL, '0 0 4 * * * *', '', 1, 1800000, NULL, NULL, '2015-06-10 08:28:38.937+07', '2015-06-10 08:28:39.14+07', NULL,1, 1, 0, NULL, NULL, 3, NULL, 5914,  0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (27, 4, 'msgToCollector', 'ru.simplgroupp.transfer.Credit', 'Передать коллектору', NULL, 'admin', NULL, 0, 1, '(c.issameorg = true) and (c.isover = false) and (c.creditdataendfact is null) and (c.creditStatusId.codeinteger = 8) and (c.isactive=1)', NULL, '0 0 3 * * * *', NULL, 1, 1800000, NULL, NULL, '2015-06-10 08:28:39.14+07', '2015-06-10 08:28:39.343+07', NULL, 1, 1, 0, NULL, NULL, 3, NULL, 5706,  0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (30, 4, 'msgRemoveIncompleted', 'ru.simplgroupp.transfer.CreditRequest', 'Удалить недозаполненные', NULL, 'admin', NULL, 0, 1, '(c.statusId.id = 5)', NULL, '0 0 1 * * * *', NULL, 1, 1800000, NULL, NULL, '2015-06-10 08:28:38.717+07', '2015-06-10 08:28:38.921+07', NULL,1, 1, 0, NULL, NULL, 3, NULL, 5668, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (52, 2, 'msgRefinanceEmail', 'ru.simplgroupp.transfer.Credit', 'Послать письмо о рефинансировании', NULL, 'admin,creditmanager', NULL, 1, 1, '(c.issameorg = true) and (c.isover = false) and (c.creditdataendfact is null) and ((c.creditStatusId.codeinteger = 8) or (c.creditStatusId.codeinteger = 10)) and (c.isactive=1)', NULL, '0 0 5 * * * *', NULL, 1, 1800000, NULL, NULL, '2015-06-10 08:28:39.546+07', '2015-06-10 08:28:39.64+07', NULL,1, 1, 0, NULL, NULL, 0, NULL, 5480, 0,1,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (40, 4, 'msgCancelPaymentContact', 'ru.simplgroupp.transfer.Payment', 'Отменить платёж в Контакт', NULL, 'admin', NULL, 1, 1, '(c.accountId.accountTypeId.codeinteger = 3) and (c.isPaid = false) and (c.paymenttypeId.codeinteger = 1)  and (c.status=3)', NULL, '0 25 * * * * *', NULL, 1, 1800000, NULL, NULL, '2015-06-10 20:51:19.423+07', '2015-06-10 20:51:19.721+07', NULL, 1, 1, 0, NULL, NULL, 3, NULL, 32989, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (13, 4, 'msgRecalc', 'ru.simplgroupp.transfer.Credit', 'Пересчитать проценты', NULL, 'admin', NULL, 0, 1, '(c.issameorg = true) and (c.isover = false) and (c.creditdataendfact is null) and (c.creditdataend < :currentDate) and (c.isactive=1) and (c.creditStatusId.codeinteger <> 9)', NULL, '0 0 2 * * * *', NULL, 1, 1800000, NULL, NULL, '2015-06-10 08:28:38.483+07', '2015-06-10 08:28:38.702+07', NULL, 1, 1, 0, NULL, NULL, 3, NULL, 5868, 0,NULL,NULL);]]>
+<![CDATA[INSERT INTO bizaction (id, bizactiontype_id, signalref, businessobjectclass, description, assignee, candidategroups, candidateusers, forone, formany, sqlfilter, datafilter, schedule, runprocessdefkey, issystem, retryinterval, errorcode, errormessage, laststart, lastend, processdefkey, isactive, isrequired, isatomic, plugin, listid, iscsingleton, next_id, txversion,  istemporary, products_id, configtype_id) VALUES (16, 4, 'msgBadDebt', 'ru.simplgroupp.transfer.Credit', 'Списать как безнадёжный', '', 'creditmanager,admin', NULL, 1, 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'procCR', 1, 1, 0, NULL, NULL, 0, NULL, 0, 0,NULL,NULL);]]>
+
+INSERT INTO bizactionevent (id, bizaction_id, eventcode) VALUES (1, 47, 8);
+INSERT INTO bizactionevent (id, bizaction_id, eventcode) VALUES (5, 5, 56);
+
+ </sql>
+
+
+  <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgAddCreditRequest_enable.drl" />
+      <where>signalref = 'msgAddCreditRequest'and businessobjectclass = 'ru.simplgroupp.transfer.PeopleMain'</where>
+    </update>
+
+  <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgBadDebt_enable.drl" />
+      <where>signalref = 'msgBadDebt'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgBonus_enable.drl" />
+      <where>signalref = 'msgBonus'and businessobjectclass = 'ru.simplgroupp.transfer.PeopleMain'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgBonus_action.drl" />
+      <where>signalref = 'msgBonus'and businessobjectclass = 'ru.simplgroupp.transfer.PeopleMain'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgCancelPaymentContact_enable.drl" />
+      <where>signalref = 'msgCancelPaymentContact'and businessobjectclass = 'ru.simplgroupp.transfer.Payment'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgCancelPaymentContact_action.drl" />
+       <where>signalref = 'msgCancelPaymentContact'and businessobjectclass = 'ru.simplgroupp.transfer.Payment'</where>
+  </update>
+
+ <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgChangeRequest_enable.drl" />
+      <where>signalref = 'msgChangeRequest'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+ <update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgClientReject_action.drl" />
+      <where>signalref = 'msgClientReject'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+ <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgEdit_enable.drl" />
+      <where>signalref = 'msgEdit'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+ <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgOverdueSMS_enable.drl" />
+      <where>signalref = 'msgOverdueSMS'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+ <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgProlongCancel_enable.drl" />
+      <where>signalref = 'msgProlongCancel'and businessobjectclass = 'ru.simplgroupp.transfer.Prolong'</where>
+    </update>
+
+  <update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgProlong_enable.drl" />
+      <where>signalref = 'msgProlong'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+ <update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgRecalc_action.drl" />
+      <where>signalref = 'msgRecalc'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRefinance_enable.drl" />
+      <where>signalref = 'msgRefinance'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRefinanceEmail_enable.drl" />
+      <where>signalref = 'msgRefinanceEmail'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRefinanceRun_enable.drl" />
+      <where>signalref = 'msgRefinanceRun'and businessobjectclass = 'ru.simplgroupp.transfer.Refinance'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRemove_enable.drl" />
+      <where>signalref = 'msgRemove'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRemoveIncompleted_enable.drl" />
+      <where>signalref = 'msgRemoveIncompleted'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgRemoveIncompleted_action.drl" />
+      <where>signalref = 'msgRemoveIncompleted'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRestoreProcess_enable.drl" />
+      <where>signalref = 'msgRestoreProcess'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgRestoreProcess_action.drl" />
+      <where>signalref = 'msgRestoreProcess'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRestoreProcess1_enable.drl" />
+      <where>signalref = 'msgRestoreProcess1'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgRestoreProcess1_action.drl" />
+      <where>signalref = 'msgRestoreProcess1'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgRestoreProcess2_enable.drl" />
+      <where>signalref = 'msgRestoreProcess2'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgRestoreProcess2_action.drl" />
+      <where>signalref = 'msgRestoreProcess2'and businessobjectclass = 'ru.simplgroupp.transfer.CreditRequest'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgReturn_enable.drl" />
+      <where>signalref = 'msgReturn'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="rulestart" valueClobFile="msgReturn_start.drl" />
+      <where>signalref = 'msgReturn'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgSuspend_enable.drl" />
+      <where>signalref = 'msgSuspend'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgSuspend_action.drl" />
+      <where>signalref = 'msgSuspend'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgToCollector_enable.drl" />
+      <where>signalref = 'msgToCollector'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgToCollector_action.drl" />
+      <where>signalref = 'msgToCollector'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleenabled" valueClobFile="msgToCourt_enable.drl" />
+      <where>signalref = 'msgToCourt'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+<update tableName="bizaction">
+      <column name="ruleaction" valueClobFile="msgToCourt_action.drl" />
+      <where>signalref = 'msgToCourt'and businessobjectclass = 'ru.simplgroupp.transfer.Credit'</where>
+    </update>
+
+ </changeSet>
+
+</databaseChangeLog>

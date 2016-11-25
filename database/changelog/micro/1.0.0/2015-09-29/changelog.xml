@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+      
+	   
+
+<changeSet id="258" author="helen">
+ 
+    <sql>
+    
+       alter table ref_blacklist add employer_full_name varchar(500);
+       alter table ref_blacklist add employer_short_name varchar(200);
+       alter table ref_blacklist add region_name character varying(200);
+       alter table ref_blacklist add area_name character varying(200);
+       alter table ref_blacklist add city_name character varying(200);
+       alter table ref_blacklist add place_name character varying(200);
+       alter table ref_blacklist add street_name character varying(200);
+       alter table ref_blacklist add house character varying(10);
+       alter table ref_blacklist add corpus character varying(10);
+       alter table ref_blacklist add building character varying(10);
+       alter table ref_blacklist add flat character varying(10);
+
+     </sql>
+  </changeSet>
+
+
+
+</databaseChangeLog> 

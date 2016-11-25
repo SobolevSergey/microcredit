@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="procCreditRequestmsgChangeRequest" name="procCreditRequestmsgChangeRequest" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="ru.simplgroupp.workflow.InitOptionsListener"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="taskHandleChangeRequest" name="Обработать запрос на изменение заявки" activiti:candidateGroups="admin">
+      <extensionElements>
+        <activiti:taskListener event="create" class="ru.simplgroupp.workflow.SetWfActionsTaskListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[name=Изменения внесены;signalRef=msgAccept;candidateGroups=admin]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="wfAction1">
+            <activiti:string><![CDATA[name=Изменения отклонены;signalRef=msgReject;candidateGroups=admin]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="complete" class="ru.simplgroupp.workflow.ClearWFActionsTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="taskHandleChangeRequest">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{data.createdNew}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow3" sourceRef="taskHandleChangeRequest" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{! data.createdNew}]]></conditionExpression>
+    </sequenceFlow>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="taskHandleChangeRequest" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration>${options.waitChange}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow5" sourceRef="boundarytimer1" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_procCreditRequestmsgChangeRequest">
+    <bpmndi:BPMNPlane bpmnElement="procCreditRequestmsgChangeRequest" id="BPMNPlane_procCreditRequestmsgChangeRequest">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="120.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="230.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskHandleChangeRequest" id="BPMNShape_taskHandleChangeRequest">
+        <omgdc:Bounds height="75.0" width="105.0" x="340.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="570.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="380.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="155.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="270.0" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="445.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="570.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="250.0" y="290.0"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="328.0"></omgdi:waypoint>
+        <omgdi:waypoint x="415.0" y="328.0"></omgdi:waypoint>
+        <omgdi:waypoint x="587.0" y="328.0"></omgdi:waypoint>
+        <omgdi:waypoint x="587.0" y="285.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="395.0" y="210.0"></omgdi:waypoint>
+        <omgdi:waypoint x="394.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="587.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="587.0" y="250.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="108" author="helen">
+ 
+  <sql>
+   
+   CREATE TABLE ref_bonus
+(
+  id serial NOT NULL,
+  name character varying(100),
+  amount double precision,
+  operation_id integer,
+  databeg date,
+  dataend date, 
+  isactive integer,
+  txversion integer,
+  CONSTRAINT pk_refbonus PRIMARY KEY (id ),
+  CONSTRAINT fk_referenc_bonus FOREIGN KEY (operation_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE ref_bonus
+  OWNER TO sa;
+GRANT ALL ON TABLE ref_bonus TO sa;
+
+
+CREATE UNIQUE INDEX refbonus_pk
+  ON ref_bonus
+  USING btree
+  (id );
+
+insert into ref_bonus(id,name,amount,operation_id,databeg,isactive)
+select 1,'друг оставил заявку',50,id,DATE '2010-01-01',1
+from reference where ref_header_id=57 and codeinteger=1;
+
+  CREATE TABLE peoplebonus
+   (
+  id serial NOT NULL,
+  peoplemain_id integer,
+  bonus_id integer NOT NULL,
+  eventdate timestamp with time zone,
+  amount double precision,
+  credit_id integer,
+  peoplemainbonus_id integer,
+  txversion integer,
+    CONSTRAINT pk_peoplebonus PRIMARY KEY (id ),
+    CONSTRAINT fk_peoplebonus_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_bonus_ref FOREIGN KEY (bonus_id)
+      REFERENCES ref_bonus (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT fk_peoplebonus_people FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+   CONSTRAINT fk_peoplebonus_peoplebonus FOREIGN KEY (peoplemainbonus_id)
+      REFERENCES peoplemain (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE
+
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE peoplebonus
+  OWNER TO sa;
+GRANT ALL ON TABLE peoplebonus TO sa;
+
+
+CREATE UNIQUE INDEX peoplebonus_pk
+  ON peoplebonus
+  USING btree
+  (id );
+
+CREATE INDEX relationship_bonus_peoplemain
+  ON peoplebonus
+  USING btree
+  (peoplemain_id);
+
+  CREATE TABLE friends
+   (
+  id serial NOT NULL,
+  peoplemain_id integer,
+  surname varchar(50),
+  name varchar(50),
+  email varchar(100),
+  eventdate timestamp with time zone,
+  txversion integer,
+  CONSTRAINT pk_friends PRIMARY KEY (id ),
+  CONSTRAINT fk_friends_people FOREIGN KEY (peoplemain_id)
+      REFERENCES peoplemain (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE friends
+  OWNER TO sa;
+
+GRANT ALL ON TABLE friends TO sa;
+
+
+CREATE UNIQUE INDEX friends_pk
+  ON friends
+  USING btree
+  (id );
+
+
+insert into eventcode(id,name) values(36,'приглашение друга');    
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

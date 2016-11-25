@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="155" author="helen">
+
+<sql>
+  
+CREATE TABLE verification_reference
+(
+  id serial NOT NULL,
+  name varchar(50),
+  entityname varchar(150),
+  fieldname varchar(30),
+  condition varchar(150),
+  datatype varchar(1),
+  isuseformark integer,
+  isnecessary integer, 
+  txversion integer,
+  CONSTRAINT pk_ver_ref PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE verification_reference
+  OWNER TO sa;
+
+GRANT ALL ON TABLE verification_reference TO sa;
+
+CREATE UNIQUE INDEX verification_reference_pk
+  ON verification_reference
+  USING btree
+  (id );
+
+
+CREATE TABLE verification_config
+(
+  id serial NOT NULL,
+  field_id integer,
+  mark double precision,
+  limit_min double precision,
+  limit_max double precision,
+  txversion integer,
+  CONSTRAINT pk_ver_config PRIMARY KEY (id ),
+  CONSTRAINT fk_ver_config_ref FOREIGN KEY (field_id)
+      REFERENCES verification_reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE verification_config
+  OWNER TO sa;
+
+GRANT ALL ON TABLE verification_config TO sa;
+
+CREATE UNIQUE INDEX verification_config_pk
+  ON verification_config
+  USING btree
+  (id );
+
+ INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Новый автомобиль', '01', 0,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Подержанный автомобиль', '02', 0,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Другое транспортное средство', '03', 0,0);
+
+
+ INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Мебель', '04', 1,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Ремонт дома', '05', 1,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Бытовая техника', '06', 1,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Одежда', '07', 1,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Путешествия', '08', 0,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Земля', '09', 0,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Дом', '10', 1,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Возврат долга', '11', 1,0);
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Свадьба', '12', 1,0);
+
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Образование', '13', 1,0);
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Компьютерная техника', '14', 1,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Услуги', '15', 1,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Кооперативные платежи, рента, депозит', '16', 0,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Кооперативные платежи, рента, депозит ', '17', 0,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Здоровье / Затраты на лечение', '18', 1,0);
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Хобби', '19', 1,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Коммерческие, деловые (Фонды) ', '20', 0,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Телекоммуникационное оборудование (не мобильное)', '21', 1,0);
+
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Мобильный телефон', '22',1,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Оборотные средства', '23', 0,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Вложения в основной капитал', '24', 0,0);
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Сельскохозяйственный заем', '25', 0,0);
+ INSERT INTO reference(
+             ref_header_id, name, code,isactive, txversion)
+       VALUES (73, 'Другое ', '98', 1,0);
+
+INSERT INTO reference(
+             ref_header_id, name,  code,isactive, txversion)
+       VALUES (73, 'Неизвестно', '99', 0,0);
+
+
+</sql>
+
+
+  </changeSet>
+
+
+
+</databaseChangeLog> 

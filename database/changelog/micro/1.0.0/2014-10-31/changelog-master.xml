@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="60" author="helen">
+        <sql>
+             alter table credit add isactive integer;
+             alter table eventlog add credit_id integer;
+             alter table eventlog add constraint fk_evenlog_credit FOREIGN KEY (credit_id) REFERENCES credit (id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT; 
+             alter table contact_points alter name_rus type varchar(1000); 
+             INSERT INTO eventcode( id, name) VALUES (31, 'приостановление займа'); 
+             INSERT INTO eventcode( id, name) VALUES (32, 'возобновление займа');
+             update credit set isactive=1;
+         </sql>
+  </changeSet>
+	      
+      <changeSet id="61" author="irk333">
+        <sql>alter table users alter column peoplemain_id drop NOT NULL;</sql>
+	<sql>insert into users (username, password, usertype, txversion) values ('guest',null,2,0);</sql>
+	<sql>insert into users_roles (users_id, roles_id, txversion) select id, 4, 0 from users where username='guest'</sql>
+  </changeSet>
+</databaseChangeLog> 

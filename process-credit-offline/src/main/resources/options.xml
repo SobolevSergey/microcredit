@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options>
+    <option name="manualPayment" type="N">
+        <default-value>0</default-value>
+    </option>
+    <option name="waitSignOferta" type="C">
+        <default-value>P5D</default-value>
+    </option>        
+</options>

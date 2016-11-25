@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="67" author="helen">
+        <sql>
+         
+           
+CREATE TABLE uploading_detail
+(
+  id serial NOT NULL,
+  uploading_id integer NOT NULL,
+  creditrequest_id integer,
+  credit_id integer,
+  status integer,
+  txversion integer,
+  CONSTRAINT pk_upload_detail PRIMARY KEY (id ),
+  CONSTRAINT fk_uploaddetail_relations_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH Simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_uploaddetail_relations_creditrequest FOREIGN KEY (creditrequest_id)
+      REFERENCES creditrequest (id) MATCH Simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_uploaddetail_relations_uploading FOREIGN KEY (uploading_id)
+      REFERENCES uploading (id) MATCH Simple
+      ON UPDATE RESTRICT ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE uploading_detail
+  OWNER TO sa;
+GRANT ALL ON TABLE uploading_detail TO sa;
+
+
+CREATE INDEX relationship_uploaddetail_fk
+  ON uploading_detail
+  USING btree
+  (uploading_id );
+
+
+CREATE UNIQUE INDEX uploaddetail_pk
+  ON uploading_detail
+  USING btree
+  (id );
+
+alter table uploading_error add constraint fk_uploaderror_relations_credit FOREIGN KEY (credit_id) REFERENCES credit (id) MATCH Simple ON UPDATE RESTRICT ON DELETE CASCADE;
+          
+         </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

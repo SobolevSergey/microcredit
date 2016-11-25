@@ -1,0 +1,40 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="187" author="helen">
+ 
+    <sql>
+    
+
+insert into aiconstant ( airule_id, name, datatype, datavalue )
+values ( 7, 'rusStandart.creditReportDetalization', 'N', '0' );
+
+
+insert into reference ( ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'Займ до зарплаты', 17, 1,2,19);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'Онлайн займ', 18, 1,2,99);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'Потребительский кредит на рефинансирование задолженности', 21, 1,2,5);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 75, 'Потребительские кредиты с лимитом кредитования', 23, 1,2,5);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 78, 'Продан', 81, 1,13,2);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 78, 'Реструктуризация', 82, 1,13,4);
+
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

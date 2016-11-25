@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="131" author="julia">
+ 
+    <sql>
+ALTER TABLE peoplebonus ADD COLUMN amountrub double precision;
+
+DROP TABLE EventCalledFriend;
+	
+INSERT INTO eventcode(id, 
+            name)
+    VALUES (53, 'Закрытие кредита');
+	
+INSERT INTO eventcode(id, 
+            name)
+    VALUES (54, 'Подписание оферты');
+	
+INSERT INTO eventcode(id, 
+            name)
+    VALUES (55, 'Старт кредита');
+	
+INSERT INTO reference(
+            ref_header_id, name, codeinteger, isactive, txversion)
+    VALUES (63, 'начислено менеджером', 2, 1, 0);
+
+     </sql>
+  </changeSet>
+
+</databaseChangeLog> 

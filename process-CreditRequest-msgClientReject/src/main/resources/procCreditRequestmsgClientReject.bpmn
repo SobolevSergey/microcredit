@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="procCreditRequestmsgClientReject" name="procCreditRequestmsgClientReject" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="taskFindContactPayment"></sequenceFlow>
+    <callActivity id="callCancelContact" name="Отзываем деньги из Контакта" calledElement="subStandart">
+      <extensionElements>
+        <activiti:in sourceExpression="#{'ru.simplgroupp.transfer.Payment'}" target="businessObjectClass"></activiti:in>
+        <activiti:in sourceExpression="#{contactPaymentId}" target="businessObjectId"></activiti:in>
+        <activiti:in source="actionContext" target="actionContext"></activiti:in>
+        <activiti:in sourceExpression="#{actionContext.getPlugins().getPluginConfig('contactCancelPay')}" target="plugin"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="callCancelContact">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{(contactPaymentId != null)}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="taskClientReject" name="Закрыть заявку с отказом" activiti:expression="#{actionProcessor.saveClientRefuse(businessObjectId, clientUserId)}"></serviceTask>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="taskClientReject">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{(contactPaymentId == null)}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="callCancelContact" targetRef="timerintermediatecatchevent1"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow5" sourceRef="taskClientReject" targetRef="endevent1"></sequenceFlow>
+    <serviceTask id="taskFindContactPayment" name="Ищем платёж по Контакту" activiti:expression="#{actionProcessor.findContactPaymentId(businessObjectId)}" activiti:resultVariableName="contactPaymentId"></serviceTask>
+    <sequenceFlow id="flow6" sourceRef="taskFindContactPayment" targetRef="exclusivegateway1"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow7" sourceRef="exclusivegateway2" targetRef="servicetask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{contactPaymentStatus == 4}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{contactPaymentStatus != 4}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="servicetask1" name="Смотрим состояние платежа" activiti:expression="#{actionProcessor.getPayment(contactPaymentId).getStatusId()}" activiti:resultVariableName="contactPaymentStatus"></serviceTask>
+    <sequenceFlow id="flow9" sourceRef="servicetask1" targetRef="exclusivegateway2"></sequenceFlow>
+    <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
+      <timerEventDefinition>
+        <timeDuration>PT1S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow10" sourceRef="timerintermediatecatchevent1" targetRef="servicetask1"></sequenceFlow>
+    <serviceTask id="servicetask2" name="Может ли заявка быть закрыта" activiti:expression="#{actionProcessor.isActionAvailable('ru.simplgroupp.transfer.CreditRequest',businessObjectId, 'cancel')}" activiti:resultVariableName="canBeCancelled"></serviceTask>
+    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow11" sourceRef="servicetask2" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="exclusivegateway3" targetRef="taskClientReject">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{canBeCancelled == true}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="exclusivegateway3" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{canBeCancelled == false}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_procCreditRequestmsgClientReject">
+    <bpmndi:BPMNPlane bpmnElement="procCreditRequestmsgClientReject" id="BPMNPlane_procCreditRequestmsgClientReject">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="10.0" y="183.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="250.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callCancelContact" id="BPMNShape_callCancelContact">
+        <omgdc:Bounds height="55.0" width="115.0" x="223.0" y="44.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskClientReject" id="BPMNShape_taskClientReject">
+        <omgdc:Bounds height="55.0" width="105.0" x="590.0" y="173.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="910.0" y="173.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskFindContactPayment" id="BPMNShape_taskFindContactPayment">
+        <omgdc:Bounds height="55.0" width="105.0" x="100.0" y="173.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="601.0" y="14.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="440.0" y="44.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timerintermediatecatchevent1" id="BPMNShape_timerintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="380.0" y="54.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="620.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
+        <omgdc:Bounds height="40.0" width="40.0" x="770.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="45.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="100.0" y="200.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="270.0" y="180.0"></omgdi:waypoint>
+        <omgdi:waypoint x="270.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="280.0" y="99.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="290.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="590.0" y="200.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="338.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="380.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="695.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="910.0" y="190.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="205.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="200.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="621.0" y="54.0"></omgdi:waypoint>
+        <omgdi:waypoint x="672.0" y="80.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="641.0" y="34.0"></omgdi:waypoint>
+        <omgdi:waypoint x="787.0" y="33.0"></omgdi:waypoint>
+        <omgdi:waypoint x="927.0" y="173.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="545.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="590.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="621.0" y="54.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="415.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="440.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="725.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="790.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="790.0" y="120.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="790.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="642.0" y="173.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="790.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="927.0" y="173.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

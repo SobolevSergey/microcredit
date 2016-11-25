@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <signal id="sigAccept" name="sigAccept"></signal>
+  <signal id="sigReject" name="sigReject"></signal>
+  <signal id="sigNeedVerify" name="sigNeedVerify"></signal>
+  <signal id="sigNeedEquifax" name="sigNeedEquifax"></signal>
+  <signal id="sigNeedOKB" name="sigNeedOKB"></signal>
+  <message id="msgAccept" name="msgAccept"></message>
+  <message id="msgReject" name="msgReject"></message>
+  <message id="msgAnswered" name="msgAnswered"></message>
+  <process id="procConsiderCROffline" name="procConsiderCROffline" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="ru.simplgroupp.workflow.InitOptionsProductListener"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startMain" name="startMain"></startEvent>
+    <endEvent id="endAccepted" name="endAccepted"></endEvent>
+    <endEvent id="endRejected" name="endRejected"></endEvent>
+    <userTask id="taskCreditDecision" name="Решение кредитного менеджера" activiti:candidateGroups="creditmanager">
+      <extensionElements>
+        <activiti:taskListener event="create" class="ru.simplgroupp.workflow.SetWfActionsTaskListener">
+          <activiti:field name="wfAction0">
+            <activiti:string><![CDATA[name=Дать займ;signalRef=msgAccept]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="wfAction1">
+            <activiti:string><![CDATA[name=Отказать;signalRef=msgReject]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="complete" class="ru.simplgroupp.workflow.ClearWFActionsTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="servicetask5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{decisionState.resultCode > 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="servicetask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{decisionState.resultCode == -1}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow15" sourceRef="startMain" targetRef="callactivity2"></sequenceFlow>
+    <sequenceFlow id="flow33" sourceRef="taskCreditDecision" targetRef="exclusivegateway1"></sequenceFlow>
+    <serviceTask id="servicetask2" name="Одобрить заявку, но кредит не создавать" activiti:expression="${actionProcessor.approveCredit(businessObjectId, null)}"></serviceTask>
+    <sequenceFlow id="flow34" sourceRef="servicetask2" targetRef="servicetask4"></sequenceFlow>
+    <serviceTask id="servicetask3" name="Отправить email об отказе" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.creditRequest.creditSum}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.rejected]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow35" sourceRef="servicetask3" targetRef="endRejected"></sequenceFlow>
+    <serviceTask id="servicetask4" name="Отправить СМС об одобрении" activiti:class="ru.simplgroupp.workflow.SendSMSAction">
+      <extensionElements>
+        <activiti:field name="smsCode">
+          <activiti:string><![CDATA[sms.accepted]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.creditRequest.creditSum}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow36" sourceRef="servicetask4" targetRef="servicetask8"></sequenceFlow>
+    <callActivity id="callactivity2" name="Расчёт по модели для кредитной заявки" calledElement="procWorkModel">
+      <extensionElements>
+        <activiti:in sourceExpression="#{'ru.simplgroupp.transfer.CreditRequest'}" target="businessObjectClass"></activiti:in>
+        <activiti:in source="creditRequestId" target="businessObjectId"></activiti:in>
+        <activiti:in sourceExpression="#{'credit.decision.offline'}" target="modelKey"></activiti:in>
+        <activiti:in source="actionContext" target="actionContext"></activiti:in>
+        <activiti:out source="decisionState" target="decisionState"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <serviceTask id="servicetask5" name="Отказать в кредите и сохранить результат" activiti:expression="${actionProcessor.refuseCredit(businessObjectId, null, decisionState.resultCode)}"></serviceTask>
+    <sequenceFlow id="flow42" sourceRef="servicetask5" targetRef="servicetask3"></sequenceFlow>
+    <serviceTask id="servicetask8" name="Отправить письмо об одобрении" activiti:class="ru.simplgroupp.workflow.SendEmailAction">
+      <extensionElements>
+        <activiti:field name="emailCode">
+          <activiti:string><![CDATA[email.accepted]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="param0">
+          <activiti:expression>#{runtime.creditRequest.creditSum}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="param1">
+          <activiti:expression>#{runtime.creditRequest.creditDays}</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow51" sourceRef="servicetask8" targetRef="endAccepted"></sequenceFlow>
+    <sequenceFlow id="flow52" sourceRef="callactivity2" targetRef="taskCreditDecision"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_procConsiderCROffline">
+    <bpmndi:BPMNPlane bpmnElement="procConsiderCROffline" id="BPMNPlane_procConsiderCROffline">
+      <bpmndi:BPMNShape bpmnElement="startMain" id="BPMNShape_startMain">
+        <omgdc:Bounds height="35.0" width="35.0" x="90.0" y="291.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endAccepted" id="BPMNShape_endAccepted">
+        <omgdc:Bounds height="35.0" width="35.0" x="1250.0" y="211.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endRejected" id="BPMNShape_endRejected">
+        <omgdc:Bounds height="35.0" width="35.0" x="1120.0" y="380.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="taskCreditDecision" id="BPMNShape_taskCreditDecision">
+        <omgdc:Bounds height="73.0" width="105.0" x="500.0" y="275.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="681.0" y="291.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="77.0" width="105.0" x="840.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask3" id="BPMNShape_servicetask3">
+        <omgdc:Bounds height="68.0" width="105.0" x="960.0" y="364.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
+        <omgdc:Bounds height="77.0" width="105.0" x="980.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callactivity2" id="BPMNShape_callactivity2">
+        <omgdc:Bounds height="81.0" width="105.0" x="190.0" y="268.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask5" id="BPMNShape_servicetask5">
+        <omgdc:Bounds height="81.0" width="105.0" x="800.0" y="357.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask8" id="BPMNShape_servicetask8">
+        <omgdc:Bounds height="77.0" width="105.0" x="1120.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="701.0" y="331.0"></omgdi:waypoint>
+        <omgdi:waypoint x="852.0" y="357.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="701.0" y="291.0"></omgdi:waypoint>
+        <omgdi:waypoint x="892.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="125.0" y="308.0"></omgdi:waypoint>
+        <omgdi:waypoint x="190.0" y="308.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow33" id="BPMNEdge_flow33">
+        <omgdi:waypoint x="605.0" y="311.0"></omgdi:waypoint>
+        <omgdi:waypoint x="681.0" y="311.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow34" id="BPMNEdge_flow34">
+        <omgdi:waypoint x="945.0" y="228.0"></omgdi:waypoint>
+        <omgdi:waypoint x="980.0" y="228.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
+        <omgdi:waypoint x="1065.0" y="398.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1120.0" y="397.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
+        <omgdi:waypoint x="1085.0" y="228.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1120.0" y="228.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
+        <omgdi:waypoint x="905.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="960.0" y="398.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow51" id="BPMNEdge_flow51">
+        <omgdi:waypoint x="1225.0" y="228.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1250.0" y="228.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow52" id="BPMNEdge_flow52">
+        <omgdi:waypoint x="295.0" y="308.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="311.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

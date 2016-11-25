@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><RFPS xmlns="urn:mclsoftware.co.uk:hunterII" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DATE_VERSION="1967-08-13" VERSION="1.0.001" xsi:schemaLocation="urn:mclsoftware.co.uk:hunterII D:\Work\Проекты\Experian\B312~1\RFPS.xsd">
+	<PATHS>
+		<INPUTFILE>
+			<PATH>./INPUT</PATH>
+			<ARCHIVE>./ARCHIVE</ARCHIVE>
+			<ERROR>./ERROR</ERROR><!-- patch: ignored right now -->
+			<LOG>./LOG</LOG><!-- patch: ignored right now -->
+		</INPUTFILE>
+		<OUTPUTFILE>
+			<PATH>./OUTPUT</PATH>
+		</OUTPUTFILE>
+		<LOG>
+			<PATH>./SYSTEMLOG</PATH><!-- patch: ignored right now -->
+			<PREFIX>experian-rfps-</PREFIX>
+			<CREATION>DAY</CREATION>
+		</LOG>
+	</PATHS>
+	<MODE>CALLED</MODE>
+	<STATUS>STOP</STATUS>
+	<OPERATION>
+		<APILOG>experian-rfps-api.log</APILOG>
+		<MAXROWS>3000</MAXROWS>
+		<INTERVAL>15</INTERVAL>
+	</OPERATION>
+	<XML>
+		<TRANSFORMATION>properties.xml</TRANSFORMATION>
+	</XML>
+	<CSV>
+	<TABLE NAME="HUNTER">
+	<FIELDS>
+	<FIELD NAME="ORIGINATOR" VALUE="ORIGINATOR"/>
+	<FIELD NAME="SUPPRESS" VALUE="Y"/>
+	<FIELD NAME="RESULT" VALUE="N"/>
+	</FIELDS>
+	</TABLE>
+	</CSV>
+       <HM_VERSION>20150507</HM_VERSION>
+</RFPS>

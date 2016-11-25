@@ -1,0 +1,25 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+   <changeSet id="302" logicalFilePath="1448793209" author="efrolov">
+        <sql>
+
+            INSERT INTO product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion)
+            VALUES (1, (select id from reference where ref_header_id = 71 and code = 'procConsiderCR'),
+                    1, '2010-01-01', '2020-01-01', 'notifyManager', 'N', '1', 'Уведомлять ли менеджера о новой зявке', 0);
+
+            INSERT INTO public.product_messages (products_id, configtype_id, name, body, description, txversion)
+            VALUES (1, (select id from reference where ref_header_id = 71 and code = 'procConsiderCR'), 'sms.notification',
+                    'Внимание! Появилась новая заявка в системе. Пожалуйста зайдите в личный кабинет менеджера!',
+                    'Уведомление для менеджера о новой заявке', 0);
+
+
+            ALTER TABLE organization ADD COLUMN notificationPhone CHARACTER VARYING(20);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

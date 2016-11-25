@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="88" author="helen">
+ 
+  <sql>
+    insert into ref_header(id,partners_id,name) values(59,1,'Виды организаций') ;
+    insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (59, 'Кредитная организация', 1, 1, 0);
+    insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (59, 'Кредитное бюро', 2, 1, 0);
+    insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (59, 'Коллекторское агентство', 3, 1, 0);
+    alter table organization add ogrn varchar(20);
+    alter table organization add orgtype_id integer;
+    alter table organization add constraint fk_orgtype_reference FOREIGN KEY (orgtype_id)
+      REFERENCES reference (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+  </sql>
+ 
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

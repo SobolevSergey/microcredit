@@ -1,0 +1,62 @@
+﻿<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="286" author="helen">
+ 
+    <sql>
+    
+
+insert into ref_header (id, partners_id, name)
+values (91, 13, 'Тип кредита Русский стандарт');
+
+insert into reference ( ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'автокредит', 1, 1,2,1);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'лизинг', 4, 1,2,2);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'ипотека', 6, 1,2,3);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'кредитная карта', 7, 1,2,4);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'потребительский кредит', 9, 1,2,5);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'развитие бизнеса', 10, 1,2,6);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'пополнение оборотного капитала', 11, 1,2,7);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 91, 'покупка оборудования', 12, 1,2,8);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 91, 'строительство недвижимости', 13, 1,2,9);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 91, 'покупка акций', 14, 1,2,10);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain )
+values ( 91, 'межбанковский кредит', 15, 1,2,11);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 91, 'микрокредит', 17, 1,2,19);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 91, 'микрокредит', 18, 1,2,19);
+
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain)
+values ( 91, 'другой', 50, 1,2,99);
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

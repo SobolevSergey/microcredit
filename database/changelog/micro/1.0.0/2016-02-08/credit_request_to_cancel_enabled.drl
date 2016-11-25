@@ -1,0 +1,27 @@
+import ru.simplgroupp.rules.BooleanRuleResult;
+import java.util.Map;
+import ru.simplgroupp.rules.AbstractContext;
+import ru.simplgroupp.workflow.WorkflowObjectActionDef;
+import ru.simplgroupp.transfer.CreditRequest;
+import ru.simplgroupp.interfaces.ActionProcessorBeanLocal;
+import java.util.Date;
+import ru.simplgroupp.util.DatesUtils;
+
+rule "[$RULE_NAME_PREFIX$].1"
+when
+    $bResult : BooleanRuleResult();
+    $context : AbstractContext();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgCreditRequestToCancel");
+    $cparams: Map();
+	$actionProcessor : ActionProcessorBeanLocal();
+then
+	CreditRequest request = $context.getCreditRequest();
+	Date statusDate = request.getDateStatus();
+	Integer daysDiff = DatesUtils.daysDiff(new Date(), statusDate);
+	Integer daysWaitToSignOferta = $actionProcessor.daysWaitToSignOferta(request);
+	if (daysDiff > daysWaitToSignOferta) {
+		$bResult.setResultValue(true);
+	} else {
+		$bResult.setResultValue(false);
+	}
+end

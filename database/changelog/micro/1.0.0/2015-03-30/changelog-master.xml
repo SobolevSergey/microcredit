@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="109" author="irk333">
+ 
+  <sql>
+alter table peoplebehavior add TxVersion INT4 null default 0;
+
+create table bolist (
+   Id                   SERIAL               not null,
+   Name                 VARCHAR(250)         null,
+   BusinessObjectClass  VARCHAR(50)          null,
+   TxVersion            INT4                 null default 0,
+   constraint PK_BOLIST primary key (Id)
+);
+
+create unique index bolist_PK on bolist (
+Id
+);
+
+create  index idxBoListClass on bolist (
+BusinessObjectClass
+);
+      
+create table bolistitems (
+   bolist_Id            INT4                 not null,
+   BusinessObjectId     INT4                 not null,
+   TxVersion            INT4                 null default 0,
+   constraint PK_BOLISTITEMS primary key (bolist_Id, BusinessObjectId)
+);
+
+create unique index bolistitems_PK on bolistitems (
+bolist_Id,
+BusinessObjectId
+);
+
+create  index RelBOListItem_FK on bolistitems (
+bolist_Id
+);
+
+alter table bolistitems
+   add constraint FK_BOLISTIT_RELBOLIST_BOLIST foreign key (bolist_Id)
+      references bolist (Id)
+      on delete cascade on update restrict;
+      
+create table bolistcond (
+   Id                   SERIAL               not null,
+   LinkedList_Id        INT4                 null,
+   bolist_Id            INT4                 not null,
+   LinkedCond_Id        INT4                 null,
+   Name                 VARCHAR(250)         null,
+   OrderNo              INT4                 not null default 0,
+   JoinCode             VARCHAR(15)          null,
+   Body                 TEXT                 null,
+   TxVersion            INT4                 null default 0,
+   constraint PK_BOLISTCOND primary key (Id)
+);
+
+create unique index bolistcond_PK on bolistcond (
+Id
+);
+
+create  index RelBOlistCond_FK on bolistcond (
+bolist_Id
+);
+
+create  index RelBOCondCond_FK on bolistcond (
+LinkedCond_Id
+);
+
+alter table bolistcond
+   add constraint FK_BOLISTCO_RELBOCOND_BOLISTCO foreign key (LinkedCond_Id)
+      references bolistcond (Id)
+      on delete restrict on update restrict;
+
+alter table bolistcond
+   add constraint FK_BOLISTCO_RELBOCOND_BOLIST foreign key (LinkedList_Id)
+      references bolist (Id)
+      on delete restrict on update restrict;
+
+alter table bolistcond
+   add constraint FK_BOLISTCO_RELBOLIST_BOLIST foreign key (bolist_Id)
+      references bolist (Id)
+      on delete cascade on update restrict;
+
+     </sql>
+  </changeSet>
+ 
+</databaseChangeLog> 

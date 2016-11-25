@@ -1,0 +1,42 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="166" author="helen">
+ 
+    <sql>
+ 
+alter table employment add extCreditSum double precision;
+
+insert into ref_header (id, partners_id, name) values (77, 24, 'Тип телефона НБКИ'); 
+insert into reference ( ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 77, 'рабочий', 1, 1,16,4); 
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 77, 'домашний', 2, 1,16,3); 
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 77, 'факс', 3, 1,16,11);
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 77, 'мобильный', 4, 1,16,2);  
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 77, 'другой', 5, 1,16,99); 
+
+insert into ref_header (id, partners_id, name) values (78, 24, 'Статусы кредита'); 
+insert into reference ( ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 78, 'активен', 0, 1,13,1); 
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 78, 'закрыт', 13, 1,13,0); 
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 78, 'закрыт - передан в другой банк', 14, 1,13,0);
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 78, 'передан в суд', 21, 1,13,9);  
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 78, 'просрочен', 52, 1,13,8); 
+insert into reference (ref_header_id, name, codeinteger, isactive,ref_header_idmain,codeintegermain ) values ( 78, 'списан', 90, 1,13,3); 
+
+delete from aiconstant where airule_id in (select id from airule where packagename='ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgOverdueSMS');
+  delete from airule where packagename='ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgOverdueSMS';
+
+delete from aiconstant where airule_id in (select id from airule where packagename='ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgOverdueEmail');
+  delete from airule where packagename='ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgOverdueEmail';
+
+delete from aiconstant where airule_id in (select id from airule where packagename='ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgRefinanceEmail');
+  delete from airule where packagename='ru.simplgroupp.ba.messages.ru.simplgroupp.transfer.Credit.msgRefinanceEmail';
+
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

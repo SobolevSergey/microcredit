@@ -1,0 +1,17 @@
+package ru.simplgroupp.rules.creditreturn.limits;
+
+import ru.simplgroupp.rules.NameValueRuleResult
+import ru.simplgroupp.rules.CreditRequestContext
+import ru.simplgroupp.transfer.Credit
+import ru.simplgroupp.transfer.PeopleMain
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+
+rule "Return limits"
+when 
+    $cparams : Map();
+    $credit : Credit();
+    $bResult : NameValueRuleResult();
+then
+    $bResult.setValue("money.min", $cparams.get(CreditCalculatorBeanLocal.SUM_ABOVE));
+end

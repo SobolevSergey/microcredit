@@ -1,0 +1,18 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+   <changeSet id="294" logicalFilePath="1447764873" author="efrolov">
+        <sql>
+            ALTER TABLE identity_templates DROP CONSTRAINT identity_templates_forcredittype_fk;
+
+            ALTER TABLE identity_templates ADD CONSTRAINT identity_templates_forcredittype_fk
+                FOREIGN KEY (forCreditTypeId) REFERENCES reference (id)
+                MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

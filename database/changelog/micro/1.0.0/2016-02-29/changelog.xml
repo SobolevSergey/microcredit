@@ -1,0 +1,29 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="370" author="brinat">
+        <sql>
+            ALTER TABLE ref_blacklist ADD COLUMN filename character varying(100);
+
+            insert into reference (ref_header_id, name, codeinteger, isactive, txversion)
+            values ((select id from ref_header where name = 'Причины попадания в черный список'), 'Долги по ФССП', 7, 1, 0);
+            insert into reference (ref_header_id, name, codeinteger, isactive, txversion)
+            values ((select id from ref_header where name = 'Причины попадания в черный список'), 'Негатив по документу', 8, 1, 0);
+            insert into reference (ref_header_id, name, codeinteger, isactive, txversion)
+            values ((select id from ref_header where name = 'Причины попадания в черный список'), 'Негатив по телефону', 9, 1, 0);
+        </sql>
+    </changeSet>
+
+<changeSet id="370" author="cobalt">
+ 
+        <sql>
+
+            ALTER TABLE "cms_documents" ADD COLUMN "isarchive" int4;
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

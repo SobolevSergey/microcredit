@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+<changeSet id="275" author="ponomarev">
+    <sql>
+insert into aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) values ( 7, 'okbHunter.useWork', 'N', '0', NULL, NULL);
+insert into aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) values ( 7, 'okbHunter.numberRepeats', 'N', '5', NULL, NULL);     
+</sql>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,17 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgChangeRequest");
+    $context : AbstractContext(getCreditRequest() != null);
+then   
+	$bResult.setResultValue( ($context.getCreditRequest().getAcceptedCredit() != null) && (! $context.getCreditRequest().getAcceptedCredit().getIsOver()) );
+end

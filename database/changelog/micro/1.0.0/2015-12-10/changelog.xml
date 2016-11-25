@@ -1,0 +1,16 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+   
+   <changeSet id="310"  author="helen">
+        <sql>
+	    alter table refusereason add column fordecision integer default 1;
+            alter table partners add column passworduploadwork character varying(100);
+            alter table partners add column passworduploadtest character varying(100);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

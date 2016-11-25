@@ -1,0 +1,29 @@
+import ru.simplgroupp.rules.BooleanRuleResult
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.rules.AbstractContext
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgClientReject");
+    $context : AbstractContext(getCreditRequest() != null);
+then  
+    if ($context.getCreditRequest().getAcceptedCredit() == null) {
+      $bResult.setResultValue(new Boolean(true));
+    }  else {
+      $bResult.setResultValue(new Boolean(false)); 
+    }
+end
+
+rule "[$RULE_NAME_PREFIX$].2"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgClientReject");
+    $context : AbstractContext( getCreditRequest() == null );
+then   
+    $bResult.setResultValue(new Boolean(false));
+end

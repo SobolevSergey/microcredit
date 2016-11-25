@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options>
+    <option name="waitChange" type="C">
+        <default-value>P2D</default-value>
+    </option>     
+</options>

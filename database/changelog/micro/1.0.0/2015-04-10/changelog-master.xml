@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="120" author="helen">
+ 
+  <sql>
+  
+  CREATE TABLE creditsums
+(
+  id serial NOT NULL,
+  sum_id integer not null,
+  operation_id integer,
+  amountdate timestamp with time zone,
+  amount double precision,
+  credit_id integer NOT NULL,
+  txversion integer,
+  creditdetails_id integer,
+  CONSTRAINT pk_creditsums PRIMARY KEY (id ),
+  CONSTRAINT fk_creditsums_credit FOREIGN KEY (credit_id)
+      REFERENCES credit (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+ CONSTRAINT fk_creditsums_creditdetails FOREIGN KEY (creditdetails_id)
+      REFERENCES creditdetails (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+  CONSTRAINT fk_oper_reference FOREIGN KEY (operation_id)
+      REFERENCES reference (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+ CONSTRAINT fk_sums_reference FOREIGN KEY (sum_id)
+      REFERENCES reference (id) MATCH simple
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE creditsums
+  OWNER TO sa;
+GRANT ALL ON TABLE creditsums TO sa;
+
+
+CREATE UNIQUE INDEX creditsums_pk
+  ON creditsums
+  USING btree
+  (id );
+
+
+CREATE INDEX relationship_sums_credit
+  ON creditsums
+  USING btree
+  (credit_id );
+
+CREATE INDEX relationship_sums_creditdetails
+  ON creditsums
+  USING btree
+  (creditdetails_id );
+
+
+insert into ref_header (id, partners_id,name) values (64,1, 'Подробные виды сумм для кредита' );
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'основная сумма', 1, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'проценты', 2, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'штраф', 3, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'комиссия', 4, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'возврат', 5, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'общая сумма', 6, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'страховка', 7, 1, 0);
+insert into reference (ref_header_id, name, codeinteger, isactive, txversion) values (64, 'другое', 9, 1, 0);
+
+
+
+     </sql>
+  </changeSet>
+	      
+ 
+</databaseChangeLog> 

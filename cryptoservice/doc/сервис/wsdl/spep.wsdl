@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://esv.server.rt.ru" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://esv.server.rt.ru" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://esv.server.rt.ru">
+      <s:element name="VerifyCertificate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="certificate" type="s:base64Binary"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCertificateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCertificateResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="VerificationResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int"/>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="VerifyCertificateWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="certificate" type="s:base64Binary"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCertificateWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCertificateWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="VerificationResultWithReport">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VerificationResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Report" type="s:base64Binary"/>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="VerifyCMSSignature">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCMSSignatureResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCMSSignatureWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureDetached">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="0" maxOccurs="1" name="originalContent" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureDetachedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCMSSignatureDetachedResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureDetachedWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="0" maxOccurs="1" name="originalContent" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureDetachedWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCMSSignatureDetachedWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureByHash">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="0" maxOccurs="1" name="hash" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureByHashResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCMSSignatureByHashResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureByHashWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="0" maxOccurs="1" name="hash" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCMSSignatureByHashWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCMSSignatureByHashWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXMLSignature">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXMLSignatureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyXMLSignatureResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXMLSignatureWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXMLSignatureWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyXMLSignatureWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyWSSSignature">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyWSSSignatureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyWSSSignatureResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyWSSSignatureWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyWSSSignatureWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyWSSSignatureWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyAttachment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyAttachmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyAttachmentResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyAttachmentWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyAttachmentWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyAttachmentWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyPAdES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyPAdESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyPAdESResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyPAdESWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyPAdESWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyPAdESWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXAdES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXAdESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyXAdESResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXAdESWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyXAdESWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyXAdESWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCAdES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCAdESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCAdESResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCAdESWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCAdESWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCAdESWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyTimeStamp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stamp" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyTimeStampResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyTimeStampResult" type="tns:VerificationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyTimeStampWithReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stamp" type="s:base64Binary"/>
+            <s:element minOccurs="1" maxOccurs="1" name="verifySignatureOnly" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyTimeStampWithReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyTimeStampWithReportResult" type="tns:VerificationResultWithReport"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="VerifyCertificateSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCertificate"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCertificateSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCertificateResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCertificateWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCertificateWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCertificateWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCertificateWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignature"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureDetachedSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureDetached"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureDetachedSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureDetachedResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureDetachedWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureDetachedWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureDetachedWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureDetachedWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureByHashSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureByHash"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureByHashSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureByHashResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureByHashWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureByHashWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCMSSignatureByHashWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCMSSignatureByHashWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXMLSignatureSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyXMLSignature"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXMLSignatureSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyXMLSignatureResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXMLSignatureWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyXMLSignatureWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXMLSignatureWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyXMLSignatureWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyWSSSignatureSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyWSSSignature"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyWSSSignatureSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyWSSSignatureResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyWSSSignatureWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyWSSSignatureWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyWSSSignatureWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyWSSSignatureWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyAttachmentSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyAttachment"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyAttachmentSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyAttachmentResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyAttachmentWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyAttachmentWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyAttachmentWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyAttachmentWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyPAdESSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyPAdES"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyPAdESSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyPAdESResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyPAdESWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyPAdESWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyPAdESWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyPAdESWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXAdESSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyXAdES"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXAdESSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyXAdESResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXAdESWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyXAdESWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyXAdESWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyXAdESWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCAdESSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCAdES"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCAdESSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCAdESResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCAdESWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCAdESWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyCAdESWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCAdESWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyTimeStampSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyTimeStamp"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyTimeStampSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyTimeStampResponse"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyTimeStampWithReportSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyTimeStampWithReport"/>
+  </wsdl:message>
+  <wsdl:message name="VerifyTimeStampWithReportSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyTimeStampWithReportResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="SignatureToolSoap">
+    <wsdl:operation name="VerifyCertificate">
+      <wsdl:input message="tns:VerifyCertificateSoapIn"/>
+      <wsdl:output message="tns:VerifyCertificateSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCertificateWithReport">
+      <wsdl:input message="tns:VerifyCertificateWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyCertificateWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignature">
+      <wsdl:input message="tns:VerifyCMSSignatureSoapIn"/>
+      <wsdl:output message="tns:VerifyCMSSignatureSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureWithReport">
+      <wsdl:input message="tns:VerifyCMSSignatureWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyCMSSignatureWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureDetached">
+      <wsdl:input message="tns:VerifyCMSSignatureDetachedSoapIn"/>
+      <wsdl:output message="tns:VerifyCMSSignatureDetachedSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureDetachedWithReport">
+      <wsdl:input message="tns:VerifyCMSSignatureDetachedWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyCMSSignatureDetachedWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureByHash">
+      <wsdl:input message="tns:VerifyCMSSignatureByHashSoapIn"/>
+      <wsdl:output message="tns:VerifyCMSSignatureByHashSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureByHashWithReport">
+      <wsdl:input message="tns:VerifyCMSSignatureByHashWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyCMSSignatureByHashWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXMLSignature">
+      <wsdl:input message="tns:VerifyXMLSignatureSoapIn"/>
+      <wsdl:output message="tns:VerifyXMLSignatureSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXMLSignatureWithReport">
+      <wsdl:input message="tns:VerifyXMLSignatureWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyXMLSignatureWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyWSSSignature">
+      <wsdl:input message="tns:VerifyWSSSignatureSoapIn"/>
+      <wsdl:output message="tns:VerifyWSSSignatureSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyWSSSignatureWithReport">
+      <wsdl:input message="tns:VerifyWSSSignatureWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyWSSSignatureWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAttachment">
+      <wsdl:input message="tns:VerifyAttachmentSoapIn"/>
+      <wsdl:output message="tns:VerifyAttachmentSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAttachmentWithReport">
+      <wsdl:input message="tns:VerifyAttachmentWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyAttachmentWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPAdES">
+      <wsdl:input message="tns:VerifyPAdESSoapIn"/>
+      <wsdl:output message="tns:VerifyPAdESSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPAdESWithReport">
+      <wsdl:input message="tns:VerifyPAdESWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyPAdESWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXAdES">
+      <wsdl:input message="tns:VerifyXAdESSoapIn"/>
+      <wsdl:output message="tns:VerifyXAdESSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXAdESWithReport">
+      <wsdl:input message="tns:VerifyXAdESWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyXAdESWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCAdES">
+      <wsdl:input message="tns:VerifyCAdESSoapIn"/>
+      <wsdl:output message="tns:VerifyCAdESSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCAdESWithReport">
+      <wsdl:input message="tns:VerifyCAdESWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyCAdESWithReportSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyTimeStamp">
+      <wsdl:input message="tns:VerifyTimeStampSoapIn"/>
+      <wsdl:output message="tns:VerifyTimeStampSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyTimeStampWithReport">
+      <wsdl:input message="tns:VerifyTimeStampWithReportSoapIn"/>
+      <wsdl:output message="tns:VerifyTimeStampWithReportSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SignatureToolSoap" type="tns:SignatureToolSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="VerifyCertificate">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCertificate" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCertificateWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCertificateWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignature">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignature" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureDetached">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureDetached" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureDetachedWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureDetachedWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureByHash">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureByHash" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureByHashWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureByHashWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXMLSignature">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyXMLSignature" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXMLSignatureWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyXMLSignatureWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyWSSSignature">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyWSSSignature" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyWSSSignatureWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyWSSSignatureWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAttachment">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyAttachment" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAttachmentWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyAttachmentWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPAdES">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyPAdES" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPAdESWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyPAdESWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXAdES">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyXAdES" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXAdESWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyXAdESWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCAdES">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCAdES" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCAdESWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyCAdESWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyTimeStamp">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyTimeStamp" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyTimeStampWithReport">
+      <soap:operation soapAction="http://esv.server.rt.ru/VerifyTimeStampWithReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SignatureToolSoap12" type="tns:SignatureToolSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="VerifyCertificate">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCertificate" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCertificateWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCertificateWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignature">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignature" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureDetached">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureDetached" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureDetachedWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureDetachedWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureByHash">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureByHash" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCMSSignatureByHashWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCMSSignatureByHashWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXMLSignature">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyXMLSignature" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXMLSignatureWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyXMLSignatureWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyWSSSignature">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyWSSSignature" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyWSSSignatureWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyWSSSignatureWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAttachment">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyAttachment" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAttachmentWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyAttachmentWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPAdES">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyPAdES" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPAdESWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyPAdESWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXAdES">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyXAdES" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyXAdESWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyXAdESWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCAdES">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCAdES" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCAdESWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyCAdESWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyTimeStamp">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyTimeStamp" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyTimeStampWithReport">
+      <soap12:operation soapAction="http://esv.server.rt.ru/VerifyTimeStampWithReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SignatureTool">
+    <wsdl:port name="SignatureToolSoap" binding="tns:SignatureToolSoap">
+      <soap:address location="http://195.245.214.33:7777/esv/SignatureTool.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="SignatureToolSoap12" binding="tns:SignatureToolSoap12">
+      <soap12:address location="http://195.245.214.33:7777/esv/SignatureTool.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

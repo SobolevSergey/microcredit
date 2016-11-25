@@ -1,0 +1,1441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by aft (EMBRACE) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:a="urn:mclsoftware.co.uk:hunterII" targetNamespace="urn:mclsoftware.co.uk:hunterII" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import schemaLocation="enums.xsd"/>
+	<xs:element name="BATCH">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="HEADER">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="COUNT" type="xs:decimal">
+								<xs:annotation>
+									<xs:documentation>Количество заявок (submissions) в файле</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ORIGINATOR" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>Имя пользователя в Системе</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SUPPRESS" type="ENUM_YES" minOccurs="0" maxOccurs="1" >
+								<xs:annotation>
+									<xs:documentation>Флаг, позволяющий подавить matching (выполнится только загрузка данных). Выставляется согласно справочнику.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="RESULT" type="ENUM_YES" minOccurs="0" maxOccurs="1" >
+								<xs:annotation>
+									<xs:documentation>Использование флага временно не поддерживается.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SUBMISSIONS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SUBMISSION" maxOccurs="500">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SUB_HEADER" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="NOTES" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="NOTE" minOccurs="1" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+																				<xs:attribute name="type" type="xs:string" use="optional"/>
+																				<xs:attribute name="privacyLevel" type="xs:string" use="optional"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="IDENTIFIER" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Текстовый идентификатор заявки. Является ключом для дальнейшего изменения данной заявки. Должен быть уникальным в рамках пользователя Системы.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="PRODUCT" type="PRODUCT_CODES">
+											<xs:annotation>
+												<xs:documentation>Код продукта для сравнения. Заполняется согласно справочнику.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CLASSIFICATION" minOccurs="0" maxOccurs="1" type="SCL">
+											<xs:annotation>
+												<xs:documentation>Информационное поле. Описывается тип запроса. Заполняется согласно справочнику.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DATE" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>Дата формирования запроса, формат YYYY-MM-DD</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="APP_DATE" type="xs:date" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Дата формирования заявки, формат YYYY-MM-DD</xs:documentation>
+											</xs:annotation>
+										</xs:element>										
+										<xs:element name="MA">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="STATUS" type="ENS" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+														</xs:annotation>
+													</xs:element>	
+													<xs:element name="FNAME">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PNAME" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="LNAME" minOccurs="1">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="DOB" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>Дата рождения, формат YYYY-MM-DD</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="PER_INN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="12"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PREV_FN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PREV_PN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PREV_LN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="INC_TM" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:totalDigits value="13"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="INC_DOC" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:totalDigits value="13"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="INC_ADD" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:totalDigits value="13"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="MA_PAS" minOccurs="1" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DOC_NUMBER">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="12"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="DOC_DATE" type="xs:date" minOccurs="1">
+																	<xs:annotation>
+																		<xs:documentation>Дата выдачи документа, формат YYYY-MM-DD</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_DOC" minOccurs="0" maxOccurs="2">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DOC_NUMBER">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="32"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="DOC_DATE" type="xs:date" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Дата выдачи документа, формат YYYY-MM-DD</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DOT" type="DOT" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Тип документа. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_SPO" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="FNAME">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:minLength value="1"/>
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="PNAME" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="LNAME">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:minLength value="1"/>
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="DOB" type="xs:date">
+																	<xs:annotation>
+																		<xs:documentation>Дата рождения, формат YYYY-MM-DD</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_RAD">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0" maxOccurs="1"><!--Удаляется все, кроме букв, цифр и слэшэй \/-->
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_RTEL" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_CAD" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_CTEL" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_TAD" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_MTEL" minOccurs="0" maxOccurs="2">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_EMP" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ORG_NAME">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="200"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="INN" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="12"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="JOT" type="JOT" minOccurs="0" maxOccurs="1"/>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_ETEL" minOccurs="0" maxOccurs="2">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_EAD" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_EMA" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="EMAIL">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MA_VEH" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="CAR_REG">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="9"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="VIN" minOccurs="0" maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="21"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="entID" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AP" minOccurs="0" maxOccurs="6">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="STATUS" type="ENS" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FNAME">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PNAME" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="LNAME" minOccurs="1">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="DOB" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>Дата рождения, формат YYYY-MM-DD</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="PER_INN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="12"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PREV_FN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PREV_PN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PREV_LN" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="50"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="INC_TM" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:totalDigits value="13"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="INC_DOC" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:totalDigits value="13"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="INC_ADD" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:totalDigits value="13"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="APP_TYPE" type="ATY" minOccurs="0"/>
+													<xs:element name="A_PAS" minOccurs="1" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DOC_NUMBER">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="12"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="DOC_DATE" type="xs:date" minOccurs="1"/>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_DOC" minOccurs="0" maxOccurs="2">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DOC_NUMBER">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="32"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="DOC_DATE" type="xs:date" minOccurs="0"/>
+																<xs:element name="DOT" type="DOT" minOccurs="0"/>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_SPO" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="FNAME">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="PNAME" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="LNAME" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="DOB" type="xs:date">
+																	<xs:annotation>
+																		<xs:documentation>Дата рождения, формат YYYY-MM-DD</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_RAD">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_RTEL" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_CAD" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_CTEL" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_TAD" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_MTEL" minOccurs="0" maxOccurs="2">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_EMP" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ORG_NAME">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="200"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="INN" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="12"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="JOT" type="JOT" minOccurs="0"/>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_ETEL" minOccurs="0" maxOccurs="2">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="TEL_NUM">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="18"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_EAD" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="COUNTRY" type="CTR" minOccurs="0"/>
+																<xs:element name="POST_CODE" minOccurs="0" maxOccurs="1" type="xs:string"/>
+																<xs:element name="REGION" type="RGC"/>
+																<xs:element name="DISTRICT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CITY" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="SETTLEMENT" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="STREET" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="50"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="HOUSE" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="BUILD" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="CONSTR" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="20"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="APART" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_EMA" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="EMAIL">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="64"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="A_VEH" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS" type="ENS" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Статус мошенничества данной сущности. Заполняется согласно справочнику.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="CAR_REG">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:maxLength value="9"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="VIN" minOccurs="0">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">																		
+																			<xs:maxLength value="21"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="entID" use="optional">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="entID" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="NotificationRqd" use="optional">
+										<xs:simpleType>
+											<xs:restriction base="xs:nonNegativeInteger">
+												<xs:totalDigits value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="subID" use="optional">
+										<xs:simpleType>
+											<xs:restriction base="xs:string"/>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   
+<changeSet id="149" author="helen">
+
+<sql>
+   INSERT INTO score_model( partners_id, name, code)
+    VALUES (5,'Нишевая карта для автокредитов','11');
+
+INSERT INTO score_model( partners_id, name, code)
+    VALUES (5,'Нишевая карта для продаж в рассрочку','13');
+
+  INSERT INTO score_model( partners_id, name, code)
+    VALUES (5,'Нишевая карта для ипотек','14');
+
+INSERT INTO score_model( partners_id, name, code)
+    VALUES (5,'Нишевая карта для кредитных карт','15');
+
+ INSERT INTO reference(
+             ref_header_id, name, codeinteger, isactive, txversion)
+       VALUES (71, 'Коллектор', 9, 1,0);
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'collector.days.hard','N','31','Дней для перевода клиента с уровня soft на hard',0
+from reference where ref_header_id=71 and codeinteger=9;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'collector.days.soft','N','1','Дней для передачи клиента коллектору на уровень soft',0
+from reference where ref_header_id=71 and codeinteger=9;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'collector.days.agency','N','91','Дней для передачи клиента внешнему коллектору',0
+from reference where ref_header_id=71 and codeinteger=9;
+
+insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'collector.agency.enabled','N','1','Возможность работы с внешним коллекторским агентством',0
+from reference where ref_header_id=71 and codeinteger=9;
+
+</sql>
+
+
+  </changeSet>
+
+
+</databaseChangeLog> 

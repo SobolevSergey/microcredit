@@ -1,0 +1,14 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="238" logicalFilePath="1441888141" author="efrolov">
+        <sql>
+            UPDATE identity_templates set txVersion = 0;
+            ALTER TABLE identity_templates ALTER COLUMN txVersion SET DEFAULT 0;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

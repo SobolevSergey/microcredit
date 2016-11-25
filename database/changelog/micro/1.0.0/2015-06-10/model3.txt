@@ -1,0 +1,52 @@
+if (! decisionState.nextLabel) {
+	decisionState.start();
+	//decisionState.externalSystems.get('plugin_rusStandart').needCall = true;
+	//decisionState.externalSystems.get('plugin_okbIdv').needCall = true;
+      
+  //decisionState.externalSystems.get('plugin_verify').needCall = true;	
+  //verify.question('client.marry').add();
+  //verify.question('client.work').add();
+   decisionState.nextLabel = 'label_check';
+ } else if (decisionState.nextLabel == 'label_check') {
+    
+   var ncredits = 0;
+   
+     if (creditRequest.hasCredits>0) 
+    {
+     for (i=0; i<creditRequest.credits.size(); i++)  
+     {
+      if (creditRequest.credits.get(i).partner.id!=6) 
+       {
+
+        ncredits++;
+       }
+     }
+    }
+   
+  decisionState.vars.put('ncredits', ncredits);
+   if (ncredits==0)
+   {  
+    // decisionState.finish(true, MConst.refuseCode.MC02);
+   }
+
+   var ver = 0;
+   
+     if (creditRequest.hasVerif>0) 
+    {
+     for (i=0; i<creditRequest.verif.size(); i++)  
+     {
+      
+        ver++;
+     }
+    }
+   
+  decisionState.vars.put('ver', ver);
+  var dinfow;
+   if (creditRequest.deviceInfo!=null){
+     dinfow=creditRequest.deviceInfo.resolutionWidth;
+   }
+   decisionState.vars.put('dinfow', dinfow);
+  decisionState.nextLabel = 'label_finish';
+} else if (decisionState.nextLabel == 'label_finish') {	
+	decisionState.finish(true, MConst.decision.RESULT_ACCEPT);
+}

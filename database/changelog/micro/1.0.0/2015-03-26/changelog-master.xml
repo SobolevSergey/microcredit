@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="107" author="julia">
+ 
+	<sql>
+		create table peoplebehavior (
+		   Id                   INT4                 not null,
+		   parameter_ID         INT4                 not null,
+		   partners_ID          INT4                 not null,
+		   PeopleMain_ID        INT4                 not null,
+		   dateactual           TIMESTAMP WITH TIME ZONE null,
+		   paramvalue           VARCHAR(250)         null,
+		   paramvaluelong       BIGINT               null,
+		   weboject             VARCHAR(300)         null,
+		   constraint PK_PEOPLEBEHAVIOR primary key (Id)
+		);
+	</sql>
+	<sql>
+		create unique index peoplebehavior_PK on peoplebehavior (
+			Id
+		);
+	</sql>
+	<sql>
+		create  index RelBhvPartner_FK on peoplebehavior (
+			partners_ID
+		);
+	</sql>
+	<sql>
+		create  index RelBHVPeople_FK on peoplebehavior (
+			PeopleMain_ID
+		);
+	</sql>
+	<sql>
+		create  index RelBHVParam_FK on peoplebehavior (
+			parameter_ID
+		);
+	</sql>
+	<sql>
+		create  index idxBHVWebObject on peoplebehavior (
+			weboject
+		);
+	</sql>
+	<sql>
+		alter table peoplebehavior
+		   add constraint FK_PEOPLEBE_RELBHVPAR_REFERENC foreign key (parameter_ID)
+			  references reference (ID)
+			  on delete restrict on update restrict;
+	</sql>
+	<sql>
+		alter table peoplebehavior
+		   add constraint FK_PEOPLEBE_RELBHVPEO_PEOPLEMA foreign key (PeopleMain_ID)
+			  references PeopleMain (ID)
+			  on delete cascade on update restrict;
+	</sql>
+	<sql>
+		alter table peoplebehavior
+		   add constraint FK_PEOPLEBE_RELBHVPAR_PARTNERS foreign key (partners_ID)
+			  references partners (ID)
+			  on delete restrict on update restrict;
+	</sql>
+	<sql>
+		INSERT INTO partners(
+					id, name, realname)
+			VALUES (21, 'Google analytics', 'Google analytics');
+	</sql>
+      <sql>
+	INSERT INTO ref_header(id, partners_id, name)
+    VALUES (61, 21, 'Показатели поведения пользователя GA');
+	</sql>
+	<sql>
+	INSERT INTO ref_header(id, partners_id, name)
+    VALUES (62, 21, 'Показатели поведения пользователя');
+	</sql>
+	<sql>
+	INSERT INTO reference(
+            ref_header_id, name, code, codeinteger, isactive)
+    VALUES (61, 'Источник перехода', 'REFER.FROM', 1, 1);
+	</sql>
+	<sql>
+	INSERT INTO reference(
+				ref_header_id, name, code, codeinteger, isactive)
+		VALUES (61, 'Дата первого посещения', 'DATE.FIRST', 2, 1);
+	</sql>
+	<sql>
+	INSERT INTO reference(
+            ref_header_id, name, code, codeinteger, isactive)
+		VALUES (61, 'Дата последнего посещения', 'DATE.LAST', 3, 1);
+	</sql>
+	<sql>
+	INSERT INTO reference(
+            ref_header_id, name, code, codeinteger, isactive)
+		VALUES (61, 'Количество посещений', 'HITS', 4, 1);
+	</sql>
+	<sql>
+	INSERT INTO reference(
+            ref_header_id, name, code, codeinteger, isactive)
+		VALUES (61, 'Идентификатор в GA', 'GA.ID', 5, 1);
+	</sql>
+	
+ </changeSet>
+	      
+ 
+</databaseChangeLog> 

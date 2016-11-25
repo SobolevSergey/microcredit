@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="224" logicalFilePath="1440665143" author="efrolov">
+        <sql>
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.asyncInterval', 'N',
+            '60000');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.asyncSchedule', 'C',
+            NULL);
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.executionMode', 'C',
+            'MANUAL');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.fakeEJBName', 'C', NULL);
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.mode', 'C', 'SINGLE');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.packetInterval', 'N',
+            '60000');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.packetSchedule', 'C',
+            NULL);
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.processName', 'C',
+            'subStandart');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue)
+            VALUES (7, 'identity.processPacketName', 'C', 'subPacket');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.retryInterval', 'N',
+            '120000');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.retrySchedule', 'C',
+            NULL);
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.syncMode', 'C', 'ASYNC');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.useFake', 'N', '0');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue) VALUES (7, 'identity.workEJBName', 'C', NULL);
+
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description)
+            VALUES (7, 'identity.questionAmount', 'N', '5', 'Количество вопросов');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description)
+            VALUES (7, 'identity.answerAmount', 'N', '5', 'Количество вариантов ответов');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description)
+            VALUES (7, 'identity.useFakeQuestion', 'N', '1', 'Использовать фейковые вопросы');
+            INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description)
+            VALUES (7, 'identity.fakeQuestionAmount', 'N', '5', 'Количество фейковых вопросов');
+
+
+            CREATE TABLE identity_templates (
+            id SERIAL PRIMARY KEY,
+            txVersion INTEGER,
+            points INTEGER,
+            value CHARACTER VARYING,
+            answerField CHARACTER VARYING,
+            answerType CHARACTER VARYING,
+            optionId INTEGER,
+            forCreditTypeId INTEGER,
+            fake BOOLEAN,
+            CONSTRAINT identity_template_optiontype FOREIGN KEY (optionId) REFERENCES ref_header (id),
+            CONSTRAINT identity_template_forcredittype FOREIGN KEY (optionId) REFERENCES ref_header (id)
+            );
+
+            CREATE TABLE identity_questions (
+            id SERIAL PRIMARY KEY,
+            txVersion INTEGER,
+            value CHARACTER VARYING,
+            creditId INTEGER,
+            creditRequestId INTEGER,
+            peopleMainId INTEGER,
+            templateId INTEGER,
+            CONSTRAINT identity_credit_fk FOREIGN KEY (creditId) REFERENCES credit (id) ON DELETE CASCADE,
+            CONSTRAINT identity_creditreq_fk FOREIGN KEY (creditRequestId) REFERENCES creditrequest (id) ON DELETE
+            CASCADE,
+            CONSTRAINT identity_peoplemain_fk FOREIGN KEY (peopleMainId) REFERENCES peoplemain (id) ON DELETE CASCADE,
+            CONSTRAINT identity_template_fk FOREIGN KEY (templateId) REFERENCES identity_templates (id)
+            );
+
+            CREATE TABLE identity_options (
+            id SERIAL PRIMARY KEY,
+            txVersion INTEGER,
+            value CHARACTER VARYING,
+            correct BOOLEAN,
+            questionId INTEGER,
+            CONSTRAINT identity_question_fk FOREIGN KEY (questionId) REFERENCES identity_questions (id) ON DELETE
+            CASCADE
+            );
+
+            CREATE TABLE identity_answers (
+            id INTEGER PRIMARY KEY,
+            txVersion INTEGER,
+            createdAt TIMESTAMP,
+            CONSTRAINT identity_question_answer_fk FOREIGN KEY (id) REFERENCES identity_options (id) ON DELETE CASCADE
+            );
+
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, fake)
+            VALUES ('Выберите дату получения {credittypeId.name#T} на сумму {creditsum#M} {idCurrency.name#T}.', 'D', 2,
+            'creditdatabeg', FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, fake)
+            VALUES ('Какого примерно числа Вы получали {credittypeId.name#T}, который был погашен
+            {creditdataendfact#D}?', 'D', 4,
+            'creditdatabeg', FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, fake)
+            VALUES
+            ('Выберите сумму полученного {credittypeId.name#T}, выданного Вам {creditdatabeg#D}.', 'M', 3, 'creditsum',
+            FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, fake)
+            VALUES
+            ('Выберите дату окончания кредита {credittypeId.name#T}, выданного Вам {creditdatabeg#D}.', 'D', 3,
+            'creditdataend', FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, optionId, fake)
+            VALUES
+            ('Выберите вид кредита, полученного {creditdatabeg#D} на сумму {creditsum#M} {idCurrency.name#T}.', 'T', 3,
+            'credittypeId.name', 2, FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, forCreditTypeId, fake)
+            VALUES
+            ('Какой лимит установлен на вашей кредитной карте?', 'M', 3,
+            'creditsum', 19, FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, optionId, fake)
+            VALUES
+            ('Брали ли Вы когда-нибудь {credittypeId.name#T}?', 'B', 3,
+            'credittypeId.name', 2, FALSE);
+
+            INSERT INTO identity_templates (value, answertype, points, answerfield, fake)
+            VALUES
+            ('Есть ли у Вас открытые в данные момент кредиты?', 'B', 3,
+            'isover', FALSE);
+
+
+            -- fake questions
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите дату получения кредита на автомобиль на сумму 100000 руб', 'D', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES
+            ('Выберите дату окончания кредита на покупку оборудования, выданного Вам 04/07/2013', 'D', 3, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите сумму полученного кредита на обучение, выданного Вам 11/06/2014.', 'M', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, optionId, fake)
+            VALUES
+            ('Выберите вид кредита, полученного 25/04/2015 на сумму 19800 руб.', 'T', 3, 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите дату получения потребительского кредита на сумму 37000 руб', 'D', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES
+            ('Выберите дату окончания кредита на развитие бизнеса, выданного Вам 02/11/2007', 'D', 3, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите сумму полученного кредита на развитие бизнеса, выданного Вам 02/11/2007.', 'M', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, optionId, fake)
+            VALUES
+            ('Выберите вид кредита, полученного 11/06/2006 на сумму 83400 руб.', 'T', 3, 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите дату получения кредита на автомобиль на сумму 180000 руб', 'D', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES
+            ('Выберите дату окончания кредита мобильного оператора, выданного Вам 02/06/2003', 'D', 3, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите сумму полученного кредита на покупку акций, выданного Вам 18/09/2010.', 'M', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, optionId, fake)
+            VALUES
+            ('Выберите вид кредита, полученного 23/01/2009 на сумму 98500 руб.', 'T', 3, 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите дату получения кредита на строительство недвижимости на сумму 380000 руб', 'D', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES
+            ('Выберите дату окончания ипотеки, выданной Вам 04/07/2013', 'D', 3, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, fake)
+            VALUES ('Выберите сумму полученного кредита на обучение, выданного Вам 09/08/2008.', 'M', 2, TRUE);
+
+            INSERT INTO identity_templates (value, answertype, points, optionId, fake)
+            VALUES
+            ('Выберите вид кредита, полученного 29/06/2011 на сумму 34000 руб.', 'T', 3, 2, TRUE);
+
+        </sql>
+    </changeSet>
+    <changeSet id="225" author="bogdanchikov">
+        <sql>
+            alter table antifrod_field rename value to value_before;
+            alter table antifrod_field add value_after varchar(100);
+        </sql>
+    </changeSet>
+
+    <changeSet id="226" author="bogdanchikov">
+        <sql>
+            alter table antifrod_field alter creditrequest_id drop not null;
+            alter table antifrod_field alter peoplemain_id drop not null;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

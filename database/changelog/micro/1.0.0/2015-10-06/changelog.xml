@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+  
+<changeSet id="262" author="helen">
+
+<sql>
+
+INSERT INTO airule (id, packagename, body, ruletype, description, kbase) VALUES (2, 'ru.simplgroupp.generate', NULL, 2, 'Настройки для генерирования кода', NULL);
+
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 2, 'generate.real.digit.code', 'N', '0', 'Генерируем цифровой код для продуктива', NULL);
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 2, 'generate.real.char.code', 'N', '0', 'Генерируем символьно-цифровой код для продуктива', NULL);
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 2, 'generate.password.only.digits', 'N', '1', 'Генерируем пароль только из цифр', NULL);
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 2, 'generate.test.code', 'N', '123456', 'Цифровой код для теста (значение)', NULL);
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 2, 'generate.password.number.chars', 'N', '10', 'Количество символов для пароля', NULL);
+INSERT INTO aiconstant (airule_id, name, datatype, datavalue, description, datavaluetext) VALUES ( 2, 'generate.code.number.chars', 'N', '6', 'Количество символов для кода подтверждения', NULL);
+
+</sql>
+ </changeSet>
+
+</databaseChangeLog> 

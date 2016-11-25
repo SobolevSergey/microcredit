@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options>
+    <option name="waitPayment" type="N">
+        <default-value>2</default-value>
+    </option>     
+</options>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns = "http://java.sun.com/xml/ns/javaee"
+  version = "3.1"
+  xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee
+     http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+  <enterprise-beans>
+  <session>
+      <ejb-name>reportsConfiguration</ejb-name>
+      <ejb-class>ru.simplgroupp.reports.configuration.ReportsConfiguration</ejb-class>
+      <session-type>Stateless</session-type>
+      <env-entry>
+                <description>path to compiled reports</description>
+                <env-entry-name>pathToCompiledReports</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>@path.reports@</env-entry-value>
+     </env-entry>
+  </session>
+ </enterprise-beans>
+</ejb-jar>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+	<changeSet id="252" logicalFilePath="1443087886" author="efrolov">
+        <sql>
+            INSERT INTO eventcode (id, name)
+            VALUES (72, 'Сохранение балла идентификации после ответов на все вопросы');
+        </sql>
+    </changeSet>
+
+    <changeSet id="253" author="brinat">
+        <sql>
+            insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, sqlfilter, schedule, issystem, retryinterval, isactive, isrequired, isatomic, iscsingleton, txversion) values
+            (4, 'msgCollectorType', 'ru.simplgroupp.transfer.Collector', 'Перевод записи коллектора с soft на hard', 'admin', 0, 1, '(c.isActive=1 or c.isActive=2) and (c.dataend is null) and (c.collectionTypeId.codeinteger=1)', '0 30 3 * * * *', 1, 1800000, 1, 1, 0, 3, 0)
+        </sql>
+
+        <update tableName="bizaction">
+            <column name="ruleaction" valueClobFile="msgToCollector_action.drl"/>
+            <where>signalref = 'msgCollectorType'and businessobjectclass = 'ru.simplgroupp.transfer.Collector'</where>
+        </update>
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="msgToCollector_enable.drl"/>
+            <where>signalref = 'msgCollectorType'and businessobjectclass = 'ru.simplgroupp.transfer.Collector'</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="254" author="brinat">
+        <sql>
+            insert into bizaction (bizactiontype_id, signalref, businessobjectclass, description, candidategroups, forone, formany, sqlfilter, schedule, issystem, retryinterval, isactive, isrequired, isatomic, iscsingleton, txversion) values
+            (4, 'msgToExternalCollector', 'ru.simplgroupp.transfer.Collector', 'Передача во внешнее коллекторское агенство', 'admin', 0, 1, '(c.isActive=1 or c.isActive=2) and (c.dataend is null) and (c.collectionTypeId.codeinteger=4)', '0 45 3 * * * *', 1, 1800000, 1, 1, 0, 3, 0)
+        </sql>
+
+        <update tableName="bizaction">
+            <column name="ruleaction" valueClobFile="msgToExternalCollector_action.drl"/>
+            <where>signalref = 'msgToExternalCollector'and businessobjectclass = 'ru.simplgroupp.transfer.Collector'</where>
+        </update>
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="msgToExternalCollector_enable.drl"/>
+            <where>signalref = 'msgToExternalCollector'and businessobjectclass = 'ru.simplgroupp.transfer.Collector'</where>
+        </update>
+    </changeSet>
+    <changeSet id="252" author="KhodyrevDS">
+        <sql>
+            ALTER TABLE payonline_verification
+            DROP COLUMN account_id,
+            ADD COLUMN people_id int REFERENCES peoplemain(id),
+            ADD COLUMN masked_card_number varchar(20),
+            ADD COLUMN rebill_anchor varchar(20);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

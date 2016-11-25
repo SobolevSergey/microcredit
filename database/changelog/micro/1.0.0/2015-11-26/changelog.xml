@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+<changeSet id="300" author="cobalt">
+        <sql>
+            ALTER TABLE creditrequest ADD COLUMN "workplace_id" int4,
+            ADD COLUMN "user_id" int4;
+            ALTER TABLE creditrequest ADD CONSTRAINT "creditrequest_workplace_id_fkey" FOREIGN KEY ("workplace_id") REFERENCES workplaces ("id") ON UPDATE NO ACTION ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE;
+            ALTER TABLE creditrequest ADD CONSTRAINT "creditrequest_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES users ("id") ON UPDATE NO ACTION ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE;
+        </sql>
+    </changeSet>
+
+<changeSet id="300" author="helen">
+
+    <sql>
+
+    alter table eventlog add column partners_id integer;
+    alter table eventlog add  CONSTRAINT fk_eventlog_relation_partners FOREIGN KEY (partners_id)
+      REFERENCES partners (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+    alter table organization add column freephone varchar(50);
+    update eventlog set partners_id=1;
+    update product_config set configtype_id=(select id from reference where ref_header_id=71 and codeinteger=10) where name='firstRequestPaySys';
+    delete from reference where ref_header_id=71 and codeinteger=11;
+    insert into product_config(products_id,configtype_id,isactive,databeg,dataend,name,datatype,datavalue, description,txversion )
+      select 1,id,1,(Date '2010-01-01'),(Date '2020-01-01'),'firstRequestPaySysTimes','N','1','Сколько кредитов выдаем на ограниченные платежные системы',0
+      from reference where ref_header_id=71 and codeinteger=10;
+
+     </sql>
+
+
+  </changeSet>
+
+</databaseChangeLog>

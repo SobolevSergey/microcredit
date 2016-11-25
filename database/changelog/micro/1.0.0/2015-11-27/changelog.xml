@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="301" author="helen">
+ 
+    <sql>
+    
+    insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and ppe.partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_SPER_DPAS_30';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and ppe.partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_SPER_DPAS_30';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and de.partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_SPER_DPAS_30';
+
+ insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_SPAS_DRADD';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_SPAS_DRADD';
+
+ insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_SPAS_DRADD_PCODE';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_SPAS_DRADD_PCODE';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MULT_MA_CADD';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MULT_MA_CADD';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and pce.partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_SWTEL_DEMP_DEADD' and parent_id=null;
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and em.partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_SWTEL_DEMP_DEADD' and parent_id=null;
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and pm.partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_CADD_AS' ;
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and pm.partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_CADD_AS' ;
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and pm.partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_EMP_AS' ;
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and pm.partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_EMP_AS' ;
+
+
+     </sql>
+
+
+  </changeSet>
+
+
+
+</databaseChangeLog> 

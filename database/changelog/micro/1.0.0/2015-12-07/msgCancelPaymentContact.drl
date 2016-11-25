@@ -1,0 +1,35 @@
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.util.DatesUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+import ru.simplgroupp.rules.AbstractContext
+import ru.simplgroupp.rules.BooleanRuleResult
+
+rule "[$RULE_NAME_PREFIX$].1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.Payment" && signalRef == "msgCancelPaymentContact");
+    $context : AbstractContext();
+    $cparams: Map();
+    $actionProcessor : ActionProcessorBeanLocal();
+
+then   
+    if ($context.getPayment() != null)
+    {
+      if ($context.isAutoRun() == false)
+      {
+        //cancel payment from manager 
+        $bResult.setResultValue(new Boolean( true ));
+      } else 
+      {
+        $bResult.setResultValue(new Boolean( DatesUtils.daysDiff($context.getCurrentDate(), $context.getPayment().getCreateDate()) >=5));
+
+      }  
+    } else 
+    {
+       $bResult.setResultValue(new Boolean(false));
+
+    }
+end
+

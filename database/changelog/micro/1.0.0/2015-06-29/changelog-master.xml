@@ -1,0 +1,29 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="180" author="helen">
+ 
+    <sql>
+ 
+      alter table question add products_id integer;
+
+      update question set products_id=1;
+
+      alter table question add CONSTRAINT fk_question_relations_product FOREIGN KEY (products_id)
+      REFERENCES products (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE CASCADE;
+
+     CREATE INDEX relationship_products_question
+       ON question
+       USING btree
+       (products_id );
+
+    </sql>
+    </changeSet>
+
+
+</databaseChangeLog> 
+

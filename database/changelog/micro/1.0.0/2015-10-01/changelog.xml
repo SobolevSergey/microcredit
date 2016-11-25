@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="258" author="KhodyrevDS">
+        <sql>
+            ALTER TABLE verification_reference
+                DROP condition,
+                DROP datatype,
+                ALTER isuseformark TYPE boolean USING CASE WHEN isuseformark=0 THEN FALSE ELSE TRUE END,
+                ALTER isnecessary TYPE boolean USING CASE WHEN isnecessary=0 THEN FALSE ELSE TRUE END;
+            ALTER TABLE verification_reference RENAME COLUMN isuseformark TO use_for_rate;
+            ALTER TABLE verification_reference RENAME COLUMN isnecessary TO necessary;
+
+            ALTER TABLE verification_config RENAME COLUMN mark TO rating;
+            ALTER TABLE verification_config
+                DROP limit_min,
+                DROP limit_max,
+                ADD diff double precision,
+                ADD use_for_matching boolean NOT NULL DEFAULT true;
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

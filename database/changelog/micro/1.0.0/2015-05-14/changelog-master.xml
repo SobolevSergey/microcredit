@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="136" author="julia">
+ 
+    <sql>
+  
+CREATE TABLE ref_bonus
+(
+  id serial NOT NULL,
+  name character varying(100),
+  code character varying(20),
+  codeinteger integer,
+  amount double precision,
+  isactive integer,
+  txversion integer,
+  CONSTRAINT pk_refbonus PRIMARY KEY (id )
+);
+CREATE UNIQUE INDEX ref_bonus_pk
+  ON ref_bonus
+  USING btree
+  (id);
+DELETE FROM peoplebonus;
+ALTER TABLE peoplebonus DROP CONSTRAINT IF EXISTS fk_bonus_ref;
+ALTER TABLE peoplebonus ADD CONSTRAINT  fk_bonus_ref FOREIGN KEY (bonus_id)
+      REFERENCES ref_bonus (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+	  
+INSERT INTO ref_bonus(
+            name, amount, isactive, codeinteger)
+    VALUES ('за приглашение друга', 10000, 1, 1);
+INSERT INTO ref_bonus(
+            name, amount, isactive, codeinteger)
+    VALUES ('начислено менеджером', 0, 1, 2);
+INSERT INTO ref_bonus(
+            name, amount, isactive, codeinteger)
+    VALUES ('за закрытие кредита', 20000, 1, 3);
+	
+delete from reference where name ='начислено менеджером';
+delete from reference where name ='за приглашение друга';
+delete from reference where name ='оплата кредита';
+delete from ref_header where name ='Вид бонуса';
+
+     </sql>
+  </changeSet>
+</databaseChangeLog> 

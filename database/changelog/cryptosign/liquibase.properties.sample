@@ -1,0 +1,5 @@
+changeLogFile=changelog/cryptosign/1.0.0/changelog-master.xml
+driver=org.postgresql.Driver
+url=jdbc:postgresql://127.0.0.1/criptosign
+username=sa
+password=58025

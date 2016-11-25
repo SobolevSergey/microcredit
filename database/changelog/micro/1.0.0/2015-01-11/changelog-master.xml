@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+   	
+<changeSet id="80" author="helen">
+ 
+  <sql>
+     
+   CREATE OR REPLACE VIEW v_for_collector AS 
+   SELECT p.surname, p.name, p.midname, p.birthdate, p.birthplace, 
+        CASE
+            WHEN p.gender = 178 THEN 'М'
+            ELSE 'Ж' END AS gender, d.series, d.number, d.docdate, d.docorg, c.creditsum, c.creditsumback, c.creditdatabeg, c.creditdataend, c.creditaccount, 
+        CASE
+            WHEN c.creditsumdebt IS NULL THEN c.creditsum
+            ELSE c.creditsumdebt
+        END AS creditsumdebt, a.address_text, 
+        CASE
+            WHEN a.issame = 1 THEN a.address_text
+            ELSE a1.address_text
+        END AS raddress_text, pc1.value AS mobilephone, 
+        CASE
+            WHEN a.issame = 1 THEN pc2.value
+            ELSE pc3.value
+        END AS homephone, pc4.value AS workphone
+   FROM peoplepersonal p
+   JOIN document d ON p.peoplemain_id = d.peoplemain_id
+   JOIN credit c ON p.peoplemain_id = c.peoplemain_id
+   JOIN address a ON p.peoplemain_id = a.peoplemain_id
+   LEFT JOIN address a1 ON p.peoplemain_id = a1.peoplemain_id AND a1.isactive = 1 AND a1.partners_id = 6 AND a1.addrtype = 176
+   JOIN peoplecontact pc1 ON p.peoplemain_id = pc1.peoplemain_id AND pc1.isactive = 1 AND pc1.contact_id = 171
+   LEFT JOIN peoplecontact pc2 ON p.peoplemain_id = pc2.peoplemain_id AND pc2.isactive = 1 AND pc2.contact_id = 172
+   LEFT JOIN peoplecontact pc3 ON p.peoplemain_id = pc3.peoplemain_id AND pc3.isactive = 1 AND pc3.contact_id = 251
+   LEFT JOIN peoplecontact pc4 ON p.peoplemain_id = pc4.peoplemain_id AND pc4.isactive = 1 AND pc4.contact_id = 180
+  WHERE p.isactive = 1 AND p.partners_id = 6 AND d.isactive = 1 AND d.partners_id = 6 AND c.isactive = 1 AND c.creditstatus_id = 162 AND a.isactive = 1 AND a.partners_id = 6 AND a.addrtype = 175;
+
+ALTER TABLE v_for_collector
+  OWNER TO sa;
+
+   </sql>
+  </changeSet>
+   
+ 
+</databaseChangeLog> 

@@ -1,0 +1,27 @@
+package ru.simplgroupp.bo.actions.ru.simplgroupp.transfer.CreditRequest;
+
+import ru.simplgroupp.rules.BooleanRuleResult
+import ru.simplgroupp.interfaces.CreditCalculatorBeanLocal
+import java.util.Map
+import java.util.Date
+import ru.simplgroupp.util.CalcUtils
+import ru.simplgroupp.workflow.WorkflowObjectActionDef
+import ru.simplgroupp.transfer.CreditRequest
+
+rule "ru.simplgroupp.transfer.CreditRequest::msgChangeRequest.1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgChangeRequest");
+    $ccRequest : CreditRequest();
+then   
+	$bResult.setResultValue( ($ccRequest.getAcceptedCredit() != null) && (! $ccRequest.getAcceptedCredit().getIsOver()) );
+end
+
+rule "ru.simplgroupp.transfer.CreditRequest::msgEdit.1"
+when 
+    $bResult : BooleanRuleResult();
+    $actionDef : WorkflowObjectActionDef(businessObjectClass == "ru.simplgroupp.transfer.CreditRequest" && signalRef == "msgEdit");
+    $ccRequest : CreditRequest();
+then   
+    $bResult.setResultValue(new Boolean($ccRequest.getDateContest() != null));
+end

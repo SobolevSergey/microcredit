@@ -1,0 +1,27 @@
+﻿<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="323"  author="helen">
+        <sql>
+           drop table if exists settings;
+           drop table if exists regionsnew;
+           delete from product_config where name='checkInnerAF';
+           INSERT INTO product_config (products_id, configtype_id, isactive, databeg, dataend, name, datatype, datavalue, description, txversion)
+            VALUES (1, (select id from reference where ref_header_id = 71 and code = 'procPayment'),
+                    1, '2010-01-01', '2020-01-01', 'return.contact.payment.days', 'N', '3', 'Через сколько дней возвращаем платеж Контакта', 0);
+
+        </sql>
+
+    </changeSet>
+    <changeSet id="324" author="helen">
+        <update tableName="bizaction">
+            <column name="ruleenabled" valueClobFile="msgCancelPaymentContact.drl"/>
+            <where>signalref = 'msgCancelPaymentContact'and businessobjectclass = 'ru.simplgroupp.transfer.Payment'
+            </where>
+        </update>
+    </changeSet>
+
+   </databaseChangeLog>

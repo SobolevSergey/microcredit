@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="113" author="Julia">
+
+        <sql>
+
+ALTER TABLE peoplebehavior ADD COLUMN paramvaluedate timestamp with time zone;
+ALTER TABLE peoplebehavior ADD COLUMN creditrequest_ID INT4 null;
+
+create  index relrequestbeh_FK on peoplebehavior (
+creditrequest_ID
+);
+alter table peoplebehavior
+   add constraint FK_PEOPLEBE_RELREQUES_CREDITRE foreign key (creditrequest_ID)
+      references creditrequest (ID)
+      on delete cascade on update restrict;
+
+
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="114" author="kvs_vovka">
+
+        <sql>
+
+            CREATE UNIQUE INDEX eventlogfriend_email_index
+            ON eventcalledfriend
+            USING btree
+            (email);
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

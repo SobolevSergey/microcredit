@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+  
+<changeSet id="263" author="helen">
+
+<sql>
+
+CREATE TABLE ref_antifraud_rules
+(
+  id serial NOT NULL,
+  name character varying(200),
+  entityname character varying(150),
+  code character varying(30),
+  isactive integer,
+  times integer,
+  check_same_person integer,
+  include_same_person integer,
+  txversion integer default 0,
+  CONSTRAINT pk_af_ref PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE ref_antifraud_rules
+  OWNER TO sa;
+GRANT ALL ON TABLE ref_antifraud_rules TO sa;
+
+
+CREATE UNIQUE INDEX ref_antifraud_rules_pk
+  ON ref_antifraud_rules
+  USING btree
+  (id );
+
+CREATE TABLE ref_antifraud_rules_params
+(
+  id serial NOT NULL,
+  rules_id integer not null,
+  name character varying(30),
+  condition character varying(200),
+  description character varying(200),
+  datatype character varying(1),
+  value_integer integer,
+  value_string character varying(50),
+  value_date date,
+  value_float double precision,
+  for_request integer,
+  txversion integer default 0,
+  CONSTRAINT pk_af_params_ref PRIMARY KEY (id ),
+  CONSTRAINT fk_ref_af_rules FOREIGN KEY (rules_id)
+      REFERENCES ref_antifraud_rules (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+) WITH (
+  OIDS=FALSE
+);
+ALTER TABLE ref_antifraud_rules_params
+  OWNER TO sa;
+GRANT ALL ON TABLE ref_antifraud_rules_params TO sa;
+
+
+CREATE UNIQUE INDEX ref_antifraud_rules_params_pk
+  ON ref_antifraud_rules_params
+  USING btree
+  (id );
+
+
+insert into ref_antifraud_rules(name,entityname,code,isactive,times,check_same_person,include_same_person,txversion)
+  values ('Мобильный телефон заемщика такой же, как телефон работодателя в другом заявлении за последние 90 дней','ru.simplgroupp.persistence.PeopleContactEntity',
+  'MA_SMTEL_WTEL_DPER',1,1,0,0,0);
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'contactId',' and contactId.codeinteger=:contactId ','мобильный телефон',2,1,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'isactive',' and isactive=:isactive ','активная запись',1,1,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,1,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'contactId',' and contactId.codeinteger=:contactId ','рабочий телефон',4,0,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, for_request,txversion,datatype)
+  select id,'value',' and value=:value ','номер телефона',0,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'isactive',' and isactive=:isactive ','активная запись',1,0,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'partnerId',' and partnersId.id=:partnerId ','запись сделана клиентом',6,0,0,'N' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+insert into ref_antifraud_rules_params(rules_id,name, condition, description, value_integer, for_request,txversion,datatype)
+  select id,'dateactual',' and dateactual>=:dateactual ','в течение какого времени ищем',90,0,0,'D' from ref_antifraud_rules where code='MA_SMTEL_WTEL_DPER';
+
+</sql>
+ </changeSet>
+
+</databaseChangeLog> 

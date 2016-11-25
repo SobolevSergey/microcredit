@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-10-29T21:11:16 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape" pageWidth="930" pageHeight="595" orientation="Landscape" columnWidth="890" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<field name="plannedToPaySum" class="java.lang.Double"/>
+	<field name="plannedToPaySumCommonDebt" class="java.lang.Double"/>
+	<field name="plannedToPaySumPenalties" class="java.lang.Double"/>
+	<field name="plannedToPayPercents" class="java.lang.Double"/>
+	<field name="plannedToPayAmount" class="java.lang.Long"/>
+	<field name="plannedToPayAmountOneCredit" class="java.lang.Long"/>
+	<field name="plannedToPayAmountTwoPlusCredits" class="java.lang.Long"/>
+	<field name="payedAmount" class="java.lang.Long"/>
+	<field name="payedAmountOneCredit" class="java.lang.Long"/>
+	<field name="payedAmountTwoPlusCredits" class="java.lang.Long"/>
+	<field name="payedSum" class="java.lang.Double"/>
+	<field name="payedSumCommonDebt" class="java.lang.Double"/>
+	<field name="payedSumPercents" class="java.lang.Double"/>
+	<field name="payedSumPenalties" class="java.lang.Double"/>
+	<field name="moneyFlow" class="java.lang.Double"/>
+	<field name="payedSumBeforeTerm" class="java.lang.Double"/>
+	<field name="payedSumInTerm" class="java.lang.Double"/>
+	<field name="payedSumOverdue1_3" class="java.lang.Double"/>
+	<field name="payedSumOverdue4_10" class="java.lang.Double"/>
+	<field name="payedSumOverdue11_30" class="java.lang.Double"/>
+	<field name="payedSumOverdue31_60" class="java.lang.Double"/>
+	<field name="payedSumOverdue61_90" class="java.lang.Double"/>
+	<field name="payedSumOverdue91_plus" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="410" y="40" width="100" height="30" uuid="5ae1bedf-883a-4bad-8ced-1a365507c22b"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Оплаты]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="200" height="18" forecolor="#000000" uuid="7062c36a-7954-4cc1-b539-1d2d7118c8c2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[К оплате: План: Кол-во займов]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="0" width="230" height="18" forecolor="#000000" uuid="b63d0a9c-c936-4f0b-bcef-f0d967c435c1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[К оплате: План: Сумма: ВСЕГО]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="430" y="0" width="200" height="18" forecolor="#000000" uuid="07aec9d5-70d6-44d5-a1da-fb9983faed45"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Оплаты: Факт: Кол-во займов]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="630" y="0" width="200" height="18" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Оплаты: Факт: Сумма: ВСЕГО]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="294" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="0" width="120" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plannedToPayAmount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="20" width="80" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[1 займ:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="20" width="120" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plannedToPayAmountOneCredit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="38" width="80" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="39" width="120" height="18" uuid="9de2d9b2-7908-4d2d-b078-45f9febc1adf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plannedToPayAmountTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="260" y="0" width="170" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{plannedToPaySum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="260" y="60" width="170" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{plannedToPaySumPenalties})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="260" y="20" width="170" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{plannedToPaySumCommonDebt})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="260" y="40" width="170" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{plannedToPayPercents})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="510" y="0" width="120" height="18" uuid="8dda20bc-8eea-4e67-9ec4-f19b101132aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payedAmount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="700" y="0" width="130" height="18" uuid="cda5c8fc-375a-4be7-91bd-a47e620884d1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSum})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="320" y="113" width="200" height="18" uuid="581956d6-6b59-4a5d-b045-4b8cade6a9b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{moneyFlow})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="200" y="40" width="60" height="18" uuid="cd131cdc-f316-4fba-bfa0-f0df1a45ec9b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[%%:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="200" y="22" width="60" height="18" uuid="548b8b75-d2ca-4ba0-a0af-a9c9dbe1318b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ОД:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="200" y="60" width="60" height="18" uuid="2d552af0-693d-4133-b8c4-3f40857c09c3"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Штраф:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="510" y="20" width="120" height="18" uuid="324d1fd5-91f4-42ac-8014-f613867378dd"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payedAmountOneCredit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="510" y="42" width="120" height="18" uuid="f08e7652-d54d-4b89-9261-f8c51134710e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payedAmountTwoPlusCredits}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="430" y="20" width="70" height="18" uuid="0aff4ab1-5905-48cf-9157-e3b9d9db51f7"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[1 займ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="430" y="42" width="70" height="18" uuid="bddba7f2-8c55-4d29-88ba-034885570f66"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[2+ займ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="700" y="20" width="130" height="18" uuid="d5cd587f-bb74-402c-8340-a017e6aade6b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumCommonDebt})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="700" y="40" width="130" height="18" uuid="22e44ac7-ce98-4d38-9885-106b144b1754"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumPercents})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="700" y="60" width="130" height="18" uuid="c7462751-6738-47ab-b8d6-2d262804ec8d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumPenalties})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="630" y="20" width="60" height="18" uuid="7e0373e1-92f7-4415-b341-b6056681166a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ОД:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="630" y="40" width="60" height="18" uuid="c4456cb1-00af-4695-a754-7c64587fed64"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[%%:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="630" y="60" width="60" height="18" uuid="278f79c3-829f-4992-b37a-b3140c97b2d9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Штраф:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="113" width="200" height="18" uuid="32654795-1f09-42ff-99cf-bc4d7b003448"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: досрочка:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="150" width="200" height="19" uuid="91e720b8-c30c-4ea0-92d9-9b6b2e0b6f4e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: просрочка:1-3: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="170" width="200" height="19" uuid="a616cafc-4b8f-445c-b1bf-93c5b314a12f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: просрочка:4-10: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="190" width="200" height="19" uuid="698442aa-103f-4392-adfc-ed037eb2c522"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: просрочка:11-30: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="210" width="200" height="19" uuid="9f42affa-0283-4fe2-b765-170c1ab333be"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: просрочка:31-60: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="230" width="200" height="19" uuid="27ef3bbc-e730-4785-a5e0-6941247768bf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: просрочка:61-90: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="250" width="200" height="19" uuid="c334278e-b9b0-4d4b-bd7c-08f6a845e8c0"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: просрочка:90+ ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="113" width="110" height="18" uuid="6b3f4292-cb1e-4057-a35e-339db53a78f6"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumBeforeTerm})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="133" width="110" height="18" uuid="965b5bb5-5fa1-453a-989c-cef0fcda3040"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumInTerm})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="150" width="110" height="18" uuid="fa9358bc-8429-4a77-80c2-111b71226acf"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumOverdue1_3})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="170" width="110" height="18" uuid="02a0be19-85f7-48f1-a166-db7691967145"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumOverdue4_10})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="190" width="110" height="18" uuid="1754a84e-725d-45d9-b2f9-ae1983bb6f47"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumOverdue11_30})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="212" width="110" height="18" uuid="9928dc6a-6a63-4984-a666-ee62fba7d903"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumOverdue31_60})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="230" width="110" height="18" uuid="ef3bf42a-b1dd-4fc1-b141-5b7a69efe9e8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumOverdue61_90})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="200" y="251" width="110" height="18" uuid="7fb1abdc-d841-4b15-b3d4-cac1acf3f563"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#.##").format($F{payedSumOverdue91_plus})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="90" width="310" height="23" forecolor="#000000" uuid="4a5d54bc-c9c7-417b-ac2c-f96d1d33e0ec"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Оплаты: Сроки: Сумма: ВСЕГО]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="-1" y="131" width="201" height="19" uuid="e9d7d620-0414-4709-81df-ff028cd3bb9d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма: срок:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="320" y="90" width="200" height="23" forecolor="#000000" uuid="7a235a19-a4e2-4e55-a573-54232462978a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Оплаты: Денежный поток]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="0" y="0" width="80" height="18" uuid="e7ea8820-1505-4f49-acc4-59b119346f6e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="200" y="2" width="60" height="18" uuid="650490a1-c216-4b6b-a11f-8a7228427c25"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="430" y="2" width="70" height="18" uuid="3e33483a-142e-4c41-8e8d-c90f7528c588"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[всего]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Detail" positionType="Float" x="630" y="2" width="60" height="18" uuid="ce20de3c-2aac-4275-976f-5667203297ef"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[сумма]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

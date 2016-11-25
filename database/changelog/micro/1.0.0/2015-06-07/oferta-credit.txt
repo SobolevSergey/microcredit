@@ -1,0 +1,352 @@
+<div align="RIGHT">
+	<table cellspacing="0" style="" width="227" x-width="227">
+		<col width="211" />
+		<tbody>
+                 <tr>
+			<td height="210" style="border:1px solid #00000a;padding:0in 0.08in;" valign="TOP" width="211">
+				<p align="CENTER" >ПОЛНАЯ СТОИМОСТЬ ПОТРЕБИТЕЛЬСКОГО ЗАЙМА</p>
+				<br />
+				
+				<p align="CENTER"><font size="4"><b>year_percent%</b></font></p>
+                                <p align="CENTER"><i>percent_string % годовых</i></p>
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+
+<p ></p>
+<p align="CENTER"><b>Индивидуальные условия № <u>creditnumber</u> от <u>datesign</u> </b></p>
+
+<p align="CENTER"><b>Договора потребительского займа (далее по тексту ИУ)</b></p>
+
+<p></p>
+
+<p align="JUSTIFY">Общество с ограниченной ответственностью «Касса-онлайн» (далее «Кредитор») (номер в государственном реестре микрофинансовых
+организаций 651403029004957 от 09.04.2014 года; адрес места нахождения: 249038, Калужская область, г.Обнинск, улица Комарова, д.10А; 
+телефон справочной службы: 8-800-775-2205; адрес интернет сайта <a target="_blank" href="www.rastorop.ru">www.rastorop.ru</a>)
+предлагает Вам fio (далее – Заемщик) (паспорт <u>seriesdoc</u> <u>numberdoc</u> выдан <u>datedoc</u> <u>orgdoc</u>;
+адрес места регистрации: <u>addrreg</u>; дата регистрации <u>datreg</u>; номер мобильного телефона для связи и обмена информацией: <u>cellphone</u>;
+адрес электронной почты для связи и обмена информацией: <u>email</u>) заключить Договор потребительского
+займа на следующих условиях:</p>
+
+<table cellspacing="0" >
+	
+	<tbody>
+        <tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="CENTER">№ п/п</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="CENTER">Условие</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="CENTER">Содержание условия</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">1.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Сумма займа или лимит кредитования и порядок	его изменения</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY" style=""><font color="#00000a"><u>creditSum рублей</u> (<i>sumString</i>)</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">2.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Срок	действия договора, срок возврата займа</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Договор вступает в силу с даты его подписания Сторонами и действует до полного выполнения Сторонами своих обязательств по Договору. 
+                        Срок возврата займа <u>creditDataend</u> г</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">3.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Валюта, в которой предоставляется займ</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Рубли РФ</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">4.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Процентная ставка (процентные ставки) (в процентах годовых) или порядок ее (их) определения</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">year_percent % (percent_string % годовых)</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">5.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">Порядок определения курса иностранной валюты	при переводе денежных средств кредитором
+			третьему лицу, указанному заемщиком</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Не применимо</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">6.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">Количество, размер и периодичность (сроки) платежей заемщика по договору или порядок
+			определения этих платежей</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Единовременный возврат суммы займа <u>creditSum рублей</u> с процентами 
+                         в размере <u>creditPercent рублей</u>, <u>creditDataend</u> г.</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">7.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Порядок изменения количества, размера и периодичности (сроков) платежей заемщика при частичном досрочном
+			возврате займа</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Отсутствует</p>
+		</td>
+	</tr>
+	<tr>
+		<td height="72" style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">8.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Способы исполнения заемщиком обязательств по договору по месту нахождения заемщика</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Исполнение
+			Заемщиком обязательств по Договору
+			потребительского займа может
+			осуществляться любыми приемлемыми для
+			Заемщика способами, информация о
+			которых размещена на сайте Кредитора
+			в сети Интернет по адресу: <a target="_blank" href="www.rastorop.ru">www.rastorop.ru</a></p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">8.1.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Бесплатный способ исполнения заемщиком обязательств
+			по договору</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Все способы, указанные на сайте Кредитора
+			в сети Интернет по адресу: <a target="_blank" href="www.rastorop.ru">www.rastorop.ru</a></p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">9.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Обязанность	заемщика заключить иные договоры</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Не применимо</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">10.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Обязанность
+			заемщика по предоставлению обеспечения
+			исполнения обязательств по договору
+			и требования к такому обеспечению</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">Не применимо</p>
+		</td>
+	</tr>
+  </tbody>
+</table>
+<p></p>
+<table cellspacing="0" >
+	
+	<tbody><tr>
+		<td colspan="3" style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="CENTER">Индивидуальные условия № <u>creditnumber</u> от <u>datesign</u> Договора потребительского займа</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="CENTER">№ п/п</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="CENTER">Условие</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="CENTER">Содержание условия</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">11.</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Цели использования заемщиком потребительского
+			займа</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Не применимо</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">12.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Ответственность
+			заемщика за ненадлежащее исполнение
+			условий договора, размер неустойки
+			(штрафа, пени) или порядок их определения</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">Исполнение обязательства по возврату Займа обеспечивается посредством возложения на Клиента 
+                         обязанности по уплате Пени. Начиная со следующего дня после Дня погашения, 
+                        на непогашенную сумму Займа начинает начисляться Пеня. Размер Пени за период с первого дня просрочки до 
+                        девяносто девятого дня просрочки включительно составляет 20 (двадцать) процентов годовых от непогашенной суммы по нецелевому Займу. 
+                        Начиная с сотого дня после Дня погашения (Нового дня погашения) и вплоть до момента фактического возврата Займа, на непогашенную сумму 
+                         по нецелевому Займу начинает начисляться Пеня в размере 0,1 (одна десятая) процента за каждый день просрочки. </p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="LEFT">13.</p>
+
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">Условие
+			об уступке кредитором третьим лицам
+			прав (требований) по договору</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Кредитор
+			вправе осуществлять уступку прав
+			(требований) по договору потребительского
+			кредита (займа) третьим лицам. При этом
+			заемщик сохраняет в отношении нового
+			кредитора все права, предоставленные
+			ему в отношении первоначального
+			кредитора в соответствии с федеральными
+			законами</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">14.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Согласие
+			заемщика с общими условиями договора</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Согласен</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+		   <p align="LEFT">15.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY">Услуги,
+			оказываемые кредитором заемщику за
+			отдельную плату и необходимые для
+			заключения договора, их цена или
+			порядок ее определения, а также согласие
+			заемщика на оказание таких услуг</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;">
+			<p align="JUSTIFY" >Не применимо</p>
+		</td>
+	</tr>
+	<tr valign="TOP">
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="LEFT">16.</p>
+
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY">Способ
+			обмена информацией между кредитором
+			и заемщиком</p>
+		</td>
+		<td style="border:1px solid #00000a;padding:0in 0.08in;" >
+			<p align="JUSTIFY" >Уведомления,
+			письма, извещения (далее – Информация)
+			направляются Кредитором Заемщику
+			одним из следующих способов:</p>
+			<ul>
+				<li><p align="JUSTIFY">путем
+				направления СМС–сообщений на номер
+				телефона сотовой связи Заемщика,
+				указанный в настоящих ИУ;</p>
+				</li>
+                                <li><p align="JUSTIFY">путем
+				направления Информации на адрес
+				электронной почты Заемщика, указанный
+				в настоящих ИУ;</p>
+				</li>
+                                <li><p align="JUSTIFY">путем
+				размещения информации в Личном
+				кабинете Заемщика на сайте
+				<a target="_blank" href="www.rastorop.ru">www.rastorop.ru</a>.</p>
+			        </li>
+                        </ul>
+			<p align="JUSTIFY" >Информация
+			 направляется Заемщиком Кредитору следующими способами:</p>
+			<ul>
+				<li><p align="JUSTIFY">устно при обращении Заемщика в Телефонный центр Кредитора;</p>
+				</li>
+                                <li><p align="JUSTIFY">через
+				Личный кабинет на сайте <a target="_blank" href="www.rastorop.ru">www.rastorop.ru</a>;</p>
+				</li>
+                                <li><p align="JUSTIFY">через
+				СМС–сообщения с номера телефона
+				сотовой связи Заемщика, указанного в
+				настоящих ИУ;</p>
+				</li>
+                                <li><p align="JUSTIFY">через
+				отделения почтовой связи простым или
+				заказным письмом по почтовому адресу
+				места нахождения Кредитора,
+				указанному в настоящих ИУ;</p>
+			        </li>
+                        </ul>
+		</td>
+	</tr>
+       
+</tbody>
+</table>
+<p align="JUSTIFY"> fio проинформирован (а) Кредитором о своих правах, в том числе, о праве сообщить Кредитору согласие на получение потребительского займа на условиях, указанных в настоящих ИУ, в течение 5 рабочих дней со дня предоставления ИУ.
+</p>
+<p align="JUSTIFY">Я, fio, с Договором потребительского займа ознакомлен(а), согласен(на), и обязуюсь выполнять его условия. 
+Договор потребительского займа № <u>creditnumber</u> подписан простой электронной подписью <u>smscode</u> (СМС код) <u>datesign</u> </p>

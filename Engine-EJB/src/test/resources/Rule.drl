@@ -1,0 +1,11 @@
+package ru.simplgroupp.rules.watched
+
+import java.util.List
+
+rule "Hello World"
+when 
+    eval(true);
+    $a : List;
+then
+    $a.add(1); 
+end

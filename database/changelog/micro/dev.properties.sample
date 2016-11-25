@@ -1,0 +1,5 @@
+changeLogFile=1.0.0/changelog-master.xml
+driver=org.postgresql.Driver
+url=jdbc:postgresql://127.0.0.1/micro
+username=sa
+password=58025

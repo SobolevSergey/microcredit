@@ -1,0 +1,96 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+<changeSet id="169" author="helen">
+ 
+    <sql>
+ 
+alter table employment add nextsalarydate date;
+
+INSERT INTO verification_reference(
+            id, name, entityname, fieldname, condition, datatype, isuseformark, 
+            isnecessary, txversion)
+    VALUES (1, 'Дата выдачи, разница в кол-ве дней', 'ru.simplgroupp.persistence.CreditEntity', 'creditdatabeg',' creditdatabeg between :dbegfrom and :dbegto ' , 'D', 1, 
+            1, 0);
+
+INSERT INTO verification_reference(
+            id, name, entityname, fieldname, condition, datatype, isuseformark, 
+            isnecessary, txversion)
+    VALUES (2, 'Вид кредита', 'ru.simplgroupp.persistence.CreditEntity', 'credittype_id',' credittypeId.id=:credittype ' , 'N', 1, 
+            1, 0);
+
+INSERT INTO verification_reference(
+            id, name, entityname, fieldname, condition, datatype, isuseformark, 
+            isnecessary, txversion)
+    VALUES (3, 'Просроченный статус кредита', 'ru.simplgroupp.persistence.CreditEntity', 'overduestateId.id',' overduestate_id=:overduestate ' , 'N', 1, 
+            1, 0);
+
+INSERT INTO verification_reference(
+            id, name, entityname, fieldname, condition, datatype, isuseformark, 
+            isnecessary, txversion)
+    VALUES (4, 'Валюта кредита', 'ru.simplgroupp.persistence.CreditEntity', 'id_currency',' idCurrency.id=:currency ' , 'N', 1, 
+            1, 0);
+
+INSERT INTO verification_reference(
+            id, name, entityname, fieldname, condition, datatype, isuseformark, 
+            isnecessary, txversion)
+    VALUES (5, 'Сумма кредита, разница в проценте от суммы', 'ru.simplgroupp.persistence.CreditEntity', 'creditsum',' creditsum between :sumfrom and :sumto ' , 'F', 1, 
+            1, 0);
+
+INSERT INTO verification_reference(
+            id, name, entityname, fieldname, condition, datatype, isuseformark, 
+            isnecessary, txversion)
+    VALUES (6, 'Номер счета кредита', 'ru.simplgroupp.persistence.CreditEntity', 'creditaccount',' creditAccount=:creditaccount ' , 'C', 1, 
+            0, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (1, 1, 100, 0, 16, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (2, 1, 50, 0, 30, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (3, 1, 25, 0, 60, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (4, 2, 25, 0, 0, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (5, 3, 25, 0, 0, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (6, 4, 25, 0, 0, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (7, 5, 150, 0, 0.05, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (8, 5, 75, 0, 0.1, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (9, 5, 25, 0, 0.15, 0);
+
+INSERT INTO verification_config(
+            id, field_id, mark, limit_min, limit_max, txversion)
+    VALUES (10, 6, 25, 0, 0, 0);
+
+   </sql>
+    </changeSet>
+
+
+
+</databaseChangeLog> 
+

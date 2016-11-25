@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+    <message name="sms.accepted" type="C">
+        <default-value><![CDATA[Поздравляю, Ваш займ на сумму %5.0f рублей одобрен. Теперь Вам необходимо подписать договор в личном кабинете. Сразу после этого я отправлю Вам деньги. Ваш Растороп. 8 (800) 775-22-05]]></default-value>
+    </message> 
+    <message name="sms.rejected" type="C">
+        <default-value><![CDATA[К сожалению, мы не можем выдать Вам займ на сумму %5.0f рублей. Ваш Растороп. 8 (800) 775-22-05]]></default-value>
+    </message> 
+    <message name="email.accepted.body" type="C">
+        <default-value><![CDATA[<p>Поздравляем!</p><p>Вам одобрен займ на сумму %5.0f рублей на %d дней.</p><p>Для получения займа, Вам необходимо подписать оферту <a href="http://rastorop.ru/client"> в своем личном кабинете.</a> </p><p>Ваш <b>Растороп</b> 8 (800) 775-22-05</p>]]></default-value>
+    </message>
+    <message name="email.accepted.subject" type="C">
+        <default-value><![CDATA[Ваш займ на сумму %5.0f рублей одобрен.]]></default-value>
+    </message> 
+    <message name="email.rejected.subject" type="C">
+        <default-value><![CDATA[Вам отказано в займе на сумму %5.0f рублей]]></default-value>
+    </message>
+    <message name="email.rejected.body" type="C">
+        <default-value><![CDATA[<p>К сожалению, мы не можем выдать Вам займ на сумму %5.0f рублей.</p><p>Ваш Растороп. 8 (800) 775-22-05</p>]]></default-value>
+    </message>              
+</messages>
